@@ -1,0 +1,6 @@
+../Core/Src/sd_card_service.c:16:5:count_points_in_file	4
+../Core/Src/sd_card_service.c:34:6:create_file	2
+../Core/Src/sd_card_service.c:42:6:init_SD_card	2
+../Core/Src/sd_card_service.c:47:6:unmount_SD_card	2
+../Core/Src/sd_card_service.c:52:5:count_files	5
+../Core/Src/sd_card_service.c:66:18:get_file_info	6
