@@ -13,6 +13,7 @@
 #include "fatfs.h"
 #include <stdbool.h>
 #include "draw_display.h"
+#include "gpio.h"
 
 extern FATFS file_system;
 extern DIR directory;

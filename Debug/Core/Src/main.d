@@ -40,7 +40,8 @@ Core/Src/main.o: ../Core/Src/main.c ../Core/Inc/main.h \
  ../Core/Inc/gpio.h ../Core/Inc/fatfs_sd.h ../Core/Inc/display_ssd1963.h \
  ../Core/Inc/servo.h ../Core/Inc/draw_display.h \
  ../Core/Inc/display_ssd1963.h ../Core/Inc/sd_card_service.h \
- ../Core/Inc/draw_display.h ../Core/Inc/bitmap_arrays.h \
+ ../Core/Inc/draw_display.h ../Core/Inc/gpio.h \
+ ../Core/Inc/bitmap_arrays.h \
  C:/Users/kobie/STM32CubeIDE/workspace_1.13.2/6DOF_robot_system/fonts/inc/008_Open_Sans_Bold.h \
  C:/Users/kobie/STM32CubeIDE/workspace_1.13.2/6DOF_robot_system/fonts/inc/009_Open_Sans_Bold.h \
  C:/Users/kobie/STM32CubeIDE/workspace_1.13.2/6DOF_robot_system/fonts/inc/010_Open_Sans_Bold.h \
@@ -59,8 +60,7 @@ Core/Src/main.o: ../Core/Src/main.c ../Core/Inc/main.h \
  C:/Users/kobie/STM32CubeIDE/workspace_1.13.2/6DOF_robot_system/fonts/inc/096_Open_Sans_Bold.h \
  C:/Users/kobie/STM32CubeIDE/workspace_1.13.2/6DOF_robot_system/fonts/inc/112_Open_Sans_Bold.h \
  C:/Users/kobie/STM32CubeIDE/workspace_1.13.2/6DOF_robot_system/fonts/inc/128_Open_Sans_Bold.h \
- ../Core/Inc/navigate_robot.h ../Core/Inc/gpio.h \
- ../Core/Inc/bitmap_arrays.h
+ ../Core/Inc/navigate_robot.h ../Core/Inc/bitmap_arrays.h
 ../Core/Inc/main.h:
 ../Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal.h:
 ../Core/Inc/stm32h7xx_hal_conf.h:
@@ -113,6 +113,7 @@ Core/Src/main.o: ../Core/Src/main.c ../Core/Inc/main.h \
 ../Core/Inc/display_ssd1963.h:
 ../Core/Inc/sd_card_service.h:
 ../Core/Inc/draw_display.h:
+../Core/Inc/gpio.h:
 ../Core/Inc/bitmap_arrays.h:
 C:/Users/kobie/STM32CubeIDE/workspace_1.13.2/6DOF_robot_system/fonts/inc/008_Open_Sans_Bold.h:
 C:/Users/kobie/STM32CubeIDE/workspace_1.13.2/6DOF_robot_system/fonts/inc/009_Open_Sans_Bold.h:
@@ -133,5 +134,4 @@ C:/Users/kobie/STM32CubeIDE/workspace_1.13.2/6DOF_robot_system/fonts/inc/096_Ope
 C:/Users/kobie/STM32CubeIDE/workspace_1.13.2/6DOF_robot_system/fonts/inc/112_Open_Sans_Bold.h:
 C:/Users/kobie/STM32CubeIDE/workspace_1.13.2/6DOF_robot_system/fonts/inc/128_Open_Sans_Bold.h:
 ../Core/Inc/navigate_robot.h:
-../Core/Inc/gpio.h:
 ../Core/Inc/bitmap_arrays.h:
