@@ -319,14 +319,18 @@ int main(void)
     Init_SSD1963();
     draw_main_menu();
     init_SD_card();
+    get_sd_files();
     create_file("text21.txt");
 
     draw_file_menu();
-  sprintf(buffer, "%d", count_points_in_file("file1.txt"));
-  LCD_Font(206, 240,  buffer, _Open_Sans_Bold_14, 3, BLACK);/* File */
+  //sprintf(buffer, "%d", count_points_in_file("file1.txt"));
+  LCD_Font(206, 240,  buffer, _Open_Sans_Bold_14, 3, BLACK);
+
     draw_file_list(1, 10, true, by_name);
     print_file_info(3);
 
+    snprintf(buffer, sizeof(buffer), "%d", get_sd_files_number());
+    LCD_centered_Font(0, 50, 119, buffer, _Open_Sans_Bold_14, 2, BLACK);
     unmount_SD_card();
   /* USER CODE END 2 */
 

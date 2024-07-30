@@ -6,6 +6,8 @@
 #include "string.h"
 #include "sd_card_service.h"
 #include "bitmap_arrays.h"
+#include "ff.h"
+#include "sd_card_service.h"
 
 
 #include "008_Open_Sans_Bold.h"
@@ -50,13 +52,8 @@
 
 #define background_color		0xCFFF
 
-enum sort_option{
-	by_name,
-	by_size,
-	by_date,
-};
 
-//void sort_files(FILINFO *tab_files, int number_of_files, bool ascending,enum sort_option option);
+
 void draw_file_list(int start, int end, bool ascending,enum sort_option option);
 void print_file_info(int file_number);
 void draw_file_menu();

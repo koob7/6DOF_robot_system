@@ -7,60 +7,9 @@
     LCD_Font(x, y, buffer, font, size, color); \
 } while(0)
 
-//void sort_files(FILINFO *tab_files, int number_of_files, bool ascending,enum sort_option option) {
-//    FILINFO tmp_file;
-//    int i, j;
-//
-//    switch (option) {
-//        case by_name:
-//            for (i = 0; i < number_of_files - 1; i++) {
-//                for (j = 0; j < number_of_files - 1 - i; j++) {
-//                    if ((ascending && strcmp(tab_files[j].fname, tab_files[j + 1].fname) > 0) ||
-//                        (!ascending && strcmp(tab_files[j].fname, tab_files[j + 1].fname) < 0)) {
-//                        tmp_file = tab_files[j + 1];
-//                        tab_files[j + 1] = tab_files[j];
-//                        tab_files[j] = tmp_file;
-//                    }
-//                }
-//            }
-//            break;
-//
-//        case by_size:
-//            for (i = 0; i < number_of_files - 1; i++) {
-//                for (j = 0; j < number_of_files - 1 - i; j++) {
-//                    if ((ascending && tab_files[j].fsize > tab_files[j + 1].fsize) ||
-//                        (!ascending && tab_files[j].fsize < tab_files[j + 1].fsize)) {
-//                        tmp_file = tab_files[j + 1];
-//                        tab_files[j + 1] = tab_files[j];
-//                        tab_files[j] = tmp_file;
-//                    }
-//                }
-//            }
-//            break;
-//
-//        case by_date:
-//            for (i = 0; i < number_of_files - 1; i++) {
-//                for (j = 0; j < number_of_files - 1 - i; j++) {
-//                    if ((ascending && tab_files[j].ftime > tab_files[j + 1].ftime) ||
-//                        (!ascending && tab_files[j].ftime < tab_files[j + 1].ftime)) {
-//                        tmp_file = tab_files[j + 1];
-//                        tab_files[j + 1] = tab_files[j];
-//                        tab_files[j] = tmp_file;
-//                    }
-//                }
-//            }
-//            break;
-//
-//        default:
-//            break;
-//    }
-//}
-
 void draw_file_list(int start, int end, bool ascending,enum sort_option option){
-	int number_of_files = count_files();
+	int number_of_files = sd_files.size();
 	char buffer2[100];
-	FILINFO tab_files[number_of_files];
-	int counter=0;
 
 	if (start>1){
 		TFT_Draw_Fill_Round_Rect (142, 158, 40, 40, 20,  0xD6BA);
@@ -72,29 +21,22 @@ void draw_file_list(int start, int end, bool ascending,enum sort_option option){
 		LCD_FillTriangle(150, 432,150+23, 432, 161, 452, 0x00FD);
 	}
 	else TFT_Draw_Fill_Rectangle(142, 425, 40, 40, background_color);
-	if (f_opendir (&directory,"/") == FR_OK) {
-			for (;;) {
-			  if (f_readdir(&directory, &fno) != FR_OK|| fno.fname[0] == 0) break;  /* Error or end of dir */
-			  if ((strstr(fno.fname, ".txt") != NULL)) {
-				tab_files[counter]=fno;
-				counter++;
-			  }
-			}
-		}
-	  f_closedir(&directory);
 
-	  //sort_files(tab_files, number_of_files, ascending, option);
+	  sort_sd_files(option, ascending);
 
+	  char buffer[20];
 
 	int position=0;
 	for (int i=0; i< number_of_files;i++){
 		if(i >=(start > -1 ? start-1 : 0)&&i<(end < number_of_files ? end  : number_of_files )){
+			  snprintf(buffer, sizeof(buffer), "%d", sd_files[i].name);
 			LCD_Font_Dynamic(206, 280+position, _Open_Sans_Bold_14, 1, BLACK, "%10u %s, %02d-%02d-%04d\n",
-			    tab_files[i].fsize,
-			    tab_files[i].fname,
-			    tab_files[i].fdate & 0x1F, /* Dzień */
-			    (tab_files[i].fdate >> 5) & 0xF, /* Miesiąc */
-			    (tab_files[i].fdate >> 9) + 1980); /* Rok */
+			    sd_files[i].size,
+				sd_files[i].name,
+				sd_files[i].date & 0x1F, /* Dzień */
+			    (sd_files[i].date >> 5) & 0xF, /* Miesiąc */
+			    (sd_files[i].date >> 9) + 1980); /* Rok */
+				//LCD_Font(206, 280+position, buffer, _Open_Sans_Bold_14, 1, BLACK);
 			  position+=14;
 		}
 	}
@@ -103,8 +45,7 @@ void draw_file_list(int start, int end, bool ascending,enum sort_option option){
 
 void print_file_info(int file_number){
 	char buffer2[100];
-	struct file_info info;
-	info = get_file_info(file_number);
+	struct file_info2 info = get_file_info(file_number);
 	sprintf(buffer2, "%10u %s, %02d-%02d-%04d\n",
 		info.size,
 		info.name,
