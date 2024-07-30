@@ -180,9 +180,10 @@ void TFT_Set_Read_Area(uint16_t x, uint16_t y, uint16_t length, uint16_t width);
 void lcd_Read_Area(uint16_t x, uint16_t y, uint16_t length, uint16_t width, uint16_t *save);
 void TFT_Restore_Area (uint16_t x, uint16_t y, uint16_t length, uint16_t width, uint16_t *save);
 
+void LCD_FillTriangle(int16_t x0, int16_t y0, int16_t x1, int16_t y1, int16_t x2, int16_t y2, uint16_t color);
 void LCD_centered_Font (uint16_t x, uint16_t y,  uint16_t length,  char *text, const GFXfont *p_font, uint8_t size, uint32_t color24);
 void LCD_Row_Font(uint16_t x, uint16_t y, uint16_t start, uint16_t end, char *text, const GFXfont *p_font, uint8_t size, uint32_t color24);
-void TFT_Draw_Bitmap_Without_Background(uint16_t x, uint16_t y, uint16_t width, uint16_t height, uint16_t *array);
+void TFT_Draw_Bitmap_Without_Background(uint16_t x, uint16_t y, uint16_t width, uint16_t height,const uint16_t *array);
 void TFT_Draw_Bitmap(uint16_t x, uint16_t y, uint16_t width, uint16_t height, uint16_t *array);
 uint16_t TFT_Draw_List(uint16_t x, uint16_t y, uint16_t width, char *title, char * options,  uint16_t *save, const GFXfont *p_font);
 

@@ -1,6 +1,6 @@
-../Core/Src/sd_card_service.c:16:5:count_points_in_file	136	static
-../Core/Src/sd_card_service.c:34:6:create_file	16	static
-../Core/Src/sd_card_service.c:42:6:init_SD_card	8	static
-../Core/Src/sd_card_service.c:47:6:unmount_SD_card	8	static
-../Core/Src/sd_card_service.c:52:5:count_files	16	static
-../Core/Src/sd_card_service.c:66:18:get_file_info	88	static
+../Core/Src/sd_card_service.cpp:16:5:int count_points_in_file(char*)	136	static
+../Core/Src/sd_card_service.cpp:34:6:bool create_file(char*)	16	static
+../Core/Src/sd_card_service.cpp:43:6:bool init_SD_card()	8	static
+../Core/Src/sd_card_service.cpp:48:6:bool unmount_SD_card()	8	static
+../Core/Src/sd_card_service.cpp:53:5:int count_files()	16	static
+../Core/Src/sd_card_service.cpp:67:18:file_info get_file_info(int)	24	static

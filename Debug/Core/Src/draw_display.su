@@ -1,8 +1,7 @@
-../Core/Src/draw_display.c:10:6:sort_files	320	static
-../Core/Src/draw_display.c:59:6:draw_file_list	248	dynamic
-../Core/Src/draw_display.c:104:6:print_file_info	256	static
-../Core/Src/draw_display.c:119:6:draw_file_menu	24	static
-../Core/Src/draw_display.c:133:6:draw_main_menu	8	static
-../Core/Src/draw_display.c:139:6:draw_right_panel	32	static
-../Core/Src/draw_display.c:165:6:draw_left_panel	32	static
-../Core/Src/draw_display.c:187:6:draw_top_panel	24	static
+../Core/Src/draw_display.cpp:59:6:void draw_file_list(int, int, bool, sort_option)	248	dynamic
+../Core/Src/draw_display.cpp:104:6:void print_file_info(int)	256	static
+../Core/Src/draw_display.cpp:119:6:void draw_file_menu()	24	static
+../Core/Src/draw_display.cpp:133:6:void draw_main_menu()	8	static
+../Core/Src/draw_display.cpp:139:6:void draw_right_panel()	32	static
+../Core/Src/draw_display.cpp:165:6:void draw_left_panel()	32	static
+../Core/Src/draw_display.cpp:187:6:void draw_top_panel()	24	static

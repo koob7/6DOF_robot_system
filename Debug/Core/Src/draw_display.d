@@ -1,4 +1,4 @@
-Core/Src/draw_display.o: ../Core/Src/draw_display.c \
+Core/Src/draw_display.o: ../Core/Src/draw_display.cpp \
  ../Core/Inc/draw_display.h ../Core/Inc/display_ssd1963.h \
  ../Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal.h \
  ../Core/Inc/stm32h7xx_hal_conf.h \
@@ -38,8 +38,7 @@ Core/Src/draw_display.o: ../Core/Src/draw_display.c \
  ../Core/Inc/main.h ../Middlewares/Third_Party/FatFs/src/ff_gen_drv.h \
  ../Middlewares/Third_Party/FatFs/src/diskio.h \
  ../Middlewares/Third_Party/FatFs/src/ff.h ../FATFS/Target/user_diskio.h \
- ../Core/Inc/draw_display.h ../Core/Inc/gpio.h ../Core/Inc/main.h \
- ../Core/Inc/bitmap_arrays.h \
+ ../Core/Inc/gpio.h ../Core/Inc/main.h ../Core/Inc/bitmap_arrays.h \
  C:/Users/kobie/STM32CubeIDE/workspace_1.13.2/6DOF_robot_system/fonts/inc/008_Open_Sans_Bold.h \
  ../Core/Inc/display_ssd1963.h \
  C:/Users/kobie/STM32CubeIDE/workspace_1.13.2/6DOF_robot_system/fonts/inc/009_Open_Sans_Bold.h \
@@ -103,7 +102,6 @@ Core/Src/draw_display.o: ../Core/Src/draw_display.c \
 ../Middlewares/Third_Party/FatFs/src/diskio.h:
 ../Middlewares/Third_Party/FatFs/src/ff.h:
 ../FATFS/Target/user_diskio.h:
-../Core/Inc/draw_display.h:
 ../Core/Inc/gpio.h:
 ../Core/Inc/main.h:
 ../Core/Inc/bitmap_arrays.h:

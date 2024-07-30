@@ -8,11 +8,11 @@
 #ifndef INC_SD_CARD_SERVICE_H_
 #define INC_SD_CARD_SERVICE_H_
 
+#include <draw_display.h>
 #include "string.h"
 #include "stdio.h"
 #include "fatfs.h"
 #include <stdbool.h>
-#include "draw_display.h"
 #include "gpio.h"
 
 extern FATFS file_system;

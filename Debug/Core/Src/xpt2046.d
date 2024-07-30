@@ -1,4 +1,4 @@
-Core/Src/xpt2046.o: ../Core/Src/xpt2046.c ../Core/Inc/xpt2046.h \
+Core/Src/xpt2046.o: ../Core/Src/xpt2046.cpp ../Core/Inc/xpt2046.h \
  ../Core/Inc/main.h ../Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal.h \
  ../Core/Inc/stm32h7xx_hal_conf.h \
  ../Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal_rcc.h \

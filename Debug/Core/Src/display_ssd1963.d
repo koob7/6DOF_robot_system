@@ -1,4 +1,4 @@
-Core/Src/display_ssd1963.o: ../Core/Src/display_ssd1963.c \
+Core/Src/display_ssd1963.o: ../Core/Src/display_ssd1963.cpp \
  ../Core/Inc/display_ssd1963.h \
  ../Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal.h \
  ../Core/Inc/stm32h7xx_hal_conf.h \
