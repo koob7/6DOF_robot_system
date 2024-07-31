@@ -12,12 +12,12 @@ void draw_file_list(int start, int end, bool ascending,
 	int number_of_files = sd_files.size();
 	char buffer2[100];
 
-	if (start > 1) {
+	if (start > 0) {
 		TFT_Draw_Fill_Round_Rect(142, 158, 40, 40, 20, 0xD6BA);
 		LCD_FillTriangle(150, 185, 150 + 23, 185, 161, 165, 0x00FD);
 	} else
 		TFT_Draw_Fill_Rectangle(142, 158, 40, 40, background_color);
-	if (end < number_of_files) {
+	if (end < number_of_files-1) {
 		TFT_Draw_Fill_Round_Rect(142, 425, 40, 40, 20, 0xD6BA);
 		LCD_FillTriangle(150, 432, 150 + 23, 432, 161, 452, 0x00FD);
 	} else
@@ -29,11 +29,11 @@ void draw_file_list(int start, int end, bool ascending,
 
 	int position = 0;
 	for (int i = 0; i < number_of_files; i++) {
-		if (i >= (start > -1 ? start - 1 : 0)
-				&& i < (end < number_of_files ? end : number_of_files)) {
+		if (i >= (start > 0 ? start : 0)
+				&& i <= (end < number_of_files ? end : number_of_files)) {
 			//snprintf(buffer, sizeof(buffer), "%d", sd_files[i].name);
 			LCD_Font_Dynamic(206, 280 + position, _Open_Sans_Bold_14, 1, BLACK,
-					"%10u %s, %02d-%02d-%04d\n", sd_files[i].size,
+					"%10u, %s, %02d-%02d-%04d\n", sd_files[i].size,
 					sd_files[i].name, sd_files[i].date & 0x1F, /* Dzień */
 					(sd_files[i].date >> 5) & 0xF, /* Miesiąc */
 					(sd_files[i].date >> 9) + 1980); /* Rok */
@@ -44,15 +44,6 @@ void draw_file_list(int start, int end, bool ascending,
 
 }
 
-void print_file_info(int file_number) {
-	char buffer2[100];
-	struct file_info info = get_file_info(file_number);
-	sprintf(buffer2, "%10u %s, %02d-%02d-%04d\n", info.size, info.name,
-			info.date & 0x1F, /* Day */
-			(info.date >> 5) & 0xF, /* Month */
-			(info.date >> 9) + 1980); /* Year */
-	LCD_Font(206, 450, buffer2, _Open_Sans_Bold_14, 1, BLACK);/* File */
-}
 
 void draw_file_menu() {
 	TFT_Draw_Fill_Rectangle(120, 144, 560, 336, background_color);

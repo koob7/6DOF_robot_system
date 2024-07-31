@@ -51,7 +51,6 @@
 
 void draw_file_list(int start, int end, bool ascending,
 		enum sort_option option);
-void print_file_info(int file_number);
 void draw_file_menu();
 void draw_main_menu();
 void draw_right_panel();
