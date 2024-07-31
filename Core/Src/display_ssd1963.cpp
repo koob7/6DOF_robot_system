@@ -1,6 +1,5 @@
 #include "display_ssd1963.h"
 
-
 // extern const GFXfont* _Open_Sans_Bold_8 ;
 
 uint16_t RGB(uint8_t r, uint8_t g, uint8_t b) {
@@ -606,36 +605,48 @@ void splitText(uint16_t x, uint16_t y, const GFXfont *p_font, uint8_t size,
 	std::istringstream stream(text);
 	std::string word;
 	std::string line;
+	int word_length;
+	int line_length;
 	GFXfont font;
-	uint16_t licznik = 0;
 	memcpy((&font), (p_font), (sizeof(GFXfont)));
+	GFXglyph glyph;
+	GFXglyph spaceGlyph = { ' ' };
 	int16_t font_Y = font.yAdvance * size;
-	while (stream >> word) {
-		int result = 0;
-		    std::string combined = line + word;
 
-		    for (char c : combined) {
-		        // Make sure the character is within the font's range
-		        if (c >= font.first && c <= font.last) {
-		            GFXglyph glyph;
-		            memcpy(&glyph, &font.glyph[c - font.first], sizeof(GFXglyph));
-		            result += glyph.xAdvance * size;
-		        }
-		    }
-		if (result   + 1 > max_length) {  char *ptr = new char[line.size() + 1]; strcpy(ptr, line.c_str());
-			LCD_centered_Font(x, y + licznik * 30, 230, ptr, p_font, size, color24);
+	uint16_t licznik = 0;
+	while (stream >> word) {
+		word_length = 0;
+		if (!line.empty()) {
+			word.insert(word.begin(), ' ');
+		}
+
+		for (char c : word) {
+			// Make sure the character is within the font's range
+			if (c >= font.first && c <= font.last) {
+				memcpy(&glyph, &font.glyph[c - font.first], sizeof(GFXglyph));
+				word_length += glyph.xAdvance * size;
+			}
+		}
+		if (line_length + word_length + 1 > max_length) {
+			char *ptr = new char[line.size() + 1];
+			strcpy(ptr, line.c_str());
+			LCD_centered_Font(x, y + licznik * 30, 230, ptr, p_font, size,
+					color24);
 			licznik++;
+			memcpy(&glyph, &font.glyph[' ' - font.first], sizeof(GFXglyph));
+			word_length -= glyph.xAdvance * size;
+			word.erase(0, 1);
+			line_length = word_length;
 			line = word;
 		} else {
-			if (!line.empty()){
-				line+=" ";
-			}
+			line_length += word_length;
 			line += word;
 		}
 	}
 	if (!line.empty()) {
-		char *ptr = new char[line.size() + 1]; strcpy(ptr, line.c_str());
-		LCD_centered_Font(x, y + licznik * 30, 500, ptr, p_font, size, color24);
+		char *ptr = new char[line.size() + 1];
+		strcpy(ptr, line.c_str());
+		LCD_centered_Font(x, y + licznik * 30, 230, ptr, p_font, size, color24);
 	}
 }
 
