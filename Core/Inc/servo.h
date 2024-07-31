@@ -20,5 +20,4 @@
 #define STEP ((1000 * (PWM_MAX - PWM_MIN)) / (ANGLE_MAX - ANGLE_MIN))
 void set_ang(uint16_t ang, uint8_t mode);
 
-
 #endif /* SRC_SERVO_H_ */

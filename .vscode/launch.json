@@ -8,8 +8,8 @@
       "args": [],
       "stopAtEntry": false,
       "externalConsole": true,
-      "cwd": "c:/Users/kobie/STM32CubeIDE/workspace_1.13.2/6DOF_robot_system/Core/Src",
-      "program": "c:/Users/kobie/STM32CubeIDE/workspace_1.13.2/6DOF_robot_system/Core/Src/build/Debug/outDebug",
+      "cwd": "c:/Users/kobie/STM32CubeIDE/workspace_1.13.2/6DOF_robot_system/Core/Inc",
+      "program": "c:/Users/kobie/STM32CubeIDE/workspace_1.13.2/6DOF_robot_system/Core/Inc/build/Debug/outDebug",
       "MIMode": "gdb",
       "miDebuggerPath": "gdb",
       "setupCommands": [

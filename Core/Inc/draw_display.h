@@ -1,14 +1,12 @@
 #ifndef INC_DRAW_DISPLAY_H
 #define INC_DRAW_DISPLAY_H
 
-#include "display_ssd1963.h"
-#include <stdint.h>
-#include "string.h"
-#include "sd_card_service.h"
 #include "bitmap_arrays.h"
+#include "display_ssd1963.h"
 #include "ff.h"
 #include "sd_card_service.h"
-
+#include "string.h"
+#include <stdint.h>
 
 #include "008_Open_Sans_Bold.h"
 #include "009_Open_Sans_Bold.h"
@@ -29,39 +27,35 @@
 #include "112_Open_Sans_Bold.h"
 #include "128_Open_Sans_Bold.h"
 
+#define _Open_Sans_Bold_8 &Open_Sans_Bold_8
+#define _Open_Sans_Bold_9 &Open_Sans_Bold_9
+#define _Open_Sans_Bold_10 &Open_Sans_Bold_10
+#define _Open_Sans_Bold_11 &Open_Sans_Bold_11
+#define _Open_Sans_Bold_12 &Open_Sans_Bold_12
+#define _Open_Sans_Bold_14 &Open_Sans_Bold_14
+#define _Open_Sans_Bold_16 &Open_Sans_Bold_16
+#define _Open_Sans_Bold_18 &Open_Sans_Bold_18
+#define _Open_Sans_Bold_20 &Open_Sans_Bold_20
+#define _Open_Sans_Bold_22 &Open_Sans_Bold_22
+#define _Open_Sans_Bold_24 &Open_Sans_Bold_24
+#define _Open_Sans_Bold_26 &Open_Sans_Bold_26
+#define _Open_Sans_Bold_28 &Open_Sans_Bold_28
+#define _Open_Sans_Bold_36 &Open_Sans_Bold_36
+#define _Open_Sans_Bold_48 &Open_Sans_Bold_48
+#define _Open_Sans_Bold_72 &Open_Sans_Bold_72
+#define _Open_Sans_Bold_96 &Open_Sans_Bold_96
+#define _Open_Sans_Bold_112 &Open_Sans_Bold_112
+#define _Open_Sans_Bold_128 &Open_Sans_Bold_128
 
-#define _Open_Sans_Bold_8      &Open_Sans_Bold_8
-#define _Open_Sans_Bold_9      &Open_Sans_Bold_9
-#define _Open_Sans_Bold_10     &Open_Sans_Bold_10
-#define _Open_Sans_Bold_11     &Open_Sans_Bold_11
-#define _Open_Sans_Bold_12      &Open_Sans_Bold_12
-#define _Open_Sans_Bold_14      &Open_Sans_Bold_14
-#define _Open_Sans_Bold_16      &Open_Sans_Bold_16
-#define _Open_Sans_Bold_18      &Open_Sans_Bold_18
-#define _Open_Sans_Bold_20      &Open_Sans_Bold_20
-#define _Open_Sans_Bold_22      &Open_Sans_Bold_22
-#define _Open_Sans_Bold_24      &Open_Sans_Bold_24
-#define _Open_Sans_Bold_26      &Open_Sans_Bold_26
-#define _Open_Sans_Bold_28      &Open_Sans_Bold_28
-#define _Open_Sans_Bold_36      &Open_Sans_Bold_36
-#define _Open_Sans_Bold_48      &Open_Sans_Bold_48
-#define _Open_Sans_Bold_72      &Open_Sans_Bold_72
-#define _Open_Sans_Bold_96      &Open_Sans_Bold_96
-#define _Open_Sans_Bold_112      &Open_Sans_Bold_112
-#define _Open_Sans_Bold_128      &Open_Sans_Bold_128
+#define background_color 0xCFFF
 
-#define background_color		0xCFFF
-
-
-
-void draw_file_list(int start, int end, bool ascending,enum sort_option option);
+void draw_file_list(int start, int end, bool ascending,
+                    enum sort_option option);
 void print_file_info(int file_number);
 void draw_file_menu();
 void draw_main_menu();
 void draw_right_panel();
 void draw_left_panel();
 void draw_top_panel();
-
-
 
 #endif

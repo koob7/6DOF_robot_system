@@ -1,43 +1,43 @@
-../Core/Src/display_ssd1963.cpp:10:10:uint16_t RGB(uint8_t, uint8_t, uint8_t)	16	static
-../Core/Src/display_ssd1963.cpp:24:6:void tft_write_bus(uint8_t, uint8_t)	16	static,ignoring_inline_asm
-../Core/Src/display_ssd1963.cpp:36:6:void Lcd_Write_Data(uint16_t)	16	static
-../Core/Src/display_ssd1963.cpp:42:6:void Lcd_Write_Cmd(uint16_t)	16	static
-../Core/Src/display_ssd1963.cpp:50:6:void Lcd_SetArea(uint16_t, uint16_t, uint16_t, uint16_t)	24	static
-../Core/Src/display_ssd1963.cpp:67:6:void Lcd_FillArea(uint16_t, uint16_t, uint16_t, uint16_t, int16_t)	32	static
-../Core/Src/display_ssd1963.cpp:81:6:void Lcd_ClearScreen(int16_t)	24	static
-../Core/Src/display_ssd1963.cpp:95:6:void Lcd_SetPixel(int16_t, int16_t, int16_t)	16	static
-../Core/Src/display_ssd1963.cpp:105:6:void Init_SSD1963()	8	static
-../Core/Src/display_ssd1963.cpp:201:6:void TFT_Set_X(uint16_t, uint16_t)	16	static
-../Core/Src/display_ssd1963.cpp:212:6:void TFT_Set_Y(uint16_t, uint16_t)	16	static
-../Core/Src/display_ssd1963.cpp:223:6:void TFT_Set_XY(uint16_t, uint16_t)	16	static
-../Core/Src/display_ssd1963.cpp:231:6:void TFT_Set_Work_Area(uint16_t, uint16_t, uint16_t, uint16_t)	24	static
-../Core/Src/display_ssd1963.cpp:241:6:void TFT_Clear_Screen(uint16_t)	24	static
-../Core/Src/display_ssd1963.cpp:252:6:void TFT_Draw_Char(uint16_t, uint16_t, uint16_t, uint16_t, const uint8_t*, uint8_t, uint8_t)	40	static
-../Core/Src/display_ssd1963.cpp:274:6:void TFT_Draw_String(uint16_t, uint16_t, uint16_t, uint16_t, const uint8_t*, char*, uint8_t)	48	static
-../Core/Src/display_ssd1963.cpp:291:6:void TFT_Draw_Line(uint16_t, uint16_t, uint16_t, uint16_t, uint8_t, uint16_t)	56	static
-../Core/Src/display_ssd1963.cpp:324:6:void TFT_Draw_HLine(uint16_t, uint16_t, uint16_t, uint16_t, uint16_t)	32	static
-../Core/Src/display_ssd1963.cpp:333:6:void TFT_Set_Read_Area(uint16_t, uint16_t, uint16_t, uint16_t)	24	static
-../Core/Src/display_ssd1963.cpp:340:10:uint16_t TFT_Draw_List(uint16_t, uint16_t, uint16_t, char*, char*, uint16_t*, const GFXfont*)	112	dynamic
-../Core/Src/display_ssd1963.cpp:389:6:void TFT_Draw_Alert(uint16_t, uint16_t, char*, uint16_t*, const GFXfont*)	48	static
-../Core/Src/display_ssd1963.cpp:402:6:void TFT_Restore_Area(uint16_t, uint16_t, uint16_t, uint16_t, uint16_t*)	32	static
-../Core/Src/display_ssd1963.cpp:412:6:void lcd_Read_Area(uint16_t, uint16_t, uint16_t, uint16_t, uint16_t*)	32	static
-../Core/Src/display_ssd1963.cpp:428:10:uint16_t lcd_Read_bus()	16	static
-../Core/Src/display_ssd1963.cpp:448:6:void TFT_Draw_Bitmap_Without_Background(uint16_t, uint16_t, uint16_t, uint16_t, const uint16_t*)	40	static
-../Core/Src/display_ssd1963.cpp:467:6:void TFT_Draw_Bitmap(uint16_t, uint16_t, uint16_t, uint16_t, uint16_t*)	32	static
-../Core/Src/display_ssd1963.cpp:479:6:void TFT_Draw_VLine(uint16_t, uint16_t, uint16_t, uint16_t, uint16_t)	32	static
-../Core/Src/display_ssd1963.cpp:489:6:void TFT_Draw_Rectangle(uint16_t, uint16_t, uint16_t, uint16_t, uint8_t, uint16_t)	32	static
-../Core/Src/display_ssd1963.cpp:498:6:void TFT_Draw_Fill_Rectangle(uint16_t, uint16_t, uint16_t, uint16_t, uint16_t)	32	static
-../Core/Src/display_ssd1963.cpp:510:6:void TFT_Draw_Triangle(uint16_t, uint16_t, uint16_t, uint16_t, uint16_t, uint16_t, uint8_t, uint16_t)	32	static
-../Core/Src/display_ssd1963.cpp:519:6:void TFT_Draw_Circle(uint16_t, uint16_t, uint8_t, uint8_t, uint8_t, uint16_t)	48	static
-../Core/Src/display_ssd1963.cpp:558:6:void TFT_Draw_Circle_Helper(int16_t, int16_t, int16_t, uint8_t, uint8_t, uint16_t)	48	static
-../Core/Src/display_ssd1963.cpp:595:6:void TFT_Draw_Round_Rect(uint16_t, uint16_t, uint16_t, uint16_t, uint16_t, uint8_t, uint16_t)	32	static
-../Core/Src/display_ssd1963.cpp:610:6:void TFT_Draw_Fill_Circle_Helper(int16_t, int16_t, int16_t, uint8_t, int16_t, uint16_t)	48	static
-../Core/Src/display_ssd1963.cpp:641:6:void TFT_Draw_Fill_Round_Rect(uint16_t, uint16_t, uint16_t, uint16_t, uint16_t, uint16_t)	32	static
-../Core/Src/display_ssd1963.cpp:651:13:void LCD_Char(int16_t, int16_t, const GFXglyph*, const GFXfont*, uint8_t, uint32_t)	56	static
-../Core/Src/display_ssd1963.cpp:686:6:void LCD_centered_Font(uint16_t, uint16_t, uint16_t, char*, const GFXfont*, uint8_t, uint32_t)	88	static
-../Core/Src/display_ssd1963.cpp:751:6:void LCD_Row_Font(uint16_t, uint16_t, uint16_t, uint16_t, char*, const GFXfont*, uint8_t, uint32_t)	64	static
-../Core/Src/display_ssd1963.cpp:772:6:void LCD_Font(uint16_t, uint16_t, char*, const GFXfont*, uint8_t, uint32_t)	72	static
-../Core/Src/display_ssd1963.cpp:797:6:void LCD_FillTriangle(int16_t, int16_t, int16_t, int16_t, int16_t, int16_t, uint16_t)	80	static
-../Core/Src/display_ssd1963.cpp:874:10:uint16_t rainbow(uint16_t)	24	static
-../Core/Src/display_ssd1963.cpp:908:6:long int map(long int, long int, long int, long int, long int)	24	static
-../Core/Src/display_ssd1963.cpp:912:5:int ringMeter(int, int, int, int, int, int, uint16_t)	120	static
+../Core/Src/display_ssd1963.cpp:9:10:uint16_t RGB(uint8_t, uint8_t, uint8_t)	16	static
+../Core/Src/display_ssd1963.cpp:20:6:void tft_write_bus(uint8_t, uint8_t)	16	static,ignoring_inline_asm
+../Core/Src/display_ssd1963.cpp:28:6:void Lcd_Write_Data(uint16_t)	16	static
+../Core/Src/display_ssd1963.cpp:30:6:void Lcd_Write_Cmd(uint16_t)	16	static
+../Core/Src/display_ssd1963.cpp:36:6:void Lcd_SetArea(uint16_t, uint16_t, uint16_t, uint16_t)	24	static
+../Core/Src/display_ssd1963.cpp:52:6:void Lcd_FillArea(uint16_t, uint16_t, uint16_t, uint16_t, int16_t)	32	static
+../Core/Src/display_ssd1963.cpp:65:6:void Lcd_ClearScreen(int16_t)	24	static
+../Core/Src/display_ssd1963.cpp:76:6:void Lcd_SetPixel(int16_t, int16_t, int16_t)	16	static
+../Core/Src/display_ssd1963.cpp:83:6:void Init_SSD1963()	8	static
+../Core/Src/display_ssd1963.cpp:172:6:void TFT_Set_X(uint16_t, uint16_t)	16	static
+../Core/Src/display_ssd1963.cpp:181:6:void TFT_Set_Y(uint16_t, uint16_t)	16	static
+../Core/Src/display_ssd1963.cpp:190:6:void TFT_Set_XY(uint16_t, uint16_t)	16	static
+../Core/Src/display_ssd1963.cpp:195:6:void TFT_Set_Work_Area(uint16_t, uint16_t, uint16_t, uint16_t)	24	static
+../Core/Src/display_ssd1963.cpp:202:6:void TFT_Clear_Screen(uint16_t)	24	static
+../Core/Src/display_ssd1963.cpp:211:6:void TFT_Draw_Char(uint16_t, uint16_t, uint16_t, uint16_t, const uint8_t*, uint8_t, uint8_t)	40	static
+../Core/Src/display_ssd1963.cpp:226:6:void TFT_Draw_String(uint16_t, uint16_t, uint16_t, uint16_t, const uint8_t*, char*, uint8_t)	48	static
+../Core/Src/display_ssd1963.cpp:240:6:void TFT_Draw_Line(uint16_t, uint16_t, uint16_t, uint16_t, uint8_t, uint16_t)	56	static
+../Core/Src/display_ssd1963.cpp:269:6:void TFT_Draw_HLine(uint16_t, uint16_t, uint16_t, uint16_t, uint16_t)	32	static
+../Core/Src/display_ssd1963.cpp:278:6:void TFT_Set_Read_Area(uint16_t, uint16_t, uint16_t, uint16_t)	24	static
+../Core/Src/display_ssd1963.cpp:285:10:uint16_t TFT_Draw_List(uint16_t, uint16_t, uint16_t, char*, char*, uint16_t*, const GFXfont*)	112	dynamic
+../Core/Src/display_ssd1963.cpp:334:6:void TFT_Draw_Alert(uint16_t, uint16_t, char*, uint16_t*, const GFXfont*)	48	static
+../Core/Src/display_ssd1963.cpp:355:6:void TFT_Restore_Area(uint16_t, uint16_t, uint16_t, uint16_t, uint16_t*)	32	static
+../Core/Src/display_ssd1963.cpp:364:6:void lcd_Read_Area(uint16_t, uint16_t, uint16_t, uint16_t, uint16_t*)	32	static
+../Core/Src/display_ssd1963.cpp:377:10:uint16_t lcd_Read_bus()	16	static
+../Core/Src/display_ssd1963.cpp:395:6:void TFT_Draw_Bitmap_Without_Background(uint16_t, uint16_t, uint16_t, uint16_t, const uint16_t*)	40	static
+../Core/Src/display_ssd1963.cpp:412:6:void TFT_Draw_Bitmap(uint16_t, uint16_t, uint16_t, uint16_t, uint16_t*)	32	static
+../Core/Src/display_ssd1963.cpp:422:6:void TFT_Draw_VLine(uint16_t, uint16_t, uint16_t, uint16_t, uint16_t)	32	static
+../Core/Src/display_ssd1963.cpp:431:6:void TFT_Draw_Rectangle(uint16_t, uint16_t, uint16_t, uint16_t, uint8_t, uint16_t)	32	static
+../Core/Src/display_ssd1963.cpp:439:6:void TFT_Draw_Fill_Rectangle(uint16_t, uint16_t, uint16_t, uint16_t, uint16_t)	32	static
+../Core/Src/display_ssd1963.cpp:449:6:void TFT_Draw_Triangle(uint16_t, uint16_t, uint16_t, uint16_t, uint16_t, uint16_t, uint8_t, uint16_t)	32	static
+../Core/Src/display_ssd1963.cpp:457:6:void TFT_Draw_Circle(uint16_t, uint16_t, uint8_t, uint8_t, uint8_t, uint16_t)	48	static
+../Core/Src/display_ssd1963.cpp:488:6:void TFT_Draw_Circle_Helper(int16_t, int16_t, int16_t, uint8_t, uint8_t, uint16_t)	48	static
+../Core/Src/display_ssd1963.cpp:524:6:void TFT_Draw_Round_Rect(uint16_t, uint16_t, uint16_t, uint16_t, uint16_t, uint8_t, uint16_t)	32	static
+../Core/Src/display_ssd1963.cpp:540:6:void TFT_Draw_Fill_Circle_Helper(int16_t, int16_t, int16_t, uint8_t, int16_t, uint16_t)	48	static
+../Core/Src/display_ssd1963.cpp:571:6:void TFT_Draw_Fill_Round_Rect(uint16_t, uint16_t, uint16_t, uint16_t, uint16_t, uint16_t)	32	static
+../Core/Src/display_ssd1963.cpp:580:13:void LCD_Char(int16_t, int16_t, const GFXglyph*, const GFXfont*, uint8_t, uint32_t)	56	static
+../Core/Src/display_ssd1963.cpp:613:6:void LCD_centered_Font(uint16_t, uint16_t, uint16_t, char*, const GFXfont*, uint8_t, uint32_t)	88	static
+../Core/Src/display_ssd1963.cpp:673:6:void LCD_Row_Font(uint16_t, uint16_t, uint16_t, uint16_t, char*, const GFXfont*, uint8_t, uint32_t)	64	static
+../Core/Src/display_ssd1963.cpp:693:6:void LCD_Font(uint16_t, uint16_t, char*, const GFXfont*, uint8_t, uint32_t)	72	static
+../Core/Src/display_ssd1963.cpp:714:6:void LCD_FillTriangle(int16_t, int16_t, int16_t, int16_t, int16_t, int16_t, uint16_t)	80	static
+../Core/Src/display_ssd1963.cpp:794:10:uint16_t rainbow(uint16_t)	24	static
+../Core/Src/display_ssd1963.cpp:828:6:long int map(long int, long int, long int, long int, long int)	24	static
+../Core/Src/display_ssd1963.cpp:832:5:int ringMeter(int, int, int, int, int, int, uint16_t)	120	static

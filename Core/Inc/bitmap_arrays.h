@@ -6,6 +6,4 @@
 
 extern const uint16_t hand_icon[];
 
-
 #endif
-
