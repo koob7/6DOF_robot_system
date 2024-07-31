@@ -1,10 +1,5 @@
 #include "display_ssd1963.h"
-#include "main.h"
-#include "math.h"
-#include <stdlib.h>
-#include <sstream>
-#include <string.h>
-#include <iostream>
+
 
 // extern const GFXfont* _Open_Sans_Bold_8 ;
 

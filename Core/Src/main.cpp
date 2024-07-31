@@ -106,7 +106,6 @@
 /* Private variables ---------------------------------------------------------*/
 
 /* USER CODE BEGIN PV */
-void splitText(uint16_t x, uint16_t y, const GFXfont *p_font, uint8_t size, uint32_t color24, const std::string& text, size_t max_length);
 int liczba_krokow_osi[5];
 uint8_t kalibracja_osi[5] = { 1, 1, 1, 1, 1 };
 int givenSteps[6] = { 0, 0, 0, 0, 0, 0 };

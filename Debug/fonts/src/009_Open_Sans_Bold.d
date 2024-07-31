@@ -1,4 +1,4 @@
-fonts/src/009_Open_Sans_Bold.o: ../fonts/src/009_Open_Sans_Bold.c \
+fonts/src/009_Open_Sans_Bold.o: ../fonts/src/009_Open_Sans_Bold.cpp \
  C:/Users/kobie/STM32CubeIDE/workspace_1.13.2/6DOF_robot_system/fonts/inc/009_Open_Sans_Bold.h \
  ../Core/Inc/display_ssd1963.h \
  ../Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal.h \
@@ -32,7 +32,8 @@ fonts/src/009_Open_Sans_Bold.o: ../fonts/src/009_Open_Sans_Bold.c \
  ../Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal_spi.h \
  ../Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal_spi_ex.h \
  ../Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal_tim.h \
- ../Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal_tim_ex.h
+ ../Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal_tim_ex.h \
+ ../Core/Inc/main.h
 C:/Users/kobie/STM32CubeIDE/workspace_1.13.2/6DOF_robot_system/fonts/inc/009_Open_Sans_Bold.h:
 ../Core/Inc/display_ssd1963.h:
 ../Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal.h:
@@ -67,3 +68,4 @@ C:/Users/kobie/STM32CubeIDE/workspace_1.13.2/6DOF_robot_system/fonts/inc/009_Ope
 ../Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal_spi_ex.h:
 ../Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal_tim.h:
 ../Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal_tim_ex.h:
+../Core/Inc/main.h:

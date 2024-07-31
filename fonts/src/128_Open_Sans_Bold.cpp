@@ -201,7 +201,10 @@ const GFXglyph Open_Sans_Bold_128Glyphs[] = {
 	  { 60682,  14, 126,  72,   29,  -97 }, // '|'
 	  { 60903,  44, 111,  51,    5,  -91 } // '}'
 };
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wnarrowing"
 const GFXfont Open_Sans_Bold_128 = {
 (uint8_t  *)Open_Sans_Bold_128Bitmaps,(GFXglyph *)Open_Sans_Bold_128Glyphs,0x20, 0x7E, -81};
 
 
+#pragma GCC diagnostic pop

@@ -4,6 +4,11 @@
 #include "stm32h7xx_hal.h"
 #include <stdbool.h>
 #include <stdlib.h>
+#include "main.h"
+#include "math.h"
+#include <sstream>
+#include <string.h>
+#include <iostream>
 
 
 // Adress for data
@@ -190,7 +195,7 @@ void TFT_Draw_Bitmap(uint16_t x, uint16_t y, uint16_t width, uint16_t height,
                      uint16_t *array);
 uint16_t TFT_Draw_List(uint16_t x, uint16_t y, uint16_t width, char *title,
                        char *options, uint16_t *save, const GFXfont *p_font);
-
+void splitText(uint16_t x, uint16_t y, const GFXfont *p_font, uint8_t size, uint32_t color24, const std::string& text, size_t max_length);
 void TFT_Set_XY(uint16_t x, uint16_t y);
 void TFT_Set_Work_Area(uint16_t x, uint16_t y, uint16_t length, uint16_t width);
 
