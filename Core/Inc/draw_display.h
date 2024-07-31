@@ -47,7 +47,7 @@
 #define _Open_Sans_Bold_112 &Open_Sans_Bold_112
 #define _Open_Sans_Bold_128 &Open_Sans_Bold_128
 
-#define background_color 0xCFFF
+#define defined_background_color 0xCFFF
 
 void draw_file_list(int start, int end, bool ascending,
 		enum sort_option option);

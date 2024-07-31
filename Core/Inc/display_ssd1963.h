@@ -5,6 +5,7 @@
 #include <stdbool.h>
 #include <stdlib.h>
 
+
 // Adress for data
 #define LCD_DATA 0x60020000
 // Adress for command

@@ -106,6 +106,7 @@
 /* Private variables ---------------------------------------------------------*/
 
 /* USER CODE BEGIN PV */
+void splitText(uint16_t x, uint16_t y, const GFXfont *p_font, uint8_t size, uint32_t color24, const std::string& text, size_t max_length);
 int liczba_krokow_osi[5];
 uint8_t kalibracja_osi[5] = { 1, 1, 1, 1, 1 };
 int givenSteps[6] = { 0, 0, 0, 0, 0, 0 };
@@ -356,7 +357,12 @@ int main(void) {
 	//        	givenPosition[5]=90;
 	//        	licz_kroki(givenPosition, givenSteps, currentPosition);
 	//        	kalibracja =1;
-
+	TFT_Draw_Fill_Round_Rect(0,0, 200, 400, 0, 0xD6BA);
+	LCD_centered_Font(0, 200,  200, "to jest nowe powitanie które zawiera znaki nowej\n lini",_Open_Sans_Bold_14, 1, BLACK);
+	HAL_Delay(5000);
+	TFT_Draw_Fill_Round_Rect(0,0, 220, 400, 0, 0xD6BA);
+	splitText(0,30, _Open_Sans_Bold_14, 1, BLACK, "to jest nowe powitanie ktore zawiera znaki nowej lini", 200);
+	//LCD_centered_Font(0, 200,  200, "to jest nowe powitanie które zawiera znaki nowej\n lini",_Open_Sans_Bold_14, 1, BLACK);
 	// przygotowanie dotyku
 	XPT2046_Init();
 	__HAL_GPIO_EXTI_CLEAR_IT(T_IRQ_Pin); // czyszczenie zgłoszonego przerwania
@@ -383,7 +389,7 @@ int main(void) {
 			if (touchx >= 696 && touchx <= 696 + 88 && touchy >= 9
 					&& touchy <= 9 + 47) { // 696, pos_y, 88, 47,
 				uint16_t counter = TFT_Draw_List(400, 200, 100, "TYPE:",
-						"powitanie", save, _Open_Sans_Bold_14);
+						"to jest nowe powitanie które zawiera znaki nowej\n lini", save, _Open_Sans_Bold_14);
 				HAL_Delay(3000);
 				TFT_Restore_Area(400, 200, 100, 47 + 1 + 34 + 35 * counter,
 						save);

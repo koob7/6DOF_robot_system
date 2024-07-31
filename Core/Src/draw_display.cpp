@@ -16,12 +16,12 @@ void draw_file_list(int start, int end, bool ascending,
 		TFT_Draw_Fill_Round_Rect(142, 158, 40, 40, 20, 0xD6BA);
 		LCD_FillTriangle(150, 185, 150 + 23, 185, 161, 165, 0x00FD);
 	} else
-		TFT_Draw_Fill_Rectangle(142, 158, 40, 40, background_color);
+		TFT_Draw_Fill_Rectangle(142, 158, 40, 40, defined_background_color);
 	if (end < number_of_files-1) {
 		TFT_Draw_Fill_Round_Rect(142, 425, 40, 40, 20, 0xD6BA);
 		LCD_FillTriangle(150, 432, 150 + 23, 432, 161, 452, 0x00FD);
 	} else
-		TFT_Draw_Fill_Rectangle(142, 425, 40, 40, background_color);
+		TFT_Draw_Fill_Rectangle(142, 425, 40, 40, defined_background_color);
 
 	sort_sd_files(option, ascending);
 
@@ -46,7 +46,7 @@ void draw_file_list(int start, int end, bool ascending,
 
 
 void draw_file_menu() {
-	TFT_Draw_Fill_Rectangle(120, 144, 560, 336, background_color);
+	TFT_Draw_Fill_Rectangle(120, 144, 560, 336, defined_background_color);
 	TFT_Draw_Fill_Round_Rect(206, 156, 119, 41, 10, 0xD6BA);
 	TFT_Draw_Fill_Round_Rect(349, 156, 119, 41, 10, 0xD6BA);
 	TFT_Draw_Fill_Round_Rect(492, 156, 119, 41, 10, 0xD6BA);
@@ -63,7 +63,7 @@ void draw_file_menu() {
 }
 
 void draw_main_menu() {
-	TFT_Clear_Screen(background_color);
+	TFT_Clear_Screen(defined_background_color);
 	draw_top_panel();
 	draw_right_panel();
 	draw_left_panel();
