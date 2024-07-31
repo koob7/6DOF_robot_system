@@ -9,6 +9,7 @@
 #include <sstream>
 #include <string.h>
 #include <iostream>
+#include <vector>
 
 
 // Adress for data

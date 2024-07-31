@@ -602,6 +602,14 @@ static void LCD_Char(int16_t x, int16_t y, const GFXglyph *glyph,
 
 void splitText(uint16_t x, uint16_t y, const GFXfont *p_font, uint8_t size,
 		uint32_t color24, const std::string &text, size_t max_length) {
+	struct line_content {
+		std::string content;
+		int width;
+		line_content(std::string content, int width) :
+				content(content), width(width) {
+		}
+	};
+	std::vector<struct line_content> lines;
 	std::istringstream stream(text);
 	std::string word;
 	std::string line;
@@ -626,11 +634,12 @@ void splitText(uint16_t x, uint16_t y, const GFXfont *p_font, uint8_t size,
 			}
 		}
 		if (line_length + word_length + 1 > max_length) {
-			char *ptr = new char[line.size() + 1];
-			strcpy(ptr, line.c_str());
-			LCD_centered_Font(x, y + licznik * 30, 230, ptr, p_font, size,
-					color24);
-			licznik++;
+			lines.push_back(line_content(line, line_length));
+//			char *ptr = new char[line.size() + 1];
+//			strcpy(ptr, line.c_str());
+//			LCD_centered_Font(x, y + licznik * 30, 230, ptr, p_font, size,
+//					color24);
+//			licznik++;
 			memcpy(&glyph, &font.glyph[' ' - font.first], sizeof(GFXglyph));
 			word_length -= glyph.xAdvance * size;
 			word.erase(0, 1);
@@ -642,9 +651,17 @@ void splitText(uint16_t x, uint16_t y, const GFXfont *p_font, uint8_t size,
 		}
 	}
 	if (!line.empty()) {
-		char *ptr = new char[line.size() + 1];
-		strcpy(ptr, line.c_str());
+		lines.push_back(line_content(line, line_length));
+//		char *ptr = new char[line.size() + 1];
+//		strcpy(ptr, line.c_str());
+//		LCD_centered_Font(x, y + licznik * 30, 230, ptr, p_font, size, color24);
+	}
+	for (struct line_content _line : lines) {
+		char *ptr = new char[_line.content.size() + 1];
+		strcpy(ptr, _line.content.c_str());
 		LCD_centered_Font(x, y + licznik * 30, 230, ptr, p_font, size, color24);
+		licznik++;
+		delete[] ptr;
 	}
 }
 
