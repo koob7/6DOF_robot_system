@@ -22,7 +22,7 @@ extern FATFS file_system;
 extern DIR directory;
 extern FILINFO fno;
 extern FIL file;
-extern std::vector<struct file_info2> sd_files;
+extern std::vector<struct file_info> sd_files;
 
 enum tool_status { On, Switch, Off };
 
@@ -35,15 +35,10 @@ struct file_info {
   FSIZE_t size;
   WORD date;
   char name[50];
-};
 
-struct file_info2 {
-  FSIZE_t size;
-  WORD date;
-  std::string name;
-
-  file_info2(FSIZE_t s, WORD d, const std::string &n)
-      : size(s), date(d), name(n) {}
+  file_info(FSIZE_t s, WORD d, char* n)
+      : size(s), date(d) {
+	  strcpy(name, n);}
 };
 
 enum sort_option {
@@ -86,7 +81,7 @@ int get_sd_files_number();
 bool create_file(char file_name[20]);
 bool unmount_SD_card();
 bool init_SD_card();
-struct file_info2 get_file_info(int file_number);
+struct file_info get_file_info(int file_number);
 int count_points_in_file(char file_name[20]);
 
 #endif /* INC_SD_CARD_SERVICE_H_ */

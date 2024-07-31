@@ -50,7 +50,7 @@
 #define background_color 0xCFFF
 
 void draw_file_list(int start, int end, bool ascending,
-                    enum sort_option option);
+		enum sort_option option);
 void print_file_info(int file_number);
 void draw_file_menu();
 void draw_main_menu();

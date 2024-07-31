@@ -11,7 +11,7 @@ DIR directory;
 FILINFO fno;
 FATFS file_system;
 FIL file;
-std::vector<struct file_info2> sd_files;
+std::vector<struct file_info> sd_files;
 
 bool create_file(char file_name[20]) {
   if (f_open(&file, file_name, FA_OPEN_ALWAYS | FA_WRITE) == FR_OK) {
@@ -36,16 +36,16 @@ bool unmount_SD_card() {
 }
 
 void get_sd_files() {
-  char name[20];
+  char name[50];
+  std::string filename;
   if (f_opendir(&directory, "/") == FR_OK) {
     for (;;) {
       if (f_readdir(&directory, &fno) != FR_OK || fno.fname[0] == 0)
         break;
       strcpy(name, fno.fname);
-      std::string filename;
       filename.assign(name);
       if (filename.find(".txt") != std::string::npos) {
-        sd_files.push_back(file_info2(fno.fsize, fno.fdate, filename));
+        sd_files.push_back(file_info(fno.fsize, fno.fdate, name));
       }
     }
   }
@@ -54,7 +54,7 @@ void get_sd_files() {
 int get_sd_files_number() { return sd_files.size(); }
 
 void sort_sd_files(enum sort_option option, bool ascending) {
-  auto compare = [option, ascending](const file_info2 &a, const file_info2 &b) {
+  auto compare = [option, ascending](const file_info &a, const file_info &b) {
     switch (option) {
     case by_name:
       return ascending ? a.name < b.name : a.name > b.name;
@@ -70,6 +70,6 @@ void sort_sd_files(enum sort_option option, bool ascending) {
   std::sort(sd_files.begin(), sd_files.end(), compare);
 }
 
-struct file_info2 get_file_info(int file_number) {
+struct file_info get_file_info(int file_number) {
   return (sd_files[file_number]);
 }

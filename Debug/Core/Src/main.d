@@ -38,9 +38,9 @@ Core/Src/main.o: ../Core/Src/main.cpp ../Core/Inc/main.h \
  ../Middlewares/Third_Party/FatFs/src/ff.h ../FATFS/Target/user_diskio.h \
  ../Core/Inc/gpio.h ../Core/Inc/main.h ../Core/Inc/spi.h \
  ../Core/Inc/tim.h ../Core/Inc/display_ssd1963.h \
- ../Core/Inc/draw_display.h ../Core/Inc/display_ssd1963.h \
- ../Core/Inc/sd_card_service.h ../Core/Inc/gpio.h \
- ../Core/Inc/bitmap_arrays.h \
+ ../Core/Inc/draw_display.h ../Core/Inc/bitmap_arrays.h \
+ ../Core/Inc/display_ssd1963.h ../Core/Inc/sd_card_service.h \
+ ../Core/Inc/gpio.h \
  C:/Users/kobie/STM32CubeIDE/workspace_1.13.2/6DOF_robot_system/fonts/inc/008_Open_Sans_Bold.h \
  C:/Users/kobie/STM32CubeIDE/workspace_1.13.2/6DOF_robot_system/fonts/inc/009_Open_Sans_Bold.h \
  C:/Users/kobie/STM32CubeIDE/workspace_1.13.2/6DOF_robot_system/fonts/inc/010_Open_Sans_Bold.h \
@@ -108,10 +108,10 @@ Core/Src/main.o: ../Core/Src/main.cpp ../Core/Inc/main.h \
 ../Core/Inc/tim.h:
 ../Core/Inc/display_ssd1963.h:
 ../Core/Inc/draw_display.h:
+../Core/Inc/bitmap_arrays.h:
 ../Core/Inc/display_ssd1963.h:
 ../Core/Inc/sd_card_service.h:
 ../Core/Inc/gpio.h:
-../Core/Inc/bitmap_arrays.h:
 C:/Users/kobie/STM32CubeIDE/workspace_1.13.2/6DOF_robot_system/fonts/inc/008_Open_Sans_Bold.h:
 C:/Users/kobie/STM32CubeIDE/workspace_1.13.2/6DOF_robot_system/fonts/inc/009_Open_Sans_Bold.h:
 C:/Users/kobie/STM32CubeIDE/workspace_1.13.2/6DOF_robot_system/fonts/inc/010_Open_Sans_Bold.h:
