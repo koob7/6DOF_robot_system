@@ -610,7 +610,6 @@ void splitText(uint16_t x, uint16_t y, const GFXfont *p_font, uint8_t size,
 	GFXfont font;
 	memcpy((&font), (p_font), (sizeof(GFXfont)));
 	GFXglyph glyph;
-	GFXglyph spaceGlyph = { ' ' };
 	int16_t font_Y = font.yAdvance * size;
 
 	uint16_t licznik = 0;
@@ -621,7 +620,6 @@ void splitText(uint16_t x, uint16_t y, const GFXfont *p_font, uint8_t size,
 		}
 
 		for (char c : word) {
-			// Make sure the character is within the font's range
 			if (c >= font.first && c <= font.last) {
 				memcpy(&glyph, &font.glyph[c - font.first], sizeof(GFXglyph));
 				word_length += glyph.xAdvance * size;
