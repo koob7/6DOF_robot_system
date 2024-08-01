@@ -33,6 +33,7 @@
 #include "string.h"
 #include "xpt2046.h"
 #include <iostream>
+#include "menu_parts.h"
 
 #include "008_Open_Sans_Bold.h"
 #include "009_Open_Sans_Bold.h"
@@ -107,8 +108,10 @@
 
 /* USER CODE BEGIN PV */
 int liczba_krokow_osi[5];
-uint8_t kalibracja_osi[5] = { 1, 1, 1, 1, 1 };
-int givenSteps[6] = { 0, 0, 0, 0, 0, 0 };
+uint8_t kalibracja_osi[5] =
+{ 1, 1, 1, 1, 1 };
+int givenSteps[6] =
+{ 0, 0, 0, 0, 0, 0 };
 int8_t factor[5];
 uint8_t was_touched = 0;
 /* USER CODE END PV */
@@ -124,15 +127,18 @@ void PeriphCommonClock_Config(void);
 /* USER CODE BEGIN 0 */
 int i = 0;
 
-int bufsize(char *buf) {
+int bufsize(char *buf)
+{
 	int i = 0;
 	while (*buf++ != '\0')
 		i++;
 	return i;
 }
 
-void clear_buffer(char buffer[BUFFER_SIZE]) {
-	for (int i = 0; i < BUFFER_SIZE; i++) {
+void clear_buffer(char buffer[BUFFER_SIZE])
+{
+	for (int i = 0; i < BUFFER_SIZE; i++)
+	{
 		buffer[i] = '\0';
 	}
 }
@@ -142,10 +148,11 @@ void clear_buffer(char buffer[BUFFER_SIZE]) {
  * @brief  The application entry point.
  * @retval int
  */
-int main(void) {
+int main(void)
+{
 	/* USER CODE BEGIN 1 */
-	uint16_t max_licz_krokow_osi[6] = { 6400 * 2, 6400 * 2, 8000, 6400 * 2, 6400
-			* 2, 0 };
+	uint16_t max_licz_krokow_osi[6] =
+	{ 6400 * 2, 6400 * 2, 8000, 6400 * 2, 6400 * 2, 0 };
 	double currentPosition[6];
 	double givenPosition[6];
 	uint16_t touchX = 0, touchY = 0;
@@ -345,7 +352,7 @@ int main(void) {
 	int allertX = 220; // MAX size is 220x200 - with bigger tabs malloc has
 					   // problem
 	int allertY = 200;
-	uint16_t *save = (uint16_t*) malloc(allertX * allertY * sizeof(uint16_t));
+	//uint16_t *save = (uint16_t*) malloc(allertX * allertY * sizeof(uint16_t));
 	// kalibracja robota
 	//        	HAL_Delay(5000);
 	//        	kalibracja_robota(givenSteps, liczba_krokow_osi,
@@ -356,17 +363,25 @@ int main(void) {
 	//        	givenPosition[5]=90;
 	//        	licz_kroki(givenPosition, givenSteps, currentPosition);
 	//        	kalibracja =1;
-
-	TFT_Draw_Fill_Round_Rect(0,0, 200, 400, 0, 0xD6BA);
-	splitText(0,0, 200, 400,_Open_Sans_Bold_14, 1, BLACK, "to jest nowe powitanie ktore zawiera znaki nowej lini");
+	allert first_allert =
+			allert(10, 10, 250, 0xD6BA, "UWAGA",
+					"niemozliwe ze to zadzialalo za pierwszym razem. to jest naprawde niesamowite",
+					10, BLACK, const_cast<GFXfont*>(_Open_Sans_Bold_14));
+	first_allert.draw();
+//	HAL_Delay(5000);
+//	first_allert.restore_screen();
+//	TFT_Draw_Fill_Round_Rect(0,0, 200, 400, 0, 0xD6BA);
+//	splitText(0,0, 200, 400,_Open_Sans_Bold_14, 1, BLACK, "to jest nowe powitanie ktore zawiera znaki nowej lini");
 	//LCD_centered_Font(0, 200,  200, "to jest nowe powitanie które zawiera znaki nowej\n lini",_Open_Sans_Bold_14, 1, BLACK);
 	// przygotowanie dotyku
 	XPT2046_Init();
 	__HAL_GPIO_EXTI_CLEAR_IT(T_IRQ_Pin); // czyszczenie zgłoszonego przerwania
 	was_touched = 0;
 
-	while (1) {
-		if (was_touched == 1) {
+	while (1)
+	{
+		if (was_touched == 1)
+		{
 			was_touched = 0;
 			NVIC_DisableIRQ(EXTI9_5_IRQn);
 			uint16_t touchx, touchy;
@@ -383,13 +398,17 @@ int main(void) {
 			HAL_Delay(100);
 
 			XPT2046_Init();
+			first_allert.check_pressed(touchx, touchy);
 			if (touchx >= 696 && touchx <= 696 + 88 && touchy >= 9
-					&& touchy <= 9 + 47) { // 696, pos_y, 88, 47,
-				uint16_t counter = TFT_Draw_List(400, 200, 100, "TYPE:",
-						"to jest nowe powitanie które zawiera znaki nowej\n lini", save, _Open_Sans_Bold_14);
-				HAL_Delay(3000);
-				TFT_Restore_Area(400, 200, 100, 47 + 1 + 34 + 35 * counter,
-						save);
+					&& touchy <= 9 + 47)
+			{ // 696, pos_y, 88, 47,
+//				uint16_t counter =
+//						TFT_Draw_List(400, 200, 100, "TYPE:",
+//								"to jest nowe powitanie które zawiera znaki nowej\n lini",
+//								save, _Open_Sans_Bold_14);
+//				HAL_Delay(3000);
+//				TFT_Restore_Area(400, 200, 100, 47 + 1 + 34 + 35 * counter,
+//						save);
 			}
 			__HAL_GPIO_EXTI_CLEAR_IT(T_IRQ_Pin); // czyszczenie zgłoszonego przerwania
 			NVIC_EnableIRQ(EXTI9_5_IRQn);
@@ -406,9 +425,12 @@ int main(void) {
  * @brief System Clock Configuration
  * @retval None
  */
-void SystemClock_Config(void) {
-	RCC_OscInitTypeDef RCC_OscInitStruct = { 0 };
-	RCC_ClkInitTypeDef RCC_ClkInitStruct = { 0 };
+void SystemClock_Config(void)
+{
+	RCC_OscInitTypeDef RCC_OscInitStruct =
+	{ 0 };
+	RCC_ClkInitTypeDef RCC_ClkInitStruct =
+	{ 0 };
 
 	/** Supply configuration update enable
 	 */
@@ -418,7 +440,8 @@ void SystemClock_Config(void) {
 	 */
 	__HAL_PWR_VOLTAGESCALING_CONFIG(PWR_REGULATOR_VOLTAGE_SCALE1);
 
-	while (!__HAL_PWR_GET_FLAG(PWR_FLAG_VOSRDY)) {
+	while (!__HAL_PWR_GET_FLAG(PWR_FLAG_VOSRDY))
+	{
 	}
 
 	/** Initializes the RCC Oscillators according to the specified parameters
@@ -439,7 +462,8 @@ void SystemClock_Config(void) {
 	RCC_OscInitStruct.PLL.PLLRGE = RCC_PLL1VCIRANGE_3;
 	RCC_OscInitStruct.PLL.PLLVCOSEL = RCC_PLL1VCOWIDE;
 	RCC_OscInitStruct.PLL.PLLFRACN = 0;
-	if (HAL_RCC_OscConfig(&RCC_OscInitStruct) != HAL_OK) {
+	if (HAL_RCC_OscConfig(&RCC_OscInitStruct) != HAL_OK)
+	{
 		Error_Handler();
 	}
 
@@ -456,7 +480,8 @@ void SystemClock_Config(void) {
 	RCC_ClkInitStruct.APB2CLKDivider = RCC_APB2_DIV2;
 	RCC_ClkInitStruct.APB4CLKDivider = RCC_APB4_DIV2;
 
-	if (HAL_RCC_ClockConfig(&RCC_ClkInitStruct, FLASH_LATENCY_2) != HAL_OK) {
+	if (HAL_RCC_ClockConfig(&RCC_ClkInitStruct, FLASH_LATENCY_2) != HAL_OK)
+	{
 		Error_Handler();
 	}
 }
@@ -465,48 +490,58 @@ void SystemClock_Config(void) {
  * @brief Peripherals Common Clock Configuration
  * @retval None
  */
-void PeriphCommonClock_Config(void) {
-	RCC_PeriphCLKInitTypeDef PeriphClkInitStruct = { 0 };
+void PeriphCommonClock_Config(void)
+{
+	RCC_PeriphCLKInitTypeDef PeriphClkInitStruct =
+	{ 0 };
 
 	/** Initializes the peripherals clock
 	 */
 	PeriphClkInitStruct.PeriphClockSelection = RCC_PERIPHCLK_CKPER;
 	PeriphClkInitStruct.CkperClockSelection = RCC_CLKPSOURCE_HSI;
-	if (HAL_RCCEx_PeriphCLKConfig(&PeriphClkInitStruct) != HAL_OK) {
+	if (HAL_RCCEx_PeriphCLKConfig(&PeriphClkInitStruct) != HAL_OK)
+	{
 		Error_Handler();
 	}
 }
 
 /* USER CODE BEGIN 4 */
-void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin) {
+void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
+{
 
-	if (GPIO_Pin == M1_S_Pin && kalibracja_osi[0] == 0) {
+	if (GPIO_Pin == M1_S_Pin && kalibracja_osi[0] == 0)
+	{
 		liczba_krokow_osi[0] = 0;
 		givenSteps[0] = 0;
 		kalibracja_osi[0] = 1;
 	}
-	if (GPIO_Pin == M2_S_Pin && kalibracja_osi[1] == 0) {
+	if (GPIO_Pin == M2_S_Pin && kalibracja_osi[1] == 0)
+	{
 		liczba_krokow_osi[1] = 10; // 20
 		givenSteps[1] = 10;        // 20
 		kalibracja_osi[1] = 1;
 	}
-	if (GPIO_Pin == M3_S_Pin && kalibracja_osi[2] == 0) {
+	if (GPIO_Pin == M3_S_Pin && kalibracja_osi[2] == 0)
+	{
 		liczba_krokow_osi[2] = 0;
 		givenSteps[2] = 0;
 		kalibracja_osi[2] = 1;
 	}
-	if (GPIO_Pin == M4_S_Pin && kalibracja_osi[3] == 0) {
+	if (GPIO_Pin == M4_S_Pin && kalibracja_osi[3] == 0)
+	{
 		liczba_krokow_osi[3] = 300;
 		givenSteps[3] = 300;
 		kalibracja_osi[3] = 1;
 	}
-	if (GPIO_Pin == M5_S_Pin && kalibracja_osi[4] == 0) {
+	if (GPIO_Pin == M5_S_Pin && kalibracja_osi[4] == 0)
+	{
 		liczba_krokow_osi[4] = 1600; // 1790
 		givenSteps[4] = 1600;        // 1790
 		kalibracja_osi[4] = 1;
 	}
 
-	if (GPIO_Pin == T_IRQ_Pin) {
+	if (GPIO_Pin == T_IRQ_Pin)
+	{
 		was_touched = 1;
 		//		__HAL_GPIO_EXTI_CLEAR_IT(EXTI15_10_IRQn);//czyszczenie
 		// zgłoszonego przerwania 		NVIC_DisableIRQ(EXTI15_10_IRQn);
@@ -528,21 +563,26 @@ void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin) {
 	__HAL_GPIO_EXTI_CLEAR_IT(GPIO_Pin); // czyszczenie zgłoszonego przerwania
 }
 
-void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim) {
-	if (htim->Instance == TIM6) {
-		if (givenSteps[0] != liczba_krokow_osi[0]) {
+void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
+{
+	if (htim->Instance == TIM6)
+	{
+		if (givenSteps[0] != liczba_krokow_osi[0])
+		{
 			setDuration(M1_DIR_GPIO_Port, M1_DIR_Pin, liczba_krokow_osi[0],
 					givenSteps[0], &factor[0]);
 			moveMotorWithPosition(M1_STEP_GPIO_Port, M1_STEP_Pin,
 					&liczba_krokow_osi[0], factor[0]);
 		}
-		if (givenSteps[1] != liczba_krokow_osi[1]) {
+		if (givenSteps[1] != liczba_krokow_osi[1])
+		{
 			setDuration(M2_DIR_GPIO_Port, M2_DIR_Pin, liczba_krokow_osi[1],
 					givenSteps[1], &factor[1]);
 			moveMotorWithPosition(M2_STEP_GPIO_Port, M2_STEP_Pin,
 					&liczba_krokow_osi[1], factor[1]);
 		}
-		if (givenSteps[2] != liczba_krokow_osi[2]) {
+		if (givenSteps[2] != liczba_krokow_osi[2])
+		{
 			setDuration(M3_DIR_GPIO_Port, M3_DIR_Pin, liczba_krokow_osi[2],
 					givenSteps[2], &factor[2]);
 			setDuration(M5_DIR_GPIO_Port, M5_DIR_Pin, liczba_krokow_osi[2],
@@ -553,13 +593,15 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim) {
 			simpleMoveMotor(M5_STEP_GPIO_Port, M5_STEP_Pin);
 			simpleMoveMotor(M3_STEP_GPIO_Port, M3_STEP_Pin);
 		}
-		if (givenSteps[3] != liczba_krokow_osi[3]) {
+		if (givenSteps[3] != liczba_krokow_osi[3])
+		{
 			setDuration(M4_DIR_GPIO_Port, M4_DIR_Pin, liczba_krokow_osi[3],
 					givenSteps[3], &factor[3]);
 			moveMotorWithPosition(M4_STEP_GPIO_Port, M4_STEP_Pin,
 					&liczba_krokow_osi[3], factor[3]);
 		}
-		if (givenSteps[4] != liczba_krokow_osi[4]) {
+		if (givenSteps[4] != liczba_krokow_osi[4])
+		{
 			setDuration(M5_DIR_GPIO_Port, M5_DIR_Pin, liczba_krokow_osi[4],
 					givenSteps[4], &factor[4]);
 			moveMotorWithPosition(M5_STEP_GPIO_Port, M5_STEP_Pin,
@@ -578,11 +620,13 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim) {
  * @brief  This function is executed in case of error occurrence.
  * @retval None
  */
-void Error_Handler(void) {
+void Error_Handler(void)
+{
 	/* USER CODE BEGIN Error_Handler_Debug */
 	/* User can add his own implementation to report the HAL error return state */
 	__disable_irq();
-	while (1) {
+	while (1)
+	{
 	}
 	/* USER CODE END Error_Handler_Debug */
 }

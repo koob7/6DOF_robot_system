@@ -306,7 +306,7 @@ void TFT_Set_Read_Area(uint16_t x, uint16_t y, uint16_t length, uint16_t width)
 	TFT_Set_Y(y, y + width - 1);
 	Lcd_Write_Cmd(0x2E);
 }
-
+//parametry x, y, width, height - nie daj się zmylić błędnym etykietom :D
 void lcd_Read_Area(uint16_t x, uint16_t y, uint16_t length, uint16_t width,
 		uint16_t *save)
 {
@@ -422,7 +422,7 @@ void TFT_Draw_Alert(uint16_t length, uint16_t width, char *text, uint16_t *save,
 	TFT_HEIGHT / 2 - (width / 2) + 80, length, text, p_font, 1,
 	BLACK);
 }
-
+//parametry x, y, width, height - nie daj się zmylić błędnym etykietom :D
 void TFT_Restore_Area(uint16_t x, uint16_t y, uint16_t length, uint16_t width,
 		uint16_t *save)
 {
@@ -681,71 +681,6 @@ static void LCD_Char(int16_t x, int16_t y, const GFXglyph *glyph,
 					size, color24);
 			set_pixels = 0;
 		}
-	}
-}
-
-void splitText(uint16_t x, uint16_t y, uint16_t width, uint16_t height, const GFXfont *p_font,
-		uint8_t size, uint16_t color, const std::string &text)
-{
-	struct line_content
-	{
-		std::string content;
-		int width;
-		line_content(std::string content, int width) :
-				content(content), width(width)
-		{
-		}
-	};
-	std::vector<struct line_content> lines;
-	std::istringstream stream(text);
-	std::string word;
-	std::string line;
-	int word_length;
-	int line_length;
-	int font_height = p_font->yAdvance * size;
-
-	uint16_t licznik = 0;
-	while (stream >> word)
-	{
-		word_length = 0;
-		if (!line.empty())
-		{ // wstawienie znaku spacji między wyrazami
-			word.insert(word.begin(), ' ');
-		}
-
-		for (char c : word)
-		{ // obliczenie długości słowa
-			if (c >= p_font->first && c <= p_font->last)
-			{
-				word_length += p_font->glyph[c - p_font->first].xAdvance * size;
-			}
-		}
-		if (line_length + word_length + 1 > width)
-		{ // zapis obecnej, i stworzenie nowej lini
-			lines.push_back(line_content(line, line_length));
-			word_length -= p_font->glyph[' ' - p_font->first].xAdvance * size; // odjęcie długości znaku spacji
-			word.erase(0, 1);    // usunięcie znaku spacji z początku nowej lini
-			line_length = word_length; // stworznie nowej linidługości nowej lini
-			line = word;
-		}
-		else
-		{
-			line_length += word_length; // aktualizacja lini
-			line += word;
-		}
-	}
-	if (!line.empty())
-	{
-		lines.push_back(line_content(line, line_length)); // ostatnia linia tekstu
-	}
-	int start_y = y+height/2-lines.size()*font_height/2;
-	for (struct line_content _line : lines)
-	{
-		char *ptr = new char[_line.content.size() + 1];
-		strcpy(ptr, _line.content.c_str());
-		LCD_Font(x + (width - _line.width)/2, start_y, ptr, p_font, size, color);
-		start_y+=font_height;
-		delete[] ptr;
 	}
 }
 
