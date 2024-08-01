@@ -259,8 +259,8 @@ bool allert::check_pressed(int x, int y)
 			object_dimension.y + red_box_height + get_required_height()+info_box_height_border,
 			object_dimension.width, button_height))
 	{
-		return true;
 		restore_screen();
+		return true;
 	}
 	else{
 		return false;
