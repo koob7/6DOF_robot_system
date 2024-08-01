@@ -1,6 +1,6 @@
 Core/Src/draw_display.o: ../Core/Src/draw_display.cpp \
  ../Core/Inc/draw_display.h ../Core/Inc/bitmap_arrays.h \
- ../Core/Inc/display_ssd1963.h \
+ ../Core/Inc/display_ssd1963.h ../Core/Inc/main.h \
  ../Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal.h \
  ../Core/Inc/stm32h7xx_hal_conf.h \
  ../Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal_rcc.h \
@@ -33,7 +33,7 @@ Core/Src/draw_display.o: ../Core/Src/draw_display.cpp \
  ../Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal_spi_ex.h \
  ../Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal_tim.h \
  ../Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal_tim_ex.h \
- ../Core/Inc/main.h ../Middlewares/Third_Party/FatFs/src/ff.h \
+ ../Middlewares/Third_Party/FatFs/src/ff.h \
  ../Middlewares/Third_Party/FatFs/src/integer.h ../FATFS/Target/ffconf.h \
  ../Core/Inc/main.h ../Core/Inc/sd_card_service.h ../FATFS/App/fatfs.h \
  ../Middlewares/Third_Party/FatFs/src/ff_gen_drv.h \
@@ -62,6 +62,7 @@ Core/Src/draw_display.o: ../Core/Src/draw_display.cpp \
 ../Core/Inc/draw_display.h:
 ../Core/Inc/bitmap_arrays.h:
 ../Core/Inc/display_ssd1963.h:
+../Core/Inc/main.h:
 ../Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal.h:
 ../Core/Inc/stm32h7xx_hal_conf.h:
 ../Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal_rcc.h:
@@ -94,7 +95,6 @@ Core/Src/draw_display.o: ../Core/Src/draw_display.cpp \
 ../Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal_spi_ex.h:
 ../Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal_tim.h:
 ../Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal_tim_ex.h:
-../Core/Inc/main.h:
 ../Middlewares/Third_Party/FatFs/src/ff.h:
 ../Middlewares/Third_Party/FatFs/src/integer.h:
 ../FATFS/Target/ffconf.h:

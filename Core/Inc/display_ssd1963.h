@@ -1,16 +1,15 @@
 #ifndef INC_DISPLAY_SSD1963_H
 #define INC_DISPLAY_SSD1963_H
 
-#include "stm32h7xx_hal.h"
-#include <stdbool.h>
-#include <stdlib.h>
 #include "main.h"
 #include "math.h"
-#include <sstream>
-#include <string.h>
+#include "stm32h7xx_hal.h"
 #include <iostream>
+#include <sstream>
+#include <stdbool.h>
+#include <stdlib.h>
+#include <string.h>
 #include <vector>
-
 
 // Adress for data
 #define LCD_DATA 0x60020000
@@ -196,7 +195,8 @@ void TFT_Draw_Bitmap(uint16_t x, uint16_t y, uint16_t width, uint16_t height,
                      uint16_t *array);
 uint16_t TFT_Draw_List(uint16_t x, uint16_t y, uint16_t width, char *title,
                        char *options, uint16_t *save, const GFXfont *p_font);
-void splitText(uint16_t x, uint16_t y, const GFXfont *p_font, uint8_t size, uint32_t color24, const std::string& text, size_t max_length);
+void splitText(uint16_t x, uint16_t y,  uint16_t width, uint16_t height, const GFXfont *p_font, uint8_t size,
+               uint16_t color, const std::string &text);
 void TFT_Set_XY(uint16_t x, uint16_t y);
 void TFT_Set_Work_Area(uint16_t x, uint16_t y, uint16_t length, uint16_t width);
 
@@ -233,7 +233,7 @@ void TFT_Draw_Fill_Circle_Helper(int16_t x0, int16_t y0, int16_t r,
                                  uint16_t color);
 
 void LCD_Font(uint16_t x, uint16_t y, char *text, const GFXfont *p_font,
-              uint8_t size, uint32_t color24);
+              uint8_t size, uint16_t color24);
 int ringMeter(int value, int vmin, int vmax, int x, int y, int r,
               uint16_t scheme);
 //=============================================================================

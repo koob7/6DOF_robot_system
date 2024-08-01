@@ -356,11 +356,9 @@ int main(void) {
 	//        	givenPosition[5]=90;
 	//        	licz_kroki(givenPosition, givenSteps, currentPosition);
 	//        	kalibracja =1;
+
 	TFT_Draw_Fill_Round_Rect(0,0, 200, 400, 0, 0xD6BA);
-	LCD_centered_Font(0, 200,  200, "to jest nowe powitanie które zawiera znaki nowej\n lini",_Open_Sans_Bold_14, 1, BLACK);
-	HAL_Delay(5000);
-	TFT_Draw_Fill_Round_Rect(0,0, 220, 400, 0, 0xD6BA);
-	splitText(0,30, _Open_Sans_Bold_14, 1, BLACK, "to jest nowe powitanie ktore zawiera znaki nowej lini", 200);
+	splitText(0,0, 200, 400,_Open_Sans_Bold_14, 1, BLACK, "to jest nowe powitanie ktore zawiera znaki nowej lini");
 	//LCD_centered_Font(0, 200,  200, "to jest nowe powitanie które zawiera znaki nowej\n lini",_Open_Sans_Bold_14, 1, BLACK);
 	// przygotowanie dotyku
 	XPT2046_Init();
