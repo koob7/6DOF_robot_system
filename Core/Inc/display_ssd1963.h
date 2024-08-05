@@ -172,7 +172,9 @@ void Lcd_SetPixel(int16_t x, int16_t y, int16_t color);
 void Lcd_ClearScreen(int16_t color);
 
 // void Lcd_SetPixel(int16_t x, int16_t y, int16_t color);
-
+void draw_center_text(uint16_t x, uint16_t y, uint16_t width,
+		uint16_t height, const GFXfont *p_font, uint8_t size, uint16_t color,
+		const std::string &text);
 uint16_t lcd_Read_bus();
 void TFT_Draw_Alert(uint16_t length, uint16_t width, char *text, uint16_t *save,
                     const GFXfont *p_font);

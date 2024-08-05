@@ -53,7 +53,7 @@
 #define _Open_Sans_Bold_112 &Open_Sans_Bold_112
 #define _Open_Sans_Bold_128 &Open_Sans_Bold_128
 
-extern uint16_t *save_screen_buffer;//bufor zapisujący fragment ekranu
+extern uint16_t *save_screen_buffer; //bufor zapisujący fragment ekranu
 
 static const uint8_t size = 1;
 
@@ -76,9 +76,7 @@ public:
 	struct dimension object_dimension;
 
 	menu_part(int x, int y, int width, int height);
-	void draw_center_text(uint16_t x, uint16_t y, uint16_t width, uint16_t height, const GFXfont *p_font,
-			uint8_t size, uint16_t color, const std::string &text);
-	//virtual void draw_object();
+	virtual void draw() = 0;
 };
 
 class button: public menu_part
@@ -94,46 +92,61 @@ public:
 		{
 		}
 	};
-	std::vector<struct line_content> lines;
 
-	int radius = 0;
 	uint16_t background_color;
-	uint16_t text_color;
+	int radius = 0;
 	std::string text;
+	uint16_t text_color;
+
 	GFXfont *p_font;
 	button(int x, int y, int width, int height, uint16_t background_color,
 			int radius = 0, std::string text = "", uint16_t text_color = BLACK,
 			GFXfont *p_font = const_cast<GFXfont*>(_Open_Sans_Bold_14));
-
 	void draw();
 	bool check_pressed(int x, int y);
-	void splitText();
-	void draw_text_field(uint16_t x, uint16_t y, uint16_t width,
-			uint16_t height);
 	bool check_area_pressed(int x, int y, int area_x, int area_y,
 			int area_width, int area_height);
-	int get_required_height();
+
 };
 
-class allert: public button
+class popup: public button
 {
 public:
-
-	uint8_t red_box_height = 50;
-	uint8_t info_box_height_border = 30;
-	uint8_t button_height = 40;
-	std::string title_text;
+	popup(int x, int y, int width, uint16_t background_color, std::string title,
+			std::string text, int radius = 0, uint16_t text_color = 0xFFFF,
+			GFXfont *p_font = const_cast<GFXfont*>(_Open_Sans_Bold_14));
 	GFXfont *title_font = const_cast<GFXfont*>(_Open_Sans_Bold_28);
+	uint8_t title_box_height;
+	uint8_t info_box_height_border;
+	uint8_t button_height;
+	std::string title_text;
+
+};
+
+class allert: public popup
+{
+
+public:
+	std::vector<struct line_content> lines;
 
 	allert(int x, int y, int width, uint16_t background_color,
 			std::string title, std::string text, int radius = 0,
 			uint16_t text_color = 0xFFFF, GFXfont *p_font =
 					const_cast<GFXfont*>(_Open_Sans_Bold_14));
+	void splitText();
+	int get_required_height()
+	{
+		return lines.size() * p_font->yAdvance * size;
+	}
+	void draw_text_field(uint16_t x, uint16_t y, uint16_t width,
+			uint16_t height);
 
 	void draw();
 	bool check_pressed(int x, int y);
+
 	void store_screen();
 	void restore_screen();
+
 };
 
 #endif /* INC_MENU_PARTS_H_ */
