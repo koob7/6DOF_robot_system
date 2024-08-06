@@ -139,18 +139,22 @@
 #define WHITE 0XFFFF
 #define DARK_BLUE 0X0007
 
-typedef struct {           // Data stored PER GLYPH
-  uint16_t bitmapOffset;   // Pointer into GFXfont->bitmap
-  uint8_t width, height;   // Bitmap dimensions in pixels
-  uint8_t xAdvance;        // Distance to advance cursor (x axis)
-  int8_t xOffset, yOffset; // Dist from cursor position to UL corner
+
+
+typedef struct
+{           // Data stored PER GLYPH
+	uint16_t bitmapOffset;   // Pointer into GFXfont->bitmap
+	uint8_t width, height;   // Bitmap dimensions in pixels
+	uint8_t xAdvance;        // Distance to advance cursor (x axis)
+	int8_t xOffset, yOffset; // Dist from cursor position to UL corner
 } GFXglyph;
 
-typedef struct {       // Data stored for FONT AS A WHOLE:
-  uint8_t *bitmap;     // Glyph bitmaps, concatenated
-  GFXglyph *glyph;     // Glyph array
-  uint8_t first, last; // ASCII extents
-  uint8_t yAdvance;    // Newline distance (y axis)
+typedef struct
+{       // Data stored for FONT AS A WHOLE:
+	uint8_t *bitmap;     // Glyph bitmaps, concatenated
+	GFXglyph *glyph;     // Glyph array
+	uint8_t first, last; // ASCII extents
+	uint8_t yAdvance;    // Newline distance (y axis)
 } GFXfont;
 
 // typedef enum {
@@ -163,79 +167,96 @@ extern const uint8_t font8x8[][8];
 uint16_t RGB(uint8_t r, uint8_t g, uint8_t b);
 
 void Init_SSD1963(void);
+void TFT_Set_X(uint16_t start_x, uint16_t end_x);
+void TFT_Set_Y(uint16_t start_y, uint16_t end_y);
+void TFT_Set_XY(uint16_t x, uint16_t y);
 void Lcd_Write_Cmd(uint16_t Cmd);
+void tft_write_bus(uint8_t high_byte, uint8_t low_byte);
 void Lcd_Write_Data(uint16_t data);
+void Lcd_SetPixel(int16_t x, int16_t y, int16_t color);
 void Lcd_SetArea(uint16_t sx, uint16_t ex, uint16_t sy, uint16_t ey);
 void Lcd_FillArea(uint16_t sx, uint16_t ex, uint16_t sy, uint16_t ey,
-                  int16_t color);
+		int16_t color);
 void Lcd_SetPixel(int16_t x, int16_t y, int16_t color);
 void Lcd_ClearScreen(int16_t color);
-
-// void Lcd_SetPixel(int16_t x, int16_t y, int16_t color);
-void draw_center_text(uint16_t x, uint16_t y, uint16_t width,
-		uint16_t height, const GFXfont *p_font, uint8_t size, uint16_t color,
-		const std::string &text);
+//=============================================================================
+// Fills whole screen specified color
+//=============================================================================
+void Lcd_ClearScreen(int16_t color);
+//=============================================================================
+// Fill area of specified color
+//=============================================================================
+void Lcd_FillArea(uint16_t sx, uint16_t ex, uint16_t sy, uint16_t ey,
+		int16_t color);
 uint16_t lcd_Read_bus();
 void TFT_Draw_Alert(uint16_t length, uint16_t width, char *text, uint16_t *save,
-                    const GFXfont *p_font);
+		const GFXfont *p_font);
 void TFT_Set_Read_Area(uint16_t x, uint16_t y, uint16_t length, uint16_t width);
 void lcd_Read_Area(uint16_t x, uint16_t y, uint16_t length, uint16_t width,
-                   uint16_t *save);
+		uint16_t *save);
 void TFT_Restore_Area(uint16_t x, uint16_t y, uint16_t length, uint16_t width,
-                      uint16_t *save);
+		uint16_t *save);
 
 void LCD_FillTriangle(int16_t x0, int16_t y0, int16_t x1, int16_t y1,
-                      int16_t x2, int16_t y2, uint16_t color);
+		int16_t x2, int16_t y2, uint16_t color);
 void LCD_centered_Font(uint16_t x, uint16_t y, uint16_t length, char *text,
-                       const GFXfont *p_font, uint8_t size, uint32_t color24);
+		const GFXfont *p_font, uint8_t size, uint32_t color24);
 void LCD_Row_Font(uint16_t x, uint16_t y, uint16_t start, uint16_t end,
-                  char *text, const GFXfont *p_font, uint8_t size,
-                  uint32_t color24);
+		char *text, const GFXfont *p_font, uint8_t size, uint32_t color24);
 void TFT_Draw_Bitmap_Without_Background(uint16_t x, uint16_t y, uint16_t width,
-                                        uint16_t height, const uint16_t *array);
+		uint16_t height, const uint16_t *array);
 void TFT_Draw_Bitmap(uint16_t x, uint16_t y, uint16_t width, uint16_t height,
-                     uint16_t *array);
+		uint16_t *array);
 uint16_t TFT_Draw_List(uint16_t x, uint16_t y, uint16_t width, char *title,
-                       char *options, uint16_t *save, const GFXfont *p_font);
+		char *options, uint16_t *save, const GFXfont *p_font);
 void TFT_Set_XY(uint16_t x, uint16_t y);
 void TFT_Set_Work_Area(uint16_t x, uint16_t y, uint16_t length, uint16_t width);
 
+static void LCD_Char(int16_t x, int16_t y, const GFXglyph *glyph,
+		const GFXfont *font, uint8_t size, uint16_t color24);
 void TFT_Clear_Screen(uint16_t color);
 void TFT_Draw_Char(uint16_t x, uint16_t y, uint16_t color, uint16_t phone,
-                   const uint8_t *table, uint8_t ascii, uint8_t size);
+		const uint8_t *table, uint8_t ascii, uint8_t size);
 void TFT_Draw_String(uint16_t x, uint16_t y, uint16_t color, uint16_t phone,
-                     const uint8_t *table, char *string, uint8_t size);
+		const uint8_t *table, char *string, uint8_t size);
+void draw_center_text(uint16_t x, uint16_t y, uint16_t width,
+		uint16_t height, const GFXfont *p_font, uint8_t size, uint16_t color,
+		const std::string &text);
 
 void TFT_Draw_Line(uint16_t x1, uint16_t y1, uint16_t x2, uint16_t y2,
-                   uint8_t size, uint16_t color);
+		uint8_t size, uint16_t color);
 void TFT_Draw_HLine(uint16_t x, uint16_t y, uint16_t length, uint16_t width,
-                    uint16_t color);
+		uint16_t color);
 void TFT_Draw_VLine(uint16_t x, uint16_t y, uint16_t length, uint16_t width,
-                    uint16_t color);
+		uint16_t color);
 
 void TFT_Draw_Rectangle(uint16_t x, uint16_t y, uint16_t length, uint16_t width,
-                        uint8_t size, uint16_t color);
+		uint8_t size, uint16_t color);
 void TFT_Draw_Fill_Rectangle(uint16_t x, uint16_t y, uint16_t length,
-                             uint16_t width, uint16_t color);
+		uint16_t width, uint16_t color);
 
 void TFT_Draw_Round_Rect(uint16_t x, uint16_t y, uint16_t length,
-                         uint16_t width, uint16_t r, uint8_t size,
-                         uint16_t color);
+		uint16_t width, uint16_t r, uint8_t size, uint16_t color);
 void TFT_Draw_Fill_Round_Rect(uint16_t x, uint16_t y, uint16_t length,
-                              uint16_t width, uint16_t r, uint16_t color);
+		uint16_t width, uint16_t r, uint16_t color);
 
 void TFT_Draw_Triangle(uint16_t x1, uint16_t y1, uint16_t x2, uint16_t y2,
-                       uint16_t x3, uint16_t y3, uint8_t size, uint16_t color);
+		uint16_t x3, uint16_t y3, uint8_t size, uint16_t color);
 void TFT_Draw_Circle(uint16_t x, uint16_t y, uint8_t radius, uint8_t fill,
-                     uint8_t size, uint16_t color);
+		uint8_t size, uint16_t color);
+void TFT_Draw_Circle_Helper(int16_t x0, int16_t y0, int16_t r,
+		uint8_t cornername, uint8_t size, uint16_t color);
 void TFT_Draw_Fill_Circle_Helper(int16_t x0, int16_t y0, int16_t r,
-                                 uint8_t cornername, int16_t delta,
-                                 uint16_t color);
+		uint8_t cornername, int16_t delta, uint16_t color);
 
 void LCD_Font(uint16_t x, uint16_t y, char *text, const GFXfont *p_font,
-              uint8_t size, uint16_t color24);
+		uint8_t size, uint16_t color24);
 int ringMeter(int value, int vmin, int vmax, int x, int y, int r,
-              uint16_t scheme);
+		uint16_t scheme);
+void LCD_FillTriangle(int16_t x0, int16_t y0, int16_t x1, int16_t y1,
+		int16_t x2, int16_t y2, uint16_t color);
+uint16_t rainbow(uint16_t value);
+long map(long x, long in_min, long in_max, long out_min, long out_max);
 //=============================================================================
 // SSD1963 commands
 //=============================================================================

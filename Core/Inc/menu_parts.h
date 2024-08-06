@@ -76,7 +76,6 @@ public:
 	struct dimension object_dimension;
 
 	menu_part(int x, int y, int width, int height);
-	virtual void draw() = 0;
 };
 
 class button: public menu_part
@@ -92,18 +91,19 @@ public:
 		{
 		}
 	};
-
+	int id;
 	uint16_t background_color;
-	int radius = 0;
+	int radius;
 	std::string text;
 	uint16_t text_color;
 
 	GFXfont *p_font;
-	button(int x, int y, int width, int height, uint16_t background_color,
-			int radius = 0, std::string text = "", uint16_t text_color = BLACK,
-			GFXfont *p_font = const_cast<GFXfont*>(_Open_Sans_Bold_14));
+	button(int id, int x, int y, int width, int height,
+			uint16_t background_color, int radius = 0, std::string text = "",
+			uint16_t text_color = BLACK, GFXfont *p_font =
+					const_cast<GFXfont*>(_Open_Sans_Bold_14));
 	void draw();
-	bool check_pressed(int x, int y);
+	int check_pressed(int x, int y);
 	bool check_area_pressed(int x, int y, int area_x, int area_y,
 			int area_width, int area_height);
 
@@ -127,6 +127,15 @@ class allert: public popup
 {
 
 public:
+	struct line_content
+	{
+		std::string content;
+		int width;
+		line_content(std::string content, int width) :
+				content(content), width(width)
+		{
+		}
+	};
 	std::vector<struct line_content> lines;
 
 	allert(int x, int y, int width, uint16_t background_color,
@@ -149,4 +158,44 @@ public:
 
 };
 
+class text_field: public menu_part
+{
+public:
+
+	std::string text;
+	uint16_t text_color;
+	GFXfont *p_font;
+
+	text_field(int x, int y, int width, int height, std::string text,
+			uint16_t text_color = BLACK, GFXfont *p_font =
+					const_cast<GFXfont*>(_Open_Sans_Bold_14));
+	void draw();
+	void update_text(std::string new_text);
+};
+
 #endif /* INC_MENU_PARTS_H_ */
+
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//

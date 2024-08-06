@@ -12,10 +12,12 @@ menu_part::menu_part(int x, int y, int width, int height) :
 {
 }
 
-button::button(int x, int y, int width, int height, uint16_t background_color,
-		int radius, std::string text, uint16_t text_color, GFXfont *p_font) :
-		menu_part(x, y, width, height), background_color(background_color), radius(
-				radius), text(text), text_color(text_color), p_font(p_font)
+button::button(int id, int x, int y, int width, int height,
+		uint16_t background_color, int radius, std::string text,
+		uint16_t text_color, GFXfont *p_font) :
+		id(id), menu_part(x, y, width, height), background_color(
+				background_color), radius(radius), text(text), text_color(
+				text_color), p_font(p_font)
 {
 	if (radius * 2 > (height > width ? width : height))
 	{
@@ -46,10 +48,17 @@ void button::draw()
 	}
 }
 
-bool button::check_pressed(int x, int y)
+int button::check_pressed(int x, int y)
 {
-	return check_area_pressed(x, y, object_dimension.x, object_dimension.y,
-			object_dimension.width, object_dimension.height);
+	if (check_area_pressed(x, y, object_dimension.x, object_dimension.y,
+			object_dimension.width, object_dimension.height))
+	{
+		return id;
+	}
+	else
+	{
+		return -1;
+	}
 }
 bool button::check_area_pressed(int x, int y, int area_x, int area_y,
 		int area_width, int area_height)
@@ -61,7 +70,7 @@ bool button::check_area_pressed(int x, int y, int area_x, int area_y,
 popup::popup(int x, int y, int width, uint16_t background_color,
 		std::string title, std::string text, int radius, uint16_t text_color,
 		GFXfont *p_font) :
-		button(x, y, width, 0, background_color, radius, text, text_color,
+		button(-1, x, y, width, 0, background_color, radius, text, text_color,
 				p_font), title_text(title)
 {
 	title_box_height = 50;
@@ -219,4 +228,44 @@ void allert::splitText()
 		lines.push_back(line_content(line, line_length)); // ostatnia linia tekstu
 	}
 }
+text_field::text_field(int x, int y, int width, int height, std::string text,
+		uint16_t text_color, GFXfont *p_font) :
+		menu_part(x, y, width, height),  text(
+				text), text_color(text_color), p_font(p_font)
+{
+
+}
+
+void text_field::draw(){
+	draw_center_text(object_dimension.x, object_dimension.y,
+					object_dimension.width, object_dimension.height, p_font, 1,
+					text_color, text);
+}
+
+void text_field::update_text(std::string new_text)
+{
+	text = new_text;
+}
+
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 

@@ -366,7 +366,7 @@ int main(void)
 	allert first_allert =
 			allert(10, 10, 250, 0xD6BA, "UWAGA",
 					"niemozliwe ze to zadzialalo za pierwszym razem. to jest naprawde niesamowite",
-					10, BLACK, const_cast<GFXfont*>(_Open_Sans_Bold_14));
+					10, YELLOW, const_cast<GFXfont*>(_Open_Sans_Bold_18));
 	first_allert.draw();
 //	HAL_Delay(5000);
 //	first_allert.restore_screen();

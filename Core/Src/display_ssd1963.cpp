@@ -1,18 +1,20 @@
 #include "display_ssd1963.h"
 
-// extern const GFXfont* _Open_Sans_Bold_8 ;
-
-uint16_t RGB(uint8_t r, uint8_t g, uint8_t b)
-{
-	return ((r & 0xF8) << 8) | ((g & 0xFC) << 3) | (b >> 3);
-}
-
 #define swap(a, b)                                                             \
   do {                                                                         \
     int16_t t = a;                                                             \
     a = b;                                                                     \
     b = t;                                                                     \
   } while (0)
+
+
+
+uint16_t RGB(uint8_t r, uint8_t g, uint8_t b)
+{
+	return ((r & 0xF8) << 8) | ((g & 0xFC) << 3) | (b >> 3);
+}
+
+
 
 void tft_write_bus(uint8_t high_byte, uint8_t low_byte)
 {
@@ -49,9 +51,7 @@ void Lcd_SetArea(uint16_t sx, uint16_t ex, uint16_t sy, uint16_t ey)
 	Lcd_Write_Data((ey >> 8) & 0xFF);
 	Lcd_Write_Data((ey >> 0) & 0xFF);
 }
-//=============================================================================
-// Fill area of specified color
-//=============================================================================
+
 void Lcd_FillArea(uint16_t sx, uint16_t ex, uint16_t sy, uint16_t ey,
 		int16_t color)
 {
@@ -64,9 +64,7 @@ void Lcd_FillArea(uint16_t sx, uint16_t ex, uint16_t sy, uint16_t ey,
 	}
 }
 
-//=============================================================================
-// Fills whole screen specified color
-//=============================================================================
+
 void Lcd_ClearScreen(int16_t color)
 {
 	unsigned int x, y;
