@@ -81,16 +81,12 @@ popup::popup(int x, int y, int width, uint16_t background_color,
 void allert::store_screen()
 {
 	lcd_Read_Area(object_dimension.x, object_dimension.y,
-			object_dimension.width,
-			title_box_height + get_required_height() + info_box_height_border
-					+ button_height, save_screen_buffer);
+			object_dimension.width,get_total_height(), save_screen_buffer);
 }
 void allert::restore_screen()
 {
 	TFT_Restore_Area(object_dimension.x, object_dimension.y,
-			object_dimension.width,
-			title_box_height + get_required_height() + info_box_height_border
-					+ button_height, save_screen_buffer);
+			object_dimension.width, get_total_height(), save_screen_buffer);
 }
 
 allert::allert(int x, int y, int width, uint16_t background_color,
@@ -110,8 +106,7 @@ allert::allert(int x, int y, int width, uint16_t background_color,
 
 void allert::draw()
 {
-	uint16_t height = title_box_height + get_required_height()
-			+ info_box_height_border + button_height; //rozmiar czerwonego pola + minimalny rozmiar informacji + dodatkowy rozmiar informacji+ rozmiar przycisku
+	uint16_t height = get_total_height(); //rozmiar czerwonego pola + minimalny rozmiar informacji + dodatkowy rozmiar informacji+ rozmiar przycisku
 	store_screen();
 	if (radius == 0)
 	{
@@ -151,8 +146,7 @@ void allert::draw()
 bool allert::check_pressed(int x, int y)
 {
 	if (check_area_pressed(x, y, object_dimension.x,
-			object_dimension.y + title_box_height + get_required_height()
-					+ info_box_height_border, object_dimension.width,
+			object_dimension.y +  get_total_height()-button_height, object_dimension.width,
 			button_height))
 	{
 		restore_screen();
@@ -230,21 +224,97 @@ void allert::splitText()
 }
 text_field::text_field(int x, int y, int width, int height, std::string text,
 		uint16_t text_color, GFXfont *p_font) :
-		menu_part(x, y, width, height),  text(
-				text), text_color(text_color), p_font(p_font)
+		menu_part(x, y, width, height), text(text), text_color(text_color), p_font(
+				p_font)
 {
 
 }
 
-void text_field::draw(){
+void text_field::draw()
+{
 	draw_center_text(object_dimension.x, object_dimension.y,
-					object_dimension.width, object_dimension.height, p_font, 1,
-					text_color, text);
+			object_dimension.width, object_dimension.height, p_font, 1,
+			text_color, text);
 }
 
 void text_field::update_text(std::string new_text)
 {
 	text = new_text;
+}
+
+figure::figure(int x, int y, int width, int height, uint16_t color,
+		uint16_t radius, uint16_t border_size) :
+		menu_part(x, y, width, height), color(color), radius(radius), border_size(
+				border_size)
+{
+	figure_shape = rectangle;
+}
+figure::figure(int x, int y, uint16_t color, uint16_t radius,
+		uint16_t border_size) :
+		menu_part(x, y, 0, 0), color(color), radius(radius), border_size(
+				border_size)
+{
+	figure_shape = circle;
+}
+figure::figure(int x1, int y1, int x2, int y2, uint8_t x3, uint8_t y3,
+		uint16_t color, uint16_t border_size) :
+		menu_part(x1, y1, x2, y2), color(color), radius(radius), border_size(
+				border_size), x3(x3), y3(y3)
+{
+	figure_shape = triangle;
+}
+
+void figure::draw()
+{
+	if (border_size == 0)
+	{
+		switch (figure_shape)
+		{
+		case rectangle:
+			if (radius == 0)
+				TFT_Draw_Fill_Rectangle(object_dimension.x, object_dimension.y,
+						object_dimension.width, object_dimension.height, color);
+			else
+				TFT_Draw_Fill_Round_Rect(object_dimension.x, object_dimension.y,
+						object_dimension.width, object_dimension.height, radius,
+						color);
+			break;
+		case circle:
+			TFT_Draw_Circle(object_dimension.x, object_dimension.y, radius, 1,
+					border_size, color);
+			break;
+		case triangle:
+			LCD_FillTriangle(object_dimension.x, object_dimension.y,
+					object_dimension.width, object_dimension.height, x3, y3,
+					color);
+			break;
+		}
+	}
+	else
+	{
+		switch (figure_shape)
+		{
+		case rectangle:
+			if (radius == 0)
+				TFT_Draw_Rectangle(object_dimension.x, object_dimension.y,
+						object_dimension.width, object_dimension.height,
+						border_size, color);
+			else
+				TFT_Draw_Round_Rect(object_dimension.x, object_dimension.y,
+						object_dimension.width, object_dimension.height, radius,
+						border_size, color);
+			break;
+		case circle:
+			TFT_Draw_Circle(object_dimension.x, object_dimension.y, radius, 0,
+					border_size, color);
+			break;
+		case triangle:
+			TFT_Draw_Triangle(object_dimension.x, object_dimension.y,
+					object_dimension.width, object_dimension.height, x3, y3,
+					border_size, color);
+			break;
+		}
+	}
 }
 
 //

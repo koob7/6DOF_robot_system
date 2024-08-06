@@ -139,8 +139,6 @@
 #define WHITE 0XFFFF
 #define DARK_BLUE 0X0007
 
-
-
 typedef struct
 {           // Data stored PER GLYPH
 	uint16_t bitmapOffset;   // Pointer into GFXfont->bitmap
@@ -212,6 +210,8 @@ uint16_t TFT_Draw_List(uint16_t x, uint16_t y, uint16_t width, char *title,
 void TFT_Set_XY(uint16_t x, uint16_t y);
 void TFT_Set_Work_Area(uint16_t x, uint16_t y, uint16_t length, uint16_t width);
 
+void LCD_Font(uint16_t x, uint16_t y, char *text, const GFXfont *p_font,
+		uint8_t size, uint16_t color24);
 static void LCD_Char(int16_t x, int16_t y, const GFXglyph *glyph,
 		const GFXfont *font, uint8_t size, uint16_t color24);
 void TFT_Clear_Screen(uint16_t color);
@@ -219,8 +219,8 @@ void TFT_Draw_Char(uint16_t x, uint16_t y, uint16_t color, uint16_t phone,
 		const uint8_t *table, uint8_t ascii, uint8_t size);
 void TFT_Draw_String(uint16_t x, uint16_t y, uint16_t color, uint16_t phone,
 		const uint8_t *table, char *string, uint8_t size);
-void draw_center_text(uint16_t x, uint16_t y, uint16_t width,
-		uint16_t height, const GFXfont *p_font, uint8_t size, uint16_t color,
+void draw_center_text(uint16_t x, uint16_t y, uint16_t width, uint16_t height,
+		const GFXfont *p_font, uint8_t size, uint16_t color,
 		const std::string &text);
 
 void TFT_Draw_Line(uint16_t x1, uint16_t y1, uint16_t x2, uint16_t y2,
@@ -240,8 +240,6 @@ void TFT_Draw_Round_Rect(uint16_t x, uint16_t y, uint16_t length,
 void TFT_Draw_Fill_Round_Rect(uint16_t x, uint16_t y, uint16_t length,
 		uint16_t width, uint16_t r, uint16_t color);
 
-void TFT_Draw_Triangle(uint16_t x1, uint16_t y1, uint16_t x2, uint16_t y2,
-		uint16_t x3, uint16_t y3, uint8_t size, uint16_t color);
 void TFT_Draw_Circle(uint16_t x, uint16_t y, uint8_t radius, uint8_t fill,
 		uint8_t size, uint16_t color);
 void TFT_Draw_Circle_Helper(int16_t x0, int16_t y0, int16_t r,
@@ -249,12 +247,13 @@ void TFT_Draw_Circle_Helper(int16_t x0, int16_t y0, int16_t r,
 void TFT_Draw_Fill_Circle_Helper(int16_t x0, int16_t y0, int16_t r,
 		uint8_t cornername, int16_t delta, uint16_t color);
 
-void LCD_Font(uint16_t x, uint16_t y, char *text, const GFXfont *p_font,
-		uint8_t size, uint16_t color24);
-int ringMeter(int value, int vmin, int vmax, int x, int y, int r,
-		uint16_t scheme);
+void TFT_Draw_Triangle(uint16_t x1, uint16_t y1, uint16_t x2, uint16_t y2,
+		uint16_t x3, uint16_t y3, uint8_t size, uint16_t color);
 void LCD_FillTriangle(int16_t x0, int16_t y0, int16_t x1, int16_t y1,
 		int16_t x2, int16_t y2, uint16_t color);
+
+int ringMeter(int value, int vmin, int vmax, int x, int y, int r,
+		uint16_t scheme);
 uint16_t rainbow(uint16_t value);
 long map(long x, long in_min, long in_max, long out_min, long out_max);
 //=============================================================================
@@ -262,3 +261,33 @@ long map(long x, long in_min, long in_max, long out_min, long out_max);
 //=============================================================================
 
 #endif
+
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//

@@ -143,9 +143,9 @@ public:
 			uint16_t text_color = 0xFFFF, GFXfont *p_font =
 					const_cast<GFXfont*>(_Open_Sans_Bold_14));
 	void splitText();
-	int get_required_height()
+	int get_total_height()
 	{
-		return lines.size() * p_font->yAdvance * size;
+		return lines.size() * p_font->yAdvance * size+ title_box_height +info_box_height_border+ button_height;
 	}
 	void draw_text_field(uint16_t x, uint16_t y, uint16_t width,
 			uint16_t height);
@@ -156,6 +156,19 @@ public:
 	void store_screen();
 	void restore_screen();
 
+};
+
+class list_dialog: public popup{
+	std::vector<std::string> options;
+	list_dialog(int x, int y, int width, uint16_t background_color,
+			std::string title, int radius = 0,
+			uint16_t text_color = 0xFFFF, GFXfont *p_font =
+					const_cast<GFXfont*>(_Open_Sans_Bold_14));
+	int get_total_height()
+	{
+		return options.size() * (p_font->yAdvance+info_box_height_border) * size + title_box_height;
+	}
+	int check_pressed(int x, int y);
 };
 
 class text_field: public menu_part
@@ -171,6 +184,29 @@ public:
 					const_cast<GFXfont*>(_Open_Sans_Bold_14));
 	void draw();
 	void update_text(std::string new_text);
+};
+
+class figure: public menu_part
+{
+	enum shape
+	{
+		rectangle, circle, triangle
+	};
+	enum shape figure_shape;
+	uint16_t color;
+	uint16_t radius=0;
+	uint8_t border_size;
+	uint8_t x3 = 0;
+	uint8_t y3 = 0;
+	figure(int x, int y, int width, int height, uint16_t color,
+			uint16_t radius, uint16_t border_size);
+	figure(int x, int y, uint16_t color, uint16_t radius,
+			uint16_t border_size);
+	figure(int x1, int y1, int x2, int y2, uint8_t x3, uint8_t y3,
+			uint16_t color, uint16_t border_size);
+	void draw();
+
+
 };
 
 #endif /* INC_MENU_PARTS_H_ */
