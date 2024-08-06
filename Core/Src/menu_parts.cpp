@@ -81,7 +81,7 @@ popup::popup(int x, int y, int width, uint16_t background_color,
 void allert::store_screen()
 {
 	lcd_Read_Area(object_dimension.x, object_dimension.y,
-			object_dimension.width,get_total_height(), save_screen_buffer);
+			object_dimension.width, get_total_height(), save_screen_buffer);
 }
 void allert::restore_screen()
 {
@@ -117,7 +117,7 @@ void allert::draw()
 				RED);
 		TFT_Draw_Rectangle(object_dimension.x,
 				object_dimension.y + height - button_height,
-				object_dimension.width, button_height, 5,
+				object_dimension.width, button_height - 5, 5,
 				BLACK);
 	}
 	else
@@ -146,8 +146,8 @@ void allert::draw()
 bool allert::check_pressed(int x, int y)
 {
 	if (check_area_pressed(x, y, object_dimension.x,
-			object_dimension.y +  get_total_height()-button_height, object_dimension.width,
-			button_height))
+			object_dimension.y + get_total_height() - button_height,
+			object_dimension.width, button_height))
 	{
 		restore_screen();
 		return true;
@@ -315,6 +315,87 @@ void figure::draw()
 			break;
 		}
 	}
+}
+
+list_dialog::list_dialog(int x, int y, int width, uint16_t background_color,
+		std::string title, std::initializer_list<std::string> option_list,
+		int radius, uint16_t text_color, GFXfont *p_font) :
+		popup(x, y, width, background_color, title, "", radius, text_color,
+				p_font)
+{
+	title_box_height = 50;
+	info_box_height_border = 10;
+	button_height = 40;
+	for (const auto &option : option_list)
+	{
+		options.push_back(option);
+	}
+}
+
+int list_dialog::check_pressed(int x, int y)
+{
+	int counter = 0;
+	int option_height = get_option_height();
+	for (const auto &option : options)
+	{
+		if (check_area_pressed(x, y, object_dimension.x,
+				title_box_height + counter * option_height,
+				object_dimension.width,
+				title_box_height + (counter + 1) * option_height))
+		{
+			return counter;
+		}
+		counter++;
+	}
+	return -1;
+}
+
+void list_dialog::draw()
+{
+	uint16_t height = get_total_height(); //rozmiar czerwonego pola + minimalny rozmiar informacji + dodatkowy rozmiar informacji+ rozmiar przycisku
+	int option_height = get_option_height();
+	int counter = 0;
+	//store_screen();
+	if (radius == 0)
+	{
+		TFT_Draw_Fill_Rectangle(object_dimension.x, object_dimension.y,
+				object_dimension.width, height, background_color);
+		TFT_Draw_Rectangle(object_dimension.x, object_dimension.y,
+				object_dimension.width, title_box_height - 5, 5,
+				BLACK);
+	}
+	else
+	{
+		TFT_Draw_Fill_Round_Rect(object_dimension.x, object_dimension.y,
+				object_dimension.width, height, radius, background_color);
+		TFT_Draw_Round_Rect(object_dimension.x, object_dimension.y - 4,
+				object_dimension.width - 4, title_box_height, radius, 5,
+				BLACK);
+	}
+	draw_center_text(object_dimension.x, object_dimension.y,
+			object_dimension.width, title_box_height, title_font, 1, BLACK,
+			title_text);
+	for (const auto &option : options)
+	{
+		draw_center_text(object_dimension.x,
+				object_dimension.y + title_box_height + counter * option_height,
+				object_dimension.width,
+				option_height, p_font, 1,
+				text_color, option);
+		if (option != options.back())
+		{
+			TFT_Draw_Fill_Rectangle(object_dimension.x,
+					object_dimension.y + title_box_height + (counter + 1) * option_height,
+					object_dimension.width, 2, BLACK);
+		}
+		counter++;
+	}
+//		draw_text_field(object_dimension.x, object_dimension.y + title_box_height,
+//				object_dimension.width, height - title_box_height - button_height);
+//		draw_center_text(object_dimension.x,
+//				object_dimension.y + height - button_height, object_dimension.width,
+//				button_height, title_font, 1, BLACK, "OK");
+
 }
 
 //

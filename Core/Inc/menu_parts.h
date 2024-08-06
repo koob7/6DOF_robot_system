@@ -159,16 +159,24 @@ public:
 };
 
 class list_dialog: public popup{
+public:
 	std::vector<std::string> options;
 	list_dialog(int x, int y, int width, uint16_t background_color,
-			std::string title, int radius = 0,
+			std::string title, std::initializer_list<std::string> option_list, int radius = 0,
 			uint16_t text_color = 0xFFFF, GFXfont *p_font =
 					const_cast<GFXfont*>(_Open_Sans_Bold_14));
 	int get_total_height()
 	{
-		return options.size() * (p_font->yAdvance+info_box_height_border) * size + title_box_height;
+		return options.size() * (p_font->yAdvance* size+info_box_height_border)  + title_box_height;
 	}
+	int get_option_height()
+	{
+		return p_font->yAdvance * size+info_box_height_border;
+	}
+
+	//return -1 if no button is pressed
 	int check_pressed(int x, int y);
+	void draw();
 };
 
 class text_field: public menu_part

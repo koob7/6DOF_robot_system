@@ -368,6 +368,8 @@ int main(void)
 					"niemozliwe ze to zadzialalo za pierwszym razem. to jest naprawde niesamowite",
 					10, YELLOW, const_cast<GFXfont*>(_Open_Sans_Bold_18));
 	first_allert.draw();
+	list_dialog first_list = list_dialog(300,10,200,0xD6BA, "testowa lista",{"nie wierze", "a jednak", "no popatrz"},10,BLACK, const_cast<GFXfont*>(_Open_Sans_Bold_18));
+	first_list.draw();
 //	HAL_Delay(5000);
 //	first_allert.restore_screen();
 //	TFT_Draw_Fill_Round_Rect(0,0, 200, 400, 0, 0xD6BA);
