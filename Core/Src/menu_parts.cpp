@@ -221,6 +221,7 @@ void allert::splitText()
 	{
 		lines.push_back(line_content(line, line_length)); // ostatnia linia tekstu
 	}
+	lines.shrink_to_fit();
 }
 text_field::text_field(int x, int y, int width, int height, std::string text,
 		uint16_t text_color, GFXfont *p_font) :
@@ -347,13 +348,14 @@ list_dialog::list_dialog(int x, int y, int width, uint16_t background_color,
 	{
 		options.push_back(option);
 	}
+	options.shrink_to_fit();
 }
 
 int list_dialog::check_pressed(int x, int y)
 {
 	int counter = 0;
 	int option_height = get_option_height();
-	for (const auto &option : options)
+	for (int i=0; i<options.size();i++)
 	{
 		if (check_area_pressed(x, y, object_dimension.x,
 				object_dimension.y + title_box_height + counter * option_height,

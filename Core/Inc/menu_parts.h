@@ -198,6 +198,7 @@ public:
 
 class figure: public menu_part
 {
+public:
 	enum shape
 	{
 		rectangle, circle, triangle, image
