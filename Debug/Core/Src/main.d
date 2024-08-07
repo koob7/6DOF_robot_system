@@ -61,6 +61,7 @@ Core/Src/main.o: ../Core/Src/main.cpp ../Core/Inc/main.h \
  C:/Users/kobie/STM32CubeIDE/workspace_1.13.2/6DOF_robot_system/fonts/inc/128_Open_Sans_Bold.h \
  ../Core/Inc/navigate_robot.h ../Core/Inc/fatfs_sd.h \
  ../Core/Inc/xpt2046.h ../Core/Inc/menu_parts.h ../Core/Inc/servo.h \
+ ../Core/Inc/objects.h ../Core/Inc/menu_parts.h \
  ../Core/Inc/bitmap_arrays.h ../Core/Inc/servo.h
 ../Core/Inc/main.h:
 ../Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal.h:
@@ -136,5 +137,7 @@ C:/Users/kobie/STM32CubeIDE/workspace_1.13.2/6DOF_robot_system/fonts/inc/128_Ope
 ../Core/Inc/xpt2046.h:
 ../Core/Inc/menu_parts.h:
 ../Core/Inc/servo.h:
+../Core/Inc/objects.h:
+../Core/Inc/menu_parts.h:
 ../Core/Inc/bitmap_arrays.h:
 ../Core/Inc/servo.h:

@@ -243,97 +243,87 @@ void text_field::update_text(std::string new_text)
 	text = new_text;
 }
 
-figure::figure(uint16_t x, uint16_t y, uint16_t width, uint16_t height,
-		const uint16_t *array, uint8_t border_size) :
-		menu_part(x, y, width, height), border_size(border_size), array(array)
+circle::circle(int x, int y, uint16_t radius, uint16_t color,
+		uint16_t border_size) :
+		menu_part(x, y, 0, 0), radius(radius), color(color), border_size(
+				border_size)
 {
-	figure_shape = image;
 }
 
-figure::figure(int x, int y, int width, int height, uint16_t color,
+void circle::draw()
+{
+	if (border_size == 0)
+		TFT_Draw_Circle(object_dimension.x, object_dimension.y, radius, 1,
+				border_size, color);
+	else
+		TFT_Draw_Circle(object_dimension.x, object_dimension.y, radius, 0,
+				border_size, color);
+}
+
+triangle::triangle(int x1, int y1, int x2, int y2, int x3, int y3,
+		uint16_t color, uint16_t border_size) :
+		menu_part(0, 0, 0, 0), x1(x1), y1(y1), x2(x2), y2(y2), x3(x3), y3(y3), color(
+				color), border_size(border_size)
+{
+}
+
+void triangle::draw()
+{
+	if (border_size == 0)
+		LCD_FillTriangle(x1, y1, x2, y2, x3, y3, color);
+	else
+		TFT_Draw_Triangle(x1, y1, x2, y2, x3, y3, border_size, color);
+}
+
+image::image(uint16_t x, uint16_t y, uint16_t width, uint16_t height,
+		const uint16_t *array, bool background) :
+		menu_part(x, y, width, height), array(array), background(background)
+{
+}
+
+void image::draw()
+{
+	if (background)
+		TFT_Draw_Bitmap(object_dimension.x, object_dimension.y,
+				object_dimension.width, object_dimension.height, array);
+	else
+		TFT_Draw_Bitmap_Without_Background(object_dimension.x,
+				object_dimension.y, object_dimension.width,
+				object_dimension.height, array);
+}
+
+rectangle::rectangle(int x, int y, int width, int height, uint16_t color,
 		uint16_t radius, uint16_t border_size) :
 		menu_part(x, y, width, height), color(color), radius(radius), border_size(
 				border_size)
 {
-	figure_shape = rectangle;
-}
-figure::figure(int x, int y, uint16_t color, uint16_t radius,
-		uint16_t border_size) :
-		menu_part(x, y, 0, 0), color(color), radius(radius), border_size(
-				border_size)
-{
-	figure_shape = circle;
-}
-figure::figure(int x1, int y1, int x2, int y2, uint8_t x3, uint8_t y3,
-		uint16_t color, uint16_t border_size) :
-		menu_part(x1, y1, x2, y2), color(color), radius(radius), border_size(
-				border_size), x3(x3), y3(y3)
-{
-	figure_shape = triangle;
 }
 
-void figure::draw()
+void rectangle::draw()
 {
 	if (border_size == 0)
 	{
-		switch (figure_shape)
-		{
-		case rectangle:
-			if (radius == 0)
-				TFT_Draw_Fill_Rectangle(object_dimension.x, object_dimension.y,
-						object_dimension.width, object_dimension.height, color);
-			else
-				TFT_Draw_Fill_Round_Rect(object_dimension.x, object_dimension.y,
-						object_dimension.width, object_dimension.height, radius,
-						color);
-			break;
-		case circle:
-			TFT_Draw_Circle(object_dimension.x, object_dimension.y, radius, 1,
-					border_size, color);
-			break;
-		case triangle:
-			LCD_FillTriangle(object_dimension.x, object_dimension.y,
-					object_dimension.width, object_dimension.height, x3, y3,
+		if (radius == 0)
+			TFT_Draw_Fill_Rectangle(object_dimension.x, object_dimension.y,
+					object_dimension.width, object_dimension.height, color);
+		else
+			TFT_Draw_Fill_Round_Rect(object_dimension.x, object_dimension.y,
+					object_dimension.width, object_dimension.height, radius,
 					color);
-			break;
-		case image:
-			TFT_Draw_Bitmap_Without_Background(object_dimension.x,
-					object_dimension.y, object_dimension.width,
-					object_dimension.height, array);
-			break;
-		}
 	}
 	else
 	{
-		switch (figure_shape)
-		{
-		case rectangle:
-			if (radius == 0)
-				TFT_Draw_Rectangle(object_dimension.x, object_dimension.y,
-						object_dimension.width, object_dimension.height,
-						border_size, color);
-			else
-				TFT_Draw_Round_Rect(object_dimension.x, object_dimension.y,
-						object_dimension.width, object_dimension.height, radius,
-						border_size, color);
-			break;
-		case circle:
-			TFT_Draw_Circle(object_dimension.x, object_dimension.y, radius, 0,
+		if (radius == 0)
+			TFT_Draw_Rectangle(object_dimension.x, object_dimension.y,
+					object_dimension.width, object_dimension.height,
 					border_size, color);
-			break;
-		case triangle:
-			TFT_Draw_Triangle(object_dimension.x, object_dimension.y,
-					object_dimension.width, object_dimension.height, x3, y3,
+		else
+			TFT_Draw_Round_Rect(object_dimension.x, object_dimension.y,
+					object_dimension.width, object_dimension.height, radius,
 					border_size, color);
-			break;
-		case image:
-			TFT_Draw_Bitmap(object_dimension.x,
-					object_dimension.y, object_dimension.width,
-					object_dimension.height, array);
-			break;
-		}
 	}
 }
+
 
 list_dialog::list_dialog(int x, int y, int width, uint16_t background_color,
 		std::string title, std::initializer_list<std::string> option_list,
@@ -355,7 +345,7 @@ int list_dialog::check_pressed(int x, int y)
 {
 	int counter = 0;
 	int option_height = get_option_height();
-	for (int i=0; i<options.size();i++)
+	for (int i = 0; i < options.size(); i++)
 	{
 		if (check_area_pressed(x, y, object_dimension.x,
 				object_dimension.y + title_box_height + counter * option_height,

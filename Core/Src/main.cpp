@@ -34,6 +34,7 @@
 #include "xpt2046.h"
 #include <iostream>
 #include "menu_parts.h"
+#include <objects.h>
 
 #include "008_Open_Sans_Bold.h"
 #include "009_Open_Sans_Bold.h"
@@ -399,6 +400,13 @@ int main(void)
 	{ "nie wierze", "a jednak", "no popatrz" }, 10, BLACK,
 			const_cast<GFXfont*>(_Open_Sans_Bold_18));
 	first_list.draw();
+
+	menu_segment menu;
+	 menu.add_part(std::make_shared<circle>(200, 200, 20, BLUE));
+	 menu.add_part(std::make_shared<circle>(240, 200, 20, GREEN, 10));
+	 menu.add_part(std::make_shared<rectangle>(400, 400, 20,50, RED, 10));
+	 menu.reduce_vector_size();
+	 menu.draw();
 
 	while (1)//tego menu nie usuwać
 	{

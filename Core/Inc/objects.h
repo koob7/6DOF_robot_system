@@ -8,29 +8,30 @@
 #ifndef INC_OBJECTS_H_
 #define INC_OBJECTS_H_
 
+#include <memory>
 #include "menu_parts.h"
 
 class menu_segment
 {
-	std::vector<button> buttons;
-	std::vector<figure> figures;
-	std::vector<text_field> text_fields;
+	std::vector<std::shared_ptr<menu_part>> parts;
 
 public:
-	void draw();
-	void adjust_vector_size();
-	void add_part(button o_button)
+	void draw()
 	{
-		buttons.push_back(o_button);
+		for (const auto part : parts)
+		{
+			part->draw();
+		}
 	}
-	void add_part(figure o_figure)
+	void reduce_vector_size()
 	{
-		figures.push_back(o_figure);
+		parts.shrink_to_fit();
 	}
-	void add_part(text_field o_text_field)
+	void add_part(std::shared_ptr<menu_part> part)
 	{
-		text_fields.push_back(o_text_field);
+		parts.push_back(part);
 	}
+
 };
 
 #endif /* INC_OBJECTS_H_ */

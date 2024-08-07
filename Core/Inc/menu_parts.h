@@ -76,6 +76,7 @@ public:
 	struct dimension object_dimension;
 
 	menu_part(int x, int y, int width, int height);
+	virtual void draw() = 0;
 };
 
 class button: public menu_part
@@ -148,7 +149,8 @@ public:
 	void splitText();
 	int get_total_height()
 	{
-		return lines.size() * p_font->yAdvance * size+ title_box_height +info_box_height_border+ button_height;
+		return lines.size() * p_font->yAdvance * size + title_box_height
+				+ info_box_height_border + button_height;
 	}
 	void draw_text_field(uint16_t x, uint16_t y, uint16_t width,
 			uint16_t height);
@@ -156,24 +158,25 @@ public:
 	void draw();
 	bool check_pressed(int x, int y);
 
-
-
 };
 
-class list_dialog: public popup{
+class list_dialog: public popup
+{
 public:
 	std::vector<std::string> options;
 	list_dialog(int x, int y, int width, uint16_t background_color,
-			std::string title, std::initializer_list<std::string> option_list, int radius = 0,
-			uint16_t text_color = 0xFFFF, GFXfont *p_font =
+			std::string title, std::initializer_list<std::string> option_list,
+			int radius = 0, uint16_t text_color = 0xFFFF, GFXfont *p_font =
 					const_cast<GFXfont*>(_Open_Sans_Bold_14));
 	int get_total_height()
 	{
-		return options.size() * (p_font->yAdvance* size+info_box_height_border)  + title_box_height;
+		return options.size()
+				* (p_font->yAdvance * size + info_box_height_border)
+				+ title_box_height;
 	}
 	int get_option_height()
 	{
-		return p_font->yAdvance * size+info_box_height_border;
+		return p_font->yAdvance * size + info_box_height_border;
 	}
 
 	//return -1 if no button is pressed
@@ -196,32 +199,48 @@ public:
 	void update_text(std::string new_text);
 };
 
-class figure: public menu_part
+
+class circle: public menu_part
 {
 public:
-	enum shape
-	{
-		rectangle, circle, triangle, image
-	};
-	enum shape figure_shape;
 	uint16_t color;
-	uint16_t radius=0;
-	uint8_t border_size;
-	uint8_t x3 = 0;
-	uint8_t y3 = 0;
-	const uint16_t * array;
-
-	figure(uint16_t x, uint16_t y, uint16_t width,
-			uint16_t height, const uint16_t *array,uint8_t border_size);
-	figure(int x, int y, int width, int height, uint16_t color,
-			uint16_t radius, uint16_t border_size);
-	figure(int x, int y, uint16_t color, uint16_t radius,
-			uint16_t border_size);
-	figure(int x1, int y1, int x2, int y2, uint8_t x3, uint8_t y3,
-			uint16_t color, uint16_t border_size);
+	uint16_t radius;
+	uint16_t border_size;
+	circle(int x, int y,  uint16_t radius,uint16_t color,
+			uint16_t border_size =0);
 	void draw();
+};
+class triangle: public menu_part
+{
+public:
+	int x1, y1;
+	int x2, y2;
+	int x3, y3;
+	uint16_t color;
+	uint16_t border_size;
+	triangle(int x1, int y1, int x2, int y2, int x3, int y3,
+			uint16_t color, uint16_t border_size=0);
+	void draw();
+};
+class image: public menu_part
+{
+public:
+	const uint16_t *array;
+	bool background;
+	image(uint16_t x, uint16_t y, uint16_t width, uint16_t height,
+			const uint16_t *array, bool background);
+	void draw();
+};
+class rectangle: public menu_part
+{
+public:
+	uint16_t color;
+	uint16_t radius;
+	uint16_t border_size;
 
-
+	rectangle(int x, int y, int width, int height, uint16_t color,
+			uint16_t radius=0, uint16_t border_size=0);
+	void draw();
 };
 
 #endif /* INC_MENU_PARTS_H_ */
