@@ -368,8 +368,7 @@ int main(void)
 					"niemozliwe ze to zadzialalo za pierwszym razem. to jest naprawde niesamowite",
 					10, YELLOW, const_cast<GFXfont*>(_Open_Sans_Bold_18));
 	first_allert.draw();
-	list_dialog first_list = list_dialog(300,10,200,0xD6BA, "testowa lista",{"nie wierze", "a jednak", "no popatrz"},10,BLACK, const_cast<GFXfont*>(_Open_Sans_Bold_18));
-	first_list.draw();
+
 //	HAL_Delay(5000);
 //	first_allert.restore_screen();
 //	TFT_Draw_Fill_Round_Rect(0,0, 200, 400, 0, 0xD6BA);
@@ -379,8 +378,29 @@ int main(void)
 	XPT2046_Init();
 	__HAL_GPIO_EXTI_CLEAR_IT(T_IRQ_Pin); // czyszczenie zgłoszonego przerwania
 	was_touched = 0;
+	while (1)//moje oszukane menu
+	{
+		if (was_touched == 1)
+		{
+			uint16_t touchx, touchy;
+			was_touched = 0;
+			touchx = getX();
+			touchy = getY();
+			NVIC_DisableIRQ(EXTI9_5_IRQn);
+			if (first_allert.check_pressed(touchx, touchy))
+			{
+				break;
+			}
+			__HAL_GPIO_EXTI_CLEAR_IT(T_IRQ_Pin); // czyszczenie zgłoszonego przerwania
+			NVIC_EnableIRQ(EXTI9_5_IRQn);
+		}
+	}
+	list_dialog first_list = list_dialog(300, 10, 200, 0xD6BA, "testowa lista",
+	{ "nie wierze", "a jednak", "no popatrz" }, 10, BLACK,
+			const_cast<GFXfont*>(_Open_Sans_Bold_18));
+	first_list.draw();
 
-	while (1)
+	while (1)//tego menu nie usuwać
 	{
 		if (was_touched == 1)
 		{
@@ -400,12 +420,15 @@ int main(void)
 			HAL_Delay(100);
 
 			XPT2046_Init();
-			first_allert.check_pressed(touchx, touchy);
-			int value  = first_list.check_pressed(touchx, touchy);
-			if(value>-1){
+
+			int value = first_list.check_pressed(touchx, touchy);
+			if (value > -1)
+			{
 				TFT_Draw_Fill_Round_Rect(280, 280, 250, 60, 10, 0xCFFF);
 				sprintf(buffer1, "choosen: %i", value);
 				LCD_Font(300, 300, buffer1, _Open_Sans_Bold_28, 1, BLACK);
+				HAL_Delay(5000);
+				first_list.draw();
 			}
 			if (touchx >= 696 && touchx <= 696 + 88 && touchy >= 9
 					&& touchy <= 9 + 47)

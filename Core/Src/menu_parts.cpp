@@ -78,15 +78,13 @@ popup::popup(int x, int y, int width, uint16_t background_color,
 	button_height = 40;
 }
 
-void allert::store_screen()
+void popup::store_screen(int x, int y, int width, int height)
 {
-	lcd_Read_Area(object_dimension.x, object_dimension.y,
-			object_dimension.width, get_total_height(), save_screen_buffer);
+	lcd_Read_Area(x, y, width, height, save_screen_buffer);
 }
-void allert::restore_screen()
+void popup::restore_screen(int x, int y, int width, int height)
 {
-	TFT_Restore_Area(object_dimension.x, object_dimension.y,
-			object_dimension.width, get_total_height(), save_screen_buffer);
+	TFT_Restore_Area(x, y, width, height, save_screen_buffer);
 }
 
 allert::allert(int x, int y, int width, uint16_t background_color,
@@ -107,7 +105,8 @@ allert::allert(int x, int y, int width, uint16_t background_color,
 void allert::draw()
 {
 	uint16_t height = get_total_height(); //rozmiar czerwonego pola + minimalny rozmiar informacji + dodatkowy rozmiar informacji+ rozmiar przycisku
-	store_screen();
+	store_screen(object_dimension.x, object_dimension.y,
+			object_dimension.width, get_total_height());
 	if (radius == 0)
 	{
 		TFT_Draw_Fill_Rectangle(object_dimension.x, object_dimension.y,
@@ -149,7 +148,8 @@ bool allert::check_pressed(int x, int y)
 			object_dimension.y + get_total_height() - button_height,
 			object_dimension.width, button_height))
 	{
-		restore_screen();
+		restore_screen(object_dimension.x, object_dimension.y,
+				object_dimension.width, get_total_height());
 		return true;
 	}
 	else
@@ -342,6 +342,7 @@ int list_dialog::check_pressed(int x, int y)
 				object_dimension.y + title_box_height + counter * option_height,
 				object_dimension.width, option_height))
 		{
+			restore_screen(object_dimension.x, object_dimension.y, object_dimension.width, get_total_height());
 			return counter;
 		}
 		counter++;
@@ -351,6 +352,7 @@ int list_dialog::check_pressed(int x, int y)
 
 void list_dialog::draw()
 {
+	store_screen(object_dimension.x, object_dimension.y, object_dimension.width, get_total_height());
 	uint16_t height = get_total_height(); //rozmiar czerwonego pola + minimalny rozmiar informacji + dodatkowy rozmiar informacji+ rozmiar przycisku
 	int option_height = get_option_height();
 	int counter = 0;
@@ -367,7 +369,7 @@ void list_dialog::draw()
 	{
 		TFT_Draw_Fill_Round_Rect(object_dimension.x, object_dimension.y,
 				object_dimension.width, height, radius, background_color);
-		TFT_Draw_Round_Rect(object_dimension.x, object_dimension.y - 4,
+		TFT_Draw_Round_Rect(object_dimension.x, object_dimension.y,
 				object_dimension.width - 4, title_box_height, radius, 5,
 				BLACK);
 	}

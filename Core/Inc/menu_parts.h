@@ -121,6 +121,9 @@ public:
 	uint8_t button_height;
 	std::string title_text;
 
+	void store_screen(int x, int y, int width, int height);
+	void restore_screen(int x, int y, int width, int height);
+
 };
 
 class allert: public popup
@@ -153,8 +156,7 @@ public:
 	void draw();
 	bool check_pressed(int x, int y);
 
-	void store_screen();
-	void restore_screen();
+
 
 };
 

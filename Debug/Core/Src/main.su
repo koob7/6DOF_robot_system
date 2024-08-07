@@ -4,11 +4,11 @@ C:\ST\STM32CubeIDE_1.13.2\STM32CubeIDE\plugins\com.st.stm32cube.ide.mcu.external
 ../Core/Src/main.cpp:130:5:int bufsize(char*)	24	static
 ../Core/Src/main.cpp:138:6:void clear_buffer(char*)	24	static
 ../Core/Src/main.cpp:151:5:int main()	5200	static
-../Core/Src/main.cpp:436:6:void SystemClock_Config()	120	static
-../Core/Src/main.cpp:501:6:void PeriphCommonClock_Config()	200	static
-../Core/Src/main.cpp:517:6:void HAL_GPIO_EXTI_Callback(uint16_t)	16	static
-../Core/Src/main.cpp:574:6:void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef*)	24	static
-../Core/Src/main.cpp:631:6:void Error_Handler()	4	static,ignoring_inline_asm
-../Core/Src/main.cpp:640:1:void __static_initialization_and_destruction_0(int, int)	16	static
-../Core/Src/main.cpp:640:1:cpp)	8	static
-../Core/Src/main.cpp:640:1:cpp)	8	static
+../Core/Src/main.cpp:459:6:void SystemClock_Config()	120	static
+../Core/Src/main.cpp:524:6:void PeriphCommonClock_Config()	200	static
+../Core/Src/main.cpp:540:6:void HAL_GPIO_EXTI_Callback(uint16_t)	16	static
+../Core/Src/main.cpp:597:6:void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef*)	24	static
+../Core/Src/main.cpp:654:6:void Error_Handler()	4	static,ignoring_inline_asm
+../Core/Src/main.cpp:663:1:void __static_initialization_and_destruction_0(int, int)	16	static
+../Core/Src/main.cpp:663:1:cpp)	8	static
+../Core/Src/main.cpp:663:1:cpp)	8	static
