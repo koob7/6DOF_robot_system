@@ -525,7 +525,7 @@ void TFT_Draw_Bitmap_Without_Background(uint16_t x, uint16_t y, uint16_t width,
 }
 
 void TFT_Draw_Bitmap(uint16_t x, uint16_t y, uint16_t width, uint16_t height,
-		uint16_t *array)
+		const uint16_t *array)
 {
 	TFT_Set_Work_Area(x, y, width, height);
 	for (int i = 0; i < height; i += 1)

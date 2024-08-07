@@ -26,15 +26,16 @@ C:\ST\STM32CubeIDE_1.13.2\STM32CubeIDE\plugins\com.st.stm32cube.ide.mcu.external
 ../Core/Src/menu_parts.cpp:225:1:text_field::text_field(int, int, int, int, std::string, uint16_t, GFXfont*)	32	static
 ../Core/Src/menu_parts.cpp:233:6:void text_field::draw()	48	static
 ../Core/Src/menu_parts.cpp:240:6:void text_field::update_text(std::string)	16	static
-../Core/Src/menu_parts.cpp:245:1:figure::figure(int, int, int, int, uint16_t, uint16_t, uint16_t)	32	static
-../Core/Src/menu_parts.cpp:252:1:figure::figure(int, int, uint16_t, uint16_t, uint16_t)	32	static
-../Core/Src/menu_parts.cpp:259:1:figure::figure(int, int, int, int, uint8_t, uint8_t, uint16_t, uint16_t)	32	static
-../Core/Src/menu_parts.cpp:267:6:void figure::draw()	48	static
+../Core/Src/menu_parts.cpp:245:1:figure::figure(uint16_t, uint16_t, uint16_t, uint16_t, const uint16_t*, uint8_t)	40	static
+../Core/Src/menu_parts.cpp:252:1:figure::figure(int, int, int, int, uint16_t, uint16_t, uint16_t)	32	static
+../Core/Src/menu_parts.cpp:259:1:figure::figure(int, int, uint16_t, uint16_t, uint16_t)	32	static
+../Core/Src/menu_parts.cpp:266:1:figure::figure(int, int, int, int, uint8_t, uint8_t, uint16_t, uint16_t)	32	static
+../Core/Src/menu_parts.cpp:274:6:void figure::draw()	48	static
 C:\ST\STM32CubeIDE_1.13.2\STM32CubeIDE\plugins\com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.11.3.rel1.win32_1.1.1.202309131626\tools\bin/../lib/gcc/arm-none-eabi/11.3.1/../../../../arm-none-eabi/include/c++/11.3.1/bits/stl_vector.h:288:7:std::_Vector_base<_Tp, _Alloc>::_Vector_base() [with _Tp = std::__cxx11::basic_string<char>; _Alloc = std::allocator<std::__cxx11::basic_string<char> >]	16	static
 C:\ST\STM32CubeIDE_1.13.2\STM32CubeIDE\plugins\com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.11.3.rel1.win32_1.1.1.202309131626\tools\bin/../lib/gcc/arm-none-eabi/11.3.1/../../../../arm-none-eabi/include/c++/11.3.1/bits/stl_vector.h:487:7:std::vector<_Tp, _Alloc>::vector() [with _Tp = std::__cxx11::basic_string<char>; _Alloc = std::allocator<std::__cxx11::basic_string<char> >]	16	static
-../Core/Src/menu_parts.cpp:320:1:list_dialog::list_dialog(int, int, int, uint16_t, std::string, std::initializer_list<std::__cxx11::basic_string<char> >, int, uint16_t, GFXfont*)	128	static
-../Core/Src/menu_parts.cpp:335:5:int list_dialog::check_pressed(int, int)	80	static
-../Core/Src/menu_parts.cpp:353:6:void list_dialog::draw()	80	static
+../Core/Src/menu_parts.cpp:337:1:list_dialog::list_dialog(int, int, int, uint16_t, std::string, std::initializer_list<std::__cxx11::basic_string<char> >, int, uint16_t, GFXfont*)	128	static
+../Core/Src/menu_parts.cpp:352:5:int list_dialog::check_pressed(int, int)	80	static
+../Core/Src/menu_parts.cpp:371:6:void list_dialog::draw()	80	static
 C:\ST\STM32CubeIDE_1.13.2\STM32CubeIDE\plugins\com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.11.3.rel1.win32_1.1.1.202309131626\tools\bin/../lib/gcc/arm-none-eabi/11.3.1/../../../../arm-none-eabi/include/c++/11.3.1/bits/stl_vector.h:918:7:std::vector<_Tp, _Alloc>::size_type std::vector<_Tp, _Alloc>::size() const [with _Tp = allert::line_content; _Alloc = std::allocator<allert::line_content>]	16	static
 C:\ST\STM32CubeIDE_1.13.2\STM32CubeIDE\plugins\com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.11.3.rel1.win32_1.1.1.202309131626\tools\bin/../lib/gcc/arm-none-eabi/11.3.1/../../../../arm-none-eabi/include/c++/11.3.1/bits/stl_vector.h:918:7:std::vector<_Tp, _Alloc>::size_type std::vector<_Tp, _Alloc>::size() const [with _Tp = std::__cxx11::basic_string<char>; _Alloc = std::allocator<std::__cxx11::basic_string<char> >]	16	static
 C:\ST\STM32CubeIDE_1.13.2\STM32CubeIDE\plugins\com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.11.3.rel1.win32_1.1.1.202309131626\tools\bin/../lib/gcc/arm-none-eabi/11.3.1/../../../../arm-none-eabi/include/c++/11.3.1/bits/stl_vector.h:131:2:std::_Vector_base<_Tp, _Alloc>::_Vector_impl::_Vector_impl() [with _Tp = allert::line_content; _Alloc = std::allocator<allert::line_content>]	16	static
@@ -176,6 +177,6 @@ C:\ST\STM32CubeIDE_1.13.2\STM32CubeIDE\plugins\com.st.stm32cube.ide.mcu.external
 C:\ST\STM32CubeIDE_1.13.2\STM32CubeIDE\plugins\com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.11.3.rel1.win32_1.1.1.202309131626\tools\bin/../lib/gcc/arm-none-eabi/11.3.1/../../../../arm-none-eabi/include/c++/11.3.1/ext/new_allocator.h:160:2:) [with _Up = std::__cxx11::basic_string<char>; _Args = {std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >}; _Tp = std::__cxx11::basic_string<char>]	32	static
 C:\ST\STM32CubeIDE_1.13.2\STM32CubeIDE\plugins\com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.11.3.rel1.win32_1.1.1.202309131626\tools\bin/../lib/gcc/arm-none-eabi/11.3.1/../../../../arm-none-eabi/include/c++/11.3.1/bits/stl_iterator.h:1445:7:std::move_iterator<_Iterator>::iterator_type std::move_iterator<_Iterator>::base() const [with _Iterator = std::__cxx11::basic_string<char>*]	16	static
 C:\ST\STM32CubeIDE_1.13.2\STM32CubeIDE\plugins\com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.11.3.rel1.win32_1.1.1.202309131626\tools\bin/../lib/gcc/arm-none-eabi/11.3.1/../../../../arm-none-eabi/include/c++/11.3.1/bits/stl_iterator.h:1445:7:std::move_iterator<_Iterator>::iterator_type std::move_iterator<_Iterator>::base() const [with _Iterator = allert::line_content*]	16	static
-../Core/Src/menu_parts.cpp:400:1:void __static_initialization_and_destruction_0(int, int)	16	static
-../Core/Src/menu_parts.cpp:400:1:cpp)	8	static
-../Core/Src/menu_parts.cpp:400:1:cpp)	8	static
+../Core/Src/menu_parts.cpp:419:1:void __static_initialization_and_destruction_0(int, int)	16	static
+../Core/Src/menu_parts.cpp:419:1:cpp)	8	static
+../Core/Src/menu_parts.cpp:419:1:cpp)	8	static

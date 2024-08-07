@@ -200,7 +200,7 @@ class figure: public menu_part
 {
 	enum shape
 	{
-		rectangle, circle, triangle
+		rectangle, circle, triangle, image
 	};
 	enum shape figure_shape;
 	uint16_t color;
@@ -208,6 +208,10 @@ class figure: public menu_part
 	uint8_t border_size;
 	uint8_t x3 = 0;
 	uint8_t y3 = 0;
+	const uint16_t * array;
+
+	figure(uint16_t x, uint16_t y, uint16_t width,
+			uint16_t height, const uint16_t *array,uint8_t border_size);
 	figure(int x, int y, int width, int height, uint16_t color,
 			uint16_t radius, uint16_t border_size);
 	figure(int x, int y, uint16_t color, uint16_t radius,

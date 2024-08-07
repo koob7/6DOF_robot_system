@@ -33,7 +33,7 @@ C:\ST\STM32CubeIDE_1.13.2\STM32CubeIDE\plugins\com.st.stm32cube.ide.mcu.external
 ../Core/Src/display_ssd1963.cpp:477:6:void TFT_Draw_Alert(uint16_t, uint16_t, char*, uint16_t*, const GFXfont*)	1
 ../Core/Src/display_ssd1963.cpp:496:6:void TFT_Restore_Area(uint16_t, uint16_t, uint16_t, uint16_t, uint16_t*)	2
 ../Core/Src/display_ssd1963.cpp:507:6:void TFT_Draw_Bitmap_Without_Background(uint16_t, uint16_t, uint16_t, uint16_t, const uint16_t*)	6
-../Core/Src/display_ssd1963.cpp:527:6:void TFT_Draw_Bitmap(uint16_t, uint16_t, uint16_t, uint16_t, uint16_t*)	3
+../Core/Src/display_ssd1963.cpp:527:6:void TFT_Draw_Bitmap(uint16_t, uint16_t, uint16_t, uint16_t, const uint16_t*)	3
 ../Core/Src/display_ssd1963.cpp:540:6:void TFT_Draw_Rectangle(uint16_t, uint16_t, uint16_t, uint16_t, uint8_t, uint16_t)	1
 ../Core/Src/display_ssd1963.cpp:549:6:void TFT_Draw_Fill_Rectangle(uint16_t, uint16_t, uint16_t, uint16_t, uint16_t)	2
 ../Core/Src/display_ssd1963.cpp:561:6:void TFT_Draw_Triangle(uint16_t, uint16_t, uint16_t, uint16_t, uint16_t, uint16_t, uint8_t, uint16_t)	1

@@ -7,6 +7,7 @@
 "./Core/Src/main.o"
 "./Core/Src/menu_parts.o"
 "./Core/Src/navigate_robot.o"
+"./Core/Src/objects.o"
 "./Core/Src/sd_card_service.o"
 "./Core/Src/servo.o"
 "./Core/Src/spi.o"

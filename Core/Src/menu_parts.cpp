@@ -105,8 +105,8 @@ allert::allert(int x, int y, int width, uint16_t background_color,
 void allert::draw()
 {
 	uint16_t height = get_total_height(); //rozmiar czerwonego pola + minimalny rozmiar informacji + dodatkowy rozmiar informacji+ rozmiar przycisku
-	store_screen(object_dimension.x, object_dimension.y,
-			object_dimension.width, get_total_height());
+	store_screen(object_dimension.x, object_dimension.y, object_dimension.width,
+			get_total_height());
 	if (radius == 0)
 	{
 		TFT_Draw_Fill_Rectangle(object_dimension.x, object_dimension.y,
@@ -242,6 +242,13 @@ void text_field::update_text(std::string new_text)
 	text = new_text;
 }
 
+figure::figure(uint16_t x, uint16_t y, uint16_t width, uint16_t height,
+		const uint16_t *array, uint8_t border_size) :
+		menu_part(x, y, width, height), border_size(border_size), array(array)
+{
+	figure_shape = image;
+}
+
 figure::figure(int x, int y, int width, int height, uint16_t color,
 		uint16_t radius, uint16_t border_size) :
 		menu_part(x, y, width, height), color(color), radius(radius), border_size(
@@ -288,6 +295,11 @@ void figure::draw()
 					object_dimension.width, object_dimension.height, x3, y3,
 					color);
 			break;
+		case image:
+			TFT_Draw_Bitmap_Without_Background(object_dimension.x,
+					object_dimension.y, object_dimension.width,
+					object_dimension.height, array);
+			break;
 		}
 	}
 	else
@@ -312,6 +324,11 @@ void figure::draw()
 			TFT_Draw_Triangle(object_dimension.x, object_dimension.y,
 					object_dimension.width, object_dimension.height, x3, y3,
 					border_size, color);
+			break;
+		case image:
+			TFT_Draw_Bitmap(object_dimension.x,
+					object_dimension.y, object_dimension.width,
+					object_dimension.height, array);
 			break;
 		}
 	}
@@ -342,7 +359,8 @@ int list_dialog::check_pressed(int x, int y)
 				object_dimension.y + title_box_height + counter * option_height,
 				object_dimension.width, option_height))
 		{
-			restore_screen(object_dimension.x, object_dimension.y, object_dimension.width, get_total_height());
+			restore_screen(object_dimension.x, object_dimension.y,
+					object_dimension.width, get_total_height());
 			return counter;
 		}
 		counter++;
@@ -352,7 +370,8 @@ int list_dialog::check_pressed(int x, int y)
 
 void list_dialog::draw()
 {
-	store_screen(object_dimension.x, object_dimension.y, object_dimension.width, get_total_height());
+	store_screen(object_dimension.x, object_dimension.y, object_dimension.width,
+			get_total_height());
 	uint16_t height = get_total_height(); //rozmiar czerwonego pola + minimalny rozmiar informacji + dodatkowy rozmiar informacji+ rozmiar przycisku
 	int option_height = get_option_height();
 	int counter = 0;
@@ -380,13 +399,13 @@ void list_dialog::draw()
 	{
 		draw_center_text(object_dimension.x,
 				object_dimension.y + title_box_height + counter * option_height,
-				object_dimension.width,
-				option_height, p_font, 1,
-				text_color, option);
+				object_dimension.width, option_height, p_font, 1, text_color,
+				option);
 		if (option != options.back())
 		{
 			TFT_Draw_Fill_Rectangle(object_dimension.x,
-					object_dimension.y + title_box_height + (counter + 1) * option_height,
+					object_dimension.y + title_box_height
+							+ (counter + 1) * option_height,
 					object_dimension.width, 2, BLACK);
 		}
 		counter++;
