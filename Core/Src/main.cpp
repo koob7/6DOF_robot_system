@@ -401,6 +401,12 @@ int main(void)
 
 			XPT2046_Init();
 			first_allert.check_pressed(touchx, touchy);
+			int value  = first_list.check_pressed(touchx, touchy);
+			if(value>-1){
+				TFT_Draw_Fill_Round_Rect(280, 280, 250, 60, 10, 0xCFFF);
+				sprintf(buffer1, "choosen: %i", value);
+				LCD_Font(300, 300, buffer1, _Open_Sans_Bold_28, 1, BLACK);
+			}
 			if (touchx >= 696 && touchx <= 696 + 88 && touchy >= 9
 					&& touchy <= 9 + 47)
 			{ // 696, pos_y, 88, 47,

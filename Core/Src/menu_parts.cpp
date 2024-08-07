@@ -339,9 +339,8 @@ int list_dialog::check_pressed(int x, int y)
 	for (const auto &option : options)
 	{
 		if (check_area_pressed(x, y, object_dimension.x,
-				title_box_height + counter * option_height,
-				object_dimension.width,
-				title_box_height + (counter + 1) * option_height))
+				object_dimension.y + title_box_height + counter * option_height,
+				object_dimension.width, option_height))
 		{
 			return counter;
 		}
