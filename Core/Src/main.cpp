@@ -338,6 +338,16 @@ int main(void)
 	HAL_GPIO_WritePin(F_CS_GPIO_Port, F_CS_Pin, GPIO_PIN_RESET); // Ustawienie F_CS na low
 
 	Init_SSD1963();
+
+	init_objects();
+	main_menu.draw();
+	while(1)
+	{
+
+	}
+
+
+
 	draw_main_menu();
 
 	init_SD_card();

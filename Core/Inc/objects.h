@@ -11,6 +11,7 @@
 #include <memory>
 #include "menu_parts.h"
 
+
 class menu_segment
 {
 	std::vector<std::shared_ptr<menu_part>> parts;
@@ -33,5 +34,33 @@ public:
 	}
 
 };
+
+
+
+
+
+
+
+
+
+
+
+
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 #endif /* INC_OBJECTS_H_ */

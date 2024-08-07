@@ -1,11 +1,60 @@
 #include <draw_display.h>
 
+menu_segment main_menu ;
+
 #define LCD_Font_Dynamic(x, y, font, size, color, format, ...) do { \
 	int needed = snprintf(NULL, 0, format, __VA_ARGS__) + 1; \
     char buffer[needed]; \
     snprintf(buffer, sizeof(buffer), format, __VA_ARGS__); \
     LCD_Font(x, y, buffer, font, size, color); \
 } while(0)
+
+void init_objects(){
+	init_main_menu();
+}
+
+void init_main_menu(){
+	main_menu.add_part(std::make_shared<rectangle>(0, 00, 800,480, defined_background_color));
+	main_menu.add_part(std::make_shared<rectangle>(100, 0, 600, 144, 0xD61F));
+	main_menu.add_part(std::make_shared<rectangle>(132, 9, 70, 41, 0xD6BA, 20)); //przyciski na gorze
+	main_menu.add_part(std::make_shared<rectangle>(212, 9, 70, 41, 0xD6BA, 20));
+	main_menu.add_part(std::make_shared<rectangle>(291, 9, 70, 41, 0xD6BA, 20));
+	main_menu.add_part(std::make_shared<rectangle>(371, 9, 81, 41, 0xD6BA, 20));
+	main_menu.add_part(std::make_shared<rectangle>(462, 9, 72, 41, 0xD6BA, 20));
+	main_menu.add_part(std::make_shared<rectangle>(544, 9, 72, 41, 0xD6BA, 20));
+	main_menu.add_part(std::make_shared<rectangle>(628, 15, 40, 40, 0xD6BA, 20));
+	main_menu.add_part(std::make_shared<rectangle>(628, 88, 40, 40, 0xD6BA, 20));
+	main_menu.add_part(std::make_shared<rectangle>(211, 68, 61, 21, 0xD6BA, 10));
+	main_menu.add_part(std::make_shared<rectangle>(211, 109, 61, 21, 0xD6BA, 10));
+	main_menu.add_part(std::make_shared<rectangle>(362, 68, 61, 21, 0xD6BA, 10));
+	main_menu.add_part(std::make_shared<rectangle>(362, 109, 61, 21, 0xD6BA, 10));
+	main_menu.add_part(std::make_shared<rectangle>(532, 68, 61, 21, 0xD6BA, 10));
+	main_menu.add_part(std::make_shared<rectangle>(532, 109, 61, 21, 0xD6BA, 10));
+	main_menu.add_part(std::make_shared<text_field>(132, 9, 70, 41, "SELECT",  BLACK, const_cast<GFXfont*>(_Open_Sans_Bold_14))); //opisy przyciskow
+	main_menu.add_part(std::make_shared<text_field>(212, 9, 70,41, "NEW P.", BLACK, const_cast<GFXfont*>(_Open_Sans_Bold_14)));
+	main_menu.add_part(std::make_shared<text_field>(291, 9, 70,41, "EDIT P.", BLACK, const_cast<GFXfont*>(_Open_Sans_Bold_14)));
+	main_menu.add_part(std::make_shared<text_field>(371, 9, 41, "DELETE P.", BLACK, const_cast<GFXfont*>(_Open_Sans_Bold_14)));
+	main_menu.add_part(std::make_shared<text_field>(462, 9, 70,41, "SET T.P.", BLACK, const_cast<GFXfont*>(_Open_Sans_Bold_14)));
+	main_menu.add_part(std::make_shared<text_field>(544, 9, 70,41, "SET H.P", BLACK, const_cast<GFXfont*>(_Open_Sans_Bold_14)));
+	main_menu.add_part(std::make_shared<text_field>(155, 67 ,21, "Name:", BLACK, const_cast<GFXfont*>(_Open_Sans_Bold_14)));
+	main_menu.add_part(std::make_shared<text_field>(155, 109,21, "Tool:", BLACK, const_cast<GFXfont*>(_Open_Sans_Bold_14)));
+	main_menu.add_part(std::make_shared<text_field>(295, 67,21, "Move:", BLACK, const_cast<GFXfont*>(_Open_Sans_Bold_14)));
+	main_menu.add_part(std::make_shared<text_field>(295, 109,21, "Speed:", BLACK, const_cast<GFXfont*>(_Open_Sans_Bold_14)));
+	main_menu.add_part(std::make_shared<text_field>(446, 67,21, "Type:", BLACK, const_cast<GFXfont*>(_Open_Sans_Bold_14)));
+	main_menu.add_part(std::make_shared<text_field>(446, 109,21, "at Target:", BLACK, const_cast<GFXfont*>(_Open_Sans_Bold_14)));
+	main_menu.add_part(std::make_shared<text_field>(211, 68, 61,21, "P11", BLACK, const_cast<GFXfont*>(_Open_Sans_Bold_14)));
+	main_menu.add_part(std::make_shared<text_field>(211, 109, 41,21, "OFF", BLACK, const_cast<GFXfont*>(_Open_Sans_Bold_14)));
+	main_menu.add_part(std::make_shared<text_field>(362, 68, 41,21, "Circ", BLACK, const_cast<GFXfont*>(_Open_Sans_Bold_14)));
+	main_menu.add_part(std::make_shared<text_field>(362, 109, 21, "100%", BLACK, const_cast<GFXfont*>(_Open_Sans_Bold_14)));
+	main_menu.add_part(std::make_shared<text_field>(532, 68, 41,21, "Cont", BLACK, const_cast<GFXfont*>(_Open_Sans_Bold_14)));
+	main_menu.add_part(std::make_shared<text_field>(532, 109, 61,21, "YES", BLACK, const_cast<GFXfont*>(_Open_Sans_Bold_14)));
+	main_menu.add_part(std::make_shared<triangle>(636, 42, 636 + 23, 42, 647, 22, 0x00FD));
+	main_menu.add_part(std::make_shared<triangle>(636, 42 + 59, 636 + 23, 42 + 59, 647, 22 + 40 + 59,0x00FD));
+	main_menu.add_part(std::make_shared<triangle>(574, 74, 573 + 13, 74, 580, 74 + 11, 0x00FD));
+	main_menu.add_part(std::make_shared<triangle>(574 - 170, 74, 573 + 13 - 170, 74, 580 - 170, 74 + 11,0x00FD));
+	main_menu.add_part(std::make_shared<triangle>(574 - 170, 74 + 41, 573 + 13 - 170, 74 + 41, 580 - 170,74 + 11 + 41, 0x00FD));
+	main_menu.add_part(std::make_shared<triangle>(574 - 322, 74 + 41, 573 + 13 - 322, 74 + 41, 580 - 322,74 + 11 + 41, 0x00FD));
+}
 
 void draw_file_list(int start, int end, bool ascending,
 		enum sort_option option) {

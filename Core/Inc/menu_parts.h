@@ -97,12 +97,13 @@ public:
 	int radius;
 	std::string text;
 	uint16_t text_color;
+	bool centered_text;
 
 	GFXfont *p_font;
 	button(int id, int x, int y, int width, int height,
 			uint16_t background_color, int radius = 0, std::string text = "",
 			uint16_t text_color = BLACK, GFXfont *p_font =
-					const_cast<GFXfont*>(_Open_Sans_Bold_14));
+					const_cast<GFXfont*>(_Open_Sans_Bold_14), bool centered_text = true);
 	void draw();
 	int check_pressed(int x, int y);
 	bool check_area_pressed(int x, int y, int area_x, int area_y,
@@ -191,7 +192,9 @@ public:
 	std::string text;
 	uint16_t text_color;
 	GFXfont *p_font;
-
+	text_field(int x, int y, int height, std::string text,
+				uint16_t text_color = BLACK, GFXfont *p_font =
+						const_cast<GFXfont*>(_Open_Sans_Bold_14));
 	text_field(int x, int y, int width, int height, std::string text,
 			uint16_t text_color = BLACK, GFXfont *p_font =
 					const_cast<GFXfont*>(_Open_Sans_Bold_14));

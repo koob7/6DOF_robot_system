@@ -7,6 +7,7 @@
 #include "sd_card_service.h"
 #include "string.h"
 #include <stdint.h>
+#include <objects.h>
 
 #include "008_Open_Sans_Bold.h"
 #include "009_Open_Sans_Bold.h"
@@ -48,6 +49,11 @@
 #define _Open_Sans_Bold_128 &Open_Sans_Bold_128
 
 #define defined_background_color 0xCFFF
+
+extern menu_segment main_menu;
+
+void init_objects();
+void init_main_menu();
 
 void draw_file_list(int start, int end, bool ascending,
 		enum sort_option option);

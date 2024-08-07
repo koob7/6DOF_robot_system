@@ -219,6 +219,9 @@ void TFT_Draw_Char(uint16_t x, uint16_t y, uint16_t color, uint16_t phone,
 		const uint8_t *table, uint8_t ascii, uint8_t size);
 void TFT_Draw_String(uint16_t x, uint16_t y, uint16_t color, uint16_t phone,
 		const uint8_t *table, char *string, uint8_t size);
+void draw_text(uint16_t x, uint16_t y,
+		uint16_t height, const GFXfont *p_font, uint8_t size, uint16_t color,
+		const std::string &text);
 void draw_center_text(uint16_t x, uint16_t y, uint16_t width, uint16_t height,
 		const GFXfont *p_font, uint8_t size, uint16_t color,
 		const std::string &text);

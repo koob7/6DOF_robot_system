@@ -14,10 +14,10 @@ menu_part::menu_part(int x, int y, int width, int height) :
 
 button::button(int id, int x, int y, int width, int height,
 		uint16_t background_color, int radius, std::string text,
-		uint16_t text_color, GFXfont *p_font) :
+		uint16_t text_color, GFXfont *p_font, bool centered_text) :
 		id(id), menu_part(x, y, width, height), background_color(
 				background_color), radius(radius), text(text), text_color(
-				text_color), p_font(p_font)
+				text_color), p_font(p_font), centered_text(centered_text)
 {
 	if (radius * 2 > (height > width ? width : height))
 	{
@@ -42,9 +42,13 @@ void button::draw()
 	}
 	if (text.size() != 0)
 	{
+		if(centered_text)
 		draw_center_text(object_dimension.x, object_dimension.y,
 				object_dimension.width, object_dimension.height, p_font, 1,
 				text_color, text);
+		else
+			draw_text(object_dimension.x, object_dimension.y,
+					 object_dimension.height, p_font, 1, text_color, text);
 	}
 }
 
@@ -223,6 +227,15 @@ void allert::splitText()
 	}
 	lines.shrink_to_fit();
 }
+
+text_field::text_field(int x, int y, int height, std::string text,
+		uint16_t text_color, GFXfont *p_font) :
+		menu_part(x, y, 0, height), text(text), text_color(text_color), p_font(
+				p_font)
+{
+
+}
+
 text_field::text_field(int x, int y, int width, int height, std::string text,
 		uint16_t text_color, GFXfont *p_font) :
 		menu_part(x, y, width, height), text(text), text_color(text_color), p_font(
@@ -233,9 +246,13 @@ text_field::text_field(int x, int y, int width, int height, std::string text,
 
 void text_field::draw()
 {
-	draw_center_text(object_dimension.x, object_dimension.y,
-			object_dimension.width, object_dimension.height, p_font, 1,
-			text_color, text);
+	if(object_dimension.width==0)
+		draw_text(object_dimension.x, object_dimension.y,
+					object_dimension.height, p_font, 1, text_color, text);
+	else
+		draw_center_text(object_dimension.x, object_dimension.y,
+				object_dimension.width, object_dimension.height, p_font, 1,
+				text_color, text);
 }
 
 void text_field::update_text(std::string new_text)

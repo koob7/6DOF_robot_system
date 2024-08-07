@@ -298,6 +298,16 @@ void TFT_Draw_HLine(uint16_t x, uint16_t y, uint16_t length, uint16_t size,
 		Lcd_Write_Data(color);
 }
 
+void draw_text(uint16_t x, uint16_t y,
+		uint16_t height, const GFXfont *p_font, uint8_t size, uint16_t color,
+		const std::string &text){
+	int font_height = p_font->yAdvance * size;
+	int start_y = y + height / 2;
+	char *ptr = new char[text.size() + 1];
+	strcpy(ptr, text.c_str());
+	LCD_Font(x, start_y, ptr, p_font, size, color);
+}
+
 void draw_center_text(uint16_t x, uint16_t y, uint16_t width,
 		uint16_t height, const GFXfont *p_font, uint8_t size, uint16_t color,
 		const std::string &text)
