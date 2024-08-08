@@ -340,7 +340,7 @@ int main(void)
 	Init_SSD1963();
 
 	init_objects();
-	main_menu.draw();
+	main_top_menu.draw();
 	while(1)
 	{
 

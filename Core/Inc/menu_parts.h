@@ -10,6 +10,7 @@
 
 #include "display_ssd1963.h"
 #include <iostream>
+#include <memory>
 
 #include "008_Open_Sans_Bold.h"
 #include "009_Open_Sans_Bold.h"
@@ -98,7 +99,7 @@ public:
 	std::string text;
 	uint16_t text_color;
 	bool centered_text;
-
+	std::vector<std::shared_ptr<menu_part>> parts;
 	GFXfont *p_font;
 	button(int id, int x, int y, int width, int height,
 			uint16_t background_color, int radius = 0, std::string text = "",
@@ -108,6 +109,9 @@ public:
 	int check_pressed(int x, int y);
 	bool check_area_pressed(int x, int y, int area_x, int area_y,
 			int area_width, int area_height);
+	void add_part(std::shared_ptr<menu_part> part);
+	void update_text(std::string new_text);
+	int get_id(){return id;}
 
 };
 

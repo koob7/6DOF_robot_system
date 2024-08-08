@@ -49,11 +49,15 @@
 #define _Open_Sans_Bold_128 &Open_Sans_Bold_128
 
 #define defined_background_color 0xCFFF
+#define top_menu_button_color 0xD6BA
+#define top_menu_text_color BLACK
+#define top_menu_background_color 0xD61F
+#define top_menu_font const_cast<GFXfont*>(_Open_Sans_Bold_14)
 
-extern menu_segment main_menu;
+extern menu_segment main_top_menu;
 
 void init_objects();
-void init_main_menu();
+void init_main_top_menu();
 
 void draw_file_list(int start, int end, bool ascending,
 		enum sort_option option);

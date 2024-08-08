@@ -50,6 +50,10 @@ void button::draw()
 			draw_text(object_dimension.x, object_dimension.y,
 					 object_dimension.height, p_font, 1, text_color, text);
 	}
+	for (const auto part : parts)
+	{
+		part->draw();
+	}
 }
 
 int button::check_pressed(int x, int y)
@@ -69,6 +73,14 @@ bool button::check_area_pressed(int x, int y, int area_x, int area_y,
 {
 	return (x >= object_dimension.x && x <= area_x + area_width && y >= area_y
 			&& y <= area_y + area_height);
+}
+
+void button::add_part(std::shared_ptr<menu_part> part){
+	parts.push_back(part);
+}
+
+void button::update_text(std::string new_text){
+	text = new_text;
 }
 
 popup::popup(int x, int y, int width, uint16_t background_color,
