@@ -341,6 +341,8 @@ int main(void)
 
 	init_objects();
 	main_top_menu.draw();
+	main_left_menu.draw();
+	main_right_menu.draw();
 	while(1)
 	{
 

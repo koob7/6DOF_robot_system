@@ -1,6 +1,8 @@
 #include <draw_display.h>
 
 menu_segment main_top_menu ;
+menu_segment main_left_menu ;
+menu_segment main_right_menu ;
 
 #define LCD_Font_Dynamic(x, y, font, size, color, format, ...) do { \
 	int needed = snprintf(NULL, 0, format, __VA_ARGS__) + 1; \
@@ -11,21 +13,21 @@ menu_segment main_top_menu ;
 
 void init_objects(){
 	init_main_top_menu();
+	init_main_left_menu();
+	init_main_right_menu();
 }
 
 void init_main_top_menu(){
-
-	main_top_menu.add_background_part(std::make_shared<rectangle>(0, 00, 800,480, defined_background_color));
+	//tło
 	main_top_menu.add_background_part(std::make_shared<rectangle>(100, 0, 600, 144, top_menu_background_color));
-
-
-
-	main_top_menu.add_part(button(0,132, 9, 70, 41, top_menu_button_color, 20, "SELECT", top_menu_text_color)); //przyciski na gorze
-	main_top_menu.add_part(button(1,212, 9, 70, 41, top_menu_button_color, 20,"NEW P.", top_menu_text_color));
-	main_top_menu.add_part(button(2,291, 9, 70, 41, top_menu_button_color, 20,"EDIT P.", top_menu_text_color));
-	main_top_menu.add_part(button(3,371, 9, 81, 41, top_menu_button_color, 20,"DELETE P.", top_menu_text_color));
-	main_top_menu.add_part(button(4,462, 9, 72, 41, top_menu_button_color, 20,"SET T.P.", top_menu_text_color));
-	main_top_menu.add_part(button(5,544, 9, 72, 41, top_menu_button_color, 20,"SET H.P", top_menu_text_color));
+	//przyciski na gorze
+	main_top_menu.add_part(button(0,132, 9, 70, 41, top_menu_button_color, 20, "SELECT", top_menu_text_color, top_menu_font));
+	main_top_menu.add_part(button(1,212, 9, 70, 41, top_menu_button_color, 20,"NEW P.", top_menu_text_color, top_menu_font));
+	main_top_menu.add_part(button(2,291, 9, 70, 41, top_menu_button_color, 20,"EDIT P.", top_menu_text_color, top_menu_font));
+	main_top_menu.add_part(button(3,371, 9, 81, 41, top_menu_button_color, 20,"DELETE P.", top_menu_text_color, top_menu_font));
+	main_top_menu.add_part(button(4,462, 9, 72, 41, top_menu_button_color, 20,"SET T.P.", top_menu_text_color, top_menu_font));
+	main_top_menu.add_part(button(5,544, 9, 72, 41, top_menu_button_color, 20,"SET H.P", top_menu_text_color, top_menu_font));
+	//przyciski programu
 	button btn = button(6,628, 15, 40, 40, top_menu_button_color, 20);//nawigacja góra
 	btn.add_part(std::make_shared<triangle>(636, 42, 636 + 23, 42, 647, 22, 0x00FD));
 	main_top_menu.add_part(btn);
@@ -46,7 +48,7 @@ void init_main_top_menu(){
 	btn.add_part(std::make_shared<triangle>(574, 74, 573 + 13, 74, 580, 74 + 11, 0x00FD));
 	main_top_menu.add_part(btn);
 	main_top_menu.add_part(button(12,532, 109, 61, 21, top_menu_button_color, 10, "YES", top_menu_text_color, top_menu_font));//at target
-
+	//etykiery przycisków programu
 	main_top_menu.add_part(std::make_shared<text_field>(155, 67 ,21, "Name:", top_menu_text_color, top_menu_font));
 	main_top_menu.add_part(std::make_shared<text_field>(155, 109,21, "Tool:", top_menu_text_color, top_menu_font));
 	main_top_menu.add_part(std::make_shared<text_field>(295, 67,21, "Move:", top_menu_text_color, top_menu_font));
@@ -54,9 +56,53 @@ void init_main_top_menu(){
 	main_top_menu.add_part(std::make_shared<text_field>(446, 67,21, "Type:", top_menu_text_color, top_menu_font));
 	main_top_menu.add_part(std::make_shared<text_field>(446, 109,21, "at Target:", top_menu_text_color, top_menu_font));
 
+}
 
+void init_main_left_menu(){
+	//szary prostokąt z lewej
+	main_left_menu.add_background_part(std::make_shared<rectangle>(0, 0, 20, 20, left_menu_background_color));
+	main_left_menu.add_background_part(std::make_shared<rectangle>(0, 460, 20, 20, left_menu_background_color));
+	main_left_menu.add_background_part(std::make_shared<rectangle>(0, 0, 120, 480, left_menu_background_color,20));
+	int pos_y = 33;
+	std::string names[9] = {"JOB NAME","OPEN","CONT. JOB","MANUAL","ENABLE TOOL","RUN JOB","AXIS CONTROL","CONT. MOVEMENT","SETTINGS"};
+	//przyciski po lewej
+	for (uint8_t i = 0; i < 8; i += 1)
+	{
+		main_left_menu.add_part(button(i,16, pos_y, 88, 47, left_menu_button_color, 10, names[i], left_menu_text_color, left_menu_font));
+		pos_y += 56;
+	}
 
+}
 
+void init_main_right_menu(){
+	//szary prostokąt z prawej
+	main_right_menu.add_background_part(std::make_shared<rectangle>(780, 0, 20, 20, right_menu_background_color));
+	main_right_menu.add_background_part(std::make_shared<rectangle>(780, 460, 20, 20, right_menu_background_color));
+	main_right_menu.add_background_part(std::make_shared<rectangle>(680, 0, 120, 480, right_menu_background_color,20));
+	int pos_y = 9;
+	std::string names[6] = {"X","Y","Z","A","B","C"};
+	//przyciski po prawej
+	for (uint8_t i = 0; i < 6; i += 1)
+			{
+		button btn = button(i,696, pos_y, 88, 47, right_menu_button_color, 10, names[i], right_menu_text_color, right_menu_font);
+			btn.add_part(std::make_shared<rectangle>(740, pos_y, 2, 47, 0x0000));
+			btn.add_part(std::make_shared<text_field>(696, pos_y, 88, 47,"+ -", 0x4A69,right_menu_font));
+			main_right_menu.add_part(btn);
+
+		pos_y += 56;
+	}
+	//przycisk z rączką
+	button btn = button(6,696, pos_y, 88, 47, right_menu_button_color, 10);
+	btn.add_part(std::make_shared<rectangle>(740, pos_y, 2, 47, 0x0000));
+	btn.add_part(std::make_shared<text_field>(696, pos_y, 88, 47,"+ -", 0x4A69,right_menu_font));
+	btn.add_part(std::make_shared<image>(721, 353, hand_icon_x, hand_icon_y, hand_icon, false));
+	main_right_menu.add_part(btn);
+
+	btn = button(7,696, 413, 88, 47, right_menu_button_color, 10);
+	btn.add_part(std::make_shared<rectangle>(740, 413, 2, 47, 0x0000));
+	btn.add_part(std::make_shared<text_field>(696, 413, 88, 47,"+ -", 0x4A69,right_menu_font));
+	btn.add_part(std::make_shared<triangle>(732, 417, 732, 417 + 38, 732 + 24, 417 + 19, right_menu_text_color));
+	main_right_menu.add_part(btn);
 }
 
 void draw_file_list(int start, int end, bool ascending,

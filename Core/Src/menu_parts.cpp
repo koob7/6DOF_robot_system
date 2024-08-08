@@ -40,6 +40,10 @@ void button::draw()
 				object_dimension.width, object_dimension.height, radius,
 				background_color);
 	}
+	for (const auto part : parts)
+	{
+		part->draw();
+	}
 	if (text.size() != 0)
 	{
 		if(centered_text)
@@ -49,10 +53,6 @@ void button::draw()
 		else
 			draw_text(object_dimension.x, object_dimension.y,
 					 object_dimension.height, p_font, 1, text_color, text);
-	}
-	for (const auto part : parts)
-	{
-		part->draw();
 	}
 }
 
