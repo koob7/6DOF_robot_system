@@ -48,7 +48,7 @@
 #define _Open_Sans_Bold_112 &Open_Sans_Bold_112
 #define _Open_Sans_Bold_128 &Open_Sans_Bold_128
 
-#define defined_background_color 0xCFFF
+#define clear_screen_color 0xCFFF
 
 #define top_menu_button_color 0xD6BA
 #define top_menu_text_color BLACK

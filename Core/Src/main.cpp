@@ -338,7 +338,9 @@ int main(void)
 	HAL_GPIO_WritePin(F_CS_GPIO_Port, F_CS_Pin, GPIO_PIN_RESET); // Ustawienie F_CS na low
 
 	Init_SSD1963();
-
+//	TFT_Draw_Circle(200, 200, 200, 1,
+//			10, BLACK);
+//	TFT_Draw_Fill_Round_Rect(400,0,400,400, 200, RED);
 	init_objects();
 	main_top_menu.draw();
 	main_left_menu.draw();
@@ -349,8 +351,6 @@ int main(void)
 	}
 
 
-
-	draw_main_menu();
 
 	init_SD_card();
 	//create_file("text21.txt");
