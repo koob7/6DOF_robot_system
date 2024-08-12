@@ -152,13 +152,14 @@ void projects_explorer::draw()
 		TFT_Draw_Fill_Rectangle(142, 425, 40, 40, clear_screen_color);
 	}
 	int i = first_file_to_display;
+	int pos_counter = 0;
 	int range = (((first_file_to_display + num_files_on_page) >sd_files.size())?sd_files.size():(first_file_to_display + num_files_on_page));
 	for ( i;i<range;i++){
-		TFT_Draw_Fill_Rectangle(start_pos_x , start_pos_y+ i*(line_height+line_space), 480, line_height, clear_screen_color);
-		draw_text(start_pos_x, start_pos_y+ i*(line_height+line_space), line_height, file_menu_font, 1,BLACK,sd_files[i].fname);
-		draw_text(start_pos_x+153, start_pos_y+ i*(line_height+line_space), line_height, file_menu_font, 1,BLACK,format_date(sd_files[i].fdate));
-		draw_text(start_pos_x+153*2, start_pos_y+ i*(line_height+line_space), line_height, file_menu_font, 1,BLACK,std::to_string(sd_files[i].fsize));
-
+		TFT_Draw_Fill_Rectangle(start_pos_x , start_pos_y+ pos_counter*(line_height+line_space), 480, line_height, clear_screen_color);
+		draw_text(start_pos_x, start_pos_y+ pos_counter*(line_height+line_space), line_height, file_menu_font, 1,BLACK,sd_files[i].fname);
+		draw_text(start_pos_x+153, start_pos_y+ pos_counter*(line_height+line_space), line_height, file_menu_font, 1,BLACK,format_date(sd_files[i].fdate));
+		draw_text(start_pos_x+153*2, start_pos_y+ pos_counter*(line_height+line_space), line_height, file_menu_font, 1,BLACK,std::to_string(sd_files[i].fsize));
+		pos_counter++;
 	}
 
 }
@@ -167,11 +168,17 @@ void projects_explorer::handle_pressed(int x, int y)
 {
 	if (first_file_to_display > 0)
 	{
-		page_up_btn.check_pressed(x, y);
+		if(page_up_btn.check_pressed(x, y)==0){
+			first_file_to_display--;
+			draw();
+		}
 	}
 	if (sd_files.size() > first_file_to_display + num_files_on_page)
 	{
-		page_down_btn.check_pressed(x, y);
+		if(page_down_btn.check_pressed(x, y)==1){
+		first_file_to_display++;
+		draw();
+		}
 	}
 }
 

@@ -345,10 +345,10 @@ int main(void)
 	main_right_menu.draw();
 	project_explorer_menu.draw();
 	projects_explorer main_file_explorer;
-	while(1)
-	{
-
-	}
+//	while(1)
+//	{
+//
+//	}
 
 
 
@@ -395,9 +395,11 @@ int main(void)
 			NVIC_DisableIRQ(EXTI9_5_IRQn);
 			if (first_allert.check_pressed(touchx, touchy))
 			{
-				HAL_Delay(5000);
-				first_allert.draw();
+//				HAL_Delay(5000);
+//				first_allert.draw();
 			}
+			main_file_explorer.handle_pressed(touchx, touchy);
+			XPT2046_Init();
 			__HAL_GPIO_EXTI_CLEAR_IT(T_IRQ_Pin); // czyszczenie zgłoszonego przerwania
 			NVIC_EnableIRQ(EXTI9_5_IRQn);
 		}
@@ -427,7 +429,7 @@ int main(void)
 			LCD_Font(300, 220, buffer2, _Open_Sans_Bold_28, 1, BLACK);
 			HAL_Delay(100);
 
-			XPT2046_Init();
+
 
 			int value = first_list.check_pressed(touchx, touchy);
 			if (value > -1)
@@ -449,6 +451,7 @@ int main(void)
 //				TFT_Restore_Area(400, 200, 100, 47 + 1 + 34 + 35 * counter,
 //						save);
 			}
+			XPT2046_Init();
 			__HAL_GPIO_EXTI_CLEAR_IT(T_IRQ_Pin); // czyszczenie zgłoszonego przerwania
 			NVIC_EnableIRQ(EXTI9_5_IRQn);
 		}

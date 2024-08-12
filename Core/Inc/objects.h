@@ -80,7 +80,7 @@ private:
 	bool sort_ascending = false;
 	int selected_file = -1;//wartość ujemna oznacza brak wybranego pliku
 	button page_up_btn = button(0,140, 158, 40, 40, 0xD6BA, 20);//nawigacja góra
-	button page_down_btn = button(0,140, 425, 40, 40, 0xD6BA, 20);//nawigacja dół
+	button page_down_btn = button(1,140, 425, 40, 40, 0xD6BA, 20);//nawigacja dół
 
 
 
