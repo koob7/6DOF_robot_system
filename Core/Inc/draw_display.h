@@ -48,8 +48,6 @@
 #define _Open_Sans_Bold_112 &Open_Sans_Bold_112
 #define _Open_Sans_Bold_128 &Open_Sans_Bold_128
 
-#define clear_screen_color 0xCFFF
-
 #define top_menu_button_color 0xD6BA
 #define top_menu_text_color BLACK
 #define top_menu_background_color 0xD61F
@@ -65,21 +63,24 @@
 #define right_menu_background_color 0x8C51
 #define right_menu_font const_cast<GFXfont*>(_Open_Sans_Bold_48)
 
+#define project_explorer_button_color 0xD6BA
+#define project_explorer_text_color BLACK
+#define project_explorer_background_color 0xCFFF
+#define project_explorer_font const_cast<GFXfont*>(_Open_Sans_Bold_16)
+
 extern menu_segment main_top_menu;
 extern menu_segment main_left_menu;
 extern menu_segment main_right_menu;
+extern menu_segment project_explorer_menu;
 
 void init_objects();
 void init_main_top_menu();
 void init_main_left_menu();
 void init_main_right_menu();
+void init_project_explorer_menu();
 
-void draw_file_list(int start, int end, bool ascending,
-		enum sort_option option);
-void draw_file_menu();
-void draw_main_menu();
-void draw_right_panel();
-void draw_left_panel();
-void draw_top_panel();
+//void draw_file_list(int start, int end, bool ascending,
+//		enum sort_option option);
+
 
 #endif

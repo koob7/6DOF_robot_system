@@ -139,6 +139,8 @@
 #define WHITE 0XFFFF
 #define DARK_BLUE 0X0007
 
+#define clear_screen_color 0xCFFF
+
 typedef struct
 {           // Data stored PER GLYPH
 	uint16_t bitmapOffset;   // Pointer into GFXfont->bitmap

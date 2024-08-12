@@ -393,7 +393,7 @@ void list_dialog::draw()
 {
 	store_screen(object_dimension.x, object_dimension.y, object_dimension.width,
 			get_total_height());
-	uint16_t height = get_total_height(); //rozmiar czerwonego pola + minimalny rozmiar informacji + dodatkowy rozmiar informacji+ rozmiar przycisku
+	uint16_t height = get_total_height();
 	int option_height = get_option_height();
 	int counter = 0;
 	//store_screen();
@@ -401,18 +401,15 @@ void list_dialog::draw()
 	{
 		TFT_Draw_Fill_Rectangle(object_dimension.x, object_dimension.y,
 				object_dimension.width, height, background_color);
-		TFT_Draw_Rectangle(object_dimension.x, object_dimension.y,
-				object_dimension.width, title_box_height - 5, 5,
-				BLACK);
 	}
 	else
 	{
 		TFT_Draw_Fill_Round_Rect(object_dimension.x, object_dimension.y,
 				object_dimension.width, height, radius, background_color);
-		TFT_Draw_Round_Rect(object_dimension.x, object_dimension.y,
-				object_dimension.width - 4, title_box_height, radius, 5,
-				BLACK);
 	}
+	TFT_Draw_Fill_Rectangle(object_dimension.x,
+						object_dimension.y + title_box_height,
+						object_dimension.width, 2, 0xB5B6);
 	draw_center_text(object_dimension.x, object_dimension.y,
 			object_dimension.width, title_box_height, title_font, 1, BLACK,
 			title_text);
@@ -427,15 +424,10 @@ void list_dialog::draw()
 			TFT_Draw_Fill_Rectangle(object_dimension.x,
 					object_dimension.y + title_box_height
 							+ (counter + 1) * option_height,
-					object_dimension.width, 2, BLACK);
+					object_dimension.width, 2, 0xB5B6);
 		}
 		counter++;
 	}
-//		draw_text_field(object_dimension.x, object_dimension.y + title_box_height,
-//				object_dimension.width, height - title_box_height - button_height);
-//		draw_center_text(object_dimension.x,
-//				object_dimension.y + height - button_height, object_dimension.width,
-//				button_height, title_font, 1, BLACK, "OK");
 
 }
 

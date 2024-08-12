@@ -343,6 +343,8 @@ int main(void)
 	main_top_menu.draw();
 	main_left_menu.draw();
 	main_right_menu.draw();
+	project_explorer_menu.draw();
+	projects_explorer main_file_explorer;
 	while(1)
 	{
 
@@ -350,11 +352,10 @@ int main(void)
 
 
 
-	init_SD_card();
+	//init_SD_card();
 	//create_file("text21.txt");
-	draw_file_menu();
-	draw_file_list(1, 12, false, by_name);
-	unmount_SD_card();
+	//draw_file_list(1, 12, false, by_name);
+	//unmount_SD_card();
 	/* USER CODE END 2 */
 
 	/* Infinite loop */

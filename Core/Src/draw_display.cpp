@@ -3,19 +3,17 @@
 menu_segment main_top_menu ;
 menu_segment main_left_menu ;
 menu_segment main_right_menu ;
+menu_segment project_explorer_menu;
 
 
-#define LCD_Font_Dynamic(x, y, font, size, color, format, ...) do { \
-	int needed = snprintf(NULL, 0, format, __VA_ARGS__) + 1; \
-    char buffer[needed]; \
-    snprintf(buffer, sizeof(buffer), format, __VA_ARGS__); \
-    LCD_Font(x, y, buffer, font, size, color); \
-} while(0)
+
 
 void init_objects(){
+	TFT_Clear_Screen(clear_screen_color);
 	init_main_top_menu();
 	init_main_left_menu();
 	init_main_right_menu();
+	init_project_explorer_menu();
 }
 
 void init_main_top_menu(){
@@ -105,59 +103,56 @@ void init_main_right_menu(){
 	main_right_menu.add_part(btn);
 }
 
-void draw_file_list(int start, int end, bool ascending,
-		enum sort_option option) {
-	int number_of_files = sd_files.size();
-	char buffer2[100];
-
-	if (start > 0) {
-		TFT_Draw_Fill_Round_Rect(142, 158, 40, 40, 20, 0xD6BA);
-		LCD_FillTriangle(150, 185, 150 + 23, 185, 161, 165, 0x00FD);
-	} else
-		TFT_Draw_Fill_Rectangle(142, 158, 40, 40, clear_screen_color);
-	if (end < number_of_files-1) {
-		TFT_Draw_Fill_Round_Rect(142, 425, 40, 40, 20, 0xD6BA);
-		LCD_FillTriangle(150, 432, 150 + 23, 432, 161, 452, 0x00FD);
-	} else
-		TFT_Draw_Fill_Rectangle(142, 425, 40, 40, clear_screen_color);
-
-	sort_sd_files(option, ascending);
-
-	char buffer[20];
-
-	int position = 0;
-	for (int i = 0; i < number_of_files; i++) {
-		if (i >= (start > 0 ? start : 0)
-				&& i <= (end < number_of_files ? end : number_of_files)) {
-			//snprintf(buffer, sizeof(buffer), "%d", sd_files[i].name);
-			LCD_Font_Dynamic(206, 280 + position, _Open_Sans_Bold_14, 1, BLACK,
-					"%10u, %s, %02d-%02d-%04d\n", sd_files[i].size,
-					sd_files[i].name, sd_files[i].date & 0x1F, /* Dzień */
-					(sd_files[i].date >> 5) & 0xF, /* Miesiąc */
-					(sd_files[i].date >> 9) + 1980); /* Rok */
-			//LCD_Font(206, 280+position, buffer, _Open_Sans_Bold_14, 1, BLACK);
-			position += 14;
-		}
-	}
+void init_project_explorer_menu(){
+	project_explorer_menu.add_background_part(std::make_shared<rectangle>(120, 144, 560, 336, project_explorer_background_color));
+	project_explorer_menu.add_part(button(0,200, 156, 100, 40, project_explorer_button_color, 10, "Open file", project_explorer_text_color, project_explorer_font ));
+	project_explorer_menu.add_part(button(1,320, 156, 100, 40, project_explorer_button_color, 10, "Create File", project_explorer_text_color, project_explorer_font ));
+	project_explorer_menu.add_part(button(2,440, 156, 100, 40, project_explorer_button_color, 10, "Delete File", project_explorer_text_color, project_explorer_font ));
+	project_explorer_menu.add_part(button(3,560, 156, 100, 40, project_explorer_button_color, 10, "Sort Files", project_explorer_text_color, project_explorer_font ));
+	project_explorer_menu.add_part(std::make_shared<text_field>(start_pos_x, 206, 20,"File name:", project_explorer_text_color, project_explorer_font));
+	project_explorer_menu.add_part(std::make_shared<text_field>(start_pos_x+153, 206, 20,"Date:", project_explorer_text_color, project_explorer_font));
+	project_explorer_menu.add_part(std::make_shared<text_field>(start_pos_x+153*2, 206, 20,"Size:", project_explorer_text_color, project_explorer_font));
 
 }
 
+//void draw_file_list(int start, int end, bool ascending,
+//		enum sort_option option) {
+//	int number_of_files = sd_files.size();
+//	char buffer2[100];
+//
+//	if (start > 0) {
+//		TFT_Draw_Fill_Round_Rect(142, 158, 40, 40, 20, 0xD6BA);
+//		LCD_FillTriangle(150, 185, 150 + 23, 185, 161, 165, 0x00FD);
+//	} else
+//		TFT_Draw_Fill_Rectangle(142, 158, 40, 40, clear_screen_color);
+//	if (end < number_of_files-1) {
+//		TFT_Draw_Fill_Round_Rect(142, 425, 40, 40, 20, 0xD6BA);
+//		LCD_FillTriangle(150, 432, 150 + 23, 432, 161, 452, 0x00FD);
+//	} else
+//		TFT_Draw_Fill_Rectangle(142, 425, 40, 40, clear_screen_color);
+//
+//	sort_sd_files(option, ascending);
+//
+//	char buffer[20];
+//
+//	int position = 0;
+//	for (int i = 0; i < number_of_files; i++) {
+//		if (i >= (start > 0 ? start : 0)
+//				&& i <= (end < number_of_files ? end : number_of_files)) {
+//			//snprintf(buffer, sizeof(buffer), "%d", sd_files[i].name);
+//			LCD_Font_Dynamic(206, 280 + position, _Open_Sans_Bold_14, 1, BLACK,
+//					"%10u, %s, %02d-%02d-%04d\n", sd_files[i].size,
+//					sd_files[i].name, sd_files[i].date & 0x1F, /* Dzień */
+//					(sd_files[i].date >> 5) & 0xF, /* Miesiąc */
+//					(sd_files[i].date >> 9) + 1980); /* Rok */
+//			//LCD_Font(206, 280+position, buffer, _Open_Sans_Bold_14, 1, BLACK);
+//			position += 14;
+//		}
+//	}
+//
+//}
 
-void draw_file_menu() {
-	TFT_Draw_Fill_Rectangle(120, 144, 560, 336, clear_screen_color);
-	TFT_Draw_Fill_Round_Rect(206, 156, 119, 41, 10, 0xD6BA);
-	TFT_Draw_Fill_Round_Rect(349, 156, 119, 41, 10, 0xD6BA);
-	TFT_Draw_Fill_Round_Rect(492, 156, 119, 41, 10, 0xD6BA);
-	LCD_centered_Font(206, 156 + 21, 119, "Open file", _Open_Sans_Bold_14, 1,
-			BLACK);
-	LCD_centered_Font(349, 156 + 21, 119, "Create File", _Open_Sans_Bold_14, 1,
-			BLACK);
-	LCD_centered_Font(492, 156 + 21, 119, "Delete File", _Open_Sans_Bold_14, 1,
-			BLACK);
-	LCD_Font(206, 206 + 21, "File name:", _Open_Sans_Bold_14, 1, BLACK);
-	LCD_Font(472, 206 + 21, "Date:", _Open_Sans_Bold_14, 1, BLACK);
-	LCD_Font(590, 206 + 21, "Size:", _Open_Sans_Bold_14, 1, BLACK);
 
-}
+
 
 
