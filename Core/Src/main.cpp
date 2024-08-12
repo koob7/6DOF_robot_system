@@ -336,11 +336,9 @@ int main(void)
 
 	HAL_GPIO_WritePin(USER_LED_GPIO_Port, USER_LED_Pin, GPIO_PIN_SET);
 	HAL_GPIO_WritePin(F_CS_GPIO_Port, F_CS_Pin, GPIO_PIN_RESET); // Ustawienie F_CS na low
-
 	Init_SSD1963();
-//	TFT_Draw_Circle(200, 200, 200, 1,
-//			10, BLACK);
-//	TFT_Draw_Fill_Round_Rect(400,0,400,400, 200, RED);
+
+
 	init_objects();
 	main_top_menu.draw();
 	main_left_menu.draw();
@@ -381,12 +379,6 @@ int main(void)
 					"niemozliwe ze to zadzialalo za pierwszym razem. to jest naprawde niesamowite",
 					10, YELLOW, const_cast<GFXfont*>(_Open_Sans_Bold_18));
 	first_allert.draw();
-
-//	HAL_Delay(5000);
-//	first_allert.restore_screen();
-//	TFT_Draw_Fill_Round_Rect(0,0, 200, 400, 0, 0xD6BA);
-//	splitText(0,0, 200, 400,_Open_Sans_Bold_14, 1, BLACK, "to jest nowe powitanie ktore zawiera znaki nowej lini");
-	//LCD_centered_Font(0, 200,  200, "to jest nowe powitanie które zawiera znaki nowej\n lini",_Open_Sans_Bold_14, 1, BLACK);
 	// przygotowanie dotyku
 	XPT2046_Init();
 	__HAL_GPIO_EXTI_CLEAR_IT(T_IRQ_Pin); // czyszczenie zgłoszonego przerwania
@@ -402,7 +394,8 @@ int main(void)
 			NVIC_DisableIRQ(EXTI9_5_IRQn);
 			if (first_allert.check_pressed(touchx, touchy))
 			{
-				break;
+				HAL_Delay(5000);
+				first_allert.draw();
 			}
 			__HAL_GPIO_EXTI_CLEAR_IT(T_IRQ_Pin); // czyszczenie zgłoszonego przerwania
 			NVIC_EnableIRQ(EXTI9_5_IRQn);
@@ -413,12 +406,6 @@ int main(void)
 			const_cast<GFXfont*>(_Open_Sans_Bold_18));
 	first_list.draw();
 
-	menu_segment menu;
-	 menu.add_part(std::make_shared<circle>(200, 200, 20, BLUE));
-	 menu.add_part(std::make_shared<circle>(240, 200, 20, GREEN, 10));
-	 menu.add_part(std::make_shared<rectangle>(400, 400, 20,50, RED, 10));
-	 menu.reduce_vector_size();
-	 menu.draw();
 
 	while (1)//tego menu nie usuwać
 	{
