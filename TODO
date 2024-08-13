@@ -34,14 +34,14 @@ stworzenie dokumentacji:
 3.4 Sposób wyznaczania ścieżki ruchu robota (prostych oraz łukowych) - temat do rozeznania w necie oraz między znajomymi.
 3.5 Problemy - skomplikowane wyprowadzenie wzorów kinematyki odwrotnej - zapominany przez wszystkich obrót osi (+π/2) przy przejściu z pierwszej do drugiej części kinematyki odwrotnej (z podstawy do nadgarstka).
 
-Płytka sterująca
+4.Płytka sterująca
 4.1 Główne wymagania + poglądowy schemat sterownika - szybki zegar procesora, zasilanie elementów sterownika (karta SD, procesor, silniki krokowe itp.), łączność z wyświetlaczem, obsługa FATFS, duży rozmiar pamięci procesora (dla uproszczenia - żeby nie było zewnętrznego RAM-u).
 4.2 Schemat sterownika.
 4.3 Layout płytki drukowanej.
 4.4 Samodzielny montaż oraz testy na poszczególnych etapach.
 4.5 Problemy - rezystory podciągające przy czujnikach krańcowych, procesor nie działa powyżej 400 MHz, źle umieszczone złącza (skośnie zamontowane).
 
-4.Oprogramowanie sterownika - ściągawka https://sun.aei.polsl.pl/~cki/pkIII/sprawozdanie/main.html
+5.Oprogramowanie sterownika - ściągawka https://sun.aei.polsl.pl/~cki/pkIII/sprawozdanie/main.html
 5.1 Analiza zadania - obiekty w C++ mocno uprościły przepływ sterowania, obsługę plików z karty SD (strumienie danych), szkice wykonane w Figma, środowisko STM32Cube uprościło konfigurację projektu, nacisk na obsługę przerwań (przerwania dotyku, ruszające silnikami robota).
 5.2 Specyfikacja zewnętrzna - instrukcja dla użytkownika.
 5.3 Przykład działania - zdjęcia głównych stron menu oraz przykładowych operacji.
@@ -53,6 +53,6 @@ Płytka sterująca
 5.5 Treść programu w załączniku.
 5.6 Problemy - kiepska dokumentacja sterownika dotyku XPT2046 utrudniała obsługę przerwań dotyku.
 
-5.Podsumowanie
+6.Podsumowanie
 6.1 Wnioski.
 6.2 Plany na przyszłość - rozbudowa oprogramowania sterującego, nowa konstrukcja robota.
