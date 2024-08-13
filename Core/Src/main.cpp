@@ -384,10 +384,12 @@ int main(void)
 	XPT2046_Init();
 	__HAL_GPIO_EXTI_CLEAR_IT(T_IRQ_Pin); // czyszczenie zgłoszonego przerwania
 	was_touched = 0;
+	//main_file_explorer.create_file("testowy_plik_z_nowego_obiektowego_softu.txt");
 	while (1)//moje oszukane menu
 	{
 		if (was_touched == 1)
 		{
+
 			uint16_t touchx, touchy;
 			was_touched = 0;
 			NVIC_DisableIRQ(EXTI9_5_IRQn);
@@ -397,6 +399,9 @@ int main(void)
 			{
 //				HAL_Delay(5000);
 //				first_allert.draw();
+			}
+			if(project_explorer_menu.check_pressed(touchx, touchy)==2){
+				main_file_explorer.delete_file();
 			}
 			main_file_explorer.handle_pressed(touchx, touchy);
 			XPT2046_Init();

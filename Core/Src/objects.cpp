@@ -83,7 +83,6 @@ void projects_explorer::update_last_file_to_display()
 void projects_explorer::get_files()
 {
 	sd_files.clear();
-	selected_file = -1;
 	if (f_opendir(&directory, "/") == FR_OK)
 	{
 		for (;;)
@@ -98,6 +97,7 @@ void projects_explorer::get_files()
 	}
 	first_file_to_display = 0;
 	update_last_file_to_display();
+	selected_file = -1;
 	sort_files();
 }
 
@@ -122,7 +122,7 @@ void projects_explorer::sort_files()
 	draw();
 }
 
-void projects_explorer::set_sort_files(enum sort_option in_option,
+void projects_explorer::set_sort_option(enum sort_option in_option,
 		bool in_sort_ascending)
 {
 	option = in_option;
@@ -194,9 +194,12 @@ void projects_explorer::draw()
 
 }
 
-void projects_explorer::forget_selected_hiden_file(){
-	if((selected_file<first_file_to_display||selected_file> last_file_to_display)&&forget_when_hiden){
-		selected_file=-1;
+void projects_explorer::forget_selected_hiden_file()
+{
+	if ((selected_file < first_file_to_display
+			|| selected_file > last_file_to_display) && forget_when_hiden)
+	{
+		selected_file = -1;
 	}
 }
 
@@ -227,8 +230,8 @@ void projects_explorer::handle_pressed(int x, int y)
 	for (; i < last_file_to_display; i++)
 	{
 		if (check_area_pressed(x, y, start_pos_x,
-				start_pos_y + pos_counter * (line_height + line_space), 460,
-				line_height))
+		start_pos_y + pos_counter * (line_height + line_space), 460,
+		line_height))
 		{
 			selected_file = i;
 			draw();
@@ -271,6 +274,21 @@ bool projects_explorer::check_area_pressed(int x, int y, int area_x, int area_y,
 {
 	return (x >= area_x && x <= area_x + area_width && y >= area_y
 			&& y <= area_y + area_height);
+}
+
+void projects_explorer::delete_file()
+{
+	if (selected_file >= -1)
+	{
+		if (f_unlink(sd_files[selected_file].fname) == FR_OK)
+		{
+			get_files();
+		}
+	}
+	else
+	{
+		//TODO tutaj powinien być rzucany wyjątek w przypadku nieudanego usunięcia
+	}
 }
 
 //

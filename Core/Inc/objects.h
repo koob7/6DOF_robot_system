@@ -99,7 +99,7 @@ public:
 
 	projects_explorer();
 	void create_file(std::string name);
-	void set_sort_files(enum sort_option in_option, bool in_sort_ascending);
+	void set_sort_option(enum sort_option in_option, bool in_sort_ascending);
 	std::string get_choosen_file();
 	void delete_file();
 	void handle_pressed(int x, int y);
