@@ -15,8 +15,10 @@
 #include <sstream>
 #include <iomanip>
 
+#define forget_when_hiden true
+
 #define start_pos_x 200
-#define start_pos_y 235
+#define start_pos_y 238
 #define line_height 25
 #define line_space 10
 #define num_files_on_page 6
@@ -89,6 +91,9 @@ private:
 	void get_files();
 	void sort_files();
 	void update_last_file_to_display();
+	bool check_area_pressed(int x, int y, int area_x, int area_y,
+				int area_width, int area_height);
+	void forget_selected_hiden_file();
 
 public:
 

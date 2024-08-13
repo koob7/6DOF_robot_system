@@ -390,9 +390,9 @@ int main(void)
 		{
 			uint16_t touchx, touchy;
 			was_touched = 0;
+			NVIC_DisableIRQ(EXTI9_5_IRQn);
 			touchx = getX();
 			touchy = getY();
-			NVIC_DisableIRQ(EXTI9_5_IRQn);
 			if (first_allert.check_pressed(touchx, touchy))
 			{
 //				HAL_Delay(5000);

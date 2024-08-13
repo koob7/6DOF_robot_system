@@ -71,7 +71,7 @@ int button::check_pressed(int x, int y)
 bool button::check_area_pressed(int x, int y, int area_x, int area_y,
 		int area_width, int area_height)
 {
-	return (x >= object_dimension.x && x <= area_x + area_width && y >= area_y
+	return (x >= area_x && x <= area_x + area_width && y >= area_y
 			&& y <= area_y + area_height);
 }
 

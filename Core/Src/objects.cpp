@@ -38,6 +38,7 @@ int menu_segment::check_pressed(int x, int y)
 			return o_button.check_pressed(x, y);
 		}
 	}
+
 	return -1;
 }
 
@@ -71,8 +72,12 @@ projects_explorer::projects_explorer()
 
 }
 
-void projects_explorer::update_last_file_to_display(){
-	last_file_to_display = ((first_file_to_display + num_files_on_page) >sd_files.size())?sd_files.size():(first_file_to_display + num_files_on_page);
+void projects_explorer::update_last_file_to_display()
+{
+	last_file_to_display =
+			((first_file_to_display + num_files_on_page) > sd_files.size()) ?
+					sd_files.size() :
+					(first_file_to_display + num_files_on_page);
 }
 
 void projects_explorer::get_files()
@@ -133,7 +138,7 @@ std::string projects_explorer::get_choosen_file()
 	}
 	else
 	{
-		//tutaj powinien być rzucany wyjątek w przyszłości
+		//TODO tutaj powinien być rzucany wyjątek w przyszłości
 		return "";
 	}
 }
@@ -158,33 +163,78 @@ void projects_explorer::draw()
 	}
 	int i = first_file_to_display;
 	int pos_counter = 0;
-	for (;i<last_file_to_display;i++){
-		TFT_Draw_Fill_Rectangle(start_pos_x , start_pos_y+ pos_counter*(line_height+line_space), 480, line_height, clear_screen_color);
-		draw_text(start_pos_x, start_pos_y+ pos_counter*(line_height+line_space), line_height, file_menu_font, 1,BLACK,sd_files[i].fname);
-		draw_text(start_pos_x+153, start_pos_y+ pos_counter*(line_height+line_space), line_height, file_menu_font, 1,BLACK,format_date(sd_files[i].fdate));
-		draw_text(start_pos_x+153*2, start_pos_y+ pos_counter*(line_height+line_space), line_height, file_menu_font, 1,BLACK,std::to_string(sd_files[i].fsize));
+	for (; i < last_file_to_display; i++)
+	{
+		TFT_Draw_Fill_Rectangle(start_pos_x,
+				start_pos_y + pos_counter * (line_height + line_space)
+						- line_space / 2 - 1, 460, 2, 0xB5B6);
+		if (i == selected_file)
+		{
+			TFT_Draw_Fill_Round_Rect(start_pos_x,
+			start_pos_y + pos_counter * (line_height + line_space), 460,
+			line_height, 10, 0xB6DF);
+		}
+		else
+		{
+			TFT_Draw_Fill_Rectangle(start_pos_x,
+			start_pos_y + pos_counter * (line_height + line_space), 460,
+			line_height, clear_screen_color);
+		}
+		draw_text(start_pos_x,
+		start_pos_y + pos_counter * (line_height + line_space),
+		line_height, file_menu_font, 1,BLACK,sd_files[i].fname);
+		draw_text(start_pos_x + 153,
+		start_pos_y + pos_counter * (line_height + line_space),
+		line_height, file_menu_font, 1,BLACK,format_date(sd_files[i].fdate));
+		draw_text(start_pos_x + 153 * 2,
+		start_pos_y + pos_counter * (line_height + line_space),
+		line_height, file_menu_font, 1,BLACK,std::to_string(sd_files[i].fsize));
 		pos_counter++;
 	}
 
+}
+
+void projects_explorer::forget_selected_hiden_file(){
+	if((selected_file<first_file_to_display||selected_file> last_file_to_display)&&forget_when_hiden){
+		selected_file=-1;
+	}
 }
 
 void projects_explorer::handle_pressed(int x, int y)
 {
 	if (first_file_to_display > 0)
 	{
-		if(page_up_btn.check_pressed(x, y)==0){
+		if (page_up_btn.check_pressed(x, y) == 0)
+		{
 			first_file_to_display--;
 			update_last_file_to_display();
+			forget_selected_hiden_file();
 			draw();
 		}
 	}
 	if (sd_files.size() > last_file_to_display)
 	{
-		if(page_down_btn.check_pressed(x, y)==1){
-		first_file_to_display++;
-		update_last_file_to_display();
-		draw();
+		if (page_down_btn.check_pressed(x, y) == 1)
+		{
+			first_file_to_display++;
+			update_last_file_to_display();
+			forget_selected_hiden_file();
+			draw();
 		}
+	}
+	int i = first_file_to_display;
+	int pos_counter = 0;
+	for (; i < last_file_to_display; i++)
+	{
+		if (check_area_pressed(x, y, start_pos_x,
+				start_pos_y + pos_counter * (line_height + line_space), 460,
+				line_height))
+		{
+			selected_file = i;
+			draw();
+			break;
+		}
+		pos_counter++;
 	}
 }
 
@@ -198,22 +248,29 @@ void projects_explorer::create_file(std::string name)
 	}
 	else
 	{
-		//tutaj powinien być rzucany wyjątek
+		//TODO tutaj powinien być rzucany wyjątek
 	}
 	get_files();
 }
 
+std::string projects_explorer::format_date(WORD fdate)
+{
+	std::stringstream dateStream;
+	int day = fdate & 0x1F;
+	int month = (fdate >> 5) & 0xF;
+	int year = (fdate >> 9) + 1980;
+	dateStream << std::setw(2) << std::setfill('0') << day << "-"
+			<< std::setw(2) << std::setfill('0') << month << "-" << std::setw(4)
+			<< std::setfill('0') << year;
 
-std::string projects_explorer::format_date(WORD fdate){
-    std::stringstream dateStream;
-    int day = fdate & 0x1F;
-    int month = (fdate >> 5) & 0xF;
-    int year = (fdate >> 9) + 1980;
-    dateStream << std::setw(2) << std::setfill('0') << day << "-"
-               << std::setw(2) << std::setfill('0') << month << "-"
-               << std::setw(4) << std::setfill('0') << year;
+	return dateStream.str();
+}
 
-    return dateStream.str();
+bool projects_explorer::check_area_pressed(int x, int y, int area_x, int area_y,
+		int area_width, int area_height)
+{
+	return (x >= area_x && x <= area_x + area_width && y >= area_y
+			&& y <= area_y + area_height);
 }
 
 //
