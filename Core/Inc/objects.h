@@ -72,6 +72,7 @@ private:
 	std::vector<FILINFO> sd_files;
 	bool initialized;
 	int first_file_to_display = 0;
+	int last_file_to_display=0;
 
 
 
@@ -87,6 +88,7 @@ private:
 	std::string format_date(WORD fdate);
 	void get_files();
 	void sort_files();
+	void update_last_file_to_display();
 
 public:
 

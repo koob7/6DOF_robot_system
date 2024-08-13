@@ -8,7 +8,7 @@
 
 void menu_segment::draw()
 {
-	for (const auto part : background_parts)
+	for (auto part : background_parts)
 	{
 		part->draw();
 	}
@@ -16,7 +16,7 @@ void menu_segment::draw()
 	{
 		o_button.draw();
 	}
-	for (const auto part : top_parts)
+	for (auto part : top_parts)
 	{
 		part->draw();
 	}
@@ -71,6 +71,10 @@ projects_explorer::projects_explorer()
 
 }
 
+void projects_explorer::update_last_file_to_display(){
+	last_file_to_display = ((first_file_to_display + num_files_on_page) >sd_files.size())?sd_files.size():(first_file_to_display + num_files_on_page);
+}
+
 void projects_explorer::get_files()
 {
 	sd_files.clear();
@@ -87,6 +91,8 @@ void projects_explorer::get_files()
 			}
 		}
 	}
+	first_file_to_display = 0;
+	update_last_file_to_display();
 	sort_files();
 }
 
@@ -134,7 +140,6 @@ std::string projects_explorer::get_choosen_file()
 
 void projects_explorer::draw()
 {
-
 	if (first_file_to_display > 0)
 	{
 		page_up_btn.draw();
@@ -143,7 +148,7 @@ void projects_explorer::draw()
 	{
 		TFT_Draw_Fill_Rectangle(142, 158, 40, 40, clear_screen_color);
 	}
-	if (sd_files.size() > first_file_to_display + num_files_on_page)
+	if (sd_files.size() > last_file_to_display)
 	{
 		page_down_btn.draw();
 	}
@@ -153,8 +158,7 @@ void projects_explorer::draw()
 	}
 	int i = first_file_to_display;
 	int pos_counter = 0;
-	int range = (((first_file_to_display + num_files_on_page) >sd_files.size())?sd_files.size():(first_file_to_display + num_files_on_page));
-	for ( i;i<range;i++){
+	for (;i<last_file_to_display;i++){
 		TFT_Draw_Fill_Rectangle(start_pos_x , start_pos_y+ pos_counter*(line_height+line_space), 480, line_height, clear_screen_color);
 		draw_text(start_pos_x, start_pos_y+ pos_counter*(line_height+line_space), line_height, file_menu_font, 1,BLACK,sd_files[i].fname);
 		draw_text(start_pos_x+153, start_pos_y+ pos_counter*(line_height+line_space), line_height, file_menu_font, 1,BLACK,format_date(sd_files[i].fdate));
@@ -170,13 +174,15 @@ void projects_explorer::handle_pressed(int x, int y)
 	{
 		if(page_up_btn.check_pressed(x, y)==0){
 			first_file_to_display--;
+			update_last_file_to_display();
 			draw();
 		}
 	}
-	if (sd_files.size() > first_file_to_display + num_files_on_page)
+	if (sd_files.size() > last_file_to_display)
 	{
 		if(page_down_btn.check_pressed(x, y)==1){
 		first_file_to_display++;
+		update_last_file_to_display();
 		draw();
 		}
 	}
