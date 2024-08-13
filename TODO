@@ -18,16 +18,19 @@ stworzenie dokumentacji:
     2.1.1 wymagania techniczne - konstrukcja 6DOF, użyte materiały, mechanika(przełożenia, napędy - silniki)
     2.1.2 technika wykonania elementów, zlożenie konstukcji oraz efeket (zdjęcia)
     2.1.3 rysunki techniczne konstrukcji robota / załączony plik 
+    2.1.4 problemy - skomplikowana konstrukcja 6DOF
   2.2 Konstrukcja obudowy wyświetlacza oraz sterownika
     2.2.1 wymagania - wygodne do użytku, zapewniające schludność projektu (cable menagment itp)
     2.2.2 technika wykonania elementów oraz efeket (zdjęcia)
     2.2.3 rysunki techniczne / załączony plik 
+    2.2.4 problemy - obudowan wyświetlacza generująca przerwania, brak większych problemów
   *sekcjia obliczeń wytrzymałości konstrukcji jest celowo pomijana
 3. Nawigacja robotta - kinematyka odwrotna - materiały D:\materialy_studia\przedmioty\smiw\materiały robot, maile do Pana Wieśka, linki na mesengerze
   3.1 wstęp do kinematyki prostej oraz odwrotnej
   3.2 wyprowadzenie wzorów kinematyki prostej - do przemyślenia (kinematyka prosta jest podstawą kinematyki odwrotnej)
   3.3 wyprowadzenie wzorów kinematyki odwrotnej - 
   3.4 sposób wyznaczania ścieżeki ruchu robotra (prostych oraz łukowych) - temat do rozeznania w necie oraz między znajomymi
+  3.5 problemy - skmplikowane wyprowadzenie wzorów kinematyki odwrotnej - zapominany przez wszystkich obrót osi (+pi/2) przy przejściu z pierwszej do drugiej części kinematki odwortnej (z podstawy do nadgarstka)
 4. Płytka sterująca
   4.1 główne wymagania + poglądowy schemat sterownika - szybki zegar procesora, zasilanie elementów sterownika (karta sd, procek, silniki krokowe itp.), łączność z wyświetlaczem, obsługa fatfs, duży rozmiar pamięci procesora (dla uproszczenia - żeby nie było zewnętrznego ramu)
   4.2 schemat sterownika
@@ -35,11 +38,16 @@ stworzenie dokumentacji:
   4.4 samodzielny montaż oraz testy na poszczególnych etapach
   4.5 Problemy - rezystory podciągające przy czujnikach krańcowych, procesor nie działa powyżej 400MHz, źle umieszczone złącza (skośnie zamontowane)
 5. Oprogramowanie sterownika - ściągawka https://sun.aei.polsl.pl/~cki/pkIII/sprawozdanie/main.html
-  5.1 Analiza zadania - schemat stanów (etapów) programu (maszyna stanów?)
+  5.1 Analiza zadania - obiekty w c++ mocno uprościły przepływem sterowania, obsługą plików z karty SD (strumienie danych), szkice wykonwanie w figmie, środowisko stm32Cube uprościło konfigurację projektu, nacisk na obługę przerwań (przerwania dotyku, ruszające silnikami robota)
   5.2 specyfikacja zewnętrzna - instukcja dla użytkownika
   5.3 Przykład dziłania - zdjęcia głównych stron menu oraz przykłądowych operacji
   5.4 Specyfikacja wewnętrzna :
     5.4.1 diagram klas
     5.4.2 schemat stanów (etapów) programu -  ?(maszyna stanów)?
-    5.4.3 dokumentacja wygenerowana z doxygena
+    5.4.3 wykorzystane biblioteki zewnętrzne - bilioteka ssd1963 (w której mocno zmieniłem sposób komunikacji z ssd1963 - jednoczesny zapis 16 bitów) , xpt2046 z YT oraz biblioteka obsługi kart SD controllersTech
+    5.4.4 dokumentacja wygenerowana z doxygena
   5.5 treść programu w załączniku
+  5.6 problemy - kiepska dokumentacja sterownika doryku xpt2046 utrudniała obsługe przerwań dotyku
+6. Podsumowanie
+  6.1 Wnioski
+  6.2 Plany na przyszłość - rozbudowana oprogramowania sterującego, nowa konstrukcja robota
