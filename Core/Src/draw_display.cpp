@@ -10,6 +10,8 @@ menu_segment project_explorer_menu;
 
 void init_objects(){
 	TFT_Clear_Screen(clear_screen_color);
+	TFT_Draw_Fill_Rectangle(100,0,20,20, top_menu_background_color);
+	TFT_Draw_Fill_Rectangle(680,0,20,20, top_menu_background_color);
 	init_main_top_menu();
 	init_main_left_menu();
 	init_main_right_menu();
@@ -18,7 +20,8 @@ void init_objects(){
 
 void init_main_top_menu(){
 	//tło
-	main_top_menu.add_background_part(std::make_shared<rectangle>(100, 0, 600, 144, top_menu_background_color));
+	main_top_menu.add_background_part(std::make_shared<rectangle>(120, 144, 560, 336, clear_screen_color));
+	main_top_menu.add_background_part(std::make_shared<rectangle>(120, 0, 560, 144, top_menu_background_color));
 	//przyciski na gorze
 	main_top_menu.add_part(button(0,132, 9, 70, 41, top_menu_button_color, 20, "SELECT", top_menu_text_color, top_menu_font));
 	main_top_menu.add_part(button(1,212, 9, 70, 41, top_menu_button_color, 20,"NEW P.", top_menu_text_color, top_menu_font));
@@ -104,14 +107,15 @@ void init_main_right_menu(){
 }
 
 void init_project_explorer_menu(){
-	project_explorer_menu.add_background_part(std::make_shared<rectangle>(120, 144, 560, 336, project_explorer_background_color));
-	project_explorer_menu.add_part(button(0,200, 156, 100, 40, project_explorer_button_color, 10, "Open file", project_explorer_text_color, project_explorer_font ));
-	project_explorer_menu.add_part(button(1,320, 156, 100, 40, project_explorer_button_color, 10, "Create File", project_explorer_text_color, project_explorer_font ));
-	project_explorer_menu.add_part(button(2,440, 156, 100, 40, project_explorer_button_color, 10, "Delete File", project_explorer_text_color, project_explorer_font ));
-	project_explorer_menu.add_part(button(3,560, 156, 100, 40, project_explorer_button_color, 10, "Sort Files", project_explorer_text_color, project_explorer_font ));
-	project_explorer_menu.add_part(std::make_shared<text_field>(start_pos_x, 206, 20,"File name:", project_explorer_text_color, project_explorer_font));
-	project_explorer_menu.add_part(std::make_shared<text_field>(start_pos_x+153, 206, 20,"Date:", project_explorer_text_color, project_explorer_font));
-	project_explorer_menu.add_part(std::make_shared<text_field>(start_pos_x+153*2, 206, 20,"Size:", project_explorer_text_color, project_explorer_font));
+	project_explorer_menu.add_background_part(std::make_shared<rectangle>(120, 144, 560, 336, clear_screen_color));
+	project_explorer_menu.add_background_part(std::make_shared<rectangle>(120, 0, 560, 144, project_explorer_background_color));
+	project_explorer_menu.add_part(button(0,152, 52, 100, 40, project_explorer_button_color, 10, "Open file", project_explorer_text_color, project_explorer_font ));
+	project_explorer_menu.add_part(button(1,284, 52, 100, 40, project_explorer_button_color, 10, "Create File", project_explorer_text_color, project_explorer_font ));
+	project_explorer_menu.add_part(button(2,416, 52, 100, 40, project_explorer_button_color, 10, "Delete File", project_explorer_text_color, project_explorer_font ));
+	project_explorer_menu.add_part(button(3,548, 52, 100, 40, project_explorer_button_color, 10, "Sort Files", project_explorer_text_color, project_explorer_font ));
+	project_explorer_menu.add_part(std::make_shared<text_field>(start_pos_x, 164, 20,"File name:", project_explorer_text_color, project_explorer_font));
+	project_explorer_menu.add_part(std::make_shared<text_field>(start_pos_x+153, 164, 20,"Date:", project_explorer_text_color, project_explorer_font));
+	project_explorer_menu.add_part(std::make_shared<text_field>(start_pos_x+153*2, 164, 20,"Size:", project_explorer_text_color, project_explorer_font));
 
 }
 

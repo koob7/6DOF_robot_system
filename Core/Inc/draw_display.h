@@ -65,7 +65,7 @@
 
 #define project_explorer_button_color 0xD6BA
 #define project_explorer_text_color BLACK
-#define project_explorer_background_color 0xCFFF
+#define project_explorer_background_color 0xD61F
 #define project_explorer_font const_cast<GFXfont*>(_Open_Sans_Bold_16)
 
 extern menu_segment main_top_menu;

@@ -18,9 +18,9 @@
 #define forget_when_hiden true
 
 #define start_pos_x 200
-#define start_pos_y 238
-#define line_height 25
-#define line_space 10
+#define start_pos_y 208
+#define line_height 28
+#define line_space 16
 #define num_files_on_page 6
 #define file_menu_font const_cast<GFXfont*>(_Open_Sans_Bold_14)
 
