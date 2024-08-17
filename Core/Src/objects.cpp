@@ -69,15 +69,15 @@ projects_explorer::projects_explorer()
 	}
 	else
 		initialized = false;
-
 }
 
 void projects_explorer::update_last_file_to_display()
 {
 	last_file_to_display =
-			((first_file_to_display + num_files_on_page) > sd_files.size()) ?
+			((first_file_to_display + project_explorer_num_files_on_page)
+					> sd_files.size()) ?
 					sd_files.size() :
-					(first_file_to_display + num_files_on_page);
+					(first_file_to_display + project_explorer_num_files_on_page);
 }
 
 void projects_explorer::get_files()
@@ -138,7 +138,7 @@ std::string projects_explorer::get_choosen_file()
 	}
 	else
 	{
-		//TODO tutaj powinien być rzucany wyjątek w przyszłości
+		// TODO tutaj powinien być rzucany wyjątek w przyszłości
 		return "";
 	}
 }
@@ -165,39 +165,58 @@ void projects_explorer::draw()
 	int pos_counter = 0;
 	for (; i < last_file_to_display; i++)
 	{
-		TFT_Draw_Fill_Rectangle(start_pos_x,
-				start_pos_y + pos_counter * (line_height + line_space)
-						- line_space / 2 - 1, 460, 2, 0xB5B6);
+		TFT_Draw_Fill_Rectangle(project_explorer_start_pos_x,
+				project_explorer_start_pos_y
+						+ pos_counter * (project_explorer_line_height +
+						project_explorer_line_space) -
+				project_explorer_line_space / 2 - 1, 460, 2, 0xB5B6);
 		if (i == selected_file)
 		{
-			TFT_Draw_Fill_Round_Rect(start_pos_x,
-			start_pos_y + pos_counter * (line_height + line_space), 460,
-			line_height, 10, 0xB6DF);
+			TFT_Draw_Fill_Round_Rect(project_explorer_start_pos_x,
+					project_explorer_start_pos_y
+							+ pos_counter * (project_explorer_line_height +
+							project_explorer_line_space), 460,
+					project_explorer_line_height, 10, 0xB6DF);
 		}
 		else
 		{
-			TFT_Draw_Fill_Rectangle(start_pos_x,
-			start_pos_y + pos_counter * (line_height + line_space), 460,
-			line_height, clear_screen_color);
+			TFT_Draw_Fill_Rectangle(project_explorer_start_pos_x,
+					project_explorer_start_pos_y
+							+ pos_counter * (project_explorer_line_height +
+							project_explorer_line_space), 460,
+					project_explorer_line_height,
+					clear_screen_color);
 		}
-		draw_text(start_pos_x,
-		start_pos_y + pos_counter * (line_height + line_space),
-		line_height, file_menu_font, 1,BLACK,sd_files[i].fname);
-		draw_text(start_pos_x + 153,
-		start_pos_y + pos_counter * (line_height + line_space),
-		line_height, file_menu_font, 1,BLACK,format_date(sd_files[i].fdate));
-		draw_text(start_pos_x + 153 * 2,
-		start_pos_y + pos_counter * (line_height + line_space),
-		line_height, file_menu_font, 1,BLACK,std::to_string(sd_files[i].fsize));
+		draw_text(project_explorer_start_pos_x,
+				project_explorer_start_pos_y
+						+ pos_counter
+								* (project_explorer_line_height
+										+ project_explorer_line_space),
+				project_explorer_line_height, project_explorer_file_menu_font, 1,
+		BLACK, sd_files[i].fname);
+		draw_text(project_explorer_start_pos_x + 153,
+				project_explorer_start_pos_y
+						+ pos_counter
+								* (project_explorer_line_height
+										+ project_explorer_line_space),
+				project_explorer_line_height, project_explorer_file_menu_font, 1,
+		BLACK, format_date(sd_files[i].fdate));
+		draw_text(project_explorer_start_pos_x + 153 * 2,
+				project_explorer_start_pos_y
+						+ pos_counter
+								* (project_explorer_line_height
+										+ project_explorer_line_space),
+				project_explorer_line_height, project_explorer_file_menu_font, 1,
+		BLACK, std::to_string(sd_files[i].fsize));
 		pos_counter++;
 	}
-
 }
 
 void projects_explorer::forget_selected_hiden_file()
 {
 	if ((selected_file < first_file_to_display
-			|| selected_file > last_file_to_display) && forget_when_hiden)
+			|| selected_file > last_file_to_display) &&
+	forget_when_hiden)
 	{
 		selected_file = -1;
 	}
@@ -229,9 +248,11 @@ void projects_explorer::handle_pressed(int x, int y)
 	int pos_counter = 0;
 	for (; i < last_file_to_display; i++)
 	{
-		if (check_area_pressed(x, y, start_pos_x,
-		start_pos_y + pos_counter * (line_height + line_space), 460,
-		line_height))
+		if (check_area_pressed(x, y, project_explorer_start_pos_x,
+				project_explorer_start_pos_y
+						+ pos_counter * (project_explorer_line_height +
+						project_explorer_line_space), 460,
+				project_explorer_line_height))
 		{
 			selected_file = i;
 			draw();
@@ -251,7 +272,7 @@ void projects_explorer::create_file(std::string name)
 	}
 	else
 	{
-		//TODO tutaj powinien być rzucany wyjątek
+		// TODO tutaj powinien być rzucany wyjątek
 	}
 	get_files();
 }
@@ -287,28 +308,138 @@ void projects_explorer::delete_file()
 	}
 	else
 	{
-		//TODO tutaj powinien być rzucany wyjątek w przypadku nieudanego usunięcia
+		// TODO tutaj powinien być rzucany wyjątek w przypadku nieudanego usunięcia
 	}
 }
 
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
+project_editor::movement::movement(float target_x, float target_y,
+		float target_z, float target_a, float target_b, float target_c,
+		uint8_t speed, enum e_movement_type movement_type) :
+		target_x(target_x), target_y(target_y), target_z(target_z), target_a(
+				target_a), target_b(target_b), target_c(target_c), speed(speed), movement_type(
+				movement_type)
+{
 
+}
+
+project_editor::mov_streight::mov_streight(float target_x, float target_y,
+		float target_z, float target_a, float target_b, float target_c,
+		uint8_t speed, enum e_movement_type movement_type) :
+		movement(target_x, target_y, target_z, target_a, target_b, target_c,
+				speed, movement_type)
+{
+
+}
+
+project_editor::mov_circular::mov_circular(float target_x, float target_y,
+		float target_z, float target_a, float target_b, float target_c,
+		float help_x, float help_y, float help_z, float help_a, float help_b,
+		float help_c, uint8_t speed, enum e_movement_type movement_type) :
+		movement(target_x, target_y, target_z, target_a, target_b, target_c,
+				speed, movement_type), help_x(help_x), help_y(help_y), help_z(
+				help_z), help_a(help_a), help_b(help_b), help_c(help_c)
+{
+
+}
+
+project_editor::cmd_wait::cmd_wait(uint16_t time_milisecond) :
+		time_milisecond(time_milisecond)
+{
+
+}
+project_editor::cmd_set_pin::cmd_set_pin(enum e_output_pin output_pin,
+		bool set_pin_high) :
+		output_pin(output_pin), set_pin_high(set_pin_high)
+{
+
+}
+
+void project_editor::mov_streight::update_command(float in_target_x, float in_target_y, float in_target_z, float in_target_a,
+        float in_target_b, float in_target_c, uint8_t in_speed,
+        enum e_movement_type in_movement_type){
+	target_x = in_target_x;
+	target_y = in_target_y;
+	target_z = in_target_z;
+	target_a = in_target_a;
+	target_b = in_target_b;
+	target_c = in_target_c;
+	speed = in_speed;
+	movement_type = in_movement_type;
+}
+
+void project_editor::mov_circular::update_command(float in_target_x, float in_target_y, float in_target_z, float in_target_a,
+        float in_target_b, float in_target_c, float in_help_x, float in_help_y,
+        float in_help_z, float in_help_a, float in_help_b, float in_help_c,
+        uint8_t in_speed, enum e_movement_type in_movement_type){
+	target_x = in_target_x;
+	target_y = in_target_y;
+	target_z = in_target_z;
+	target_a = in_target_a;
+	target_b = in_target_b;
+	target_c = in_target_c;
+	help_x = in_help_x;
+	help_y = in_help_y;
+	help_z = in_help_z;
+	help_a = in_help_a;
+	help_b = in_help_b;
+	help_c = in_help_c;
+	speed = in_speed;
+	movement_type = in_movement_type;
+}
+
+void project_editor::cmd_wait::update_command(uint16_t in_time_milisecond)
+{
+	time_milisecond = in_time_milisecond;
+}
+
+void project_editor::cmd_set_pin::update_command(
+		enum e_output_pin in_output_pin, bool in_set_pin_high)
+{
+	output_pin = in_output_pin;
+	set_pin_high = in_set_pin_high;
+}
+
+void project_editor::insert_command(std::shared_ptr<command> in_cmd){
+	if (selected_command >= -1)
+	{
+		commands.insert(commands.begin() + selected_command, in_cmd);
+		draw();
+	}
+	else
+	{
+		commands.push_back(in_cmd);
+	}
+}
+
+void project_editor::remove_command(){
+	if (selected_command >= -1)
+	{
+		commands.erase(commands.begin() + selected_command);
+		selected_command = -1;
+		draw();
+	}
+	else
+	{
+		// TODO tutaj powinien być rzucany wyjątek w przypadku nieudanego usunięcia
+	}
+}
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
