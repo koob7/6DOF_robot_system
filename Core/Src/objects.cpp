@@ -312,38 +312,29 @@ void projects_explorer::delete_file()
 	}
 }
 
-project_editor::movement::movement(float target_x, float target_y,
-		float target_z, float target_a, float target_b, float target_c,
+project_editor::movement::movement(struct robot_position in_target_pos,
 		uint8_t speed, enum e_movement_type movement_type) :
-		target_x(target_x), target_y(target_y), target_z(target_z), target_a(
-				target_a), target_b(target_b), target_c(target_c), speed(speed), movement_type(
+		target_pos(in_target_pos), speed(speed), movement_type(
 				movement_type)
 {
 
 }
 
-project_editor::mov_streight::mov_streight(float target_x, float target_y,
-		float target_z, float target_a, float target_b, float target_c,
+project_editor::mov_streight::mov_streight(struct robot_position in_target_pos,
 		uint8_t speed, enum e_movement_type movement_type) :
-		movement(target_x, target_y, target_z, target_a, target_b, target_c,
-				speed, movement_type)
+		movement(in_target_pos, speed, movement_type)
 {
 
 }
 
-project_editor::mov_circular::mov_circular(float target_x, float target_y,
-		float target_z, float target_a, float target_b, float target_c,
-		float help_x, float help_y, float help_z, float help_a, float help_b,
-		float help_c, uint8_t speed, enum e_movement_type movement_type) :
-		movement(target_x, target_y, target_z, target_a, target_b, target_c,
-				speed, movement_type), help_x(help_x), help_y(help_y), help_z(
-				help_z), help_a(help_a), help_b(help_b), help_c(help_c)
+project_editor::mov_circular::mov_circular(struct robot_position in_help_pos, struct robot_position in_target_pos, uint8_t speed, enum e_movement_type movement_type) :
+		movement(in_target_pos, speed, movement_type), help_pos(in_help_pos)
 {
 
 }
 
-project_editor::cmd_wait::cmd_wait(uint16_t time_milisecond) :
-		time_milisecond(time_milisecond)
+project_editor::cmd_wait::cmd_wait(enum e_wait_time wait_time) :
+		wait_time(wait_time)
 {
 
 }
@@ -354,42 +345,26 @@ project_editor::cmd_set_pin::cmd_set_pin(enum e_output_pin output_pin,
 
 }
 
-void project_editor::mov_streight::update_command(float in_target_x, float in_target_y, float in_target_z, float in_target_a,
-        float in_target_b, float in_target_c, uint8_t in_speed,
-        enum e_movement_type in_movement_type){
-	target_x = in_target_x;
-	target_y = in_target_y;
-	target_z = in_target_z;
-	target_a = in_target_a;
-	target_b = in_target_b;
-	target_c = in_target_c;
-	speed = in_speed;
-	movement_type = in_movement_type;
-}
-
-void project_editor::mov_circular::update_command(float in_target_x, float in_target_y, float in_target_z, float in_target_a,
-        float in_target_b, float in_target_c, float in_help_x, float in_help_y,
-        float in_help_z, float in_help_a, float in_help_b, float in_help_c,
-        uint8_t in_speed, enum e_movement_type in_movement_type){
-	target_x = in_target_x;
-	target_y = in_target_y;
-	target_z = in_target_z;
-	target_a = in_target_a;
-	target_b = in_target_b;
-	target_c = in_target_c;
-	help_x = in_help_x;
-	help_y = in_help_y;
-	help_z = in_help_z;
-	help_a = in_help_a;
-	help_b = in_help_b;
-	help_c = in_help_c;
-	speed = in_speed;
-	movement_type = in_movement_type;
-}
-
-void project_editor::cmd_wait::update_command(uint16_t in_time_milisecond)
+void project_editor::mov_streight::update_command(struct robot_position in_target_pos, uint8_t in_speed,
+		enum e_movement_type in_movement_type)
 {
-	time_milisecond = in_time_milisecond;
+target_pos = in_target_pos;
+	speed = in_speed;
+	movement_type = in_movement_type;
+}
+
+void project_editor::mov_circular::update_command(struct robot_position in_help_pos, struct robot_position in_target_pos,
+		uint8_t in_speed, enum e_movement_type in_movement_type)
+{
+	help_pos = in_help_pos;
+	target_pos = in_target_pos;
+	speed = in_speed;
+	movement_type = in_movement_type;
+}
+
+void project_editor::cmd_wait::update_command(enum e_wait_time in_wait_time)
+{
+	wait_time = in_wait_time;
 }
 
 void project_editor::cmd_set_pin::update_command(
@@ -399,7 +374,8 @@ void project_editor::cmd_set_pin::update_command(
 	set_pin_high = in_set_pin_high;
 }
 
-void project_editor::insert_command(std::shared_ptr<command> in_cmd){
+void project_editor::insert_command(std::shared_ptr<command> in_cmd)
+{
 	if (selected_command >= -1)
 	{
 		commands.insert(commands.begin() + selected_command, in_cmd);
@@ -411,7 +387,8 @@ void project_editor::insert_command(std::shared_ptr<command> in_cmd){
 	}
 }
 
-void project_editor::remove_command(){
+void project_editor::remove_command()
+{
 	if (selected_command >= -1)
 	{
 		commands.erase(commands.begin() + selected_command);
@@ -423,6 +400,146 @@ void project_editor::remove_command(){
 		// TODO tutaj powinien być rzucany wyjątek w przypadku nieudanego usunięcia
 	}
 }
+
+void project_editor::draw()
+{
+	if (first_command_to_display > 0)
+	{
+		page_up_btn.draw();
+	}
+	else
+	{
+		TFT_Draw_Fill_Rectangle(142, 158, 40, 40, clear_screen_color);
+	}
+	if (commands.size() > last_command_to_display)
+	{
+		page_down_btn.draw();
+	}
+	else
+	{
+		TFT_Draw_Fill_Rectangle(142, 425, 40, 40, clear_screen_color);
+	}
+	int i = first_command_to_display;
+	int pos_counter = 0;
+	for (; i < last_command_to_display; i++)
+	{
+
+		TFT_Draw_Fill_Rectangle(command_explorer_start_pos_x,
+				command_explorer_start_pos_y
+						+ pos_counter * (command_explorer_line_height +
+						command_explorer_line_space) -
+				command_explorer_line_space / 2 - 1, 460, 2, 0xB5B6);
+		if (i == selected_command)
+		{
+			TFT_Draw_Fill_Round_Rect(command_explorer_start_pos_x,
+					command_explorer_start_pos_y
+							+ pos_counter * (command_explorer_line_height +
+							command_explorer_line_space), 460,
+					command_explorer_line_height, 10, 0xB6DF);
+		}
+		else
+		{
+			TFT_Draw_Fill_Rectangle(command_explorer_start_pos_x,
+					command_explorer_start_pos_y
+							+ pos_counter * (command_explorer_line_height +
+							command_explorer_line_space), 460,
+					command_explorer_line_height,
+					clear_screen_color);
+		}
+		auto movement_ptr = std::static_pointer_cast<movement>(commands[i]);
+		if (movement_ptr) {
+		    if (movement_ptr->get_target_position() == robot_home_position) {
+		        draw_text(command_explorer_start_pos_x,
+		                  command_explorer_start_pos_y + pos_counter * (command_explorer_line_height + command_explorer_line_space),
+		                  command_explorer_line_height,
+		                  command_explorer_file_menu_font, 1,
+		                  BLACK, "HOME");
+		    }
+		}
+		else
+		{
+			draw_text(command_explorer_start_pos_x,
+					command_explorer_start_pos_y
+							+ pos_counter
+									* (command_explorer_line_height
+											+ command_explorer_line_space),
+					command_explorer_line_height,
+					command_explorer_file_menu_font, 1,
+			BLACK, "P"+std::to_string(i));
+		}
+		commands[i]->draw(
+				project_explorer_start_pos_y
+						+ pos_counter
+								* (project_explorer_line_height
+										+ project_explorer_line_space));
+		pos_counter++;
+	}
+}
+
+void project_editor::movement::draw(int print_y){
+    draw_text(command_explorer_first_setting_x,
+              print_y, command_explorer_line_height,
+              command_explorer_file_menu_font, 1,
+              BLACK, "MOVE = " + (static_cast<mov_circular*>(this) != nullptr) ? "Circ" : "Straight");
+    std::string type_string = (movement_type == continous) ? "Continous" : "Step_by_step";
+    draw_text(command_explorer_second_setting_x, print_y, command_explorer_line_height,
+              command_explorer_file_menu_font, 1, BLACK, "TYPE = " + type_string);
+	draw_text(command_explorer_third_setting_x,
+			                  print_y, command_explorer_line_height,
+			                  command_explorer_file_menu_font, 1,
+			                  BLACK, "SPEED = "+std::to_string(speed));
+}
+
+void project_editor::cmd_wait::draw(int print_y)
+{
+    draw_text(command_explorer_first_setting_x,
+              print_y, command_explorer_line_height,
+              command_explorer_file_menu_font, 1,
+              BLACK, "COMAND = Wait");
+    std::string wait_time_text;
+    switch (wait_time) {
+        case wait_1s:
+        	wait_time_text = "1s";
+            break;
+        case wait_5s:
+        	wait_time_text = "5s";
+            break;
+        case wait_30s:
+        	wait_time_text = "30s";
+            break;
+        case wait_1min:
+        	wait_time_text = "1min";
+            break;
+        case wait_5min:
+        	wait_time_text = "5min";
+            break;
+    }
+    draw_text(command_explorer_second_setting_x, print_y, command_explorer_line_height,
+              command_explorer_file_menu_font, 1, BLACK, "TIME = " + wait_time_text);
+}
+
+void project_editor::cmd_set_pin::draw(int print_y)
+{
+    draw_text(command_explorer_first_setting_x,
+              print_y, command_explorer_line_height,
+              command_explorer_file_menu_font, 1,
+              BLACK, "COMAND = Signal");
+
+    std::string output_pin_text;
+    switch (output_pin) {
+        case robot_tool:
+        	output_pin_text = "Robot tool";
+            break;
+        case user_led:
+        	output_pin_text = "User led";
+            break;
+    }
+	draw_text(command_explorer_second_setting_x,
+			                  print_y, command_explorer_line_height,
+			                  command_explorer_file_menu_font, 1,
+			                  BLACK, "SOURCE = "+ output_pin_text);
+}
+
 //
 //
 //

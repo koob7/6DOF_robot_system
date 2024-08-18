@@ -11,6 +11,7 @@
 #include "display_ssd1963.h"
 #include "fatfs.h"
 #include "menu_parts.h"
+#include "navigate_robot.h"
 #include <algorithm>
 #include <iomanip>
 #include <sstream>
@@ -32,6 +33,9 @@
 #define command_explorer_num_files_on_page 6
 #define command_explorer_file_menu_font                                        \
   const_cast<GFXfont *>(_Open_Sans_Bold_14)
+#define command_explorer_first_setting_x 260
+#define command_explorer_second_setting_x 370
+#define command_explorer_third_setting_x 480
 
 class menu_segment {
   std::vector<std::shared_ptr<menu_part>> top_parts;
@@ -98,7 +102,7 @@ public:
   class command {
   public:
     virtual bool perform_task() = 0;
-    virtual void draw(int print_y, bool selected_point) = 0;
+    virtual void draw(int print_y) = 0;
     //std::string getType(){return typeid(*this).name();}
   };
 
@@ -108,62 +112,54 @@ public:
       continous,
       step_by_step,
     };
-    float target_x;
-    float target_y;
-    float target_z;
-    float target_a;
-    float target_b;
-    float target_c;
+    struct robot_position target_pos;
     uint8_t speed;
     enum e_movement_type movement_type;
-    movement(float target_x, float target_y, float target_z, float target_a,
-             float target_b, float target_c, uint8_t speed,
+    movement(struct robot_position in_target_pos, uint8_t speed,
              enum e_movement_type movement_type);
+    struct robot_position get_target_position(){return target_pos;}
+    void draw(int print_y);
   };
 
   class mov_streight : public movement {
   public:
-	mov_streight(float target_x, float target_y, float target_z, float target_a,
-                 float target_b, float target_c, uint8_t speed,
+	mov_streight(struct robot_position in_target_pos, uint8_t speed,
                  enum e_movement_type movement_type);
     bool perform_task(); // tutaj funkcja będzie ustawiała kolejne pozycje
                          // robota, zwraca true jeżeli osiągnięto cel
-    void draw(int print_y, bool selected_point);
-    void update_command(float in_target_x, float in_target_y, float in_target_z, float in_target_a,
-            float in_target_b, float in_target_c, uint8_t in_speed,
+    void update_command(struct robot_position in_target_pos, uint8_t in_speed,
             enum e_movement_type in_movement_type);
   };
 
   class mov_circular : public movement {
   public:
-    float help_x;
-    float help_y;
-    float help_z;
-    float help_a;
-    float help_b;
-    float help_c;
-    mov_circular(float target_x, float target_y, float target_z, float target_a,
-                 float target_b, float target_c, float help_x, float help_y,
-                 float help_z, float help_a, float help_b, float help_c,
+	  struct robot_position help_pos;
+    mov_circular( struct robot_position in_help_pos, struct robot_position in_target_pos,
                  uint8_t speed, enum e_movement_type movement_type);
     bool perform_task(); // tutaj funkcja będzie ustawiała kolejne pozycje
                          // robota, zwraca true jeżeli osiągnięto cel
-    void draw(int print_y, bool selected_point);
-    void update_command(float in_target_x, float in_target_y, float in_target_z, float in_target_a,
-            float in_target_b, float in_target_c, float in_help_x, float in_help_y,
-            float in_help_z, float in_help_a, float in_help_b, float in_help_c,
+    void update_command(struct robot_position in_help_pos, struct robot_position in_target_pos,
             uint8_t in_speed, enum e_movement_type in_movement_type);
+    struct robot_position get_help_position(){return help_pos;}
   };
 
   class cmd_wait : public command {
   public:
-    uint16_t time_milisecond;
-    cmd_wait(uint16_t time_milisecond);
+	enum e_wait_time {
+	  wait_1s,
+	  wait_5s,
+	  wait_30s,
+	  wait_1min,
+	  wait_5min,
+	};
+
+	enum e_wait_time wait_time;
+    cmd_wait(enum e_wait_time wait_time);
     cmd_wait(std::string command_line);
     bool perform_task(); // tutaj będzie odczekiwany mały odstęp czasu,  zwraca
                          // true jeżeli osiągnięto cel
-    void draw(int print_y, bool selected_point);
-    void update_command(uint16_t in_time_milisecond);
+    void draw(int print_y);
+    void update_command(enum e_wait_time wait_time);
   };
 
   class cmd_set_pin : public command {
@@ -179,7 +175,7 @@ public:
     bool perform_task(); // tutaj będzie ustawiana wartość pinu w zależności od
                          // zmiennej set_pin_high, zwraca true jeżeli poprawnie
                          // ustawiono pin
-    void draw(int print_y, bool selected_point);
+    void draw(int print_y);
     void update_command(enum e_output_pin in_output_pin, bool in_set_pin_high);
   };
 
@@ -187,8 +183,7 @@ public:
   int last_command_to_display = 0;
   int selected_command = -1; // wartość ujemna oznacza brak wybranego pliku
   button page_up_btn = button(0, 140, 158, 40, 40, 0xD6BA, 20); // nawigacja góra
-  button page_down_btn =
-  button(1, 140, 425, 40, 40, 0xD6BA, 20); // nawigacja dół
+  button page_down_btn = button(1, 140, 425, 40, 40, 0xD6BA, 20); // nawigacja dół
   std::vector<std::shared_ptr<command>> commands;
   project_editor();
   void draw();

@@ -57,7 +57,8 @@ Core/Src/objects.o: ../Core/Src/objects.cpp ../Core/Inc/objects.h \
  C:/Users/kobie/STM32CubeIDE/workspace_1.13.2/6DOF_robot_system/fonts/inc/096_Open_Sans_Bold.h \
  C:/Users/kobie/STM32CubeIDE/workspace_1.13.2/6DOF_robot_system/fonts/inc/112_Open_Sans_Bold.h \
  C:/Users/kobie/STM32CubeIDE/workspace_1.13.2/6DOF_robot_system/fonts/inc/128_Open_Sans_Bold.h \
- ../Core/Inc/bitmap_arrays.h ../Core/Inc/servo.h
+ ../Core/Inc/bitmap_arrays.h ../Core/Inc/servo.h \
+ ../Core/Inc/navigate_robot.h ../Core/Inc/gpio.h
 ../Core/Inc/objects.h:
 ../Core/Inc/display_ssd1963.h:
 ../Core/Inc/main.h:
@@ -124,3 +125,5 @@ C:/Users/kobie/STM32CubeIDE/workspace_1.13.2/6DOF_robot_system/fonts/inc/112_Ope
 C:/Users/kobie/STM32CubeIDE/workspace_1.13.2/6DOF_robot_system/fonts/inc/128_Open_Sans_Bold.h:
 ../Core/Inc/bitmap_arrays.h:
 ../Core/Inc/servo.h:
+../Core/Inc/navigate_robot.h:
+../Core/Inc/gpio.h:

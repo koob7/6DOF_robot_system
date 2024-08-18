@@ -12,6 +12,25 @@
 #include "math.h"
 #include "stdio.h"
 
+struct robot_position{
+double x;
+double y;
+double z;
+double a;
+double b;
+double c;
+
+robot_position(double x_val, double y_val, double z_val,
+		double a_val, double b_val, double c_val)
+        : x(x_val), y(y_val), z(z_val), a(a_val), b(b_val), c(c_val) {}
+
+bool operator==(const robot_position& other) const {
+        return x == other.x && y == other.y && z == other.z &&
+               a == other.a && b == other.b && c == other.c;
+    }
+};
+
+extern struct robot_position robot_home_position;
 
 extern int max_range;
 extern int min_range;

@@ -5,6 +5,9 @@
  *      Author: kobie
  */
 #include <navigate_robot.h>
+
+struct robot_position robot_home_position = robot_position(20,0,20,0,0,0);
+
 int max_range = 39;
 int min_range = 13;
 int min_y = (-10);

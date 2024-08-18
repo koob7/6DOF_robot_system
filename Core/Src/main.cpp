@@ -400,7 +400,8 @@ int main(void)
 //				HAL_Delay(5000);
 //				first_allert.draw();
 			}
-			if(project_explorer_menu.check_pressed(touchx, touchy)==2){
+			if(project_explorer_menu.check_pressed(
+					touchx, touchy)==2){
 				main_file_explorer.delete_file();
 			}
 			main_file_explorer.handle_pressed(touchx, touchy);
