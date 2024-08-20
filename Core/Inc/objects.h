@@ -8,7 +8,7 @@
 #ifndef INC_OBJECTS_H_
 #define INC_OBJECTS_H_
 
-#include "display_ssd1963.h"
+
 #include "fatfs.h"
 #include "menu_parts.h"
 #include "navigate_robot.h"
@@ -27,16 +27,7 @@
 #define project_explorer_file_menu_font                                        \
   const_cast<GFXfont *>(_Open_Sans_Bold_14)
 
-#define command_explorer_start_pos_x 200
-#define command_explorer_start_pos_y 208
-#define command_explorer_line_height 28
-#define command_explorer_line_space 16
-#define command_explorer_num_files_on_page 6
-#define command_explorer_file_menu_font                                        \
-  const_cast<GFXfont *>(_Open_Sans_Bold_14)
-#define command_explorer_first_setting_x 260
-#define command_explorer_second_setting_x 370
-#define command_explorer_third_setting_x 480
+
 
 class menu_segment {
   std::vector<std::shared_ptr<menu_part>> top_parts;
