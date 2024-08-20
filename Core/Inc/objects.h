@@ -99,6 +99,7 @@ class project_editor {
       int area_height);
 
 public:
+  std::ifstream file;
   int first_command_to_display = 0;
   int last_command_to_display = 0;
   int selected_command = -1; // wartość ujemna oznacza brak wybranego pliku
@@ -112,11 +113,11 @@ public:
   void add_part(std::shared_ptr<command> in_cmd) {
     commands.push_back(in_cmd);
   }
-  bool perform_task();
+  std::shared_ptr<command> get_command_to_execute();
   void insert_command(std::shared_ptr<command> in_cmd);
   void remove_command();
   bool open_file(std::string file_name);
-  void save_changes_file();
+  void save_changes_into_file();
 };
 
 //

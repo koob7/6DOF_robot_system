@@ -370,43 +370,51 @@ void project_editor::handle_pressed(int x, int y) {
   }
 }
 
-bool project_editor::perform_task() {
+std::shared_ptr<command> project_editor::get_command_to_execute(){
   if (selected_command < 0) {
     if (commands.size() != 0) {
       selected_command = first_command_to_display;
       draw();
     }
   }
-  return commands[selected_command]->perform_task();
+  return commands[selected_command];
 }
 
-void project_editor::save_changes_file() {
-  struct robot_position previous_pos = robot_home_position;
-  enum movement::e_speed previous_speed = movement::e_speed::speed_100;
-  enum movement::e_movement_type previous_movement_type = movement::e_movement_type::continous;
+void project_editor::save_changes_into_file() {
+  struct robot_position previous_pos;
+  enum movement::e_speed previous_speed;
+  enum movement::e_movement_type previous_movement_type;
+  bool first_point=true;
   for (auto cmd : commands) {
     auto movement_ptr = std::static_pointer_cast<movement>(cmd);
-    if (movement_ptr) {
+    if (movement_ptr&&!first_point) {
       movement_ptr->save_to_file(previous_pos, previous_speed, previous_movement_type);
+      previous_pos = movement_ptr->get_target_position();
+      previous_speed = movement_ptr->get_speed();
+      previous_movement_type = movement_ptr->get_movement_type();
       continue;
     }
-    auto control_ptr = std::static_pointer_cast<control>(cmd);
-    if(control_ptr) {
-      control_ptr->save_to_file();
-      continue;
+    else{
+      cmd->save_to_file();
+      first_point=0;
     }
   }
+  file.close();
 }
 
 bool project_editor::open_file(std::string file_name) {
   commands.clear();
   selected_command = -1;
-  std::ifstream file(file_name);
+  file.open(file_name);
 
   if (!file.is_open()) {
-    //TODO zwróć wyjątek że plik się nie otwira
+    //TODO zwróć wyjątek że plik się nie otwiera
     return false;
   }
+
+  struct robot_position previous_pos = robot_home_position;
+  enum movement::e_speed previous_speed = movement::e_speed.speed_100;
+  enum movement::e_movement_type previous_movement_type = movement::e_movement_type.continous;
 
   if (file.peek() == std::ifstream::traits_type::eof()) {
     commands.push_back(
@@ -416,9 +424,10 @@ bool project_editor::open_file(std::string file_name) {
             std::make_shared<mov_streight>(robot_home_position, movement::e_speed::speed_100,
                 movement::e_movement_type::step_by_step));
   } else {
+    //w przypadku pierwszego punktu w g-code zawsze podawany jest cały zestaw współrzędnych, jeżeli nie przyjmujemy je za domyślne
     std::cout << "Plik nie jest pusty: " << file_name << std::endl;
   }
-  file.close();
+
   draw();
   return true;
 

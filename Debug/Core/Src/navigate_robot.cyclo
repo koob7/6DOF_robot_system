@@ -4,11 +4,10 @@ C:\ST\STM32CubeIDE_1.13.2\STM32CubeIDE\plugins\com.st.stm32cube.ide.mcu.external
 ../Core/Inc/navigate_robot.h:36:3:robot_position::robot_position(double, double, double, double, double, double)	1
 ../Core/Src/navigate_robot.cpp:22:6:virtual void movement::draw(int)	2
 ../Core/Src/navigate_robot.cpp:38:6:virtual void cmd_wait::draw(int)	6
-../Core/Inc/navigate_robot.h:59:7:constexpr command::command()	1
-../Core/Src/navigate_robot.cpp:66:1:movement::movement(robot_position, uint8_t, movement::e_movement_type)	1
+../Core/Inc/navigate_robot.h:62:7:constexpr command::command()	1
+../Core/Src/navigate_robot.cpp:66:1:movement::movement(robot_position, movement::e_speed, movement::e_movement_type)	1
 ../Core/Src/navigate_robot.cpp:71:1:mov_streight::mov_streight(robot_position, movement::e_speed, movement::e_movement_type)	1
 ../Core/Src/navigate_robot.cpp:76:1:mov_circular::mov_circular(robot_position, robot_position, movement::e_speed, movement::e_movement_type)	1
-../Core/Inc/navigate_robot.h:120:7:constexpr control::control()	1
 ../Core/Src/navigate_robot.cpp:82:1:cmd_wait::cmd_wait(cmd_wait::e_wait_time)	1
 ../Core/Src/navigate_robot.cpp:85:1:cmd_set_pin::cmd_set_pin(cmd_set_pin::e_output_pin, bool)	1
 ../Core/Src/navigate_robot.cpp:90:6:void mov_streight::update_command(robot_position, movement::e_speed, movement::e_movement_type)	1

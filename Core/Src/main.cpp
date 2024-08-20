@@ -337,7 +337,7 @@ int main(void)
 	HAL_GPIO_WritePin(USER_LED_GPIO_Port, USER_LED_Pin, GPIO_PIN_SET);
 	HAL_GPIO_WritePin(F_CS_GPIO_Port, F_CS_Pin, GPIO_PIN_RESET); // Ustawienie F_CS na low
 	Init_SSD1963();
-
+	//robot_home_position.x = u_position(20);
 
 	init_objects();
 	main_top_menu.draw();

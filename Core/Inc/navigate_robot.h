@@ -37,6 +37,9 @@ struct robot_position {
       double b_val, double c_val) :
       x(x_val), y(y_val), z(z_val), a(a_val), b(b_val), c(c_val) {
   }
+  robot_position() :
+        x(0), y(0), z(0), a(0), b(0), c(0) {
+    }
 
   bool operator==(const robot_position &other) const {
     return x == other.x && y == other.y && z == other.z && a == other.a
@@ -60,6 +63,7 @@ class command {
 public:
   virtual bool perform_task() = 0;
   virtual void draw(int print_y) = 0;
+  virtual void save_to_file()=0;
   // std::string getType(){return typeid(*this).name();}
 };
 
@@ -75,16 +79,23 @@ public:
     speed_100,
   };
   struct robot_position target_pos;
-  uint8_t speed;
+  enum e_speed speed;
   enum e_movement_type movement_type;
-  movement(struct robot_position in_target_pos, uint8_t speed,
+  movement(struct robot_position in_target_pos, enum e_speed  speed,
       enum e_movement_type movement_type);
   struct robot_position get_target_position() {
     return target_pos;
   }
   void draw(int print_y);
+  enum e_speed get_speed() {
+    return speed;
+  }
+  enum e_movement_type get_movement_type() {
+    return movement_type;
+  }
   virtual void save_to_file(struct robot_position &in_target_pos,
       enum e_speed &in_speed, enum e_movement_type &in_movement_type)=0;
+
 };
 
 class mov_streight: public movement {
@@ -97,6 +108,7 @@ public:
       enum e_speed in_speed, enum e_movement_type in_movement_type);
   void save_to_file(struct robot_position &in_target_pos,
       enum e_speed &in_speed, enum e_movement_type &in_movement_type);
+  void save_to_file();//jeżeli nie było poprzedniego punktu zapisz wszystkie dane
 };
 
 class mov_circular: public movement {
@@ -115,14 +127,10 @@ public:
   }
   void save_to_file(struct robot_position &in_target_pos,
       enum e_speed &in_speed, enum e_movement_type &in_movement_type);
+  void save_to_file();//jeżeli nie było poprzedniego punktu zapisz wszystkie dane
 };
 
-class control: public command {
-public:
-  virtual void save_to_file()=0;
-};
-
-class cmd_wait: public control {
+class cmd_wait: public command  {
 public:
   enum e_wait_time {
     wait_1s, wait_5s, wait_30s, wait_1min, wait_5min,
@@ -138,7 +146,7 @@ public:
   void save_to_file();
 };
 
-class cmd_set_pin: public control {
+class cmd_set_pin: public command  {
 public:
   enum e_output_pin {
     robot_tool, user_led,

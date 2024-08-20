@@ -64,7 +64,7 @@ void cmd_wait::draw(int print_y) {
 
 
 movement::movement(struct robot_position in_target_pos,
-    uint8_t speed, enum e_movement_type movement_type) :
+    enum e_speed speed, enum e_movement_type movement_type) :
     target_pos(in_target_pos), speed(speed), movement_type(movement_type) {
 }
 
