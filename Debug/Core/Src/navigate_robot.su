@@ -1,8 +1,0 @@
-../Core/Inc/navigate_robot.h:23:1:robot_position::robot_position(double, double, double, double, double, double)	64	static
-../Core/Src/navigate_robot.cpp:21:6:void kalibracja_robota(int*, int*, uint8_t*)	24	static
-../Core/Src/navigate_robot.cpp:104:6:void licz_kroki(double*, int*, double*)	352	static
-../Core/Src/navigate_robot.cpp:211:6:void simpleMoveMotor(GPIO_TypeDef*, uint16_t)	16	static
-../Core/Src/navigate_robot.cpp:216:6:void moveMotorWithPosition(GPIO_TypeDef*, uint16_t, int*, int8_t)	24	static
-../Core/Src/navigate_robot.cpp:223:6:void setDuration(GPIO_TypeDef*, uint16_t, int, int, int8_t*)	24	static
-../Core/Src/navigate_robot.cpp:236:1:void __static_initialization_and_destruction_0(int, int)	16	static
-../Core/Src/navigate_robot.cpp:236:1:cpp)	8	static

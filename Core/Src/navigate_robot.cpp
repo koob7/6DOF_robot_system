@@ -18,6 +18,121 @@ double a2 = 20;
 double a3 = 20;
 double d6 = 10.5;
 
+
+void movement::draw(int print_y) {
+  draw_text(
+  command_explorer_first_setting_x, print_y, command_explorer_line_height,
+  command_explorer_file_menu_font, 1, BLACK,
+  "MOVE = " + (static_cast<mov_circular *>(this) != nullptr) ? "Circ"
+  : "Straight");
+  std::string type_string =
+  (movement_type == continous) ? "Continous" : "Step_by_step";
+  draw_text(command_explorer_second_setting_x, print_y,
+  command_explorer_line_height, command_explorer_file_menu_font, 1,
+  BLACK, "TYPE = " + type_string);
+  draw_text(command_explorer_third_setting_x, print_y,
+  command_explorer_line_height, command_explorer_file_menu_font, 1,
+  BLACK, "SPEED = " + std::to_string(speed));
+}
+
+void cmd_wait::draw(int print_y) {
+  draw_text(command_explorer_first_setting_x, print_y,
+  command_explorer_line_height, command_explorer_file_menu_font, 1,
+  BLACK, "COMAND = Wait");
+  std::string wait_time_text;
+  switch (wait_time) {
+    case wait_1s:
+    wait_time_text = "1s";
+    break;
+    case wait_5s:
+    wait_time_text = "5s";
+    break;
+    case wait_30s:
+    wait_time_text = "30s";
+    break;
+    case wait_1min:
+    wait_time_text = "1min";
+    break;
+    case wait_5min:
+    wait_time_text = "5min";
+    break;
+  }
+  draw_text(command_explorer_second_setting_x, print_y,
+  command_explorer_line_height, command_explorer_file_menu_font, 1,
+  BLACK, "TIME = " + wait_time_text);
+}
+
+
+movement::movement(struct robot_position in_target_pos,
+    uint8_t speed, enum e_movement_type movement_type) :
+    target_pos(in_target_pos), speed(speed), movement_type(movement_type) {
+}
+
+mov_streight::mov_streight(struct robot_position in_target_pos,
+    enum e_speed speed, enum e_movement_type movement_type) :
+    movement(in_target_pos, speed, movement_type) {
+}
+
+mov_circular::mov_circular(struct robot_position in_help_pos,
+    struct robot_position in_target_pos, enum e_speed speed,
+    enum e_movement_type movement_type) :
+    movement(in_target_pos, speed, movement_type), help_pos(in_help_pos) {
+}
+
+cmd_wait::cmd_wait(enum e_wait_time wait_time) :
+    wait_time(wait_time) {
+}
+cmd_set_pin::cmd_set_pin(enum e_output_pin output_pin,
+    bool set_pin_high) :
+    output_pin(output_pin), set_pin_high(set_pin_high) {
+}
+
+void mov_streight::update_command(
+    struct robot_position in_target_pos, enum e_speed in_speed,
+    enum e_movement_type in_movement_type) {
+  target_pos = in_target_pos;
+  speed = in_speed;
+  movement_type = in_movement_type;
+}
+
+void mov_circular::update_command(
+    struct robot_position in_help_pos, struct robot_position in_target_pos,
+    enum e_speed in_speed, enum e_movement_type in_movement_type) {
+  help_pos = in_help_pos;
+  target_pos = in_target_pos;
+  speed = in_speed;
+  movement_type = in_movement_type;
+}
+
+void cmd_wait::update_command(enum e_wait_time in_wait_time) {
+  wait_time = in_wait_time;
+}
+
+void cmd_set_pin::update_command(
+    enum e_output_pin in_output_pin, bool in_set_pin_high) {
+  output_pin = in_output_pin;
+  set_pin_high = in_set_pin_high;
+}
+
+void cmd_set_pin::draw(int print_y) {
+  draw_text(command_explorer_first_setting_x, print_y,
+  command_explorer_line_height, command_explorer_file_menu_font, 1,
+  BLACK, "COMAND = Signal");
+
+  std::string output_pin_text;
+  switch (output_pin) {
+    case robot_tool:
+    output_pin_text = "Robot tool";
+    break;
+    case user_led:
+    output_pin_text = "User led";
+    break;
+  }
+  draw_text(command_explorer_second_setting_x, print_y,
+  command_explorer_line_height, command_explorer_file_menu_font, 1,
+  BLACK, "SOURCE = " + output_pin_text);
+}
+
 void kalibracja_robota(int givenSteps[6], int liczba_krokow_osi[5],
                        uint8_t kalibracja_osi[5]) {
   // kalibracja osi 2

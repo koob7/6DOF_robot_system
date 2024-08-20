@@ -15,6 +15,7 @@
 #include <algorithm>
 #include <iomanip>
 #include <sstream>
+#include <fstream>
 
 #define forget_when_hiden true
 
@@ -48,8 +49,12 @@ public:
   void add_background_part(std::shared_ptr<menu_part> part) {
     background_parts.push_back(part);
   }
-  void add_part(std::shared_ptr<menu_part> part) { top_parts.push_back(part); }
-  void add_part(button o_button) { buttons.push_back(o_button); }
+  void add_part(std::shared_ptr<menu_part> part) {
+    top_parts.push_back(part);
+  }
+  void add_part(button o_button) {
+    buttons.push_back(o_button);
+  }
   int check_pressed(int x, int y);
   void update_text(int id, std::string text);
 };
@@ -57,9 +62,7 @@ public:
 class projects_explorer {
 public:
   enum sort_option {
-    by_name,
-    by_size,
-    by_date,
+    by_name, by_size, by_date,
   };
 
 private:
@@ -76,16 +79,16 @@ private:
   int selected_file = -1; // wartość ujemna oznacza brak wybranego pliku
   button page_up_btn = button(0, 140, 158, 40, 40, 0xD6BA, 20); // nawigacja
                                                                 // góra
-  button page_down_btn =
-      button(1, 140, 425, 40, 40, 0xD6BA, 20); // nawigacja dół
+  button page_down_btn = button(1, 140, 425, 40, 40, 0xD6BA, 20); // nawigacja dół
 
   std::string format_date(WORD fdate);
   void get_files();
   void sort_files();
+  void forget_selected_hiden_file();
   void update_last_file_to_display();
   bool check_area_pressed(int x, int y, int area_x, int area_y, int area_width,
-                          int area_height);
-  void forget_selected_hiden_file();
+      int area_height);
+
 
 public:
   projects_explorer();
@@ -98,87 +101,13 @@ public:
 };
 
 class project_editor {
+
+  void forget_selected_hiden_command();
+  void update_last_command_to_display();
+  bool check_area_pressed(int x, int y, int area_x, int area_y, int area_width,
+      int area_height);
+
 public:
-  class command {
-  public:
-    virtual bool perform_task() = 0;
-    virtual void draw(int print_y) = 0;
-    //std::string getType(){return typeid(*this).name();}
-  };
-
-  class movement : public command {
-  public:
-    enum e_movement_type {
-      continous,
-      step_by_step,
-    };
-    struct robot_position target_pos;
-    uint8_t speed;
-    enum e_movement_type movement_type;
-    movement(struct robot_position in_target_pos, uint8_t speed,
-             enum e_movement_type movement_type);
-    struct robot_position get_target_position(){return target_pos;}
-    void draw(int print_y);
-  };
-
-  class mov_streight : public movement {
-  public:
-	mov_streight(struct robot_position in_target_pos, uint8_t speed,
-                 enum e_movement_type movement_type);
-    bool perform_task(); // tutaj funkcja będzie ustawiała kolejne pozycje
-                         // robota, zwraca true jeżeli osiągnięto cel
-    void update_command(struct robot_position in_target_pos, uint8_t in_speed,
-            enum e_movement_type in_movement_type);
-  };
-
-  class mov_circular : public movement {
-  public:
-	  struct robot_position help_pos;
-    mov_circular( struct robot_position in_help_pos, struct robot_position in_target_pos,
-                 uint8_t speed, enum e_movement_type movement_type);
-    bool perform_task(); // tutaj funkcja będzie ustawiała kolejne pozycje
-                         // robota, zwraca true jeżeli osiągnięto cel
-    void update_command(struct robot_position in_help_pos, struct robot_position in_target_pos,
-            uint8_t in_speed, enum e_movement_type in_movement_type);
-    struct robot_position get_help_position(){return help_pos;}
-  };
-
-  class cmd_wait : public command {
-  public:
-	enum e_wait_time {
-	  wait_1s,
-	  wait_5s,
-	  wait_30s,
-	  wait_1min,
-	  wait_5min,
-	};
-
-	enum e_wait_time wait_time;
-    cmd_wait(enum e_wait_time wait_time);
-    cmd_wait(std::string command_line);
-    bool perform_task(); // tutaj będzie odczekiwany mały odstęp czasu,  zwraca
-                         // true jeżeli osiągnięto cel
-    void draw(int print_y);
-    void update_command(enum e_wait_time wait_time);
-  };
-
-  class cmd_set_pin : public command {
-  public:
-    enum e_output_pin {
-      robot_tool,
-      user_led,
-    };
-    enum e_output_pin output_pin;
-    bool set_pin_high;
-    cmd_set_pin(enum e_output_pin output_pin, bool set_pin_high);
-    cmd_set_pin(std::string command_line);
-    bool perform_task(); // tutaj będzie ustawiana wartość pinu w zależności od
-                         // zmiennej set_pin_high, zwraca true jeżeli poprawnie
-                         // ustawiono pin
-    void draw(int print_y);
-    void update_command(enum e_output_pin in_output_pin, bool in_set_pin_high);
-  };
-
   int first_command_to_display = 0;
   int last_command_to_display = 0;
   int selected_command = -1; // wartość ujemna oznacza brak wybranego pliku
@@ -189,10 +118,14 @@ public:
   void draw();
   void read_commands();
   void handle_pressed(int x, int y);
-  void add_part(std::shared_ptr<command> in_cmd) { commands.push_back(in_cmd);}
+  void add_part(std::shared_ptr<command> in_cmd) {
+    commands.push_back(in_cmd);
+  }
+  bool perform_task();
   void insert_command(std::shared_ptr<command> in_cmd);
   void remove_command();
-
+  bool open_file(std::string file_name);
+  void save_changes_file();
 };
 
 //

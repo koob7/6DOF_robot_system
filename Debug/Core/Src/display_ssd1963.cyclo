@@ -1,56 +1,56 @@
 C:\ST\STM32CubeIDE_1.13.2\STM32CubeIDE\plugins\com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.11.3.rel1.win32_1.1.1.202309131626\tools\bin/../lib/gcc/arm-none-eabi/11.3.1/../../../../arm-none-eabi/include/c++/11.3.1/new:174:33:void* operator new(std::size_t, void*)	1
 C:\ST\STM32CubeIDE_1.13.2\STM32CubeIDE\plugins\com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.11.3.rel1.win32_1.1.1.202309131626\tools\arm-none-eabi\include\c++\11.3.1\arm-none-eabi\thumb\v7e-m+dp\hard\bits\gthr-default.h:229:1:int __gthread_key_delete(__gthread_key_t)	1
-../Core/Src/display_ssd1963.cpp:12:10:uint16_t RGB(uint8_t, uint8_t, uint8_t)	1
-../Core/Src/display_ssd1963.cpp:19:6:void tft_write_bus(uint8_t, uint8_t)	1
-../Core/Src/display_ssd1963.cpp:28:6:void Lcd_Write_Data(uint16_t)	1
-../Core/Src/display_ssd1963.cpp:33:6:void Lcd_Write_Cmd(uint16_t)	1
-../Core/Src/display_ssd1963.cpp:40:6:void Lcd_SetArea(uint16_t, uint16_t, uint16_t, uint16_t)	1
-../Core/Src/display_ssd1963.cpp:55:6:void Lcd_FillArea(uint16_t, uint16_t, uint16_t, uint16_t, int16_t)	2
-../Core/Src/display_ssd1963.cpp:68:6:void Lcd_ClearScreen(int16_t)	3
-../Core/Src/display_ssd1963.cpp:82:6:void Lcd_SetPixel(int16_t, int16_t, int16_t)	1
-../Core/Src/display_ssd1963.cpp:90:6:void Init_SSD1963()	1
-../Core/Src/display_ssd1963.cpp:180:6:void TFT_Set_X(uint16_t, uint16_t)	1
-../Core/Src/display_ssd1963.cpp:190:6:void TFT_Set_Y(uint16_t, uint16_t)	1
-../Core/Src/display_ssd1963.cpp:200:6:void TFT_Set_XY(uint16_t, uint16_t)	1
-../Core/Src/display_ssd1963.cpp:206:6:void TFT_Set_Work_Area(uint16_t, uint16_t, uint16_t, uint16_t)	1
-../Core/Src/display_ssd1963.cpp:213:6:void TFT_Clear_Screen(uint16_t)	2
-../Core/Src/display_ssd1963.cpp:224:6:void TFT_Draw_Char(uint16_t, uint16_t, uint16_t, uint16_t, const uint8_t*, uint8_t, uint8_t)	4
-../Core/Src/display_ssd1963.cpp:248:6:void TFT_Draw_Line(uint16_t, uint16_t, uint16_t, uint16_t, uint8_t, uint16_t)	7
-../Core/Src/display_ssd1963.cpp:281:6:void TFT_Draw_VLine(uint16_t, uint16_t, uint16_t, uint16_t, uint16_t)	2
-../Core/Src/display_ssd1963.cpp:291:6:void TFT_Draw_HLine(uint16_t, uint16_t, uint16_t, uint16_t, uint16_t)	2
-../Core/Src/display_ssd1963.cpp:301:6:void draw_text(uint16_t, uint16_t, uint16_t, const GFXfont*, uint8_t, uint16_t, const string&)	1
-../Core/Src/display_ssd1963.cpp:319:3:draw_center_text(uint16_t, uint16_t, uint16_t, uint16_t, const GFXfont*, uint8_t, uint16_t, const string&)::line_content::line_content(std::string, int)	1
+../Core/Src/display_ssd1963.cpp:10:10:uint16_t RGB(uint8_t, uint8_t, uint8_t)	1
+../Core/Src/display_ssd1963.cpp:14:6:void tft_write_bus(uint8_t, uint8_t)	1
+../Core/Src/display_ssd1963.cpp:22:6:void Lcd_Write_Data(uint16_t)	1
+../Core/Src/display_ssd1963.cpp:26:6:void Lcd_Write_Cmd(uint16_t)	1
+../Core/Src/display_ssd1963.cpp:32:6:void Lcd_SetArea(uint16_t, uint16_t, uint16_t, uint16_t)	1
+../Core/Src/display_ssd1963.cpp:46:6:void Lcd_FillArea(uint16_t, uint16_t, uint16_t, uint16_t, int16_t)	2
+../Core/Src/display_ssd1963.cpp:56:6:void Lcd_ClearScreen(int16_t)	3
+../Core/Src/display_ssd1963.cpp:67:6:void Lcd_SetPixel(int16_t, int16_t, int16_t)	1
+../Core/Src/display_ssd1963.cpp:74:6:void Init_SSD1963()	1
+../Core/Src/display_ssd1963.cpp:163:6:void TFT_Set_X(uint16_t, uint16_t)	1
+../Core/Src/display_ssd1963.cpp:172:6:void TFT_Set_Y(uint16_t, uint16_t)	1
+../Core/Src/display_ssd1963.cpp:181:6:void TFT_Set_XY(uint16_t, uint16_t)	1
+../Core/Src/display_ssd1963.cpp:186:6:void TFT_Set_Work_Area(uint16_t, uint16_t, uint16_t, uint16_t)	1
+../Core/Src/display_ssd1963.cpp:193:6:void TFT_Clear_Screen(uint16_t)	2
+../Core/Src/display_ssd1963.cpp:202:6:void TFT_Draw_Char(uint16_t, uint16_t, uint16_t, uint16_t, const uint8_t*, uint8_t, uint8_t)	4
+../Core/Src/display_ssd1963.cpp:218:6:void TFT_Draw_Line(uint16_t, uint16_t, uint16_t, uint16_t, uint8_t, uint16_t)	7
+../Core/Src/display_ssd1963.cpp:247:6:void TFT_Draw_VLine(uint16_t, uint16_t, uint16_t, uint16_t, uint16_t)	2
+../Core/Src/display_ssd1963.cpp:256:6:void TFT_Draw_HLine(uint16_t, uint16_t, uint16_t, uint16_t, uint16_t)	2
+../Core/Src/display_ssd1963.cpp:265:6:void draw_text(uint16_t, uint16_t, uint16_t, const GFXfont*, uint8_t, uint16_t, const string&)	1
+../Core/Src/display_ssd1963.cpp:280:5:draw_center_text(uint16_t, uint16_t, uint16_t, uint16_t, const GFXfont*, uint8_t, uint16_t, const string&)::line_content::line_content(std::string, int)	1
 C:\ST\STM32CubeIDE_1.13.2\STM32CubeIDE\plugins\com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.11.3.rel1.win32_1.1.1.202309131626\tools\bin/../lib/gcc/arm-none-eabi/11.3.1/../../../../arm-none-eabi/include/c++/11.3.1/bits/stl_vector.h:128:14:std::_Vector_base<draw_center_text(uint16_t, uint16_t, uint16_t, uint16_t, const GFXfont*, uint8_t, uint16_t, const string&)::line_content, std::allocator<draw_center_text(uint16_t, uint16_t, uint16_t, uint16_t, const GFXfont*, uint8_t, uint16_t, const string&)::line_content> >::_Vector_impl::~_Vector_impl()	1
 C:\ST\STM32CubeIDE_1.13.2\STM32CubeIDE\plugins\com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.11.3.rel1.win32_1.1.1.202309131626\tools\bin/../lib/gcc/arm-none-eabi/11.3.1/../../../../arm-none-eabi/include/c++/11.3.1/bits/stl_vector.h:288:7:std::_Vector_base<_Tp, _Alloc>::_Vector_base() [with _Tp = draw_center_text(uint16_t, uint16_t, uint16_t, uint16_t, const GFXfont*, uint8_t, uint16_t, const string&)::line_content; _Alloc = std::allocator<draw_center_text(uint16_t, uint16_t, uint16_t, uint16_t, const GFXfont*, uint8_t, uint16_t, const string&)::line_content>]	1
 C:\ST\STM32CubeIDE_1.13.2\STM32CubeIDE\plugins\com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.11.3.rel1.win32_1.1.1.202309131626\tools\bin/../lib/gcc/arm-none-eabi/11.3.1/../../../../arm-none-eabi/include/c++/11.3.1/bits/stl_vector.h:487:7:std::vector<_Tp, _Alloc>::vector() [with _Tp = draw_center_text(uint16_t, uint16_t, uint16_t, uint16_t, const GFXfont*, uint8_t, uint16_t, const string&)::line_content; _Alloc = std::allocator<draw_center_text(uint16_t, uint16_t, uint16_t, uint16_t, const GFXfont*, uint8_t, uint16_t, const string&)::line_content>]	1
-../Core/Src/display_ssd1963.cpp:315:9:draw_center_text(uint16_t, uint16_t, uint16_t, uint16_t, const GFXfont*, uint8_t, uint16_t, const string&)::line_content::~line_content()	1
-../Core/Src/display_ssd1963.cpp:315:9:draw_center_text(uint16_t, uint16_t, uint16_t, uint16_t, const GFXfont*, uint8_t, uint16_t, const string&)::line_content::line_content(const draw_center_text(uint16_t, uint16_t, uint16_t, uint16_t, const GFXfont*, uint8_t, uint16_t, const string&)::line_content&)	1
-../Core/Src/display_ssd1963.cpp:311:6:void draw_center_text(uint16_t, uint16_t, uint16_t, uint16_t, const GFXfont*, uint8_t, uint16_t, const string&)	12
-../Core/Src/display_ssd1963.cpp:383:6:void TFT_Set_Read_Area(uint16_t, uint16_t, uint16_t, uint16_t)	1
-../Core/Src/display_ssd1963.cpp:390:6:void lcd_Read_Area(uint16_t, uint16_t, uint16_t, uint16_t, uint16_t*)	2
-../Core/Src/display_ssd1963.cpp:405:10:uint16_t lcd_Read_bus()	1
-../Core/Src/display_ssd1963.cpp:415:6:void TFT_Draw_String(uint16_t, uint16_t, uint16_t, uint16_t, const uint8_t*, char*, uint8_t)	3
-../Core/Src/display_ssd1963.cpp:432:10:uint16_t TFT_Draw_List(uint16_t, uint16_t, uint16_t, char*, char*, uint16_t*, const GFXfont*)	6
-../Core/Src/display_ssd1963.cpp:487:6:void TFT_Draw_Alert(uint16_t, uint16_t, char*, uint16_t*, const GFXfont*)	1
-../Core/Src/display_ssd1963.cpp:506:6:void TFT_Restore_Area(uint16_t, uint16_t, uint16_t, uint16_t, uint16_t*)	2
-../Core/Src/display_ssd1963.cpp:517:6:void TFT_Draw_Bitmap_Without_Background(uint16_t, uint16_t, uint16_t, uint16_t, const uint16_t*)	6
-../Core/Src/display_ssd1963.cpp:537:6:void TFT_Draw_Bitmap(uint16_t, uint16_t, uint16_t, uint16_t, const uint16_t*)	3
-../Core/Src/display_ssd1963.cpp:550:6:void TFT_Draw_Rectangle(uint16_t, uint16_t, uint16_t, uint16_t, uint8_t, uint16_t)	1
-../Core/Src/display_ssd1963.cpp:559:6:void TFT_Draw_Fill_Rectangle(uint16_t, uint16_t, uint16_t, uint16_t, uint16_t)	2
-../Core/Src/display_ssd1963.cpp:571:6:void TFT_Draw_Triangle(uint16_t, uint16_t, uint16_t, uint16_t, uint16_t, uint16_t, uint8_t, uint16_t)	1
-../Core/Src/display_ssd1963.cpp:580:6:void TFT_Draw_Circle(uint16_t, uint16_t, uint8_t, uint8_t, uint8_t, uint16_t)	4
-../Core/Src/display_ssd1963.cpp:621:6:void TFT_Draw_Circle_Helper(int16_t, int16_t, int16_t, uint8_t, uint8_t, uint16_t)	7
-../Core/Src/display_ssd1963.cpp:664:6:void TFT_Draw_Round_Rect(uint16_t, uint16_t, uint16_t, uint16_t, uint16_t, uint8_t, uint16_t)	1
-../Core/Src/display_ssd1963.cpp:680:6:void TFT_Draw_Fill_Circle_Helper(int16_t, int16_t, int16_t, uint8_t, int16_t, uint16_t)	5
-../Core/Src/display_ssd1963.cpp:715:6:void TFT_Draw_Fill_Round_Rect(uint16_t, uint16_t, uint16_t, uint16_t, uint16_t, uint16_t)	1
-../Core/Src/display_ssd1963.cpp:725:13:void LCD_Char(int16_t, int16_t, const GFXglyph*, const GFXfont*, uint8_t, uint16_t)	7
-../Core/Src/display_ssd1963.cpp:767:6:void LCD_centered_Font(uint16_t, uint16_t, uint16_t, char*, const GFXfont*, uint8_t, uint32_t)	15
-../Core/Src/display_ssd1963.cpp:833:6:void LCD_Row_Font(uint16_t, uint16_t, uint16_t, uint16_t, char*, const GFXfont*, uint8_t, uint32_t)	7
-../Core/Src/display_ssd1963.cpp:855:6:void LCD_Font(uint16_t, uint16_t, char*, const GFXfont*, uint8_t, uint16_t)	6
-../Core/Src/display_ssd1963.cpp:872:6:void LCD_FillTriangle(int16_t, int16_t, int16_t, int16_t, int16_t, int16_t, uint16_t)	14
-../Core/Src/display_ssd1963.cpp:959:10:uint16_t rainbow(uint16_t)	5
-../Core/Src/display_ssd1963.cpp:998:6:long int map(long int, long int, long int, long int, long int)	1
-../Core/Src/display_ssd1963.cpp:1003:5:int ringMeter(int, int, int, int, int, int, uint16_t)	9
+../Core/Src/display_ssd1963.cpp:277:10:draw_center_text(uint16_t, uint16_t, uint16_t, uint16_t, const GFXfont*, uint8_t, uint16_t, const string&)::line_content::~line_content()	1
+../Core/Src/display_ssd1963.cpp:277:10:draw_center_text(uint16_t, uint16_t, uint16_t, uint16_t, const GFXfont*, uint8_t, uint16_t, const string&)::line_content::line_content(const draw_center_text(uint16_t, uint16_t, uint16_t, uint16_t, const GFXfont*, uint8_t, uint16_t, const string&)::line_content&)	1
+../Core/Src/display_ssd1963.cpp:274:6:void draw_center_text(uint16_t, uint16_t, uint16_t, uint16_t, const GFXfont*, uint8_t, uint16_t, const string&)	12
+../Core/Src/display_ssd1963.cpp:330:6:void TFT_Set_Read_Area(uint16_t, uint16_t, uint16_t, uint16_t)	1
+../Core/Src/display_ssd1963.cpp:337:6:void lcd_Read_Area(uint16_t, uint16_t, uint16_t, uint16_t, uint16_t*)	2
+../Core/Src/display_ssd1963.cpp:350:10:uint16_t lcd_Read_bus()	1
+../Core/Src/display_ssd1963.cpp:359:6:void TFT_Draw_String(uint16_t, uint16_t, uint16_t, uint16_t, const uint8_t*, char*, uint8_t)	3
+../Core/Src/display_ssd1963.cpp:373:10:uint16_t TFT_Draw_List(uint16_t, uint16_t, uint16_t, char*, char*, uint16_t*, const GFXfont*)	6
+../Core/Src/display_ssd1963.cpp:422:6:void TFT_Draw_Alert(uint16_t, uint16_t, char*, uint16_t*, const GFXfont*)	1
+../Core/Src/display_ssd1963.cpp:440:6:void TFT_Restore_Area(uint16_t, uint16_t, uint16_t, uint16_t, uint16_t*)	2
+../Core/Src/display_ssd1963.cpp:449:6:void TFT_Draw_Bitmap_Without_Background(uint16_t, uint16_t, uint16_t, uint16_t, const uint16_t*)	6
+../Core/Src/display_ssd1963.cpp:465:6:void TFT_Draw_Bitmap(uint16_t, uint16_t, uint16_t, uint16_t, const uint16_t*)	3
+../Core/Src/display_ssd1963.cpp:475:6:void TFT_Draw_Rectangle(uint16_t, uint16_t, uint16_t, uint16_t, uint8_t, uint16_t)	1
+../Core/Src/display_ssd1963.cpp:483:6:void TFT_Draw_Fill_Rectangle(uint16_t, uint16_t, uint16_t, uint16_t, uint16_t)	2
+../Core/Src/display_ssd1963.cpp:493:6:void TFT_Draw_Triangle(uint16_t, uint16_t, uint16_t, uint16_t, uint16_t, uint16_t, uint8_t, uint16_t)	1
+../Core/Src/display_ssd1963.cpp:501:6:void TFT_Draw_Circle(uint16_t, uint16_t, uint8_t, uint8_t, uint8_t, uint16_t)	4
+../Core/Src/display_ssd1963.cpp:532:6:void TFT_Draw_Circle_Helper(int16_t, int16_t, int16_t, uint8_t, uint8_t, uint16_t)	7
+../Core/Src/display_ssd1963.cpp:568:6:void TFT_Draw_Round_Rect(uint16_t, uint16_t, uint16_t, uint16_t, uint16_t, uint8_t, uint16_t)	1
+../Core/Src/display_ssd1963.cpp:583:6:void TFT_Draw_Fill_Circle_Helper(int16_t, int16_t, int16_t, uint8_t, int16_t, uint16_t)	5
+../Core/Src/display_ssd1963.cpp:613:6:void TFT_Draw_Fill_Round_Rect(uint16_t, uint16_t, uint16_t, uint16_t, uint16_t, uint16_t)	1
+../Core/Src/display_ssd1963.cpp:622:13:void LCD_Char(int16_t, int16_t, const GFXglyph*, const GFXfont*, uint8_t, uint16_t)	7
+../Core/Src/display_ssd1963.cpp:655:6:void LCD_centered_Font(uint16_t, uint16_t, uint16_t, char*, const GFXfont*, uint8_t, uint32_t)	15
+../Core/Src/display_ssd1963.cpp:714:6:void LCD_Row_Font(uint16_t, uint16_t, uint16_t, uint16_t, char*, const GFXfont*, uint8_t, uint32_t)	7
+../Core/Src/display_ssd1963.cpp:733:6:void LCD_Font(uint16_t, uint16_t, char*, const GFXfont*, uint8_t, uint16_t)	6
+../Core/Src/display_ssd1963.cpp:747:6:void LCD_FillTriangle(int16_t, int16_t, int16_t, int16_t, int16_t, int16_t, uint16_t)	14
+../Core/Src/display_ssd1963.cpp:827:10:uint16_t rainbow(uint16_t)	5
+../Core/Src/display_ssd1963.cpp:861:6:long int map(long int, long int, long int, long int, long int)	1
+../Core/Src/display_ssd1963.cpp:865:5:int ringMeter(int, int, int, int, int, int, uint16_t)	9
 C:\ST\STM32CubeIDE_1.13.2\STM32CubeIDE\plugins\com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.11.3.rel1.win32_1.1.1.202309131626\tools\bin/../lib/gcc/arm-none-eabi/11.3.1/../../../../arm-none-eabi/include/c++/11.3.1/bits/stl_vector.h:131:2:std::_Vector_base<_Tp, _Alloc>::_Vector_impl::_Vector_impl() [with _Tp = draw_center_text(uint16_t, uint16_t, uint16_t, uint16_t, const GFXfont*, uint8_t, uint16_t, const string&)::line_content; _Alloc = std::allocator<draw_center_text(uint16_t, uint16_t, uint16_t, uint16_t, const GFXfont*, uint8_t, uint16_t, const string&)::line_content>]	1
 C:\ST\STM32CubeIDE_1.13.2\STM32CubeIDE\plugins\com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.11.3.rel1.win32_1.1.1.202309131626\tools\bin/../lib/gcc/arm-none-eabi/11.3.1/../../../../arm-none-eabi/include/c++/11.3.1/bits/allocator.h:174:7:std::allocator< <template-parameter-1-1> >::~allocator() [with _Tp = draw_center_text(uint16_t, uint16_t, uint16_t, uint16_t, const GFXfont*, uint8_t, uint16_t, const string&)::line_content]	1
 C:\ST\STM32CubeIDE_1.13.2\STM32CubeIDE\plugins\com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.11.3.rel1.win32_1.1.1.202309131626\tools\bin/../lib/gcc/arm-none-eabi/11.3.1/../../../../arm-none-eabi/include/c++/11.3.1/bits/stl_vector.h:333:7:std::_Vector_base<_Tp, _Alloc>::~_Vector_base() [with _Tp = draw_center_text(uint16_t, uint16_t, uint16_t, uint16_t, const GFXfont*, uint8_t, uint16_t, const string&)::line_content; _Alloc = std::allocator<draw_center_text(uint16_t, uint16_t, uint16_t, uint16_t, const GFXfont*, uint8_t, uint16_t, const string&)::line_content>]	1
@@ -87,7 +87,7 @@ C:\ST\STM32CubeIDE_1.13.2\STM32CubeIDE\plugins\com.st.stm32cube.ide.mcu.external
 C:\ST\STM32CubeIDE_1.13.2\STM32CubeIDE\plugins\com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.11.3.rel1.win32_1.1.1.202309131626\tools\bin/../lib/gcc/arm-none-eabi/11.3.1/../../../../arm-none-eabi/include/c++/11.3.1/bits/vector.tcc:426:7:) [with _Args = {draw_center_text(uint16_t, uint16_t, uint16_t, uint16_t, const GFXfont*, uint8_t, uint16_t, const string&)::line_content}; _Tp = draw_center_text(uint16_t, uint16_t, uint16_t, uint16_t, const GFXfont*, uint8_t, uint16_t, const string&)::line_content; _Alloc = std::allocator<draw_center_text(uint16_t, uint16_t, uint16_t, uint16_t, const GFXfont*, uint8_t, uint16_t, const string&)::line_content>]	3
 C:\ST\STM32CubeIDE_1.13.2\STM32CubeIDE\plugins\com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.11.3.rel1.win32_1.1.1.202309131626\tools\bin/../lib/gcc/arm-none-eabi/11.3.1/../../../../arm-none-eabi/include/c++/11.3.1/ext/new_allocator.h:132:7:void __gnu_cxx::new_allocator<_Tp>::deallocate(_Tp*, __gnu_cxx::new_allocator<_Tp>::size_type) [with _Tp = draw_center_text(uint16_t, uint16_t, uint16_t, uint16_t, const GFXfont*, uint8_t, uint16_t, const string&)::line_content]	1
 C:\ST\STM32CubeIDE_1.13.2\STM32CubeIDE\plugins\com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.11.3.rel1.win32_1.1.1.202309131626\tools\arm-none-eabi\include\c++\11.3.1\bits\stl_construct.h:160:2:static void std::_Destroy_aux<<anonymous> >::__destroy(_ForwardIterator, _ForwardIterator) [with _ForwardIterator = draw_center_text(uint16_t, uint16_t, uint16_t, uint16_t, const GFXfont*, uint8_t, uint16_t, const string&)::line_content*; bool <anonymous> = false]	2
-../Core/Src/display_ssd1963.cpp:315:9:draw_center_text(uint16_t, uint16_t, uint16_t, uint16_t, const GFXfont*, uint8_t, uint16_t, const string&)::line_content::line_content(draw_center_text(uint16_t, uint16_t, uint16_t, uint16_t, const GFXfont*, uint8_t, uint16_t, const string&)::line_content&&)	1
+../Core/Src/display_ssd1963.cpp:277:10:draw_center_text(uint16_t, uint16_t, uint16_t, uint16_t, const GFXfont*, uint8_t, uint16_t, const string&)::line_content::line_content(draw_center_text(uint16_t, uint16_t, uint16_t, uint16_t, const GFXfont*, uint8_t, uint16_t, const string&)::line_content&&)	1
 C:\ST\STM32CubeIDE_1.13.2\STM32CubeIDE\plugins\com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.11.3.rel1.win32_1.1.1.202309131626\tools\bin/../lib/gcc/arm-none-eabi/11.3.1/../../../../arm-none-eabi/include/c++/11.3.1/ext/new_allocator.h:160:2:) [with _Up = draw_center_text(uint16_t, uint16_t, uint16_t, uint16_t, const GFXfont*, uint8_t, uint16_t, const string&)::line_content; _Args = {draw_center_text(uint16_t, uint16_t, uint16_t, uint16_t, const GFXfont*, uint8_t, uint16_t, const string&)::line_content}; _Tp = draw_center_text(uint16_t, uint16_t, uint16_t, uint16_t, const GFXfont*, uint8_t, uint16_t, const string&)::line_content]	1
 C:\ST\STM32CubeIDE_1.13.2\STM32CubeIDE\plugins\com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.11.3.rel1.win32_1.1.1.202309131626\tools\bin/../lib/gcc/arm-none-eabi/11.3.1/../../../../arm-none-eabi/include/c++/11.3.1/bits/stl_vector.h:1756:7:std::vector<_Tp, _Alloc>::size_type std::vector<_Tp, _Alloc>::_M_check_len(std::vector<_Tp, _Alloc>::size_type, const char*) const [with _Tp = draw_center_text(uint16_t, uint16_t, uint16_t, uint16_t, const GFXfont*, uint8_t, uint16_t, const string&)::line_content; _Alloc = std::allocator<draw_center_text(uint16_t, uint16_t, uint16_t, uint16_t, const GFXfont*, uint8_t, uint16_t, const string&)::line_content>]	3
 C:\ST\STM32CubeIDE_1.13.2\STM32CubeIDE\plugins\com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.11.3.rel1.win32_1.1.1.202309131626\tools\bin/../lib/gcc/arm-none-eabi/11.3.1/../../../../arm-none-eabi/include/c++/11.3.1/bits/stl_iterator.h:1267:5:typename __gnu_cxx::__normal_iterator<_Iterator, _Container>::difference_type __gnu_cxx::operator-(const __gnu_cxx::__normal_iterator<_Iterator, _Container>&, const __gnu_cxx::__normal_iterator<_Iterator, _Container>&) [with _Iterator = draw_center_text(uint16_t, uint16_t, uint16_t, uint16_t, const GFXfont*, uint8_t, uint16_t, const string&)::line_content*; _Container = std::vector<draw_center_text(uint16_t, uint16_t, uint16_t, uint16_t, const GFXfont*, uint8_t, uint16_t, const string&)::line_content>]	1
@@ -125,6 +125,6 @@ C:\ST\STM32CubeIDE_1.13.2\STM32CubeIDE\plugins\com.st.stm32cube.ide.mcu.external
 C:\ST\STM32CubeIDE_1.13.2\STM32CubeIDE\plugins\com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.11.3.rel1.win32_1.1.1.202309131626\tools\arm-none-eabi\include\c++\11.3.1\bits\stl_construct.h:109:5:) [with _Tp = draw_center_text(uint16_t, uint16_t, uint16_t, uint16_t, const GFXfont*, uint8_t, uint16_t, const string&)::line_content; _Args = {draw_center_text(uint16_t, uint16_t, uint16_t, uint16_t, const GFXfont*, uint8_t, uint16_t, const string&)::line_content}]	1
 C:\ST\STM32CubeIDE_1.13.2\STM32CubeIDE\plugins\com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.11.3.rel1.win32_1.1.1.202309131626\tools\bin/../lib/gcc/arm-none-eabi/11.3.1/../../../../arm-none-eabi/include/c++/11.3.1/bits/stl_iterator.h:1629:5:bool std::operator==(const std::move_iterator<_IteratorL>&, const std::move_iterator<_IteratorL>&) [with _Iterator = draw_center_text(uint16_t, uint16_t, uint16_t, uint16_t, const GFXfont*, uint8_t, uint16_t, const string&)::line_content*]	1
 C:\ST\STM32CubeIDE_1.13.2\STM32CubeIDE\plugins\com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.11.3.rel1.win32_1.1.1.202309131626\tools\bin/../lib/gcc/arm-none-eabi/11.3.1/../../../../arm-none-eabi/include/c++/11.3.1/bits/stl_iterator.h:1445:7:std::move_iterator<_Iterator>::iterator_type std::move_iterator<_Iterator>::base() const [with _Iterator = draw_center_text(uint16_t, uint16_t, uint16_t, uint16_t, const GFXfont*, uint8_t, uint16_t, const string&)::line_content*]	1
-../Core/Src/display_ssd1963.cpp:1079:1:void __static_initialization_and_destruction_0(int, int)	5
-../Core/Src/display_ssd1963.cpp:1079:1:cpp)	1
-../Core/Src/display_ssd1963.cpp:1079:1:cpp)	1
+../Core/Src/display_ssd1963.cpp:936:1:void __static_initialization_and_destruction_0(int, int)	5
+../Core/Src/display_ssd1963.cpp:936:1:cpp)	1
+../Core/Src/display_ssd1963.cpp:936:1:cpp)	1
