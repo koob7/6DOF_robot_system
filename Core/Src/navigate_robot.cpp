@@ -6,7 +6,7 @@
  */
 #include <navigate_robot.h>
 
-struct robot_position robot_home_position = robot_position(20,0,20,0,0,0);
+struct robot_position robot_home_position = robot_position(20, 0, 20, 0, 0, 0);
 
 int max_range = 39;
 int min_range = 13;
@@ -17,7 +17,6 @@ double d1 = 0;
 double a2 = 20;
 double a3 = 20;
 double d6 = 10.5;
-
 
 void movement::draw(int print_y) {
   draw_text(
@@ -62,15 +61,76 @@ void cmd_wait::draw(int print_y) {
   BLACK, "TIME = " + wait_time_text);
 }
 
-
-movement::movement(struct robot_position in_target_pos,
-    enum e_speed speed, enum e_movement_type movement_type) :
+movement::movement(struct robot_position in_target_pos, enum e_speed speed,
+    enum e_movement_type movement_type) :
     target_pos(in_target_pos), speed(speed), movement_type(movement_type) {
 }
-
+movement::movement() {
+  target_pos = robot_position();
+      speed = speed_10;
+      movement_type = continous;
+}
 mov_streight::mov_streight(struct robot_position in_target_pos,
     enum e_speed speed, enum e_movement_type movement_type) :
     movement(in_target_pos, speed, movement_type) {
+}
+mov_streight::mov_streight(std::ifstream &iss) {
+  char prefix;
+  double value;
+  while (iss >> prefix >> value) {
+    switch (prefix) {
+    case 'X':
+      target_pos.x = value;
+      break;
+    case 'Y':
+      target_pos.y = value;
+      break;
+    case 'Z':
+      target_pos.z = value;
+      break;
+    case 'A':
+      target_pos.a = value;
+      break;
+    case 'B':
+      target_pos.b = value;
+      break;
+    case 'C':
+      target_pos.c = value;
+      break;
+    case 'S':
+      switch (static_cast<int>(value)) {
+      case 10:
+        speed = speed_10;
+        break;
+      case 50:
+        speed = speed_50;
+        break;
+      case 100:
+        speed = speed_100;
+        break;
+      default:
+        //TODO tutaj powinien być wyjątek
+        break;
+      }
+      break;
+    case 'M':
+      switch (static_cast<int>(value)) {
+      case 0:
+        movement_type = continous;
+        break;
+      case 1:
+        movement_type = step_by_step;
+        break;
+      default:
+        //TODO tutaj powinien być wyjątek
+        break;
+      }
+      break;
+    default:
+      //TODO tutaj powinien być wyjątek
+      break;
+    }
+  }
 }
 
 mov_circular::mov_circular(struct robot_position in_help_pos,
@@ -82,22 +142,20 @@ mov_circular::mov_circular(struct robot_position in_help_pos,
 cmd_wait::cmd_wait(enum e_wait_time wait_time) :
     wait_time(wait_time) {
 }
-cmd_set_pin::cmd_set_pin(enum e_output_pin output_pin,
-    bool set_pin_high) :
+cmd_set_pin::cmd_set_pin(enum e_output_pin output_pin, bool set_pin_high) :
     output_pin(output_pin), set_pin_high(set_pin_high) {
 }
 
-void mov_streight::update_command(
-    struct robot_position in_target_pos, enum e_speed in_speed,
-    enum e_movement_type in_movement_type) {
+void mov_streight::update_command(struct robot_position in_target_pos,
+    enum e_speed in_speed, enum e_movement_type in_movement_type) {
   target_pos = in_target_pos;
   speed = in_speed;
   movement_type = in_movement_type;
 }
 
-void mov_circular::update_command(
-    struct robot_position in_help_pos, struct robot_position in_target_pos,
-    enum e_speed in_speed, enum e_movement_type in_movement_type) {
+void mov_circular::update_command(struct robot_position in_help_pos,
+    struct robot_position in_target_pos, enum e_speed in_speed,
+    enum e_movement_type in_movement_type) {
   help_pos = in_help_pos;
   target_pos = in_target_pos;
   speed = in_speed;
@@ -108,8 +166,8 @@ void cmd_wait::update_command(enum e_wait_time in_wait_time) {
   wait_time = in_wait_time;
 }
 
-void cmd_set_pin::update_command(
-    enum e_output_pin in_output_pin, bool in_set_pin_high) {
+void cmd_set_pin::update_command(enum e_output_pin in_output_pin,
+    bool in_set_pin_high) {
   output_pin = in_output_pin;
   set_pin_high = in_set_pin_high;
 }
@@ -133,8 +191,44 @@ void cmd_set_pin::draw(int print_y) {
   BLACK, "SOURCE = " + output_pin_text);
 }
 
+void mov_streight::save_to_file(std::ofstream &file) {
+  if (file.is_open()) {
+    file << "X" << target_pos.x << " ";
+    file << "Y" << target_pos.y << " ";
+    file << "Z" << target_pos.z << " ";
+    file << "A" << target_pos.a << " ";
+    file << "B" << target_pos.b << " ";
+    file << "C" << target_pos.c << " ";
+
+    switch (speed) {
+    case speed_10:
+      file << "S10 ";
+      break;
+    case speed_50:
+      file << "S50 ";
+      break;
+    case speed_100:
+      file << "S100 ";
+      break;
+    }
+
+    switch (movement_type) {
+    case continous:
+      file << "M0";
+      break;
+    case step_by_step:
+      file << "M1";
+      break;
+    }
+
+    file << std::endl;
+  } else {
+    //TODO turtaj powinien być zwrócony wyjątek
+  }
+}
+
 void kalibracja_robota(int givenSteps[6], int liczba_krokow_osi[5],
-                       uint8_t kalibracja_osi[5]) {
+    uint8_t kalibracja_osi[5]) {
   // kalibracja osi 2
   if (!HAL_GPIO_ReadPin(M2_S_GPIO_Port, M2_S_Pin))
     givenSteps[1] = 1400;
@@ -210,14 +304,14 @@ void kalibracja_robota(int givenSteps[6], int liczba_krokow_osi[5],
   givenSteps[4] = 6400;
 
   givenSteps[2] = 6400;
-  while (givenSteps[2] != liczba_krokow_osi[2] ||
-         givenSteps[3] != liczba_krokow_osi[3] ||
-         givenSteps[4] != liczba_krokow_osi[4]) {
+  while (givenSteps[2] != liczba_krokow_osi[2]
+      || givenSteps[3] != liczba_krokow_osi[3]
+      || givenSteps[4] != liczba_krokow_osi[4]) {
   }
 }
 
 void licz_kroki(double givenPosition[6], int givenSteps[6],
-                double currentPosition[6]) {
+    double currentPosition[6]) {
   double x = givenPosition[0];
   double y = givenPosition[1];
   double z = givenPosition[2];
@@ -229,8 +323,8 @@ void licz_kroki(double givenPosition[6], int givenSteps[6],
   double theta_rotation = given_theta * M_PI / 180;
   double psi = given_psi * M_PI / 180;
 
-  double r11 = cos(phi) * sin(theta_rotation) * cos(psi) +
-               sin(phi) * sin(theta_rotation);
+  double r11 = cos(phi) * sin(theta_rotation) * cos(psi)
+      + sin(phi) * sin(theta_rotation);
   double r21 = sin(phi) * sin(theta_rotation) * cos(psi) - cos(phi) * sin(psi);
   double r31 = cos(theta_rotation) * cos(psi);
 
@@ -239,8 +333,8 @@ void licz_kroki(double givenPosition[6], int givenSteps[6],
   double r32 = -sin(theta_rotation);
 
   double r13 = cos(phi) * sin(theta_rotation) * sin(psi) - sin(phi) * cos(psi);
-  double r23 = sin(phi) * sin(theta_rotation) * sin(psi) +
-               cos(phi) * cos(theta_rotation);
+  double r23 = sin(phi) * sin(theta_rotation) * sin(psi)
+      + cos(phi) * cos(theta_rotation);
   double r33 = cos(theta_rotation) * sin(psi);
 
   double Wx = x - d6 * r13;
@@ -258,19 +352,19 @@ void licz_kroki(double givenPosition[6], int givenSteps[6],
 
   theta[2] += M_PI / 2;
 
-  double ax = r13 * cosl(theta[0]) * cosl(theta[1] + theta[2]) +
-              r23 * cosl(theta[1] + theta[2]) * sinl(theta[0]) +
-              r33 * sinl(theta[1] + theta[2]);
+  double ax = r13 * cosl(theta[0]) * cosl(theta[1] + theta[2])
+      + r23 * cosl(theta[1] + theta[2]) * sinl(theta[0])
+      + r33 * sinl(theta[1] + theta[2]);
   double ay = -r23 * cosl(theta[0]) + r13 * sinl(theta[0]);
-  double az = -r33 * cosl(theta[1] + theta[2]) +
-              r13 * cosl(theta[0]) * sinl(theta[1] + theta[2]) +
-              r23 * sinl(theta[0]) * sinl(theta[1] + theta[2]);
-  double sz = -r32 * cosl(theta[1] + theta[2]) +
-              r12 * cosl(theta[0]) * sinl(theta[1] + theta[2]) +
-              r22 * sinl(theta[0]) * sinl(theta[1] + theta[2]);
-  double nz = -r31 * cosl(theta[1] + theta[2]) +
-              r11 * cosl(theta[0]) * sinl(theta[1] + theta[2]) +
-              r21 * sinl(theta[0]) * sinl(theta[1] + theta[2]);
+  double az = -r33 * cosl(theta[1] + theta[2])
+      + r13 * cosl(theta[0]) * sinl(theta[1] + theta[2])
+      + r23 * sinl(theta[0]) * sinl(theta[1] + theta[2]);
+  double sz = -r32 * cosl(theta[1] + theta[2])
+      + r12 * cosl(theta[0]) * sinl(theta[1] + theta[2])
+      + r22 * sinl(theta[0]) * sinl(theta[1] + theta[2]);
+  double nz = -r31 * cosl(theta[1] + theta[2])
+      + r11 * cosl(theta[0]) * sinl(theta[1] + theta[2])
+      + r21 * sinl(theta[0]) * sinl(theta[1] + theta[2]);
 
   double epsilon = 0.5;
 
@@ -302,18 +396,15 @@ void licz_kroki(double givenPosition[6], int givenSteps[6],
   theta[5] = theta[5] * 180 / M_PI * 10;
 
   if (cos_theta2 <= 1 && // pierwiastek nie może mieć wartości ujemnych
-      sqrt(s * s + r * r) > min_range &&
-      sqrt(s * s + r * r) <
-          max_range && // warunek który musi być spełniony żeby pozycja była
-                       // osiągalna ze względu na zasięg ramion robota
-      theta[0] >= 0 &&
-      theta[0] <= 12000 &&                  // 0-180 stopni
+      sqrt(s * s + r * r) > min_range && sqrt(s * s + r * r) < max_range && // warunek który musi być spełniony żeby pozycja była
+                                                                             // osiągalna ze względu na zasięg ramion robota
+      theta[0] >= 0 && theta[0] <= 12000 &&                  // 0-180 stopni
       theta[1] >= 0 && theta[1] <= 12000 && // 0-180 stopni
       theta[2] >= 0 && theta[2] <= 10168 && // 0-143 stopni
       theta[3] >= 0 && theta[3] <= 21333 && // 0-300 stopni
       theta[4] >= 0 && theta[4] <= 12000)   // 0-180 stopni
 
-  {
+          {
     for (int i = 0; i < 6; i++) {
       givenSteps[i] = theta[i];
       currentPosition[i] = givenPosition[i];
@@ -329,23 +420,21 @@ void simpleMoveMotor(GPIO_TypeDef *GPIOx, uint16_t GPIO_Pin) {
 }
 
 void moveMotorWithPosition(GPIO_TypeDef *GPIOx, uint16_t GPIO_Pin,
-                           int *stepCounter, int8_t factor) {
+    int *stepCounter, int8_t factor) {
   HAL_GPIO_WritePin(GPIOx, GPIO_Pin, GPIO_PIN_SET);
   HAL_GPIO_WritePin(GPIOx, GPIO_Pin, GPIO_PIN_RESET);
   (*stepCounter) += factor;
 }
 
 void setDuration(GPIO_TypeDef *GPIOx, uint16_t GPIO_Pin, int currentSteps,
-                 int givenSteps, int8_t *factor) {
+    int givenSteps, int8_t *factor) {
   if (givenSteps > currentSteps) {
-    HAL_GPIO_WritePin(GPIOx, GPIO_Pin,
-                      GPIO_PIN_RESET); // jeżeli kierunek ustawiony jest na set
-                                       // to ramię odjeżdża od krańcówki
+    HAL_GPIO_WritePin(GPIOx, GPIO_Pin, GPIO_PIN_RESET); // jeżeli kierunek ustawiony jest na set
+                                                        // to ramię odjeżdża od krańcówki
     (*factor) = 1;
   } else {
-    HAL_GPIO_WritePin(GPIOx, GPIO_Pin,
-                      GPIO_PIN_SET); // jeżeli kierunek ustawiony jest na reset
-                                     // to ramię jedzie w stronę krańcówki
+    HAL_GPIO_WritePin(GPIOx, GPIO_Pin, GPIO_PIN_SET); // jeżeli kierunek ustawiony jest na reset
+                                                      // to ramię jedzie w stronę krańcówki
     (*factor) = -1;
   }
 }

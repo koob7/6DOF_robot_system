@@ -93,19 +93,22 @@ public:
 
 class project_editor {
 
+  bool get_commands();
   void forget_selected_hiden_command();
   void update_last_command_to_display();
   bool check_area_pressed(int x, int y, int area_x, int area_y, int area_width,
       int area_height);
 
 public:
-  std::ifstream file;
+  std::ifstream input_file;
+  std::ofstream output_file;
   int first_command_to_display = 0;
   int last_command_to_display = 0;
   int selected_command = -1; // wartość ujemna oznacza brak wybranego pliku
   button page_up_btn = button(0, 140, 158, 40, 40, 0xD6BA, 20); // nawigacja góra
   button page_down_btn = button(1, 140, 425, 40, 40, 0xD6BA, 20); // nawigacja dół
   std::vector<std::shared_ptr<command>> commands;
+  std::string file_name;
   project_editor();
   void draw();
   void read_commands();
@@ -116,7 +119,7 @@ public:
   std::shared_ptr<command> get_command_to_execute();
   void insert_command(std::shared_ptr<command> in_cmd);
   void remove_command();
-  bool open_file(std::string file_name);
+  bool open_file(std::string in_file_name);
   void save_changes_into_file();
 };
 

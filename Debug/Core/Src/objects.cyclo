@@ -4,15 +4,13 @@ C:\ST\STM32CubeIDE_1.13.2\STM32CubeIDE\plugins\com.st.stm32cube.ide.mcu.external
 C:\ST\STM32CubeIDE_1.13.2\STM32CubeIDE\plugins\com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.11.3.rel1.win32_1.1.1.202309131626\tools\arm-none-eabi\include\c++\11.3.1\arm-none-eabi\thumb\v7e-m+dp\hard\bits\gthr-default.h:229:1:int __gthread_key_delete(__gthread_key_t)	1
 C:\ST\STM32CubeIDE_1.13.2\STM32CubeIDE\plugins\com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.11.3.rel1.win32_1.1.1.202309131626\tools\bin/../lib/gcc/arm-none-eabi/11.3.1/../../../../arm-none-eabi/include/c++/11.3.1/bits/basic_string.h:6660:3:std::string std::__cxx11::to_string(int)	2
 C:\ST\STM32CubeIDE_1.13.2\STM32CubeIDE\plugins\com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.11.3.rel1.win32_1.1.1.202309131626\tools\bin/../lib/gcc/arm-none-eabi/11.3.1/../../../../arm-none-eabi/include/c++/11.3.1/bits/basic_string.h:6690:3:std::string std::__cxx11::to_string(long unsigned int)	1
+C:\ST\STM32CubeIDE_1.13.2\STM32CubeIDE\plugins\com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.11.3.rel1.win32_1.1.1.202309131626\tools\bin/../lib/gcc/arm-none-eabi/11.3.1/../../../../arm-none-eabi/include/c++/11.3.1/bits/ios_base.h:129:3:constexpr std::_Ios_Openmode std::operator|(std::_Ios_Openmode, std::_Ios_Openmode)	1
 C:\ST\STM32CubeIDE_1.13.2\STM32CubeIDE\plugins\com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.11.3.rel1.win32_1.1.1.202309131626\tools\arm-none-eabi\include\c++\11.3.1\bits\shared_ptr_base.h:274:5:void std::_Sp_counted_base<_Lp>::_M_add_ref_copy() [with __gnu_cxx::_Lock_policy _Lp = __gnu_cxx::_S_single]	1
 C:\ST\STM32CubeIDE_1.13.2\STM32CubeIDE\plugins\com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.11.3.rel1.win32_1.1.1.202309131626\tools\arm-none-eabi\include\c++\11.3.1\bits\shared_ptr_base.h:279:5:void std::_Sp_counted_base<_Lp>::_M_release() [with __gnu_cxx::_Lock_policy _Lp = __gnu_cxx::_S_single]	3
 C:\ST\STM32CubeIDE_1.13.2\STM32CubeIDE\plugins\com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.11.3.rel1.win32_1.1.1.202309131626\tools\arm-none-eabi\include\c++\11.3.1\bits\shared_ptr_base.h:479:5:static const std::type_info& std::_Sp_make_shared_tag::_S_ti()	1
 ../Core/Inc/menu_parts.h:114:6:int button::get_id()	1
-../Core/Inc/navigate_robot.h:40:3:robot_position::robot_position()	1
-../Core/Inc/navigate_robot.h:44:8:bool robot_position::operator==(const robot_position&) const	7
-../Core/Inc/navigate_robot.h:86:25:robot_position movement::get_target_position()	1
-../Core/Inc/navigate_robot.h:90:16:movement::e_speed movement::get_speed()	1
-../Core/Inc/navigate_robot.h:93:24:movement::e_movement_type movement::get_movement_type()	1
+../Core/Inc/navigate_robot.h:47:8:bool robot_position::operator==(const robot_position&) const	7
+../Core/Inc/navigate_robot.h:90:25:robot_position movement::get_target_position()	1
 C:\ST\STM32CubeIDE_1.13.2\STM32CubeIDE\plugins\com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.11.3.rel1.win32_1.1.1.202309131626\tools\bin/../lib/gcc/arm-none-eabi/11.3.1/../../../../arm-none-eabi/include/c++/11.3.1/iomanip:225:3:std::_Setw std::setw(int)	1
 ../Core/Inc/menu_parts.h:83:7:button::~button()	1
 C:\ST\STM32CubeIDE_1.13.2\STM32CubeIDE\plugins\com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.11.3.rel1.win32_1.1.1.202309131626\tools\bin/../lib/gcc/arm-none-eabi/11.3.1/../../../../arm-none-eabi/include/c++/11.3.1/bits/stl_vector.h:128:14:std::_Vector_base<std::shared_ptr<menu_part>, std::allocator<std::shared_ptr<menu_part> > >::_Vector_impl::~_Vector_impl()	1
@@ -44,24 +42,25 @@ C:\ST\STM32CubeIDE_1.13.2\STM32CubeIDE\plugins\com.st.stm32cube.ide.mcu.external
 ../Core/Src/objects.cpp:215:13:std::string projects_explorer::format_date(WORD)	1
 ../Core/Src/objects.cpp:227:6:bool projects_explorer::check_area_pressed(int, int, int, int, int, int)	5
 ../Core/Src/objects.cpp:233:6:void projects_explorer::delete_file()	3
-../Core/Src/objects.cpp:244:6:void project_editor::insert_command(std::shared_ptr<command>)	2
-../Core/Src/objects.cpp:253:6:void project_editor::remove_command()	2
+../Core/Src/objects.cpp:243:6:void project_editor::insert_command(std::shared_ptr<command>)	2
+../Core/Src/objects.cpp:252:6:void project_editor::remove_command()	2
 C:\ST\STM32CubeIDE_1.13.2\STM32CubeIDE\plugins\com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.11.3.rel1.win32_1.1.1.202309131626\tools\arm-none-eabi\include\c++\11.3.1\bits\shared_ptr_base.h:1154:7:std::__shared_ptr<_Tp, _Lp>::~__shared_ptr() [with _Tp = movement; __gnu_cxx::_Lock_policy _Lp = __gnu_cxx::_S_single]	1
 C:\ST\STM32CubeIDE_1.13.2\STM32CubeIDE\plugins\com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.11.3.rel1.win32_1.1.1.202309131626\tools\bin/../lib/gcc/arm-none-eabi/11.3.1/../../../../arm-none-eabi/include/c++/11.3.1/bits/shared_ptr.h:122:11:std::shared_ptr<movement>::~shared_ptr()	1
-../Core/Src/objects.cpp:263:6:void project_editor::draw()	7
-../Core/Src/objects.cpp:322:6:bool project_editor::check_area_pressed(int, int, int, int, int, int)	5
-../Core/Src/objects.cpp:328:6:void project_editor::forget_selected_hiden_command()	3
-../Core/Src/objects.cpp:336:6:void project_editor::update_last_command_to_display()	2
-../Core/Src/objects.cpp:344:6:void project_editor::handle_pressed(int, int)	7
+../Core/Src/objects.cpp:262:6:void project_editor::draw()	7
+../Core/Src/objects.cpp:320:6:bool project_editor::check_area_pressed(int, int, int, int, int, int)	5
+../Core/Src/objects.cpp:326:6:void project_editor::forget_selected_hiden_command()	3
+../Core/Src/objects.cpp:334:6:void project_editor::update_last_command_to_display()	2
+../Core/Src/objects.cpp:342:6:void project_editor::handle_pressed(int, int)	7
 C:\ST\STM32CubeIDE_1.13.2\STM32CubeIDE\plugins\com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.11.3.rel1.win32_1.1.1.202309131626\tools\arm-none-eabi\include\c++\11.3.1\bits\shared_ptr_base.h:1152:7:std::__shared_ptr<_Tp, _Lp>::__shared_ptr(const std::__shared_ptr<_Tp, _Lp>&) [with _Tp = command; __gnu_cxx::_Lock_policy _Lp = __gnu_cxx::_S_single]	1
 C:\ST\STM32CubeIDE_1.13.2\STM32CubeIDE\plugins\com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.11.3.rel1.win32_1.1.1.202309131626\tools\arm-none-eabi\include\c++\11.3.1\bits\shared_ptr_base.h:1154:7:std::__shared_ptr<_Tp, _Lp>::~__shared_ptr() [with _Tp = command; __gnu_cxx::_Lock_policy _Lp = __gnu_cxx::_S_single]	1
 C:\ST\STM32CubeIDE_1.13.2\STM32CubeIDE\plugins\com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.11.3.rel1.win32_1.1.1.202309131626\tools\bin/../lib/gcc/arm-none-eabi/11.3.1/../../../../arm-none-eabi/include/c++/11.3.1/bits/shared_ptr.h:150:7:std::shared_ptr<_Tp>::shared_ptr(const std::shared_ptr<_Tp>&) [with _Tp = command]	1
 C:\ST\STM32CubeIDE_1.13.2\STM32CubeIDE\plugins\com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.11.3.rel1.win32_1.1.1.202309131626\tools\bin/../lib/gcc/arm-none-eabi/11.3.1/../../../../arm-none-eabi/include/c++/11.3.1/bits/shared_ptr.h:122:11:std::shared_ptr<command>::~shared_ptr()	1
-../Core/Src/objects.cpp:373:26:std::shared_ptr<command> project_editor::get_command_to_execute()	3
-../Core/Src/objects.cpp:383:6:void project_editor::save_changes_into_file()	6
+../Core/Src/objects.cpp:371:26:std::shared_ptr<command> project_editor::get_command_to_execute()	3
+../Core/Src/objects.cpp:381:6:void project_editor::save_changes_into_file()	2
+../Core/Src/objects.cpp:392:6:bool project_editor::open_file(std::string)	2
 C:\ST\STM32CubeIDE_1.13.2\STM32CubeIDE\plugins\com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.11.3.rel1.win32_1.1.1.202309131626\tools\arm-none-eabi\include\c++\11.3.1\bits\shared_ptr_base.h:1154:7:std::__shared_ptr<_Tp, _Lp>::~__shared_ptr() [with _Tp = mov_streight; __gnu_cxx::_Lock_policy _Lp = __gnu_cxx::_S_single]	1
 C:\ST\STM32CubeIDE_1.13.2\STM32CubeIDE\plugins\com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.11.3.rel1.win32_1.1.1.202309131626\tools\bin/../lib/gcc/arm-none-eabi/11.3.1/../../../../arm-none-eabi/include/c++/11.3.1/bits/shared_ptr.h:122:11:std::shared_ptr<mov_streight>::~shared_ptr()	1
-../Core/Src/objects.cpp:405:6:bool project_editor::open_file(std::string)	3
+../Core/Src/objects.cpp:407:6:bool project_editor::get_commands()	3
 C:\ST\STM32CubeIDE_1.13.2\STM32CubeIDE\plugins\com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.11.3.rel1.win32_1.1.1.202309131626\tools\bin/../lib/gcc/arm-none-eabi/11.3.1/../../../../arm-none-eabi/include/c++/11.3.1/bits/charconv.h:47:5:constexpr unsigned int std::__detail::__to_chars_len(_Tp, int) [with _Tp = unsigned int]	5
 C:\ST\STM32CubeIDE_1.13.2\STM32CubeIDE\plugins\com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.11.3.rel1.win32_1.1.1.202309131626\tools\bin/../lib/gcc/arm-none-eabi/11.3.1/../../../../arm-none-eabi/include/c++/11.3.1/bits/charconv.h:72:5:void std::__detail::__to_chars_10_impl(char*, unsigned int, _Tp) [with _Tp = unsigned int]	3
 C:\ST\STM32CubeIDE_1.13.2\STM32CubeIDE\plugins\com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.11.3.rel1.win32_1.1.1.202309131626\tools\bin/../lib/gcc/arm-none-eabi/11.3.1/../../../../arm-none-eabi/include/c++/11.3.1/bits/charconv.h:47:5:constexpr unsigned int std::__detail::__to_chars_len(_Tp, int) [with _Tp = long unsigned int]	5
@@ -450,7 +449,7 @@ C:\ST\STM32CubeIDE_1.13.2\STM32CubeIDE\plugins\com.st.stm32cube.ide.mcu.external
 C:\ST\STM32CubeIDE_1.13.2\STM32CubeIDE\plugins\com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.11.3.rel1.win32_1.1.1.202309131626\tools\bin/../lib/gcc/arm-none-eabi/11.3.1/../../../../arm-none-eabi/include/c++/11.3.1/bits/stl_algobase.h:731:2:static _Tp* std::__copy_move_backward<_IsMove, true, std::random_access_iterator_tag>::__copy_move_b(const _Tp*, const _Tp*, _Tp*) [with _Tp = FILINFO; bool _IsMove = true]	2
 C:\ST\STM32CubeIDE_1.13.2\STM32CubeIDE\plugins\com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.11.3.rel1.win32_1.1.1.202309131626\tools\bin/../lib/gcc/arm-none-eabi/11.3.1/../../../../arm-none-eabi/include/c++/11.3.1/bits/stl_algobase.h:486:5:_OI std::__copy_move_a2(_II, _II, _OI) [with bool _IsMove = true; _II = FILINFO*; _OI = FILINFO*]	1
 C:\ST\STM32CubeIDE_1.13.2\STM32CubeIDE\plugins\com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.11.3.rel1.win32_1.1.1.202309131626\tools\bin/../lib/gcc/arm-none-eabi/11.3.1/../../../../arm-none-eabi/include/c++/11.3.1/bits/stl_algobase.h:420:2:static _Tp* std::__copy_move<_IsMove, true, std::random_access_iterator_tag>::__copy_m(const _Tp*, const _Tp*, _Tp*) [with _Tp = FILINFO; bool _IsMove = true]	2
-../Core/Src/objects.cpp:429:1:void __static_initialization_and_destruction_0(int, int)	5
+../Core/Src/objects.cpp:440:1:void __static_initialization_and_destruction_0(int, int)	5
 C:\ST\STM32CubeIDE_1.13.2\STM32CubeIDE\plugins\com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.11.3.rel1.win32_1.1.1.202309131626\tools\arm-none-eabi\include\c++\11.3.1\bits\shared_ptr_base.h:523:7:std::_Sp_counted_ptr_inplace<_Tp, _Alloc, _Lp>::~_Sp_counted_ptr_inplace() [with _Tp = mov_streight; _Alloc = std::allocator<mov_streight>; __gnu_cxx::_Lock_policy _Lp = __gnu_cxx::_S_single]	1
 C:\ST\STM32CubeIDE_1.13.2\STM32CubeIDE\plugins\com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.11.3.rel1.win32_1.1.1.202309131626\tools\arm-none-eabi\include\c++\11.3.1\bits\shared_ptr_base.h:523:7:std::_Sp_counted_ptr_inplace<_Tp, _Alloc, _Lp>::~_Sp_counted_ptr_inplace() [with _Tp = mov_streight; _Alloc = std::allocator<mov_streight>; __gnu_cxx::_Lock_policy _Lp = __gnu_cxx::_S_single]	1
 C:\ST\STM32CubeIDE_1.13.2\STM32CubeIDE\plugins\com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.11.3.rel1.win32_1.1.1.202309131626\tools\arm-none-eabi\include\c++\11.3.1\bits\shared_ptr_base.h:526:7:void std::_Sp_counted_ptr_inplace<_Tp, _Alloc, _Lp>::_M_dispose() [with _Tp = mov_streight; _Alloc = std::allocator<mov_streight>; __gnu_cxx::_Lock_policy _Lp = __gnu_cxx::_S_single]	1
@@ -469,5 +468,5 @@ C:\ST\STM32CubeIDE_1.13.2\STM32CubeIDE\plugins\com.st.stm32cube.ide.mcu.external
 C:\ST\STM32CubeIDE_1.13.2\STM32CubeIDE\plugins\com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.11.3.rel1.win32_1.1.1.202309131626\tools\bin/../lib/gcc/arm-none-eabi/11.3.1/../../../../arm-none-eabi/include/c++/11.3.1/ext/new_allocator.h:166:2:void __gnu_cxx::new_allocator<_Tp>::destroy(_Up*) [with _Up = mov_streight; _Tp = mov_streight]	1
 C:\ST\STM32CubeIDE_1.13.2\STM32CubeIDE\plugins\com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.11.3.rel1.win32_1.1.1.202309131626\tools\arm-none-eabi\include\c++\11.3.1\bits\shared_ptr_base.h:389:7:static _Tp& std::_Sp_ebo_helper<_Nm, _Tp, true>::_S_get(std::_Sp_ebo_helper<_Nm, _Tp, true>&) [with int _Nm = 0; _Tp = std::allocator<triangle>]	1
 C:\ST\STM32CubeIDE_1.13.2\STM32CubeIDE\plugins\com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.11.3.rel1.win32_1.1.1.202309131626\tools\bin/../lib/gcc/arm-none-eabi/11.3.1/../../../../arm-none-eabi/include/c++/11.3.1/ext/new_allocator.h:166:2:void __gnu_cxx::new_allocator<_Tp>::destroy(_Up*) [with _Up = triangle; _Tp = triangle]	1
-../Core/Src/objects.cpp:429:1:cpp)	1
-../Core/Src/objects.cpp:429:1:cpp)	1
+../Core/Src/objects.cpp:440:1:cpp)	1
+../Core/Src/objects.cpp:440:1:cpp)	1
