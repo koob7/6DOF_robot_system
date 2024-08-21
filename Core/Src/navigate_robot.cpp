@@ -67,8 +67,8 @@ movement::movement(struct robot_position in_target_pos, enum e_speed speed,
 }
 movement::movement() {
   target_pos = robot_position();
-      speed = speed_10;
-      movement_type = continous;
+  speed = speed_10;
+  movement_type = continous;
 }
 mov_streight::mov_streight(struct robot_position in_target_pos,
     enum e_speed speed, enum e_movement_type movement_type) :
@@ -126,6 +126,155 @@ mov_streight::mov_streight(std::ifstream &iss) {
         break;
       }
       break;
+    default:
+      //TODO tutaj powinien być wyjątek
+      break;
+    }
+  }
+}
+
+mov_circular::mov_circular(std::ifstream &iss) {
+  char prefix;
+  double value;
+  while (iss >> prefix >> value) {
+    switch (prefix) {
+    case 'X':
+      target_pos.x = value;
+      break;
+    case 'Y':
+      target_pos.y = value;
+      break;
+    case 'Z':
+      target_pos.z = value;
+      break;
+    case 'A':
+      target_pos.a = value;
+      break;
+    case 'B':
+      target_pos.b = value;
+      break;
+    case 'C':
+      target_pos.c = value;
+      break;
+    case 'I':
+      target_pos.x = value;
+      break;
+    case 'J':
+      target_pos.y = value;
+      break;
+    case 'E':
+      target_pos.z = value;
+      break;
+    case 'K':
+      target_pos.a = value;
+      break;
+    case 'L':
+      target_pos.b = value;
+      break;
+    case 'O':
+      target_pos.c = value;
+      break;
+    case 'S':
+      switch (static_cast<int>(value)) {
+      case 10:
+        speed = speed_10;
+        break;
+      case 50:
+        speed = speed_50;
+        break;
+      case 100:
+        speed = speed_100;
+        break;
+      default:
+        //TODO tutaj powinien być wyjątek
+        break;
+      }
+      break;
+    case 'M':
+      switch (static_cast<int>(value)) {
+      case 0:
+        movement_type = continous;
+        break;
+      case 1:
+        movement_type = step_by_step;
+        break;
+      default:
+        //TODO tutaj powinien być wyjątek
+        break;
+      }
+      break;
+    default:
+      //TODO tutaj powinien być wyjątek
+      break;
+    }
+  }
+}
+
+cmd_wait::cmd_wait(std::ifstream &iss) {
+  char prefix;
+  double value;
+  while (iss >> prefix >> value) {
+    switch (prefix) {
+    case 'P':
+      switch (static_cast<int>(value)) {
+      case 1:
+        wait_time = wait_1s;
+        break;
+      case 5:
+        wait_time = wait_5s;
+        break;
+      case 30:
+        wait_time = wait_30s;
+        break;
+      case 60:
+        wait_time = wait_1min;
+              break;
+      case 300:
+        wait_time = wait_5min;
+              break;
+      default:
+        //TODO tutaj powinien być wyjątek
+        break;
+      }
+      break;
+    default:
+      //TODO tutaj powinien być wyjątek
+      break;
+    }
+  }
+}
+
+cmd_set_pin::cmd_set_pin(std::ifstream &iss) {
+  char prefix;
+  double value;
+  while (iss >> prefix >> value) {
+    switch (prefix) {
+    case 'P':
+      switch (static_cast<int>(value)) {
+      case 0:
+        output_pin = robot_tool;
+        break;
+      case 1:
+        output_pin = user_led;
+        break;
+      default:
+        //TODO tutaj powinien być wyjątek
+        break;
+      }
+      break;
+      case 'S':
+            switch (static_cast<int>(value)) {
+            case 0:
+              set_pin_high = false;
+              break;
+            case 1:
+              set_pin_high = true;
+              break;
+            default:
+              //TODO tutaj powinien być wyjątek
+              break;
+            }
+            break;
     default:
       //TODO tutaj powinien być wyjątek
       break;
@@ -193,6 +342,8 @@ void cmd_set_pin::draw(int print_y) {
 
 void mov_streight::save_to_file(std::ofstream &file) {
   if (file.is_open()) {
+    file << "G1 ";
+
     file << "X" << target_pos.x << " ";
     file << "Y" << target_pos.y << " ";
     file << "Z" << target_pos.z << " ";
@@ -221,6 +372,104 @@ void mov_streight::save_to_file(std::ofstream &file) {
       break;
     }
 
+    file << std::endl;
+  } else {
+    //TODO turtaj powinien być zwrócony wyjątek
+  }
+}
+
+void mov_circular::save_to_file(std::ofstream &file) {
+  if (file.is_open()) {
+    file << "G2 ";
+
+    file << "X" << target_pos.x << " ";
+    file << "Y" << target_pos.y << " ";
+    file << "Z" << target_pos.z << " ";
+    file << "A" << target_pos.a << " ";
+    file << "B" << target_pos.b << " ";
+    file << "C" << target_pos.c << " ";
+
+    file << "I" << help_pos.x << " ";
+    file << "J" << help_pos.y << " ";
+    file << "E" << help_pos.z << " ";
+    file << "K" << help_pos.a << " ";
+    file << "L" << help_pos.b << " ";
+    file << "O" << help_pos.c << " ";
+
+    switch (speed) {
+    case speed_10:
+      file << "S10 ";
+      break;
+    case speed_50:
+      file << "S50 ";
+      break;
+    case speed_100:
+      file << "S100 ";
+      break;
+    }
+
+    switch (movement_type) {
+    case continous:
+      file << "M0";
+      break;
+    case step_by_step:
+      file << "M1";
+      break;
+    }
+
+    file << std::endl;
+  } else {
+    //TODO turtaj powinien być zwrócony wyjątek
+  }
+}
+
+void cmd_wait::save_to_file(std::ofstream &file) {
+  if (file.is_open()) {
+    file << "G4 ";
+
+    switch (wait_time) {
+    case wait_1s:
+      file << "P1";
+      break;
+    case wait_5s:
+      file << "P5";
+      break;
+    case wait_30s:
+      file << "P30";
+      break;
+    case wait_1min:
+      file << "P60";
+      break;
+    case wait_5min:
+      file << "P300";
+      break;
+    }
+    file << std::endl;
+  } else {
+    //TODO turtaj powinien być zwrócony wyjątek
+  }
+}
+
+void cmd_set_pin::save_to_file(std::ofstream &file) {
+  if (file.is_open()) {
+    file << "M42 ";
+
+    switch (output_pin) {
+    case robot_tool:
+      file << "P0 ";
+      break;
+    case user_led:
+      file << "P1 ";
+      break;
+    }
+    switch (set_pin_high) {
+    case true:
+      file << "S1";
+      break;
+    case false:
+      file << "S0";
+      break;
+    }
     file << std::endl;
   } else {
     //TODO turtaj powinien być zwrócony wyjątek

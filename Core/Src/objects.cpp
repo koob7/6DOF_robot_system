@@ -382,7 +382,7 @@ void project_editor::save_changes_into_file() {
   input_file.close();
   output_file.open(file_name, std::ios::out | std::ios::trunc);
   for (auto cmd : commands) {
-      cmd->save_to_file(output_file);
+    cmd->save_to_file(output_file);
   }
   output_file.close();
   input_file.open(file_name);
@@ -394,7 +394,6 @@ bool project_editor::open_file(std::string in_file_name) {
   file_name = in_file_name;
   input_file.open(in_file_name);
 
-
   if (!input_file.is_open()) {
     //TODO zwróć wyjątek że plik się nie otwiera
     return false;
@@ -404,7 +403,7 @@ bool project_editor::open_file(std::string in_file_name) {
 
 }
 
-bool project_editor::get_commands(){
+bool project_editor::get_commands() {
   commands.clear();
   selected_command = -1;
   std::string Gcode_command;
@@ -414,25 +413,25 @@ bool project_editor::get_commands(){
     return false;
   }
 
-  struct robot_position previous_pos = robot_home_position;
-  enum movement::e_speed previous_speed = movement::e_speed::speed_100;
-  enum movement::e_movement_type previous_movement_type =
-      movement::e_movement_type::continous;
 
-  if (input_file.peek() == std::ifstream::traits_type::eof()) {
-    commands.push_back(
-        std::make_shared<mov_streight>(robot_home_position,
-            movement::e_speed::speed_100,
-            movement::e_movement_type::step_by_step));
-    commands.push_back(
-        std::make_shared<mov_streight>(robot_home_position,
-            movement::e_speed::speed_100,
-            movement::e_movement_type::step_by_step));
-  } else {
+  while (input_file >> Gcode_command) {
+    if (Gcode_command == "G1") {
+      add_part(std::make_shared<mov_streight>(input_file));
+    } else if (Gcode_command == "G2") {
+      add_part(std::make_shared<mov_circular>(input_file));
+    } else if (Gcode_command == "G4") {
+      add_part(std::make_shared<cmd_wait>(input_file));
+    } else if (Gcode_command == "M42") {
+      add_part(std::make_shared<cmd_set_pin>(input_file));
+    } else {
+      std::cerr << "Unknown Gcode command: " << Gcode_command << std::endl;
+      //TODO zwróć wyjątek
+    }
+  }
 
-    //originalPos = input_file.tellg();
-    input_file >> Gcode_command;
-    //input_file.seekg(originalPos);
+  if (commands.empty()) {
+    add_part(std::make_shared<mov_streight>(robot_home_position, movement::e_speed::speed_100, movement::e_movement_type::continous));
+    add_part(std::make_shared<mov_streight>(robot_home_position, movement::e_speed::speed_100, movement::e_movement_type::continous));
   }
 
   draw();
