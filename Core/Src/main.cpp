@@ -209,12 +209,11 @@ int main(void)
 	//*********************/
 	//
 	//	/* Open file to write/ create a file if it doesn't exist */
-	//  	fresult = f_open(&fil, "file1.txt", FA_OPEN_ALWAYS | FA_READ |
-	//  FA_WRITE);
+	  	fresult = f_open(&fil, "file8.txt", FA_OPEN_ALWAYS | FA_READ |
+	  FA_WRITE);
 	//
 	//	/* Writing text */
-	//	f_puts("This data is from the FILE1.txt. And it was written using
-	//...f_puts... ", &fil);
+		f_puts("This data is from the FILE1.txt. And it was written using...f_puts... ", &fil);
 	//
 	//	/* Close file */
 	//	fresult = f_close(&fil);
@@ -343,6 +342,17 @@ int main(void)
 	main_top_menu.draw();
 	main_left_menu.draw();
 	main_right_menu.draw();
+
+
+  project_editor main_editor;
+  main_editor.open_file("file8.txt");
+  main_editor.draw();
+  while(1){
+
+  }
+
+
+
 	project_explorer_menu.draw();
 	projects_explorer main_file_explorer;
 //	while(1)
@@ -375,6 +385,9 @@ int main(void)
 	//        	givenPosition[5]=90;
 	//        	licz_kroki(givenPosition, givenSteps, currentPosition);
 	//        	kalibracja =1;
+
+
+
 	allert first_allert =
 			allert(10, 10, 250, 0xD6BA, "UWAGA",
 					"niemozliwe ze to zadzialalo za pierwszym razem. to jest naprawde niesamowite",
@@ -385,6 +398,7 @@ int main(void)
 	__HAL_GPIO_EXTI_CLEAR_IT(T_IRQ_Pin); // czyszczenie zgłoszonego przerwania
 	was_touched = 0;
 	//main_file_explorer.create_file("testowy_plik_z_nowego_obiektowego_softu.txt");
+
 	while (1)//moje oszukane menu
 	{
 		if (was_touched == 1)

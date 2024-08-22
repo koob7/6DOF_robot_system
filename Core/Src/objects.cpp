@@ -390,14 +390,27 @@ void project_editor::save_changes_into_file() {
 }
 
 bool project_editor::open_file(std::string in_file_name) {
-  input_file.close();
-  file_name = in_file_name;
-  input_file.open(in_file_name);
+//  input_file.close();
+//  file_name = in_file_name;
+//  input_file.open(in_file_name);
+//
+//  if (!input_file.is_open()) {
+//    //TODO zwróć wyjątek że plik się nie otwiera
+//    return false;
+//  }
+//
+  const TCHAR* tchar_file_name = in_file_name.c_str();
 
-  if (!input_file.is_open()) {
-    //TODO zwróć wyjątek że plik się nie otwiera
-    return false;
-  }
+
+      file_name = in_file_name;
+
+      FRESULT result = f_open(&fil, tchar_file_name, FA_OPEN_ALWAYS | FA_READ | FA_WRITE);
+
+      if (result != FR_OK) {
+          // TODO: Rzuć wyjątek, że plik nie może zostać otwarty
+          return result;
+      }
+
 
   return get_commands();
 

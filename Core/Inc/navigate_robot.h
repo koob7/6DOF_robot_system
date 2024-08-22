@@ -64,7 +64,7 @@ extern double d6;
 
 class command {
 public:
-  virtual bool perform_task() = 0;
+  //virtual bool perform_task() = 0;
   virtual void draw(int print_y) = 0;
   virtual void save_to_file(std::ofstream &file)=0;
   // std::string getType(){return typeid(*this).name();}

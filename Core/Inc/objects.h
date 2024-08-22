@@ -98,6 +98,7 @@ class project_editor {
   void update_last_command_to_display();
   bool check_area_pressed(int x, int y, int area_x, int area_y, int area_width,
       int area_height);
+  FIL fil; // File
 
 public:
   std::ifstream input_file;
@@ -109,7 +110,7 @@ public:
   button page_down_btn = button(1, 140, 425, 40, 40, 0xD6BA, 20); // nawigacja dół
   std::vector<std::shared_ptr<command>> commands;
   std::string file_name;
-  project_editor();
+  //project_editor();
   void draw();
   void read_commands();
   void handle_pressed(int x, int y);
