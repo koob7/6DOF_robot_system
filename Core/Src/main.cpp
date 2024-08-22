@@ -205,15 +205,18 @@ int main(void)
 	HAL_GPIO_WritePin(USER_LED_GPIO_Port, USER_LED_Pin, GPIO_PIN_SET);
 	HAL_Delay(100);
 	HAL_GPIO_WritePin(USER_LED_GPIO_Port, USER_LED_Pin, GPIO_PIN_RESET);
+	if (f_mount(&file_system, "/", 1) != FR_OK) {
+	  //TODO tutaj będzie rzucany wyjątek
+	}
 	//	/************* The following operation is using PUTS and GETS
 	//*********************/
 	//
 	//	/* Open file to write/ create a file if it doesn't exist */
-	  	fresult = f_open(&fil, "file8.txt", FA_OPEN_ALWAYS | FA_READ |
-	  FA_WRITE);
+	//  	fresult = f_open(&fil, "file8.txt", FA_OPEN_ALWAYS | FA_READ |
+	//  FA_WRITE);
 	//
 	//	/* Writing text */
-		f_puts("This data is from the FILE1.txt. And it was written using...f_puts... ", &fil);
+	//	f_puts("This data is from the FILE1.txt. And it was written using...f_puts... ", &fil);
 	//
 	//	/* Close file */
 	//	fresult = f_close(&fil);
@@ -347,6 +350,9 @@ int main(void)
   project_editor main_editor;
   main_editor.open_file("file8.txt");
   main_editor.draw();
+  main_editor.save_changes_into_file();
+  main_editor.close_file();
+
   while(1){
 
   }

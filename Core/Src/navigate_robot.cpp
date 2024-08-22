@@ -19,19 +19,46 @@ double a3 = 20;
 double d6 = 10.5;
 
 void movement::draw(int print_y) {
+
+  std::string move_type =
+      (static_cast<mov_circular *>(this) != nullptr) ? "Circ" : "Straight";
+
+  std::string type_string =
+      (movement_type == continous) ? "Continous" : "Step_by_step";
+
+  std::string speed_string;
+  switch (speed) {
+  case speed_10:
+    speed_string = "10%";
+    break;
+  case speed_50:
+    speed_string = "50%";
+    break;
+  case speed_100:
+    speed_string = "100%";
+    break;
+  default:
+    //TODO tutaj będzie kiedyś wyjątek
+    break;
+  }
+
   draw_text(
   command_explorer_first_setting_x, print_y, command_explorer_line_height,
   command_explorer_file_menu_font, 1, BLACK,
-  "MOVE = " + (static_cast<mov_circular *>(this) != nullptr) ? "Circ"
-  : "Straight");
-  std::string type_string =
-  (movement_type == continous) ? "Continous" : "Step_by_step";
-  draw_text(command_explorer_second_setting_x, print_y,
-  command_explorer_line_height, command_explorer_file_menu_font, 1,
-  BLACK, "TYPE = " + type_string);
-  draw_text(command_explorer_third_setting_x, print_y,
-  command_explorer_line_height, command_explorer_file_menu_font, 1,
-  BLACK, "SPEED = " + std::to_string(speed));
+  "MOVE = " + move_type
+  );
+
+  draw_text(
+  command_explorer_second_setting_x, print_y, command_explorer_line_height,
+  command_explorer_file_menu_font, 1, BLACK,
+  "TYPE = " + type_string
+  );
+
+  draw_text(
+  command_explorer_third_setting_x, print_y, command_explorer_line_height,
+  command_explorer_file_menu_font, 1, BLACK,
+  "SPEED = " + speed_string
+  );
 }
 
 void cmd_wait::draw(int print_y) {
@@ -228,10 +255,10 @@ cmd_wait::cmd_wait(std::ifstream &iss) {
         break;
       case 60:
         wait_time = wait_1min;
-              break;
+        break;
       case 300:
         wait_time = wait_5min;
-              break;
+        break;
       default:
         //TODO tutaj powinien być wyjątek
         break;
@@ -262,19 +289,19 @@ cmd_set_pin::cmd_set_pin(std::ifstream &iss) {
         break;
       }
       break;
-      case 'S':
-            switch (static_cast<int>(value)) {
-            case 0:
-              set_pin_high = false;
-              break;
-            case 1:
-              set_pin_high = true;
-              break;
-            default:
-              //TODO tutaj powinien być wyjątek
-              break;
-            }
-            break;
+    case 'S':
+      switch (static_cast<int>(value)) {
+      case 0:
+        set_pin_high = false;
+        break;
+      case 1:
+        set_pin_high = true;
+        break;
+      default:
+        //TODO tutaj powinien być wyjątek
+        break;
+      }
+      break;
     default:
       //TODO tutaj powinien być wyjątek
       break;
@@ -340,140 +367,163 @@ void cmd_set_pin::draw(int print_y) {
   BLACK, "SOURCE = " + output_pin_text);
 }
 
-void mov_streight::save_to_file(std::ofstream &file) {
-  if (file.is_open()) {
-    file << "G1 ";
+void mov_streight::save_to_file(FIL &fil) {
+  char buffer[256];
+  int len = 0;
+  UINT bytesWritten;
 
-    file << "X" << target_pos.x << " ";
-    file << "Y" << target_pos.y << " ";
-    file << "Z" << target_pos.z << " ";
-    file << "A" << target_pos.a << " ";
-    file << "B" << target_pos.b << " ";
-    file << "C" << target_pos.c << " ";
+  len += snprintf(buffer + len, sizeof(buffer) - len, "G1 ");
 
-    switch (speed) {
-    case speed_10:
-      file << "S10 ";
-      break;
-    case speed_50:
-      file << "S50 ";
-      break;
-    case speed_100:
-      file << "S100 ";
-      break;
-    }
+  len += snprintf(buffer + len, sizeof(buffer) - len, "X%.2f ", target_pos.x);
+  len += snprintf(buffer + len, sizeof(buffer) - len, "Y%.2f ", target_pos.y);
+  len += snprintf(buffer + len, sizeof(buffer) - len, "Z%.2f ", target_pos.z);
+  len += snprintf(buffer + len, sizeof(buffer) - len, "A%.2f ", target_pos.a);
+  len += snprintf(buffer + len, sizeof(buffer) - len, "B%.2f ", target_pos.b);
+  len += snprintf(buffer + len, sizeof(buffer) - len, "C%.2f ", target_pos.c);
 
-    switch (movement_type) {
-    case continous:
-      file << "M0";
-      break;
-    case step_by_step:
-      file << "M1";
-      break;
-    }
-
-    file << std::endl;
-  } else {
-    //TODO turtaj powinien być zwrócony wyjątek
+  switch (speed) {
+  case speed_10:
+    len += snprintf(buffer + len, sizeof(buffer) - len, "S10 ");
+    break;
+  case speed_50:
+    len += snprintf(buffer + len, sizeof(buffer) - len, "S50 ");
+    break;
+  case speed_100:
+    len += snprintf(buffer + len, sizeof(buffer) - len, "S100 ");
+    break;
   }
+
+  switch (movement_type) {
+  case continous:
+    len += snprintf(buffer + len, sizeof(buffer) - len, "M0");
+    break;
+  case step_by_step:
+    len += snprintf(buffer + len, sizeof(buffer) - len, "M1");
+    break;
+  }
+
+  len += snprintf(buffer + len, sizeof(buffer) - len, "\r\n");
+
+  f_write(&fil, buffer, len, &bytesWritten);
+
 }
 
-void mov_circular::save_to_file(std::ofstream &file) {
-  if (file.is_open()) {
-    file << "G2 ";
+void mov_circular::save_to_file(FIL &fil) {
+  char buffer[256];
+  int len = 0;
+  UINT bytesWritten;
 
-    file << "X" << target_pos.x << " ";
-    file << "Y" << target_pos.y << " ";
-    file << "Z" << target_pos.z << " ";
-    file << "A" << target_pos.a << " ";
-    file << "B" << target_pos.b << " ";
-    file << "C" << target_pos.c << " ";
+  len += snprintf(buffer + len, sizeof(buffer) - len, "G2 ");
 
-    file << "I" << help_pos.x << " ";
-    file << "J" << help_pos.y << " ";
-    file << "E" << help_pos.z << " ";
-    file << "K" << help_pos.a << " ";
-    file << "L" << help_pos.b << " ";
-    file << "O" << help_pos.c << " ";
+  len += snprintf(buffer + len, sizeof(buffer) - len, "X%.2f ", target_pos.x);
+  len += snprintf(buffer + len, sizeof(buffer) - len, "Y%.2f ", target_pos.y);
+  len += snprintf(buffer + len, sizeof(buffer) - len, "Z%.2f ", target_pos.z);
+  len += snprintf(buffer + len, sizeof(buffer) - len, "A%.2f ", target_pos.a);
+  len += snprintf(buffer + len, sizeof(buffer) - len, "B%.2f ", target_pos.b);
+  len += snprintf(buffer + len, sizeof(buffer) - len, "C%.2f ", target_pos.c);
 
-    switch (speed) {
-    case speed_10:
-      file << "S10 ";
-      break;
-    case speed_50:
-      file << "S50 ";
-      break;
-    case speed_100:
-      file << "S100 ";
-      break;
-    }
+  len += snprintf(buffer + len, sizeof(buffer) - len, "I%.2f ", help_pos.x);
+  len += snprintf(buffer + len, sizeof(buffer) - len, "J%.2f ", help_pos.y);
+  len += snprintf(buffer + len, sizeof(buffer) - len, "E%.2f ", help_pos.z);
+  len += snprintf(buffer + len, sizeof(buffer) - len, "K%.2f ", help_pos.a);
+  len += snprintf(buffer + len, sizeof(buffer) - len, "L%.2f ", help_pos.b);
+  len += snprintf(buffer + len, sizeof(buffer) - len, "O%.2f ", help_pos.c);
 
-    switch (movement_type) {
-    case continous:
-      file << "M0";
-      break;
-    case step_by_step:
-      file << "M1";
-      break;
-    }
-
-    file << std::endl;
-  } else {
-    //TODO turtaj powinien być zwrócony wyjątek
+  switch (speed) {
+  case speed_10:
+    len += snprintf(buffer + len, sizeof(buffer) - len, "S10 ");
+    break;
+  case speed_50:
+    len += snprintf(buffer + len, sizeof(buffer) - len, "S50 ");
+    break;
+  case speed_100:
+    len += snprintf(buffer + len, sizeof(buffer) - len, "S100 ");
+    break;
   }
+
+  switch (movement_type) {
+  case continous:
+    len += snprintf(buffer + len, sizeof(buffer) - len, "M0");
+    break;
+  case step_by_step:
+    len += snprintf(buffer + len, sizeof(buffer) - len, "M1");
+    break;
+  }
+
+  len += snprintf(buffer + len, sizeof(buffer) - len, "\r\n");
+
+  f_write(&fil, buffer, len, &bytesWritten);
 }
 
-void cmd_wait::save_to_file(std::ofstream &file) {
-  if (file.is_open()) {
-    file << "G4 ";
+void cmd_wait::save_to_file(FIL &fil) {
+  char buffer[64];
+  int len = 0;
+  UINT bytesWritten;
 
-    switch (wait_time) {
-    case wait_1s:
-      file << "P1";
-      break;
-    case wait_5s:
-      file << "P5";
-      break;
-    case wait_30s:
-      file << "P30";
-      break;
-    case wait_1min:
-      file << "P60";
-      break;
-    case wait_5min:
-      file << "P300";
-      break;
-    }
-    file << std::endl;
-  } else {
+  len += snprintf(buffer + len, sizeof(buffer) - len, "G4 ");
+
+  switch (wait_time) {
+  case wait_1s:
+    len += snprintf(buffer + len, sizeof(buffer) - len, "P1");
+    break;
+  case wait_5s:
+    len += snprintf(buffer + len, sizeof(buffer) - len, "P5");
+    break;
+  case wait_30s:
+    len += snprintf(buffer + len, sizeof(buffer) - len, "P30");
+    break;
+  case wait_1min:
+    len += snprintf(buffer + len, sizeof(buffer) - len, "P60");
+    break;
+  case wait_5min:
+    len += snprintf(buffer + len, sizeof(buffer) - len, "P300");
+    break;
+  default:
     //TODO turtaj powinien być zwrócony wyjątek
+    break;
   }
+
+  len += snprintf(buffer + len, sizeof(buffer) - len, "\r\n");
+
+  f_write(&fil, buffer, len, &bytesWritten);
 }
 
-void cmd_set_pin::save_to_file(std::ofstream &file) {
-  if (file.is_open()) {
-    file << "M42 ";
+void cmd_set_pin::save_to_file(FIL &fil) {
 
-    switch (output_pin) {
-    case robot_tool:
-      file << "P0 ";
-      break;
-    case user_led:
-      file << "P1 ";
-      break;
-    }
-    switch (set_pin_high) {
-    case true:
-      file << "S1";
-      break;
-    case false:
-      file << "S0";
-      break;
-    }
-    file << std::endl;
-  } else {
+  char buffer[64];
+  int len = 0;
+  UINT bytesWritten;
+
+  len += snprintf(buffer + len, sizeof(buffer) - len, "M42 ");
+
+  switch (output_pin) {
+  case robot_tool:
+    len += snprintf(buffer + len, sizeof(buffer) - len, "P0 ");
+    break;
+  case user_led:
+    len += snprintf(buffer + len, sizeof(buffer) - len, "P1 ");
+    break;
+  default:
     //TODO turtaj powinien być zwrócony wyjątek
+    break;
   }
+
+  // Append pin state
+  switch (set_pin_high) {
+  case true:
+    len += snprintf(buffer + len, sizeof(buffer) - len, "S1");
+    break;
+  case false:
+    len += snprintf(buffer + len, sizeof(buffer) - len, "S0");
+    break;
+  default:
+    //TODO turtaj powinien być zwrócony wyjątek
+    break;
+  }
+
+  len += snprintf(buffer + len, sizeof(buffer) - len, "\r\n");
+
+  f_write(&fil, buffer, len, &bytesWritten);
 }
 
 void kalibracja_robota(int givenSteps[6], int liczba_krokow_osi[5],

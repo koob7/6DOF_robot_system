@@ -16,6 +16,7 @@
 #include <fstream>
 #include <iostream>
 #include <sstream>
+#include "ff.h"
 
 #define command_explorer_start_pos_x 200
 #define command_explorer_start_pos_y 208
@@ -26,7 +27,7 @@
   const_cast<GFXfont *>(_Open_Sans_Bold_14)
 #define command_explorer_first_setting_x 260
 #define command_explorer_second_setting_x 370
-#define command_explorer_third_setting_x 480
+#define command_explorer_third_setting_x 540
 
 struct robot_position {
   double x;
@@ -66,7 +67,7 @@ class command {
 public:
   //virtual bool perform_task() = 0;
   virtual void draw(int print_y) = 0;
-  virtual void save_to_file(std::ofstream &file)=0;
+  virtual void save_to_file(FIL& fil)=0;
   // std::string getType(){return typeid(*this).name();}
 };
 
@@ -110,7 +111,7 @@ public:
                        // robota, zwraca true jeżeli osiągnięto cel
   void update_command(struct robot_position in_target_pos,
       enum e_speed in_speed, enum e_movement_type in_movement_type);
-  void save_to_file(std::ofstream &file);
+  void save_to_file(FIL& fil);
 };
 
 class mov_circular: public movement {
@@ -128,7 +129,7 @@ public:
   struct robot_position get_help_position() {
     return help_pos;
   }
-  void save_to_file(std::ofstream &file);
+  void save_to_file(FIL& fil);
 };
 
 class cmd_wait: public command  {
@@ -144,7 +145,7 @@ public:
                        // true jeżeli osiągnięto cel
   void draw(int print_y);
   void update_command(enum e_wait_time wait_time);
-  void save_to_file(std::ofstream &file);
+  void save_to_file(FIL& fil);
 };
 
 class cmd_set_pin: public command  {
@@ -161,7 +162,7 @@ public:
                        // ustawiono pin
   void draw(int print_y);
   void update_command(enum e_output_pin in_output_pin, bool in_set_pin_high);
-  void save_to_file(std::ofstream &file);
+  void save_to_file(FIL& fil);
 };
 
 void kalibracja_robota(int givenSteps[6], int liczba_krokow_osi[5],

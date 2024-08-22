@@ -6,6 +6,8 @@
  */
 #include "objects.h"
 
+FATFS file_system;
+
 void menu_segment::draw() {
   for (auto part : background_parts) {
     part->draw();
@@ -48,11 +50,9 @@ projects_explorer::projects_explorer() {
       std::make_shared<triangle>(150, 185, 150 + 23, 185, 161, 165, 0x00FD));
   page_down_btn.add_part(
       std::make_shared<triangle>(150, 432, 150 + 23, 432, 161, 452, 0x00FD));
-  if (f_mount(&file_system, "/", 1) == FR_OK) {
-    get_files();
-    initialized = true;
-  } else
-    initialized = false;
+
+  get_files();
+  initialized = true;
 }
 
 void projects_explorer::update_last_file_to_display() {
@@ -379,38 +379,28 @@ std::shared_ptr<command> project_editor::get_command_to_execute() {
 }
 
 void project_editor::save_changes_into_file() {
-  input_file.close();
-  output_file.open(file_name, std::ios::out | std::ios::trunc);
   for (auto cmd : commands) {
-    cmd->save_to_file(output_file);
+    cmd->save_to_file(fil);
   }
-  output_file.close();
-  input_file.open(file_name);
 
 }
 
+void project_editor::close_file(){
+  f_close(&fil);
+}
+
 bool project_editor::open_file(std::string in_file_name) {
-//  input_file.close();
-//  file_name = in_file_name;
-//  input_file.open(in_file_name);
-//
-//  if (!input_file.is_open()) {
-//    //TODO zwróć wyjątek że plik się nie otwiera
-//    return false;
-//  }
-//
-  const TCHAR* tchar_file_name = in_file_name.c_str();
+  const TCHAR *tchar_file_name = in_file_name.c_str();
 
+  file_name = in_file_name;
 
-      file_name = in_file_name;
+  FRESULT result = f_open(&fil, tchar_file_name,
+      FA_OPEN_ALWAYS | FA_READ | FA_WRITE);
 
-      FRESULT result = f_open(&fil, tchar_file_name, FA_OPEN_ALWAYS | FA_READ | FA_WRITE);
-
-      if (result != FR_OK) {
-          // TODO: Rzuć wyjątek, że plik nie może zostać otwarty
-          return result;
-      }
-
+  if (result != FR_OK) {
+    // TODO: Rzuć wyjątek, że plik nie może zostać otwarty
+    return result;
+  }
 
   return get_commands();
 
@@ -420,31 +410,50 @@ bool project_editor::get_commands() {
   commands.clear();
   selected_command = -1;
   std::string Gcode_command;
+  char line[256];
 
-  if (!input_file.is_open()) {
-    //TODO zwróć wyjątek że plik się nie otwiera
-    return false;
-  }
+  while (f_gets(line, sizeof(line), &fil) != NULL) {
 
+    std::ifstream x(line);
 
-  while (input_file >> Gcode_command) {
+    // Create a buffer to hold the file contents
+    std::string buffer;
+    buffer.assign((std::istreambuf_iterator<char>(x)), std::istreambuf_iterator<char>());
+
+    // Alternatively, if you need a fixed-size char array
+    // Allocate a buffer
+    size_t bufferSize = 1024; // Adjust the size as needed
+    char* charBuffer = new char[bufferSize];
+
+    // Read the file contents into the buffer
+    x.read(charBuffer, bufferSize - 1);
+    std::streamsize bytesRead = x.gcount();
+    charBuffer[bytesRead] = '\0'; // Null-terminate the buffer
+
+    x >> Gcode_command;
+
     if (Gcode_command == "G1") {
-      add_part(std::make_shared<mov_streight>(input_file));
+      add_part(std::make_shared<mov_streight>(x));
     } else if (Gcode_command == "G2") {
-      add_part(std::make_shared<mov_circular>(input_file));
+      add_part(std::make_shared<mov_circular>(x));
     } else if (Gcode_command == "G4") {
-      add_part(std::make_shared<cmd_wait>(input_file));
+      add_part(std::make_shared<cmd_wait>(x));
     } else if (Gcode_command == "M42") {
-      add_part(std::make_shared<cmd_set_pin>(input_file));
+      add_part(std::make_shared<cmd_set_pin>(x));
     } else {
-      std::cerr << "Unknown Gcode command: " << Gcode_command << std::endl;
-      //TODO zwróć wyjątek
+      // TODO: Handle unknown commands or throw an exception
     }
   }
 
   if (commands.empty()) {
-    add_part(std::make_shared<mov_streight>(robot_home_position, movement::e_speed::speed_100, movement::e_movement_type::continous));
-    add_part(std::make_shared<mov_streight>(robot_home_position, movement::e_speed::speed_100, movement::e_movement_type::continous));
+    add_part(
+        std::make_shared<mov_streight>(robot_home_position,
+            movement::e_speed::speed_100,
+            movement::e_movement_type::continous));
+    add_part(
+        std::make_shared<mov_streight>(robot_home_position,
+            movement::e_speed::speed_100,
+            movement::e_movement_type::continous));
   }
 
   draw();

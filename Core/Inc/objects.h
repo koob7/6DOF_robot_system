@@ -27,7 +27,7 @@
 #define project_explorer_file_menu_font                                        \
   const_cast<GFXfont *>(_Open_Sans_Bold_14)
 
-
+extern  FATFS file_system;
 
 class menu_segment {
   std::vector<std::shared_ptr<menu_part>> top_parts;
@@ -57,7 +57,7 @@ public:
   };
 
 private:
-  FATFS file_system;
+
   DIR directory;
   FILINFO fno;
   std::vector<FILINFO> sd_files;
@@ -98,11 +98,9 @@ class project_editor {
   void update_last_command_to_display();
   bool check_area_pressed(int x, int y, int area_x, int area_y, int area_width,
       int area_height);
-  FIL fil; // File
+  FIL fil;
 
 public:
-  std::ifstream input_file;
-  std::ofstream output_file;
   int first_command_to_display = 0;
   int last_command_to_display = 0;
   int selected_command = -1; // wartość ujemna oznacza brak wybranego pliku
@@ -121,6 +119,7 @@ public:
   void insert_command(std::shared_ptr<command> in_cmd);
   void remove_command();
   bool open_file(std::string in_file_name);
+  void close_file();
   void save_changes_into_file();
 };
 
