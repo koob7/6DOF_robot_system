@@ -101,7 +101,7 @@ mov_streight::mov_streight(struct robot_position in_target_pos,
     enum e_speed speed, enum e_movement_type movement_type) :
     movement(in_target_pos, speed, movement_type) {
 }
-mov_streight::mov_streight(std::ifstream &iss) {
+mov_streight::mov_streight(std::istringstream& iss) {
   char prefix;
   double value;
   while (iss >> prefix >> value) {
@@ -160,7 +160,7 @@ mov_streight::mov_streight(std::ifstream &iss) {
   }
 }
 
-mov_circular::mov_circular(std::ifstream &iss) {
+mov_circular::mov_circular(std::istringstream& iss) {
   char prefix;
   double value;
   while (iss >> prefix >> value) {
@@ -237,7 +237,7 @@ mov_circular::mov_circular(std::ifstream &iss) {
   }
 }
 
-cmd_wait::cmd_wait(std::ifstream &iss) {
+cmd_wait::cmd_wait(std::istringstream& iss) {
   char prefix;
   double value;
   while (iss >> prefix >> value) {
@@ -271,7 +271,7 @@ cmd_wait::cmd_wait(std::ifstream &iss) {
   }
 }
 
-cmd_set_pin::cmd_set_pin(std::ifstream &iss) {
+cmd_set_pin::cmd_set_pin(std::istringstream& iss) {
   char prefix;
   double value;
   while (iss >> prefix >> value) {

@@ -379,9 +379,15 @@ std::shared_ptr<command> project_editor::get_command_to_execute() {
 }
 
 void project_editor::save_changes_into_file() {
+  const TCHAR *tchar_file_name = file_name.c_str();
+  f_close(&fil);
+  f_open(&fil, tchar_file_name, FA_WRITE | FA_CREATE_ALWAYS);
   for (auto cmd : commands) {
     cmd->save_to_file(fil);
   }
+  f_close(&fil);
+  f_open(&fil, tchar_file_name,
+        FA_OPEN_ALWAYS | FA_READ | FA_WRITE);
 
 }
 
@@ -414,32 +420,18 @@ bool project_editor::get_commands() {
 
   while (f_gets(line, sizeof(line), &fil) != NULL) {
 
-    std::ifstream x(line);
+    std::istringstream line_stream(line);
 
-    // Create a buffer to hold the file contents
-    std::string buffer;
-    buffer.assign((std::istreambuf_iterator<char>(x)), std::istreambuf_iterator<char>());
-
-    // Alternatively, if you need a fixed-size char array
-    // Allocate a buffer
-    size_t bufferSize = 1024; // Adjust the size as needed
-    char* charBuffer = new char[bufferSize];
-
-    // Read the file contents into the buffer
-    x.read(charBuffer, bufferSize - 1);
-    std::streamsize bytesRead = x.gcount();
-    charBuffer[bytesRead] = '\0'; // Null-terminate the buffer
-
-    x >> Gcode_command;
+    line_stream  >> Gcode_command;
 
     if (Gcode_command == "G1") {
-      add_part(std::make_shared<mov_streight>(x));
+      add_part(std::make_shared<mov_streight>(line_stream));
     } else if (Gcode_command == "G2") {
-      add_part(std::make_shared<mov_circular>(x));
+      add_part(std::make_shared<mov_circular>(line_stream));
     } else if (Gcode_command == "G4") {
-      add_part(std::make_shared<cmd_wait>(x));
+      add_part(std::make_shared<cmd_wait>(line_stream));
     } else if (Gcode_command == "M42") {
-      add_part(std::make_shared<cmd_set_pin>(x));
+      add_part(std::make_shared<cmd_set_pin>(line_stream));
     } else {
       // TODO: Handle unknown commands or throw an exception
     }

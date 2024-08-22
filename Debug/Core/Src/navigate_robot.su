@@ -8,10 +8,10 @@ C:\ST\STM32CubeIDE_1.13.2\STM32CubeIDE\plugins\com.st.stm32cube.ide.mcu.external
 ../Core/Src/navigate_robot.cpp:91:1:movement::movement(robot_position, movement::e_speed, movement::e_movement_type)	24	static
 ../Core/Src/navigate_robot.cpp:95:1:movement::movement()	72	static
 ../Core/Src/navigate_robot.cpp:100:1:mov_streight::mov_streight(robot_position, movement::e_speed, movement::e_movement_type)	80	static
-../Core/Src/navigate_robot.cpp:104:1:mov_streight::mov_streight(std::ifstream&)	32	static
-../Core/Src/navigate_robot.cpp:163:1:mov_circular::mov_circular(std::ifstream&)	32	static
-../Core/Src/navigate_robot.cpp:240:1:cmd_wait::cmd_wait(std::ifstream&)	32	static
-../Core/Src/navigate_robot.cpp:274:1:cmd_set_pin::cmd_set_pin(std::ifstream&)	32	static
+../Core/Src/navigate_robot.cpp:104:1:mov_streight::mov_streight(std::istringstream&)	32	static
+../Core/Src/navigate_robot.cpp:163:1:mov_circular::mov_circular(std::istringstream&)	32	static
+../Core/Src/navigate_robot.cpp:240:1:cmd_wait::cmd_wait(std::istringstream&)	32	static
+../Core/Src/navigate_robot.cpp:274:1:cmd_set_pin::cmd_set_pin(std::istringstream&)	32	static
 ../Core/Src/navigate_robot.cpp:312:1:mov_circular::mov_circular(robot_position, robot_position, movement::e_speed, movement::e_movement_type)	80	static
 ../Core/Src/navigate_robot.cpp:318:1:cmd_wait::cmd_wait(cmd_wait::e_wait_time)	16	static
 ../Core/Src/navigate_robot.cpp:321:1:cmd_set_pin::cmd_set_pin(cmd_set_pin::e_output_pin, bool)	16	static

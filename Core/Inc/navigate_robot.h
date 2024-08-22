@@ -106,7 +106,7 @@ class mov_streight: public movement {
 public:
   mov_streight(struct robot_position in_target_pos, enum e_speed speed,
       enum e_movement_type movement_type);
-  mov_streight(std::ifstream& iss);
+  mov_streight(std::istringstream& iss);
   bool perform_task(); // tutaj funkcja będzie ustawiała kolejne pozycje
                        // robota, zwraca true jeżeli osiągnięto cel
   void update_command(struct robot_position in_target_pos,
@@ -117,7 +117,7 @@ public:
 class mov_circular: public movement {
 public:
   struct robot_position help_pos;
-  mov_circular(std::ifstream &iss);
+  mov_circular(std::istringstream& iss);
   mov_circular(struct robot_position in_help_pos,
       struct robot_position in_target_pos, enum e_speed speed,
       enum e_movement_type movement_type);
@@ -139,7 +139,7 @@ public:
   };
 
   enum e_wait_time wait_time;
-  cmd_wait(std::ifstream &iss);
+  cmd_wait(std::istringstream& iss);
   cmd_wait(enum e_wait_time wait_time);
   bool perform_task(); // tutaj będzie odczekiwany mały odstęp czasu,  zwraca
                        // true jeżeli osiągnięto cel
@@ -155,7 +155,7 @@ public:
   };
   enum e_output_pin output_pin;
   bool set_pin_high;
-  cmd_set_pin(std::ifstream &iss);
+  cmd_set_pin(std::istringstream& iss);
   cmd_set_pin(enum e_output_pin output_pin, bool set_pin_high);
   bool perform_task(); // tutaj będzie ustawiana wartość pinu w zależności od
                        // zmiennej set_pin_high, zwraca true jeżeli poprawnie
