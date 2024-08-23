@@ -6,8 +6,7 @@ menu_segment project_explorer_menu;
 menu_segment project_editor_menu;
 menu_segment straight_mov_menu;
 menu_segment circular_mov_menu;
-menu_segment wait_com_menu;
-menu_segment set_pin_com_menu;
+menu_segment commands_menu;
 
 void init_objects() {
   TFT_Clear_Screen(clear_screen_color);
@@ -19,72 +18,8 @@ void init_objects() {
   init_project_editor_menu();
   init_straight_mov_menu();
   init_circular_mov_menu();
-  init_wait_com_menu();
-  init_set_pin_com_menu();
+  init_commands_menu();
 }
-
-// void init_main_top_menu(){
-// 	//tło
-// 	main_top_menu.add_background_part(std::make_shared<rectangle>(120, 144,
-// 560, 336, clear_screen_color));
-// 	main_top_menu.add_background_part(std::make_shared<rectangle>(120, 0,
-// 560, 144, top_menu_background_color));
-// 	//przyciski na gorze
-// 	main_top_menu.add_part(button(0,132, 9, 70, 41, top_menu_button_color,
-// 20,"SELECT", top_menu_text_color, top_menu_font));
-// 	main_top_menu.add_part(button(1,212, 9, 70, 41, top_menu_button_color,
-// 20,"NEW P.", top_menu_text_color, top_menu_font));
-// 	main_top_menu.add_part(button(2,291, 9, 70, 41, top_menu_button_color,
-// 20,"EDIT P.", top_menu_text_color, top_menu_font));
-// 	main_top_menu.add_part(button(3,371, 9, 81, 41, top_menu_button_color,
-// 20,"DELETE P.", top_menu_text_color, top_menu_font));
-// 	main_top_menu.add_part(button(4,462, 9, 72, 41, top_menu_button_color,
-// 20,"SET T.P.", top_menu_text_color, top_menu_font));
-// 	main_top_menu.add_part(button(5,544, 9, 72, 41, top_menu_button_color,
-// 20,"SET H.P", top_menu_text_color, top_menu_font));
-// 	//przyciski programu
-// 	button btn = button(6,628, 15, 40, 40, top_menu_button_color,
-// 20);//nawigacja góra 	btn.add_part(std::make_shared<triangle>(636, 42,
-// 636 + 23, 42, 647, 22, 0x00FD)); 	main_top_menu.add_part(btn); 	btn =
-// button(7,628, 88, 40, 40, top_menu_button_color, 20);//nawigacja dół
-// 	btn.add_part(std::make_shared<triangle>(636, 42 + 59, 636 + 23, 42 + 59,
-// 647, 22 + 40 + 59,0x00FD)); 	main_top_menu.add_part(btn);
-// 	main_top_menu.add_part(button(8,211, 68, 61, 21, top_menu_button_color,
-// 10, "P11", top_menu_text_color, top_menu_font));//name 	btn =
-// button(9,211, 109, 61, 21, top_menu_button_color, 10, "OFF",
-// top_menu_text_color, top_menu_font, false);//tool
-// btn.add_part(std::make_shared<triangle>(574 - 322, 74 + 41, 573 + 13 - 322,
-// 74 + 41, 580 - 322,74 + 11 + 41, 0x00FD)); 	main_top_menu.add_part(btn);
-// btn = button(10,362, 68, 61, 21, top_menu_button_color, 10, "Circ",
-// top_menu_text_color, top_menu_font, false);//move
-// 	btn.add_part(std::make_shared<triangle>(574 - 170, 74, 573 + 13 - 170,
-// 74, 580 - 170, 74 + 11,0x00FD)); 	main_top_menu.add_part(btn); 	btn =
-// button(11,362, 109, 61, 21, top_menu_button_color, 10, "100%",
-// top_menu_text_color, top_menu_font, false);//speed
-// 	btn.add_part(std::make_shared<triangle>(574 - 170, 74 + 41, 573 + 13 -
-// 170, 74 + 41, 580 - 170,74 + 11 + 41, 0x00FD));
-// main_top_menu.add_part(btn); 	btn = button(12,532, 68, 61, 21,
-// top_menu_button_color, 10, "Cont", top_menu_text_color, top_menu_font,
-// false);//type 	btn.add_part(std::make_shared<triangle>(574, 74, 573 +
-// 13, 74, 580, 74 + 11, 0x00FD)); 	main_top_menu.add_part(btn);
-// 	main_top_menu.add_part(button(12,532, 109, 61, 21,
-// top_menu_button_color, 10, "YES", top_menu_text_color, top_menu_font));//at
-// target
-// 	//etykiery przycisków programu
-// 	main_top_menu.add_part(std::make_shared<text_field>(155, 67 ,21,
-// "Name:", top_menu_text_color, top_menu_font));
-// 	main_top_menu.add_part(std::make_shared<text_field>(155, 109,21,
-// "Tool:", top_menu_text_color, top_menu_font));
-// 	main_top_menu.add_part(std::make_shared<text_field>(295, 67,21, "Move:",
-// top_menu_text_color, top_menu_font));
-// 	main_top_menu.add_part(std::make_shared<text_field>(295, 109,21,
-// "Speed:", top_menu_text_color, top_menu_font));
-// 	main_top_menu.add_part(std::make_shared<text_field>(446, 67,21, "Type:",
-// top_menu_text_color, top_menu_font));
-// 	main_top_menu.add_part(std::make_shared<text_field>(446, 109,21, "at
-// Target:", top_menu_text_color, top_menu_font));
-
-// }
 
 void init_main_left_menu() {
   // szary prostokąt z lewej
@@ -254,16 +189,16 @@ void init_circular_mov_menu(){
             0x00FD));
     circular_mov_menu.add_part(btn);
     circular_mov_menu.add_part(
-            button(2, 286, 16, 100, 40, top_menu_button_color, 10,
+            button(2, 286, 16, 100, 40, top_menu_button_color, 20,
                 "Touch up help point", top_menu_text_color, top_menu_font));
     circular_mov_menu.add_part(
-        button(3, 400, 16, 100, 40, top_menu_button_color, 10,
+        button(3, 400, 16, 100, 40, top_menu_button_color, 20,
             "Touch up target point", top_menu_text_color, top_menu_font));
     circular_mov_menu.add_part(button(4, 514, 16, 70, 40,
-    top_menu_button_color, 10, "Save point",
+    top_menu_button_color, 20, "Save point",
     top_menu_text_color, top_menu_font));
     circular_mov_menu.add_part(button(5, 598, 16, 70, 40,
-    top_menu_button_color, 10, "Cancel",
+    top_menu_button_color, 20, "Cancel",
     top_menu_text_color, top_menu_font));
     circular_mov_menu.add_part(
         std::make_shared<text_field>(136, 10, 20, "Speed:", top_menu_text_color,
@@ -273,9 +208,50 @@ void init_circular_mov_menu(){
             top_menu_font));
 
 }
-void init_wait_com_menu(){
-
+void init_commands_menu(){
+  commands_menu.add_background_part(
+        std::make_shared<rectangle>(120, 72, 560, 408, clear_screen_color));
+  commands_menu.add_background_part(
+        std::make_shared<rectangle>(120, 0, 560, 72, top_menu_background_color));
+  commands_menu.add_part(
+            std::make_shared<text_field>(127, 16, 40, "Command:", top_menu_text_color,
+                top_menu_font));
+    button btn = button(0, 215, 16, 175, 40, top_menu_button_color, 20, " wait for: 5s",
+        top_menu_text_color, top_menu_font, false);
+    btn.add_part(
+        std::make_shared<triangle>(355, 27, 355 + 22, 27, 355 + 11, 27 + 20,
+            0x00FD));
+    commands_menu.add_part(btn);
+    commands_menu.add_part(button(1, 422, 16, 100, 40,
+        top_menu_button_color, 20, "Save point",
+        top_menu_text_color, top_menu_font));
+    commands_menu.add_part(button(2, 552, 16, 100, 40,
+        top_menu_button_color, 20, "Cancel",
+        top_menu_text_color, top_menu_font));
 }
-void init_set_pin_com_menu(){
 
-}
+
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+

@@ -348,9 +348,9 @@ int main(void)
 //	HAL_Delay(5000);
 //	project_editor_menu.draw();
 //  HAL_Delay(5000);
-	circular_mov_menu.draw();
-  HAL_Delay(5000);
-
+//	circular_mov_menu.draw();
+//  HAL_Delay(5000);
+  commands_menu.draw();
 
 
 //	extern menu_segment project_explorer_menu;
