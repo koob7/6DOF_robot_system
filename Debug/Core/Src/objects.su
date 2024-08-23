@@ -6,19 +6,19 @@ C:\ST\STM32CubeIDE_1.13.2\STM32CubeIDE\plugins\com.st.stm32cube.ide.mcu.external
 C:\ST\STM32CubeIDE_1.13.2\STM32CubeIDE\plugins\com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.11.3.rel1.win32_1.1.1.202309131626\tools\arm-none-eabi\include\c++\11.3.1\bits\shared_ptr_base.h:274:5:void std::_Sp_counted_base<_Lp>::_M_add_ref_copy() [with __gnu_cxx::_Lock_policy _Lp = __gnu_cxx::_S_single]	16	static
 C:\ST\STM32CubeIDE_1.13.2\STM32CubeIDE\plugins\com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.11.3.rel1.win32_1.1.1.202309131626\tools\arm-none-eabi\include\c++\11.3.1\bits\shared_ptr_base.h:279:5:void std::_Sp_counted_base<_Lp>::_M_release() [with __gnu_cxx::_Lock_policy _Lp = __gnu_cxx::_S_single]	16	static
 C:\ST\STM32CubeIDE_1.13.2\STM32CubeIDE\plugins\com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.11.3.rel1.win32_1.1.1.202309131626\tools\arm-none-eabi\include\c++\11.3.1\bits\shared_ptr_base.h:479:5:static const std::type_info& std::_Sp_make_shared_tag::_S_ti()	4	static
-../Core/Inc/menu_parts.h:114:6:int button::get_id()	16	static
+../Core/Inc/menu_parts.h:105:7:int button::get_id()	16	static
 ../Core/Inc/navigate_robot.h:48:8:bool robot_position::operator==(const robot_position&) const	16	static
 ../Core/Inc/navigate_robot.h:91:25:robot_position movement::get_target_position()	24	static
 C:\ST\STM32CubeIDE_1.13.2\STM32CubeIDE\plugins\com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.11.3.rel1.win32_1.1.1.202309131626\tools\bin/../lib/gcc/arm-none-eabi/11.3.1/../../../../arm-none-eabi/include/c++/11.3.1/iomanip:225:3:std::_Setw std::setw(int)	16	static
-../Core/Inc/menu_parts.h:83:7:button::~button()	16	static
+../Core/Inc/menu_parts.h:79:7:button::~button()	16	static
 C:\ST\STM32CubeIDE_1.13.2\STM32CubeIDE\plugins\com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.11.3.rel1.win32_1.1.1.202309131626\tools\bin/../lib/gcc/arm-none-eabi/11.3.1/../../../../arm-none-eabi/include/c++/11.3.1/bits/stl_vector.h:128:14:std::_Vector_base<std::shared_ptr<menu_part>, std::allocator<std::shared_ptr<menu_part> > >::_Vector_impl::~_Vector_impl()	16	static
 ../Core/Inc/objects.h:115:8:void project_editor::add_part(std::shared_ptr<command>)	16	static
 C:\ST\STM32CubeIDE_1.13.2\STM32CubeIDE\plugins\com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.11.3.rel1.win32_1.1.1.202309131626\tools\arm-none-eabi\include\c++\11.3.1\bits\shared_ptr_base.h:1152:7:std::__shared_ptr<_Tp, _Lp>::__shared_ptr(const std::__shared_ptr<_Tp, _Lp>&) [with _Tp = menu_part; __gnu_cxx::_Lock_policy _Lp = __gnu_cxx::_S_single]	16	static
 C:\ST\STM32CubeIDE_1.13.2\STM32CubeIDE\plugins\com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.11.3.rel1.win32_1.1.1.202309131626\tools\arm-none-eabi\include\c++\11.3.1\bits\shared_ptr_base.h:1154:7:std::__shared_ptr<_Tp, _Lp>::~__shared_ptr() [with _Tp = menu_part; __gnu_cxx::_Lock_policy _Lp = __gnu_cxx::_S_single]	16	static
 C:\ST\STM32CubeIDE_1.13.2\STM32CubeIDE\plugins\com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.11.3.rel1.win32_1.1.1.202309131626\tools\bin/../lib/gcc/arm-none-eabi/11.3.1/../../../../arm-none-eabi/include/c++/11.3.1/bits/shared_ptr.h:150:7:std::shared_ptr<_Tp>::shared_ptr(const std::shared_ptr<_Tp>&) [with _Tp = menu_part]	16	static
 C:\ST\STM32CubeIDE_1.13.2\STM32CubeIDE\plugins\com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.11.3.rel1.win32_1.1.1.202309131626\tools\bin/../lib/gcc/arm-none-eabi/11.3.1/../../../../arm-none-eabi/include/c++/11.3.1/bits/shared_ptr.h:122:11:std::shared_ptr<menu_part>::~shared_ptr()	16	static
-../Core/Inc/menu_parts.h:74:7:constexpr menu_part::menu_part(const menu_part&)	16	static
-../Core/Inc/menu_parts.h:83:7:button::button(const button&)	16	static
+../Core/Inc/menu_parts.h:71:7:constexpr menu_part::menu_part(const menu_part&)	16	static
+../Core/Inc/menu_parts.h:79:7:button::button(const button&)	16	static
 ../Core/Src/objects.cpp:11:6:void menu_segment::draw()	144	static
 ../Core/Src/objects.cpp:23:6:void menu_segment::reduce_vector_size()	16	static
 ../Core/Src/objects.cpp:29:5:int menu_segment::check_pressed(int, int)	120	static

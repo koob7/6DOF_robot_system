@@ -342,10 +342,23 @@ int main(void)
 	//robot_home_position.x = u_position(20);
 
 	init_objects();
-	main_top_menu.draw();
 	main_left_menu.draw();
 	main_right_menu.draw();
+//	project_explorer_menu.draw();
+//	HAL_Delay(5000);
+//	project_editor_menu.draw();
+//  HAL_Delay(5000);
+	circular_mov_menu.draw();
+  HAL_Delay(5000);
 
+
+
+//	extern menu_segment project_explorer_menu;
+//	extern menu_segment project_editor_menu;
+//	extern menu_segment straight_mov_menu;
+//	extern menu_segment circular_mov_menu;
+//	extern menu_segment wait_com_menu;
+//	extern menu_segment set_pin_com_menu;
 
   project_editor main_editor;
   main_editor.open_file("file8.txt");

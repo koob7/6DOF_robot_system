@@ -6,8 +6,9 @@
 #include "ff.h"
 #include "sd_card_service.h"
 #include "string.h"
-#include <stdint.h>
 #include <objects.h>
+#include <stdint.h>
+
 
 #include "008_Open_Sans_Bold.h"
 #include "009_Open_Sans_Bold.h"
@@ -51,36 +52,38 @@
 #define top_menu_button_color 0xD6BA
 #define top_menu_text_color BLACK
 #define top_menu_background_color 0xD61F
-#define top_menu_font const_cast<GFXfont*>(_Open_Sans_Bold_14)
+#define top_menu_font const_cast<GFXfont *>(_Open_Sans_Bold_14)
 
 #define left_menu_button_color 0xD6BA
 #define left_menu_text_color BLACK
 #define left_menu_background_color 0x8C51
-#define left_menu_font const_cast<GFXfont*>(_Open_Sans_Bold_14)
+#define left_menu_font const_cast<GFXfont *>(_Open_Sans_Bold_14)
 
 #define right_menu_button_color 0xD6BA
 #define right_menu_text_color 0x7D3D
 #define right_menu_background_color 0x8C51
-#define right_menu_font const_cast<GFXfont*>(_Open_Sans_Bold_48)
+#define right_menu_font const_cast<GFXfont *>(_Open_Sans_Bold_48)
 
-#define project_explorer_button_color 0xD6BA
-#define project_explorer_text_color BLACK
-#define project_explorer_background_color 0xD61F
-#define project_explorer_font const_cast<GFXfont*>(_Open_Sans_Bold_16)
-
-extern menu_segment main_top_menu;
 extern menu_segment main_left_menu;
 extern menu_segment main_right_menu;
 extern menu_segment project_explorer_menu;
+extern menu_segment project_editor_menu;
+extern menu_segment straight_mov_menu;
+extern menu_segment circular_mov_menu;
+extern menu_segment wait_com_menu;
+extern menu_segment set_pin_com_menu;
 
 void init_objects();
-void init_main_top_menu();
 void init_main_left_menu();
 void init_main_right_menu();
 void init_project_explorer_menu();
+void init_project_editor_menu();
+void init_straight_mov_menu();
+void init_circular_mov_menu();
+void init_wait_com_menu();
+void init_set_pin_com_menu();
 
-//void draw_file_list(int start, int end, bool ascending,
+// void draw_file_list(int start, int end, bool ascending,
 //		enum sort_option option);
-
 
 #endif
