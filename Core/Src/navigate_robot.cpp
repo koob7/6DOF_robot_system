@@ -10,6 +10,9 @@
   { 6400 * 2, 6400 * 2, 8000, 6400 * 2, 6400 * 2, 0 };
   double currentPosition[6];
   double givenPosition[6];
+  int liczba_krokow_osi[5];
+  uint8_t kalibracja_osi[5] = { 1, 1, 1, 1, 1 };
+  int givenSteps[6] = { 0, 0, 0, 0, 0, 0 };
 
 struct robot_position robot_home_position = robot_position(20, 0, 20, 0, 0, 0);
 

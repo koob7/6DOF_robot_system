@@ -33,6 +33,9 @@
   extern uint16_t max_licz_krokow_osi[6];
   extern double currentPosition[6];
   extern double givenPosition[6];
+  extern int liczba_krokow_osi[5];
+  extern uint8_t kalibracja_osi[5];
+  extern int givenSteps[6];
 
 struct robot_position {
   double x;

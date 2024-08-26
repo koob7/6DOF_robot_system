@@ -42,7 +42,7 @@ public:
   void change_mode(e_project_mode new_state);
   void change_mode(e_step_mode new_state);
   void change_mode(e_control_mode new_state);
-  void handle_press_with_current_state(int x, int y);
+  int handle_press_with_current_state(int x, int y);
 
 private:
 

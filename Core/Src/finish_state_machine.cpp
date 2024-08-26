@@ -70,7 +70,32 @@ void finish_state_machine::change_mode(e_control_mode new_state) {
 }
 
 
-void finish_state_machine::handle_press_with_current_state(int x, int y) {
+int finish_state_machine::handle_press_with_current_state(int x, int y) {
+
+  int pressed_button = main_right_menu.check_pressed(x, y);
+
+  switch (pressed_button){
+  case 0:
+    givenPosition[0]+=0.01;
+    break;
+  case 1:
+    givenPosition[0]-=0.01;
+    break;
+  case 2:
+    givenPosition[1]+=0.01;
+    break;
+  case 3:
+    givenPosition[1]-=0.01;
+    break;
+  case 4:
+    break;
+  case 5:
+    break;
+  }
+  licz_kroki(givenPosition, givenSteps, currentPosition);
+  if (pressed_button>=0){ return 1;}
+  else{return 0;}
+
 
   switch (control_mode) {
   case e_control_mode::AUTOMATIC_MODE:

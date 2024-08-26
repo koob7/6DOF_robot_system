@@ -22,20 +22,15 @@
 #include "gpio.h"
 #include "spi.h"
 #include "tim.h"
-#include <display_ssd1963.h>
 #include <draw_display.h>
+#include "stdio.h"
+#include "string.h"
 #include <navigate_robot.h>
+#include "finish_state_machine.h"
+
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-#include "fatfs_sd.h"
-#include "stdio.h"
-#include "string.h"
-#include "xpt2046.h"
-#include <iostream>
-#include "menu_parts.h"
-#include <objects.h>
-
 #include "008_Open_Sans_Bold.h"
 #include "009_Open_Sans_Bold.h"
 #include "010_Open_Sans_Bold.h"
@@ -108,9 +103,7 @@
 /* Private variables ---------------------------------------------------------*/
 
 /* USER CODE BEGIN PV */
-int liczba_krokow_osi[5];
-uint8_t kalibracja_osi[5] = { 1, 1, 1, 1, 1 };
-int givenSteps[6] = { 0, 0, 0, 0, 0, 0 };
+
 int8_t factor[5];
 uint8_t was_touched = 0;
 /* USER CODE END PV */
@@ -217,11 +210,14 @@ int main(void) {
   licz_kroki(givenPosition, givenSteps, currentPosition);
   kalibracja = 1;
 
-  // przygotowanie dotyku
+  // inicjalizacja dotyku
   XPT2046_Init();
   __HAL_GPIO_EXTI_CLEAR_IT(T_IRQ_Pin); // czyszczenie zgłoszonego przerwania
   NVIC_EnableIRQ(EXTI9_5_IRQn);
   was_touched = 0;
+
+  //start głównego programu
+  finish_state_machine fsm;
 
   /* USER CODE END 2 */
 
@@ -232,11 +228,11 @@ int main(void) {
     if (was_touched == 1) {
       was_touched = 0;
       NVIC_DisableIRQ(EXTI9_5_IRQn);
-      uint16_t touchx, touchy;
       touchX = getX();
       touchY = getY();
 
       //TODO obsługa dotyku
+      was_touched = fsm.handle_press_with_current_state(touchX, touchY);
 
       XPT2046_Init();
       __HAL_GPIO_EXTI_CLEAR_IT(T_IRQ_Pin);
