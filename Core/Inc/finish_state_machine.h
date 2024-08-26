@@ -9,6 +9,13 @@
 #define INC_FINISH_STATE_MACHINE_H_
 
 #include <iostream>
+#include <display_ssd1963.h>
+#include <draw_display.h>
+#include <navigate_robot.h>
+#include "xpt2046.h"
+#include <iostream>
+#include "menu_parts.h"
+#include <objects.h>
 
 enum class e_operation_mode {
   MANUAL, AUTOMATIC
@@ -43,6 +50,9 @@ private:
   e_project_mode project_mode;
   e_step_mode step_mode;
   e_control_mode control_mode;
+  project_editor main_project_editor;
+  projects_explorer main_project_explorer;
+
 };
 
 #endif /* INC_FINISH_STATE_MACHINE_H_ */

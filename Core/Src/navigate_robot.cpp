@@ -742,3 +742,77 @@ void setDuration(GPIO_TypeDef *GPIOx, uint16_t GPIO_Pin, int currentSteps,
     (*factor) = -1;
   }
 }
+
+void handle_move_interrupt(int *givenSteps, int *liczba_krokow_osi, int8_t *factor) {
+        // Obsługuje ruch silników M1, M2, M3, M4, M5, M6
+
+        // Sprawdza i aktualizuje M1
+        if (givenSteps[0] != liczba_krokow_osi[0]) {
+            setDuration(M1_DIR_GPIO_Port, M1_DIR_Pin, liczba_krokow_osi[0], givenSteps[0], &factor[0]);
+            moveMotorWithPosition(M1_STEP_GPIO_Port, M1_STEP_Pin, &liczba_krokow_osi[0], factor[0]);
+        }
+
+        // Sprawdza i aktualizuje M2
+        if (givenSteps[1] != liczba_krokow_osi[1]) {
+            setDuration(M2_DIR_GPIO_Port, M2_DIR_Pin, liczba_krokow_osi[1], givenSteps[1], &factor[1]);
+            moveMotorWithPosition(M2_STEP_GPIO_Port, M2_STEP_Pin, &liczba_krokow_osi[1], factor[1]);
+        }
+
+        // Sprawdza i aktualizuje M3 i M5
+        if (givenSteps[2] != liczba_krokow_osi[2]) {
+            setDuration(M3_DIR_GPIO_Port, M3_DIR_Pin, liczba_krokow_osi[2], givenSteps[2], &factor[2]);
+            setDuration(M5_DIR_GPIO_Port, M5_DIR_Pin, liczba_krokow_osi[2], givenSteps[2], &factor[2]);
+            moveMotorWithPosition(M3_STEP_GPIO_Port, M3_STEP_Pin, &liczba_krokow_osi[2], factor[2]);
+            // Opcjonalny delay
+            simpleMoveMotor(M5_STEP_GPIO_Port, M5_STEP_Pin);
+            simpleMoveMotor(M3_STEP_GPIO_Port, M3_STEP_Pin);
+        }
+
+        // Sprawdza i aktualizuje M4
+        if (givenSteps[3] != liczba_krokow_osi[3]) {
+            setDuration(M4_DIR_GPIO_Port, M4_DIR_Pin, liczba_krokow_osi[3], givenSteps[3], &factor[3]);
+            moveMotorWithPosition(M4_STEP_GPIO_Port, M4_STEP_Pin, &liczba_krokow_osi[3], factor[3]);
+        }
+
+        // Sprawdza i aktualizuje M5
+        if (givenSteps[4] != liczba_krokow_osi[4]) {
+            setDuration(M5_DIR_GPIO_Port, M5_DIR_Pin, liczba_krokow_osi[4], givenSteps[4], &factor[4]);
+            moveMotorWithPosition(M5_STEP_GPIO_Port, M5_STEP_Pin, &liczba_krokow_osi[4], factor[4]);
+            // Opcjonalny delay
+            simpleMoveMotor(M5_STEP_GPIO_Port, M5_STEP_Pin);
+        }
+
+        // Ustawienia dla M6
+        set_ang(givenSteps[5], 0);
+        HAL_GPIO_WritePin(M6_STEP_GPIO_Port, M6_STEP_Pin, GPIO_PIN_SET);
+        HAL_GPIO_WritePin(M6_STEP_GPIO_Port, M6_STEP_Pin, GPIO_PIN_RESET);
+}
+
+void handle_limit_switch_interrupt(uint16_t GPIO_Pin, uint8_t *kalibracja_osi, int *givenSteps, int *liczba_krokow_osi) {
+    // Sprawdzamy, który pin GPIO został aktywowany i czy odpowiednia oś nie jest jeszcze skalibrowana
+    if (GPIO_Pin == M1_S_Pin && kalibracja_osi[0] == 0) {
+        liczba_krokow_osi[0] = 0;
+        givenSteps[0] = 0;
+        kalibracja_osi[0] = 1;
+    }
+    if (GPIO_Pin == M2_S_Pin && kalibracja_osi[1] == 0) {
+        liczba_krokow_osi[1] = 10; // Możesz zmienić na 20, jeśli potrzebujesz
+        givenSteps[1] = 10;        // Możesz zmienić na 20, jeśli potrzebujesz
+        kalibracja_osi[1] = 1;
+    }
+    if (GPIO_Pin == M3_S_Pin && kalibracja_osi[2] == 0) {
+        liczba_krokow_osi[2] = 0;
+        givenSteps[2] = 0;
+        kalibracja_osi[2] = 1;
+    }
+    if (GPIO_Pin == M4_S_Pin && kalibracja_osi[3] == 0) {
+        liczba_krokow_osi[3] = 300;
+        givenSteps[3] = 300;
+        kalibracja_osi[3] = 1;
+    }
+    if (GPIO_Pin == M5_S_Pin && kalibracja_osi[4] == 0) {
+        liczba_krokow_osi[4] = 1600; // Możesz zmienić na 1790, jeśli potrzebujesz
+        givenSteps[4] = 1600;        // Możesz zmienić na 1790, jeśli potrzebujesz
+        kalibracja_osi[4] = 1;
+    }
+}

@@ -14,51 +14,61 @@ finish_state_machine::finish_state_machine() :
 }
 
 void finish_state_machine::change_mode(e_operation_mode new_state) {
-  switch (new_state) {
-  case e_operation_mode::MANUAL:
-    operation_mode = e_operation_mode::MANUAL;
-    break;
-  case e_operation_mode::AUTOMATIC:
-    operation_mode = e_operation_mode::AUTOMATIC;
-    break;
-  }
+    if (operation_mode != new_state) {
+        switch (new_state) {
+        case e_operation_mode::MANUAL:
+            operation_mode = e_operation_mode::MANUAL;
+            break;
+        case e_operation_mode::AUTOMATIC:
+            operation_mode = e_operation_mode::AUTOMATIC;
+            break;
+        }
+
+    }
 }
 
 void finish_state_machine::change_mode(e_project_mode new_state) {
-  switch (new_state) {
-  case e_project_mode::SETTINGS:
-    project_mode = e_project_mode::SETTINGS;
-    break;
-  case e_project_mode::BROWSE_PROJECTS:
-    project_mode = e_project_mode::BROWSE_PROJECTS;
-    break;
-  case e_project_mode::EDIT_PROJECTS:
-    project_mode = e_project_mode::EDIT_PROJECTS;
-    break;
-  }
+    if (project_mode != new_state) {
+        switch (new_state) {
+        case e_project_mode::SETTINGS:
+            project_mode = e_project_mode::SETTINGS;
+            break;
+        case e_project_mode::BROWSE_PROJECTS:
+            project_mode = e_project_mode::BROWSE_PROJECTS;
+            break;
+        case e_project_mode::EDIT_PROJECTS:
+            project_mode = e_project_mode::EDIT_PROJECTS;
+            break;
+        }
+    }
 }
 
 void finish_state_machine::change_mode(e_step_mode new_state) {
-  switch (new_state) {
-  case e_step_mode::STEP_BY_STEP:
-    step_mode = e_step_mode::STEP_BY_STEP;
-    break;
-  case e_step_mode::CONTINUOUS:
-    step_mode = e_step_mode::CONTINUOUS;
-    break;
-  }
+    if (step_mode != new_state) {
+        switch (new_state) {
+        case e_step_mode::STEP_BY_STEP:
+            step_mode = e_step_mode::STEP_BY_STEP;
+            break;
+        case e_step_mode::CONTINUOUS:
+            step_mode = e_step_mode::CONTINUOUS;
+            break;
+        }
+    }
 }
 
 void finish_state_machine::change_mode(e_control_mode new_state) {
-  switch (new_state) {
-  case e_control_mode::AUTOMATIC_MODE:
-    control_mode = e_control_mode::AUTOMATIC_MODE;
-    break;
-  case e_control_mode::MANUAL_MODE:
-    control_mode = e_control_mode::MANUAL_MODE;
-    break;
-  }
+    if (control_mode != new_state) {
+        switch (new_state) {
+        case e_control_mode::AUTOMATIC_MODE:
+            control_mode = e_control_mode::AUTOMATIC_MODE;
+            break;
+        case e_control_mode::MANUAL_MODE:
+            control_mode = e_control_mode::MANUAL_MODE;
+            break;
+        }
+    }
 }
+
 
 void finish_state_machine::handle_press_with_current_state(int x, int y) {
 
