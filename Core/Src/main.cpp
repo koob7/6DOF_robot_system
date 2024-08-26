@@ -152,22 +152,9 @@ void clear_buffer(char buffer[BUFFER_SIZE])
 int main(void)
 {
 	/* USER CODE BEGIN 1 */
-	uint16_t max_licz_krokow_osi[6] =
-	{ 6400 * 2, 6400 * 2, 8000, 6400 * 2, 6400 * 2, 0 };
-	double currentPosition[6];
-	double givenPosition[6];
+
 	uint16_t touchX = 0, touchY = 0;
 	int kalibracja = 0;
-	FIL fil; // File
-	FILINFO fno;
-	FRESULT fresult; // result
-	UINT br, bw;     // File read/write count
-	FATFS *pfs;
-	DWORD fre_clust;
-	uint32_t total, free_space;
-	char buffer[BUFFER_SIZE]; // to store strings..
-	int number_of_files;
-	DIR directory;
 
 	/* USER CODE END 1 */
 
@@ -208,133 +195,7 @@ int main(void)
 	if (f_mount(&file_system, "/", 1) != FR_OK) {
 	  //TODO tutaj będzie rzucany wyjątek
 	}
-	//	/************* The following operation is using PUTS and GETS
-	//*********************/
-	//
-	//	/* Open file to write/ create a file if it doesn't exist */
-	//  	fresult = f_open(&fil, "file8.txt", FA_OPEN_ALWAYS | FA_READ |
-	//  FA_WRITE);
-	//
-	//	/* Writing text */
-	//	f_puts("This data is from the FILE1.txt. And it was written using...f_puts... ", &fil);
-	//
-	//	/* Close file */
-	//	fresult = f_close(&fil);
-	//
-	//	if (fresult == FR_OK){}//send_uart ("File1.txt created and the data is
-	// written \n");
-	//
-	//	/* Open file to read */
-	//	fresult = f_open(&fil, "file1.txt", FA_READ);
-	//
-	//	/* Read string from the file */
-	//	f_gets(buffer, f_size(&fil), &fil);
-	//
-	//	//send_uart("File1.txt is opened and it contains the data as shown
-	// below\n");
-	//	//send_uart(buffer);
-	//	//send_uart("\n\n");
-	//
-	//	/* Close file */
-	//	f_close(&fil);
-	//
-	//	clear_buffer(buffer);
-	//
-	//
-	//
-	//
-	//
-	//	/**************** The following operation is using f_write and f_read
-	//**************************/
-	//
-	//	/* Create second file with read write access and open it */
-	//	fresult = f_open(&fil, "file2.txt", FA_CREATE_ALWAYS | FA_WRITE);
-	//
-	//	/* Writing text */
-	//	strcpy (buffer, "This is File2.txt, written using ...f_write... and it
-	// says Hello from Controllerstech\n");
-	//
-	//	fresult = f_write(&fil, buffer, bufsize(buffer), &bw);
-	//
-	//	//send_uart ("File2.txt created and data is written\n");
-	//
-	//	/* Close file */
-	//	f_close(&fil);
-	//
-	//
-	//
-	//	// clearing buffer to show that result obtained is from the file
-	//	clear_buffer(buffer);
-	//
-	//	/* Open second file to read */
-	//	fresult = f_open(&fil, "file2.txt", FA_READ);
-	//	if (fresult == FR_OK){}//send_uart ("file2.txt is open and the data is
-	// shown below\n");
-	//
-	//	/* Read data from the file
-	//	 * Please see the function details for the arguments */
-	//	f_read (&fil, buffer, f_size(&fil), &br);
-	//	//send_uart(buffer);
-	//	//send_uart("\n\n");
-	//
-	//	/* Close file */
-	//	f_close(&fil);
-	//
-	//	clear_buffer(buffer);
-	//
-	//
-	//	/*********************UPDATING an existing file
-	//***************************/
-	//
-	//	/* Open the file with write access */
-	//	fresult = f_open(&fil, "file2.txt", FA_OPEN_EXISTING | FA_READ |
-	// FA_WRITE);
-	//
-	//	/* Move to offset to the end of the file */
-	//	fresult = f_lseek(&fil, f_size(&fil));
-	//
-	//	if (fresult == FR_OK){}//send_uart ("About to update the file2.txt\n");
-	//
-	//	/* write the string to the file */
-	//	fresult = f_puts("This is updated data and it should be in the end",
-	//&fil);
-	//
-	//	f_close (&fil);
-	//
-	//	//clear_buffer();
-	//
-	//	/* Open to read the file */
-	//	fresult = f_open (&fil, "file2.txt", FA_READ);
-	//
-	//	/* Read string from the file */
-	//	fresult = f_read (&fil, buffer, f_size(&fil), &br);
-	//	if (fresult == FR_OK){}//send_uart ("Below is the data from updated
-	// file2.txt\n");
-	//	//send_uart(buffer);
-	//	//send_uart("\n\n");
-	//
-	//	/* Close file */
-	//	f_close(&fil);
-	//
-	//	clear_buffer(buffer);
 
-	/* to z nieznajomych przyczyn zawiesza mi cały system :C
-	 ************************REMOVING FILES FROM THE DIRECTORY
-	 ***************************
-
-	 fresult = f_unlink("/file1.txt");
-	 if (fresult == FR_OK) {}//send_uart("file1.txt removed
-	 successfully...\n");
-
-	 fresult = f_unlink("/file2.txt");
-	 if (fresult == FR_OK) {}//send_uart("file2.txt removed
-	 successfully...\n");
-
-	 Unmount SDCARD
-	 fresult = f_mount(NULL, "/", 1);
-	 if (fresult == FR_OK) {}//send_uart ("SD CARD UNMOUNTED
-	 successfully...\n");
-	 */
 
 	HAL_GPIO_WritePin(USER_LED_GPIO_Port, USER_LED_Pin, GPIO_PIN_SET);
 	HAL_GPIO_WritePin(F_CS_GPIO_Port, F_CS_Pin, GPIO_PIN_RESET); // Ustawienie F_CS na low

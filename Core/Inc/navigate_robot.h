@@ -29,6 +29,11 @@
 #define command_explorer_second_setting_x 370
 #define command_explorer_third_setting_x 540
 
+
+  extern uint16_t max_licz_krokow_osi[6];
+  extern double currentPosition[6];
+  extern double givenPosition[6];
+
 struct robot_position {
   double x;
   double y;

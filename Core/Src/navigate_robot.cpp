@@ -6,6 +6,11 @@
  */
 #include <navigate_robot.h>
 
+  uint16_t max_licz_krokow_osi[6] =
+  { 6400 * 2, 6400 * 2, 8000, 6400 * 2, 6400 * 2, 0 };
+  double currentPosition[6];
+  double givenPosition[6];
+
 struct robot_position robot_home_position = robot_position(20, 0, 20, 0, 0, 0);
 
 int max_range = 39;
