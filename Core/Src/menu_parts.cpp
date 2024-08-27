@@ -86,10 +86,10 @@ void popup::restore_screen(int x, int y, int width, int height) {
 }
 
 allert::allert(int x, int y, int width, uint16_t background_color,
-    std::string title, std::string text, bool decision_allert, int radius,
+    std::string title, std::string text, bool cancel_option, int radius,
     uint16_t text_color, GFXfont *p_font) :
     popup(x, y, width, background_color, title, text, radius, text_color,
-        p_font), decision_allert(decision_allert) {
+        p_font), cancel_option(cancel_option) {
   title_box_height = 50;
   info_box_height_border = 30;
   button_height = 40;
@@ -97,7 +97,7 @@ allert::allert(int x, int y, int width, uint16_t background_color,
     splitText();
   }
   uint16_t start_y = object_dimension.y + get_total_height() - button_height;
-  if (decision_allert) {
+  if (cancel_option) {
     buttons.push_back(
         button(0, object_dimension.x, start_y, object_dimension.width / 2,
             button_height, background_color, radius, "ok",
@@ -147,8 +147,9 @@ void allert::draw() {
   for (auto o_button : buttons) {
     o_button.draw();
   }
-  if (decision_allert) {
-  rectangle(object_dimension.x + object_dimension.width/2-1, object_dimension.y+ height - button_height, 2, button_height, 0xB5B6).draw();
+  if (cancel_option) {
+    rectangle(object_dimension.x + object_dimension.width / 2 - 1,
+        object_dimension.y + height - button_height, 2, button_height, 0xB5B6).draw();
   }
 
 }
@@ -320,7 +321,7 @@ void rectangle::draw() {
 
 list_dialog::list_dialog(int x, int y, int width, uint16_t background_color,
     std::string title, std::initializer_list<std::string> option_list,
-    int radius, uint16_t text_color, GFXfont *p_font) :
+    bool cancel_option, int radius, uint16_t text_color, GFXfont *p_font) :
     popup(x, y, width, background_color, title, "", radius, text_color, p_font) {
   title_box_height = 50;
   info_box_height_border = 10;
@@ -328,23 +329,42 @@ list_dialog::list_dialog(int x, int y, int width, uint16_t background_color,
   for (const auto &option : option_list) {
     options.push_back(option);
   }
+  if (cancel_option) {
+    options.push_back("Cancel");
+  }
   options.shrink_to_fit();
 }
 
-int list_dialog::check_pressed(int x, int y) {
-  int counter = 0;
-  int option_height = get_option_height();
-  for (int i = 0; i < options.size(); i++) {
-    if (check_area_pressed(x, y, object_dimension.x,
-        object_dimension.y + title_box_height + counter * option_height,
-        object_dimension.width, option_height)) {
-      restore_screen(object_dimension.x, object_dimension.y,
-          object_dimension.width, get_total_height());
-      return counter;
+int list_dialog::check_pressed() {
+  while (1) {
+    if (was_touched == 1) {
+      NVIC_DisableIRQ(EXTI9_5_IRQn);
+      int touchX = getX();
+      int touchY = getY();
+      int option_height = get_option_height();
+      int range = options.size() - 1;
+      for (int i = 0; i < range; i++) {
+        if (check_area_pressed(touchX, touchY, object_dimension.x,
+            object_dimension.y + title_box_height + i * option_height,
+            object_dimension.width, option_height)) {
+          restore_screen(object_dimension.x, object_dimension.y,
+              object_dimension.width, get_total_height());
+          return i;
+        }
+      }
+      if (check_area_pressed(touchX, touchY, object_dimension.x,
+          object_dimension.y + title_box_height
+              + range* option_height, object_dimension.width,
+          option_height)) {
+        restore_screen(object_dimension.x, object_dimension.y,
+            object_dimension.width, get_total_height());
+        return -1;
+      }
     }
-    counter++;
+    XPT2046_Init();
+    __HAL_GPIO_EXTI_CLEAR_IT(T_IRQ_Pin);
+    NVIC_EnableIRQ(EXTI9_5_IRQn);
   }
-  return -1;
 }
 
 void list_dialog::draw() {

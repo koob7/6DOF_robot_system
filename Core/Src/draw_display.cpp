@@ -115,8 +115,8 @@ void init_project_explorer_menu() {
   project_explorer_menu.add_part(
       button(3, 467, 16, 80, 40, top_menu_button_color, 10, "Delete File",
       top_menu_text_color, top_menu_font));
-  project_explorer_menu.add_part(button(3, 574, 16, 80, 40,
-  top_menu_button_color, 10, "Sort Files",
+  project_explorer_menu.add_part(
+      button(4, 574, 16, 80, 40, top_menu_button_color, 10, "Sort Files",
   top_menu_text_color, top_menu_font));
   project_explorer_menu.add_part(std::make_shared<text_field>(
   project_explorer_start_pos_x, 92, 20, "File name:", top_menu_text_color,

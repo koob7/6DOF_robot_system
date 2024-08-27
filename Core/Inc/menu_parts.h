@@ -135,7 +135,7 @@ class allert : public popup {
         : content(content), width(width) {}
   };
   std::vector<struct line_content> lines;
-  bool decision_allert;
+  bool cancel_option;
   std::vector<button> buttons;
   int get_total_height() {
     return lines.size() * p_font->yAdvance * size + title_box_height +
@@ -145,7 +145,7 @@ class allert : public popup {
   void draw_text_field(uint16_t x, uint16_t y, uint16_t width, uint16_t height);
 public:
   allert(int x, int y, int width, uint16_t background_color,  std::string title,
-         std::string text, bool decision_allert = false,int radius = 0, uint16_t text_color = 0x0000,
+         std::string text, bool cancel_option = true,int radius = 0, uint16_t text_color = 0x0000,
          GFXfont *p_font = const_cast<GFXfont *>(_Open_Sans_Bold_14));
 
 
@@ -160,7 +160,7 @@ class list_dialog : public popup {
 public:
   std::vector<std::string> options;
   list_dialog(int x, int y, int width, uint16_t background_color,
-              std::string title, std::initializer_list<std::string> option_list,
+              std::string title, std::initializer_list<std::string> option_list,bool cancel_option = true,
               int radius = 0, uint16_t text_color = 0xFFFF,
               GFXfont *p_font = const_cast<GFXfont *>(_Open_Sans_Bold_14));
   int get_total_height() {
@@ -172,7 +172,7 @@ public:
   }
 
   // return -1 if no button is pressed
-  int check_pressed(int x, int y);
+  int check_pressed();
   void draw();
 };
 
