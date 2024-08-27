@@ -230,12 +230,14 @@ bool projects_explorer::check_area_pressed(int x, int y, int area_x, int area_y,
       && y <= area_y + area_height);
 }
 
-void projects_explorer::delete_file() {
+bool projects_explorer::delete_file() {
   if (selected_file >= -1) {
     if (f_unlink(sd_files[selected_file].fname) == FR_OK) {
       get_files();
+      return true;
     }
   } else {
+    return false;
     // TODO tutaj powinien być rzucany wyjątek w przypadku nieudanego usunięcia
   }
 }

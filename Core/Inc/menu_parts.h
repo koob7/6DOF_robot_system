@@ -145,7 +145,7 @@ class allert : public popup {
   void draw_text_field(uint16_t x, uint16_t y, uint16_t width, uint16_t height);
 public:
   allert(int x, int y, int width, uint16_t background_color,  std::string title,
-         std::string text, bool decision_allert = false,int radius = 0, uint16_t text_color = 0xFFFF,
+         std::string text, bool decision_allert = false,int radius = 0, uint16_t text_color = 0x0000,
          GFXfont *p_font = const_cast<GFXfont *>(_Open_Sans_Bold_14));
 
 

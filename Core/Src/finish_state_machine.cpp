@@ -144,7 +144,11 @@ int finish_state_machine::handle_press_with_current_state(int x, int y) {
       allert o_allert(300,200, 200,  0xD6BA, "UWAGA", "Czy na pewno chcesz usunąć plik?", true);
       o_allert.draw();
       if(o_allert.check_pressed()==0){
-        main_project_explorer.delete_file();
+        if(!main_project_explorer.delete_file()){
+          allert failure_allert(300,200, 200,  0xD6BA, "Blad", "Brak wybranego pliku do skasowania", false);
+          failure_allert.draw();
+          failure_allert.check_pressed();
+        }
       }
       else if(o_allert.check_pressed()==1){
 
