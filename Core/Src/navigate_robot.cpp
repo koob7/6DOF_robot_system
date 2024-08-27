@@ -717,7 +717,8 @@ void licz_kroki(double givenPosition[6], int givenSteps[6],
       currentPosition[i] = givenPosition[i];
     }
   } else {
-    theta[5] = theta[5];
+    theta[5] = theta[5];//czy to jest potrzebne xd?
+    //TODO tutaj będzie zwracana informacja że ruch jest niemożliwy
   }
 }
 

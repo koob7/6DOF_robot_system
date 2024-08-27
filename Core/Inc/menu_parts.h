@@ -11,6 +11,8 @@
 #include "display_ssd1963.h"
 #include <iostream>
 #include <memory>
+#include "tim.h"
+#include "xpt2046.h"
 
 #include "008_Open_Sans_Bold.h"
 #include "009_Open_Sans_Bold.h"
@@ -53,6 +55,9 @@
 #define _Open_Sans_Bold_96 &Open_Sans_Bold_96
 #define _Open_Sans_Bold_112 &Open_Sans_Bold_112
 #define _Open_Sans_Bold_128 &Open_Sans_Bold_128
+
+
+extern uint8_t was_touched;
 
 extern uint16_t *save_screen_buffer; // bufor zapisujący fragment ekranu
 
@@ -122,7 +127,7 @@ public:
 
 class allert : public popup {
 
-public:
+
   struct line_content {
     std::string content;
     int width;
@@ -130,19 +135,25 @@ public:
         : content(content), width(width) {}
   };
   std::vector<struct line_content> lines;
-
-  allert(int x, int y, int width, uint16_t background_color, std::string title,
-         std::string text, int radius = 0, uint16_t text_color = 0xFFFF,
-         GFXfont *p_font = const_cast<GFXfont *>(_Open_Sans_Bold_14));
-  void splitText();
+  bool decision_allert;
+  std::vector<button> buttons;
   int get_total_height() {
     return lines.size() * p_font->yAdvance * size + title_box_height +
            info_box_height_border + button_height;
   }
+  void splitText();
   void draw_text_field(uint16_t x, uint16_t y, uint16_t width, uint16_t height);
+public:
+  allert(int x, int y, int width, uint16_t background_color,  std::string title,
+         std::string text, bool decision_allert = false,int radius = 0, uint16_t text_color = 0xFFFF,
+         GFXfont *p_font = const_cast<GFXfont *>(_Open_Sans_Bold_14));
+
+
+
 
   void draw();
-  bool check_pressed(int x, int y);
+  int check_pressed();
+  //bool check_pressed(int x, int y){}
 };
 
 class list_dialog : public popup {

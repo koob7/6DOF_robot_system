@@ -40,6 +40,7 @@ Core/Src/finish_state_machine.o: ../Core/Src/finish_state_machine.cpp \
  ../Middlewares/Third_Party/FatFs/src/diskio.h \
  ../Middlewares/Third_Party/FatFs/src/ff.h ../FATFS/Target/user_diskio.h \
  ../Core/Inc/gpio.h ../Core/Inc/objects.h ../Core/Inc/menu_parts.h \
+ ../Core/Inc/tim.h ../Core/Inc/xpt2046.h \
  C:/Users/kobie/STM32CubeIDE/workspace_1.13.2/6DOF_robot_system/fonts/inc/008_Open_Sans_Bold.h \
  C:/Users/kobie/STM32CubeIDE/workspace_1.13.2/6DOF_robot_system/fonts/inc/009_Open_Sans_Bold.h \
  C:/Users/kobie/STM32CubeIDE/workspace_1.13.2/6DOF_robot_system/fonts/inc/010_Open_Sans_Bold.h \
@@ -59,7 +60,7 @@ Core/Src/finish_state_machine.o: ../Core/Src/finish_state_machine.cpp \
  C:/Users/kobie/STM32CubeIDE/workspace_1.13.2/6DOF_robot_system/fonts/inc/112_Open_Sans_Bold.h \
  C:/Users/kobie/STM32CubeIDE/workspace_1.13.2/6DOF_robot_system/fonts/inc/128_Open_Sans_Bold.h \
  ../Core/Inc/servo.h ../Core/Inc/navigate_robot.h \
- ../Core/Inc/navigate_robot.h ../Core/Inc/xpt2046.h
+ ../Core/Inc/navigate_robot.h
 ../Core/Inc/finish_state_machine.h:
 ../Core/Inc/display_ssd1963.h:
 ../Core/Inc/main.h:
@@ -111,6 +112,8 @@ Core/Src/finish_state_machine.o: ../Core/Src/finish_state_machine.cpp \
 ../Core/Inc/gpio.h:
 ../Core/Inc/objects.h:
 ../Core/Inc/menu_parts.h:
+../Core/Inc/tim.h:
+../Core/Inc/xpt2046.h:
 C:/Users/kobie/STM32CubeIDE/workspace_1.13.2/6DOF_robot_system/fonts/inc/008_Open_Sans_Bold.h:
 C:/Users/kobie/STM32CubeIDE/workspace_1.13.2/6DOF_robot_system/fonts/inc/009_Open_Sans_Bold.h:
 C:/Users/kobie/STM32CubeIDE/workspace_1.13.2/6DOF_robot_system/fonts/inc/010_Open_Sans_Bold.h:
@@ -132,4 +135,3 @@ C:/Users/kobie/STM32CubeIDE/workspace_1.13.2/6DOF_robot_system/fonts/inc/128_Ope
 ../Core/Inc/servo.h:
 ../Core/Inc/navigate_robot.h:
 ../Core/Inc/navigate_robot.h:
-../Core/Inc/xpt2046.h:

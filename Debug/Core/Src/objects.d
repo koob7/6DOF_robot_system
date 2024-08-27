@@ -37,7 +37,7 @@ Core/Src/objects.o: ../Core/Src/objects.cpp ../Core/Inc/objects.h \
  ../Middlewares/Third_Party/FatFs/src/diskio.h \
  ../Middlewares/Third_Party/FatFs/src/ff.h ../FATFS/Target/user_diskio.h \
  ../Core/Inc/menu_parts.h ../Core/Inc/display_ssd1963.h \
- ../Core/Inc/main.h \
+ ../Core/Inc/main.h ../Core/Inc/tim.h ../Core/Inc/xpt2046.h \
  C:/Users/kobie/STM32CubeIDE/workspace_1.13.2/6DOF_robot_system/fonts/inc/008_Open_Sans_Bold.h \
  ../Core/Inc/display_ssd1963.h \
  C:/Users/kobie/STM32CubeIDE/workspace_1.13.2/6DOF_robot_system/fonts/inc/009_Open_Sans_Bold.h \
@@ -104,6 +104,8 @@ Core/Src/objects.o: ../Core/Src/objects.cpp ../Core/Inc/objects.h \
 ../Core/Inc/menu_parts.h:
 ../Core/Inc/display_ssd1963.h:
 ../Core/Inc/main.h:
+../Core/Inc/tim.h:
+../Core/Inc/xpt2046.h:
 C:/Users/kobie/STM32CubeIDE/workspace_1.13.2/6DOF_robot_system/fonts/inc/008_Open_Sans_Bold.h:
 ../Core/Inc/display_ssd1963.h:
 C:/Users/kobie/STM32CubeIDE/workspace_1.13.2/6DOF_robot_system/fonts/inc/009_Open_Sans_Bold.h:

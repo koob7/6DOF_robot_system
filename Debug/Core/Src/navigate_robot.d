@@ -32,7 +32,8 @@ Core/Src/navigate_robot.o: ../Core/Src/navigate_robot.cpp \
  ../Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal_spi_ex.h \
  ../Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal_tim.h \
  ../Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal_tim_ex.h \
- ../Core/Inc/display_ssd1963.h ../Core/Inc/menu_parts.h \
+ ../Core/Inc/display_ssd1963.h ../Core/Inc/menu_parts.h ../Core/Inc/tim.h \
+ ../Core/Inc/xpt2046.h \
  C:/Users/kobie/STM32CubeIDE/workspace_1.13.2/6DOF_robot_system/fonts/inc/008_Open_Sans_Bold.h \
  ../Core/Inc/display_ssd1963.h \
  C:/Users/kobie/STM32CubeIDE/workspace_1.13.2/6DOF_robot_system/fonts/inc/009_Open_Sans_Bold.h \
@@ -93,6 +94,8 @@ Core/Src/navigate_robot.o: ../Core/Src/navigate_robot.cpp \
 ../Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal_tim_ex.h:
 ../Core/Inc/display_ssd1963.h:
 ../Core/Inc/menu_parts.h:
+../Core/Inc/tim.h:
+../Core/Inc/xpt2046.h:
 C:/Users/kobie/STM32CubeIDE/workspace_1.13.2/6DOF_robot_system/fonts/inc/008_Open_Sans_Bold.h:
 ../Core/Inc/display_ssd1963.h:
 C:/Users/kobie/STM32CubeIDE/workspace_1.13.2/6DOF_robot_system/fonts/inc/009_Open_Sans_Bold.h:

@@ -17,6 +17,7 @@
 #include "menu_parts.h"
 #include <objects.h>
 
+
 enum class e_operation_mode {
   MANUAL, AUTOMATIC
 };

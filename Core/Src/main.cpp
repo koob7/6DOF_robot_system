@@ -105,7 +105,7 @@
 /* USER CODE BEGIN PV */
 
 int8_t factor[5];
-uint8_t was_touched = 0;
+
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -200,15 +200,16 @@ int main(void) {
   main_right_menu.draw();
 
   //kalibracja ruchu robota
-  kalibracja_robota(givenSteps, liczba_krokow_osi, kalibracja_osi);
-  givenPosition[0] = 30;
-  givenPosition[1] = 0;
-  givenPosition[2] = 22;
-  givenPosition[3] = 0;
-  givenPosition[4] = 90;
-  givenPosition[5] = 90;
-  licz_kroki(givenPosition, givenSteps, currentPosition);
-  kalibracja = 1;
+//  kalibracja_robota(givenSteps, liczba_krokow_osi, kalibracja_osi);
+//  givenPosition[0] = 30;
+//  givenPosition[1] = 0;
+//  givenPosition[2] = 22;
+//  givenPosition[3] = 0;
+//  givenPosition[4] = 90;
+//  givenPosition[5] = 90;
+//  licz_kroki(givenPosition, givenSteps, currentPosition);
+//  kalibracja = 1;
+//  __HAL_TIM_SET_PRESCALER(&htim6, 9);
 
   // inicjalizacja dotyku
   XPT2046_Init();
@@ -226,13 +227,13 @@ int main(void) {
   while (1)
   {
     if (was_touched == 1) {
-      was_touched = 0;
       NVIC_DisableIRQ(EXTI9_5_IRQn);
       touchX = getX();
       touchY = getY();
 
       //TODO obsługa dotyku
       was_touched = fsm.handle_press_with_current_state(touchX, touchY);
+
 
       XPT2046_Init();
       __HAL_GPIO_EXTI_CLEAR_IT(T_IRQ_Pin);

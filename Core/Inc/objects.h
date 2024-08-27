@@ -55,12 +55,12 @@ public:
   enum sort_option {
     by_name, by_size, by_date,
   };
-
+  std::vector<FILINFO> sd_files;
 private:
 
   DIR directory;
   FILINFO fno;
-  std::vector<FILINFO> sd_files;
+
   bool initialized;
   int first_file_to_display = 0;
   int last_file_to_display = 0;

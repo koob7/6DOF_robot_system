@@ -71,6 +71,7 @@ extern menu_segment project_editor_menu;
 extern menu_segment straight_mov_menu;
 extern menu_segment circular_mov_menu;
 extern menu_segment commands_menu;
+extern menu_segment settings_menu;
 
 void init_objects();
 void init_main_left_menu();
@@ -80,6 +81,7 @@ void init_project_editor_menu();
 void init_straight_mov_menu();
 void init_circular_mov_menu();
 void init_commands_menu();
+void init_settings_menu();
 
 // void draw_file_list(int start, int end, bool ascending,
 //		enum sort_option option);
