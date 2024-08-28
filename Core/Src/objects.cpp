@@ -201,12 +201,18 @@ void projects_explorer::handle_pressed(int x, int y) {
   }
 }
 
-void projects_explorer::create_file(std::string name) {
+int projects_explorer::create_file(std::string name) {
   FIL file;
   const char *filename = name.c_str();
+  FILINFO fno;
+    if (f_stat(filename, &fno) == FR_OK) {
+      return -1;
+    }
   if (f_open(&file, filename, FA_OPEN_ALWAYS | FA_WRITE) == FR_OK) {
     f_close(&file);
+    return 0;
   } else {
+    return -2;
     // TODO tutaj powinien być rzucany wyjątek
   }
   get_files();
@@ -251,12 +257,14 @@ void project_editor::insert_command(std::shared_ptr<command> in_cmd) {
   draw();
 }
 
-void project_editor::remove_command() {
+bool project_editor::remove_command() {
   if (selected_command >= -1) {
     commands.erase(commands.begin() + selected_command);
     selected_command = -1;
     draw();
+    return true;
   } else {
+    return false;
     // TODO tutaj powinien być rzucany wyjątek w przypadku nieudanego usunięcia
   }
 }

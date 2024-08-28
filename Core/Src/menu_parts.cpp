@@ -5,7 +5,7 @@
  *      Author: kobie
  */
 #include "menu_parts.h"
-uint8_t was_touched = 0;
+volatile uint8_t was_touched = 0;
 uint16_t *save_screen_buffer = (uint16_t*) malloc(300 * 300 * sizeof(uint16_t)); // bufor zapisujący fragment ekranu
 
 menu_part::menu_part(int x, int y, int width, int height) :
@@ -158,12 +158,16 @@ int allert::check_pressed() {
   while (1) {
     if (was_touched == 1) {
       NVIC_DisableIRQ(EXTI9_5_IRQn);
+      was_touched=0;
       int touchX = getX();
       int touchY = getY();
       for (auto o_button : buttons) {
         if (o_button.check_pressed(touchX, touchY) > -1) {
           restore_screen(object_dimension.x, object_dimension.y,
               object_dimension.width, get_total_height());
+          XPT2046_Init();
+          __HAL_GPIO_EXTI_CLEAR_IT(T_IRQ_Pin);
+          NVIC_EnableIRQ(EXTI9_5_IRQn);
           return o_button.check_pressed(touchX, touchY);
         }
       }
@@ -322,7 +326,7 @@ void rectangle::draw() {
 list_dialog::list_dialog(int x, int y, int width, uint16_t background_color,
     std::string title, std::initializer_list<std::string> option_list,
     bool cancel_option, int radius, uint16_t text_color, GFXfont *p_font) :
-    popup(x, y, width, background_color, title, "", radius, text_color, p_font) {
+    popup(x, y, width, background_color, title, "", radius, text_color, p_font), cancel_option(cancel_option) {
   title_box_height = 50;
   info_box_height_border = 10;
   button_height = 40;
@@ -336,34 +340,53 @@ list_dialog::list_dialog(int x, int y, int width, uint16_t background_color,
 }
 
 int list_dialog::check_pressed() {
+  int option_height = get_option_height();
+  int range;
+  if (cancel_option){
+    range= options.size() - 1;
+  }
+  else{
+    range = options.size();
+  }
   while (1) {
+
     if (was_touched == 1) {
       NVIC_DisableIRQ(EXTI9_5_IRQn);
+      was_touched=0;
       int touchX = getX();
       int touchY = getY();
-      int option_height = get_option_height();
-      int range = options.size() - 1;
+
+
       for (int i = 0; i < range; i++) {
         if (check_area_pressed(touchX, touchY, object_dimension.x,
             object_dimension.y + title_box_height + i * option_height,
             object_dimension.width, option_height)) {
           restore_screen(object_dimension.x, object_dimension.y,
               object_dimension.width, get_total_height());
+          XPT2046_Init();
+          __HAL_GPIO_EXTI_CLEAR_IT(T_IRQ_Pin);
+          NVIC_EnableIRQ(EXTI9_5_IRQn);
           return i;
         }
       }
+      if (cancel_option){
       if (check_area_pressed(touchX, touchY, object_dimension.x,
           object_dimension.y + title_box_height
               + range* option_height, object_dimension.width,
           option_height)) {
         restore_screen(object_dimension.x, object_dimension.y,
             object_dimension.width, get_total_height());
+        XPT2046_Init();
+        __HAL_GPIO_EXTI_CLEAR_IT(T_IRQ_Pin);
+        NVIC_EnableIRQ(EXTI9_5_IRQn);
         return -1;
       }
+      }
+      XPT2046_Init();
+      __HAL_GPIO_EXTI_CLEAR_IT(T_IRQ_Pin);
+      NVIC_EnableIRQ(EXTI9_5_IRQn);
     }
-    XPT2046_Init();
-    __HAL_GPIO_EXTI_CLEAR_IT(T_IRQ_Pin);
-    NVIC_EnableIRQ(EXTI9_5_IRQn);
+
   }
 }
 

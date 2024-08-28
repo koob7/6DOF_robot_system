@@ -31,6 +31,7 @@ void finish_state_machine::change_mode(e_operation_mode new_state) {
 
 void finish_state_machine::change_mode(e_project_mode new_state) {
   if (project_mode != new_state) {
+    previous_project_mode = project_mode;
     switch (new_state) {
     case e_project_mode::SETTINGS:
       project_mode = e_project_mode::SETTINGS;
@@ -123,18 +124,32 @@ int finish_state_machine::handle_press_with_current_state(int x, int y) {
   switch (project_mode) {
   case e_project_mode::SETTINGS:
     // Handle settings mode specific logic
+    switch (settings_menu.check_pressed(x, y)) {
+    case 0:
+      change_mode(previous_project_mode);
+      break;
+    }
+
     break;
   case e_project_mode::BROWSE_PROJECTS:
     // Handle browse projects mode specific logic
     main_project_explorer.handle_pressed(x, y);
     switch (project_explorer_menu.check_pressed(x, y)) {
     case 0: {
-      main_project_explorer.create_file(
-          std::to_string(main_project_explorer.sd_files.size()));
-      change_mode(e_project_mode::EDIT_PROJECTS);
+      if(main_project_explorer.create_file(
+          std::to_string(main_project_explorer.sd_files.size()) + ".txt")==-1){
+        allert failure_allert(300, 200, 200, 0xD6BA, "Blad",
+                      "Plik o podanej nazwie juz istnieje", false);
+                  failure_allert.draw();
+                  failure_allert.check_pressed();
+      }
+      else{
+        main_project_explorer.get_files();
+      }
       break;
     }
     case 1: {
+      change_mode(e_project_mode::EDIT_PROJECTS);
       main_project_editor.open_file(main_project_explorer.get_choosen_file());
       break;
     }
@@ -146,20 +161,21 @@ int finish_state_machine::handle_press_with_current_state(int x, int y) {
       allert o_allert(300, 200, 200, 0xD6BA, "UWAGA",
           "Czy na pewno chcesz usunąć plik?", true);
       o_allert.draw();
-      if (o_allert.check_pressed() == 0) {
+      int check_result = o_allert.check_pressed();
+      if (check_result == 0) {
         if (!main_project_explorer.delete_file()) {
           allert failure_allert(300, 200, 200, 0xD6BA, "Blad",
               "Brak wybranego pliku do skasowania", false);
           failure_allert.draw();
           failure_allert.check_pressed();
         }
-      } else if (o_allert.check_pressed() == 1) {
+      } else if (check_result == 1) {
 
       }
       break;
     }
     case 4: {
-      list_dialog sort_dialog(300, 200, 200, 0xD6BA, "Sortuj:", { "M, nazwa",
+      list_dialog sort_dialog(300, 100, 200, 0xD6BA, "Sortuj:", { "M, nazwa",
           "R, nazwa", "M, data", "R, data", "M, rozmiar", "R, rozmiar" }, true);
       sort_dialog.draw();
       switch (sort_dialog.check_pressed()) {
@@ -197,6 +213,35 @@ int finish_state_machine::handle_press_with_current_state(int x, int y) {
     break;
   case e_project_mode::EDIT_PROJECTS:
     // Handle edit projects mode specific logic
+    main_project_editor.handle_pressed(x, y);
+    switch (project_editor_menu.check_pressed(x, y)) {
+    case 0:{
+      allert o_allert(300, 200, 200, 0xD6BA, "UWAGA",
+                "Czy chcesz zapisać zmiany?", true);
+            o_allert.draw();
+            if(o_allert.check_pressed()==0){
+              main_project_editor.save_changes_into_file();
+            }
+      main_project_editor.close_file();
+      change_mode(e_project_mode::BROWSE_PROJECTS);
+      main_project_explorer.get_files();
+      break;}
+    case 1:{
+      main_project_editor.save_changes_into_file();
+          break;}
+    case 2:{
+          break;}
+    case 3:{
+          break;}
+    case 4:{
+      if(!main_project_editor.remove_command()){
+        allert failure_allert(300, 200, 200, 0xD6BA, "Blad",
+            "Brak wybranego krokou do skasowania", false);
+        failure_allert.draw();
+        failure_allert.check_pressed();
+      }
+          break;}
+    }
     break;
   }
 

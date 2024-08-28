@@ -51,6 +51,7 @@ private:
   e_project_mode project_mode;
   e_step_mode step_mode;
   e_control_mode control_mode;
+  e_project_mode previous_project_mode;
   project_editor main_project_editor;
   projects_explorer main_project_explorer;
 

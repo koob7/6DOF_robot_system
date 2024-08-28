@@ -73,7 +73,7 @@ private:
   button page_down_btn = button(1, 140, 425, 40, 40, 0xD6BA, 20); // nawigacja dół
 
   std::string format_date(WORD fdate);
-  void get_files();
+
   void sort_files();
   void forget_selected_hiden_file();
   void update_last_file_to_display();
@@ -82,8 +82,9 @@ private:
 
 
 public:
+  void get_files();
   projects_explorer();
-  void create_file(std::string name);
+  int create_file(std::string name);
   void set_sort_option(enum sort_option in_option, bool in_sort_ascending);
   std::string get_choosen_file();
   bool delete_file();
@@ -117,7 +118,7 @@ public:
   }
   std::shared_ptr<command> get_command_to_execute();
   void insert_command(std::shared_ptr<command> in_cmd);
-  void remove_command();
+  bool remove_command();
   bool open_file(std::string in_file_name);
   void close_file();
   void save_changes_into_file();

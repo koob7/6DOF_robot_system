@@ -57,7 +57,7 @@
 #define _Open_Sans_Bold_128 &Open_Sans_Bold_128
 
 
-extern uint8_t was_touched;
+extern volatile uint8_t was_touched;
 
 extern uint16_t *save_screen_buffer; // bufor zapisujący fragment ekranu
 
@@ -159,9 +159,10 @@ public:
 class list_dialog : public popup {
 public:
   std::vector<std::string> options;
+  bool cancel_option;
   list_dialog(int x, int y, int width, uint16_t background_color,
               std::string title, std::initializer_list<std::string> option_list,bool cancel_option = true,
-              int radius = 0, uint16_t text_color = 0xFFFF,
+              int radius = 0, uint16_t text_color = 0x0000,
               GFXfont *p_font = const_cast<GFXfont *>(_Open_Sans_Bold_14));
   int get_total_height() {
     return options.size() * (p_font->yAdvance * size + info_box_height_border) +
