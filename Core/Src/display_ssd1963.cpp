@@ -264,7 +264,6 @@ void TFT_Draw_HLine(uint16_t x, uint16_t y, uint16_t length, uint16_t size,
 
 void draw_text(uint16_t x, uint16_t y, uint16_t height, const GFXfont *p_font,
     uint8_t size, uint16_t color, const std::string &text) {
-  int font_height = p_font->yAdvance * size;
   int start_y = y + height / 2;
   char *ptr = new char[text.size() + 1];
   strcpy(ptr, text.c_str());
@@ -289,7 +288,6 @@ void draw_center_text(uint16_t x, uint16_t y, uint16_t width, uint16_t height,
   int line_length = 0;
   int font_height = p_font->yAdvance * size;
 
-  uint16_t licznik = 0;
   while (stream >> word) {
     word_length = 0;
     if (!line.empty()) { // wstawienie znaku spacji między wyrazami
@@ -431,7 +429,7 @@ void TFT_Draw_Alert(uint16_t length, uint16_t width, char *text, uint16_t *save,
   // LCD_Font(TFT_WIDTH/2-30, TFT_HEIGHT/2-(width/2)+40, "ALERT", p_font, 1,
   // BLACK);
   LCD_centered_Font(TFT_WIDTH / 2 - (length / 2),
-  TFT_HEIGHT / 2 - (width / 2) + 30, length, "ALERT", p_font, 2, BLACK);
+  TFT_HEIGHT / 2 - (width / 2) + 30, length, static_cast<char *>("ALERT"), p_font, 2, BLACK);
   LCD_centered_Font(TFT_WIDTH / 2 - (length / 2),
   TFT_HEIGHT / 2 - (width / 2) + 80, length, text, p_font, 1,
   BLACK);
@@ -619,7 +617,7 @@ void TFT_Draw_Fill_Round_Rect(uint16_t x, uint16_t y, uint16_t length,
   TFT_Draw_Fill_Circle_Helper(x + r, y + r, r, 2, width - 2 * r - 1, color);
 }
 
-static void LCD_Char(int16_t x, int16_t y, const GFXglyph *glyph,
+void LCD_Char(int16_t x, int16_t y, const GFXglyph *glyph,
     const GFXfont *font, uint8_t size, uint16_t color24) {
   uint8_t *bitmap = font->bitmap;
   uint16_t bo = glyph->bitmapOffset;

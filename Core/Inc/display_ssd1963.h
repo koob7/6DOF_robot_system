@@ -214,7 +214,7 @@ void TFT_Set_Work_Area(uint16_t x, uint16_t y, uint16_t length, uint16_t width);
 
 void LCD_Font(uint16_t x, uint16_t y, char *text, const GFXfont *p_font,
 		uint8_t size, uint16_t color24);
-static void LCD_Char(int16_t x, int16_t y, const GFXglyph *glyph,
+void LCD_Char(int16_t x, int16_t y, const GFXglyph *glyph,
     const GFXfont *font, uint8_t size, uint16_t color24);
 void TFT_Clear_Screen(uint16_t color);
 void TFT_Draw_Char(uint16_t x, uint16_t y, uint16_t color, uint16_t phone,
