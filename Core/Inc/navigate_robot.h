@@ -107,11 +107,15 @@ public:
     return movement_type;
   }
 
+  void update_speed(enum e_speed in_speed){speed =in_speed;}
+  void update_movement_type(enum e_movement_type in_movement_type){movement_type=in_movement_type;}
+  void update_target_pos(struct robot_position in_target_pos){target_pos =in_target_pos;}
 
 };
 
 class mov_streight: public movement {
 public:
+  mov_streight()=default;
   mov_streight(struct robot_position in_target_pos, enum e_speed speed,
       enum e_movement_type movement_type);
   mov_streight(std::istringstream& iss);
@@ -119,6 +123,7 @@ public:
                        // robota, zwraca true jeżeli osiągnięto cel
   void update_command(struct robot_position in_target_pos,
       enum e_speed in_speed, enum e_movement_type in_movement_type);
+  void update_command(mov_streight in_object);
   void save_to_file(FIL& fil);
 };
 
@@ -129,11 +134,14 @@ public:
   mov_circular(struct robot_position in_help_pos,
       struct robot_position in_target_pos, enum e_speed speed,
       enum e_movement_type movement_type);
+  mov_circular() = default;
   bool perform_task(); // tutaj funkcja będzie ustawiała kolejne pozycje
                        // robota, zwraca true jeżeli osiągnięto cel
   void update_command(struct robot_position in_help_pos,
       struct robot_position in_target_pos, enum e_speed in_speed,
       enum e_movement_type in_movement_type);
+  void update_command(mov_circular in_object);
+  void update_help_pos(struct robot_position in_help_pos){help_pos =in_help_pos;}
   struct robot_position get_help_position() {
     return help_pos;
   }
@@ -145,7 +153,7 @@ public:
   enum e_wait_time {
     wait_1s, wait_5s, wait_30s, wait_1min, wait_5min,
   };
-
+  cmd_wait() = default;
   enum e_wait_time wait_time;
   cmd_wait(std::istringstream& iss);
   cmd_wait(enum e_wait_time wait_time);
@@ -153,11 +161,14 @@ public:
                        // true jeżeli osiągnięto cel
   void draw(int print_y);
   void update_command(enum e_wait_time wait_time);
+  void update_command(cmd_wait in_object);
+  void update_time(enum e_wait_time in_wait_time){wait_time=in_wait_time;}
   void save_to_file(FIL& fil);
 };
 
 class cmd_set_pin: public command  {
 public:
+  cmd_set_pin()=default;
   enum e_output_pin {
     robot_tool, user_led,
   };
@@ -169,7 +180,10 @@ public:
                        // zmiennej set_pin_high, zwraca true jeżeli poprawnie
                        // ustawiono pin
   void draw(int print_y);
+  void update_pin(enum e_output_pin in_output_pin){output_pin=in_output_pin;}
+  void update_pin_level(bool in_set_pin_high){set_pin_high=in_set_pin_high;}
   void update_command(enum e_output_pin in_output_pin, bool in_set_pin_high);
+  void update_command(cmd_set_pin in_object);
   void save_to_file(FIL& fil);
 };
 

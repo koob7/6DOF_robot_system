@@ -117,6 +117,7 @@ public:
     commands.push_back(in_cmd);
   }
   std::shared_ptr<command> get_command_to_execute();
+  std::shared_ptr<command>  get_choosen_command();
   void insert_command(std::shared_ptr<command> in_cmd);
   bool remove_command();
   bool open_file(std::string in_file_name);

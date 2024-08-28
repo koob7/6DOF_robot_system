@@ -388,6 +388,15 @@ std::shared_ptr<command> project_editor::get_command_to_execute() {
   return commands[selected_command];
 }
 
+std::shared_ptr<command>  project_editor::get_choosen_command(){
+  if (selected_command >= 0) {
+    return commands[selected_command];
+  }
+  else {
+    return nullptr;
+  }
+}
+
 void project_editor::save_changes_into_file() {
   const TCHAR *tchar_file_name = file_name.c_str();
   f_close(&fil);

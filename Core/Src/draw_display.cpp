@@ -153,8 +153,6 @@ void init_project_editor_menu() {
 
 void init_straight_mov_menu() {
   straight_mov_menu.add_background_part(
-      std::make_shared<rectangle>(120, 72, 560, 408, clear_screen_color));
-  straight_mov_menu.add_background_part(
       std::make_shared<rectangle>(120, 0, 560, 72, top_menu_background_color));
   button btn = button(0, 143, 40, 80, 26, top_menu_button_color, 10, " 100%",
   top_menu_text_color, top_menu_font, false);
@@ -186,8 +184,6 @@ void init_straight_mov_menu() {
 }
 
 void init_circular_mov_menu() {
-  circular_mov_menu.add_background_part(
-      std::make_shared<rectangle>(120, 72, 560, 408, clear_screen_color));
   circular_mov_menu.add_background_part(
       std::make_shared<rectangle>(120, 0, 560, 72, top_menu_background_color));
   button btn = button(0, 136, 40, 60, 26, top_menu_button_color, 10, "100%",
@@ -223,8 +219,6 @@ void init_circular_mov_menu() {
 
 }
 void init_commands_menu() {
-  commands_menu.add_background_part(
-      std::make_shared<rectangle>(120, 72, 560, 408, clear_screen_color));
   commands_menu.add_background_part(
       std::make_shared<rectangle>(120, 0, 560, 72, top_menu_background_color));
   commands_menu.add_part(

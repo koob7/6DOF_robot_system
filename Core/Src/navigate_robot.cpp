@@ -26,6 +26,28 @@ double a2 = 20;
 double a3 = 20;
 double d6 = 10.5;
 
+void mov_streight::update_command(mov_streight in_object){
+  target_pos = in_object.target_pos;
+  speed = in_object.speed;
+  movement_type = in_object.movement_type;
+}
+
+void mov_circular::update_command(mov_circular in_object){
+  target_pos = in_object.target_pos;
+  help_pos = in_object.help_pos;
+  speed = in_object.speed;
+  movement_type = in_object.movement_type;
+}
+
+void cmd_wait::update_command(cmd_wait in_object){
+  wait_time = in_object.wait_time;
+}
+
+void cmd_set_pin::update_command(cmd_set_pin in_object){
+  output_pin = in_object.output_pin;
+  set_pin_high =in_object.set_pin_high;
+}
+
 void movement::draw(int print_y) {
 
   std::string move_type =
@@ -718,6 +740,7 @@ void licz_kroki(double givenPosition[6], int givenSteps[6],
     }
   } else {
     theta[5] = theta[5];//czy to jest potrzebne xd?
+
     //TODO tutaj będzie zwracana informacja że ruch jest niemożliwy
   }
 }

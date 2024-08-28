@@ -16,14 +16,24 @@
 #include <iostream>
 #include "menu_parts.h"
 #include <objects.h>
-
+#include <memory>
 
 enum class e_operation_mode {
   MANUAL, AUTOMATIC
 };
 
 enum class e_project_mode {
-  SETTINGS, BROWSE_PROJECTS, EDIT_PROJECTS
+  SETTINGS,
+  BROWSE_PROJECTS,
+  EDIT_PROJECTS,
+  CREATE_STREIGHT_MOVE,
+  EDIT_STREIGHT_MOVE,
+  CREATE_CIRCULAR_MOVE,
+  EDIT_CIRCULAR_MOVE,
+  CREATE_WAIT_COMAND,
+  EDIT_WAIT_COMAND,
+  CREATE_SET_PIN_COMAND,
+  EDIT_SET_PIN_COMAND,
 };
 
 enum class e_step_mode {
@@ -46,7 +56,14 @@ public:
   int handle_press_with_current_state(int x, int y);
 
 private:
-
+  mov_streight o_mov_streight;
+  mov_circular o_mov_circular;
+  cmd_wait o_cmd_wait;
+  cmd_set_pin o_cmd_set_pin;
+  robot_position target_position;
+  bool target_point_initialized = false;
+  robot_position help_position;
+  bool help_point_initialized = false;
   e_operation_mode operation_mode;
   e_project_mode project_mode;
   e_step_mode step_mode;
