@@ -24,8 +24,10 @@ C:\ST\STM32CubeIDE_1.13.2\STM32CubeIDE\plugins\com.st.stm32cube.ide.mcu.external
 ../Core/Src/navigate_robot.cpp:371:6:void cmd_wait::update_command(cmd_wait::e_wait_time)	1
 ../Core/Src/navigate_robot.cpp:375:6:void cmd_set_pin::update_command(cmd_set_pin::e_output_pin, bool)	1
 ../Core/Src/navigate_robot.cpp:381:6:virtual void cmd_set_pin::draw(int)	3
-../Core/Src/navigate_robot.cpp:400:6:virtual void mov_streight::save_to_file(FIL&)	7
-../Core/Src/navigate_robot.cpp:441:6:virtual void mov_circular::save_to_file(FIL&)	7
+../Core/Src/navigate_robot.cpp:400:13:std::string movement::get_speed_text()	5
+../Core/Src/navigate_robot.cpp:411:13:std::string movement::get_movement_type_text()	3
+../Core/Src/navigate_robot.cpp:420:6:virtual void mov_streight::save_to_file(FIL&)	3
+../Core/Src/navigate_robot.cpp:451:6:virtual void mov_circular::save_to_file(FIL&)	3
 ../Core/Src/navigate_robot.cpp:488:6:virtual void cmd_wait::save_to_file(FIL&)	6
 ../Core/Src/navigate_robot.cpp:521:6:virtual void cmd_set_pin::save_to_file(FIL&)	5
 ../Core/Src/navigate_robot.cpp:559:6:void kalibracja_robota(int*, int*, uint8_t*)	22

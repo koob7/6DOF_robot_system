@@ -26,14 +26,11 @@ enum class e_project_mode {
   SETTINGS,
   BROWSE_PROJECTS,
   EDIT_PROJECTS,
-  CREATE_STREIGHT_MOVE,
-  EDIT_STREIGHT_MOVE,
-  CREATE_CIRCULAR_MOVE,
-  EDIT_CIRCULAR_MOVE,
-  CREATE_WAIT_COMAND,
-  EDIT_WAIT_COMAND,
-  CREATE_SET_PIN_COMAND,
-  EDIT_SET_PIN_COMAND,
+  STREIGHT_MOVE,
+  CIRCULAR_MOVE,
+  WAIT_COMAND,
+  SET_PIN_COMAND,
+
 };
 
 enum class e_step_mode {
@@ -56,6 +53,7 @@ public:
   int handle_press_with_current_state(int x, int y);
 
 private:
+  bool edit_pin = false;
   mov_streight o_mov_streight;
   mov_circular o_mov_circular;
   cmd_wait o_cmd_wait;

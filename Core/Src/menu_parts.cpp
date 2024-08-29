@@ -64,9 +64,7 @@ void button::add_part(std::shared_ptr<menu_part> part) {
   parts.push_back(part);
 }
 
-void button::update_text(std::string new_text) {
-  text = new_text;
-}
+
 
 popup::popup(int x, int y, int width, uint16_t background_color,
     std::string title, std::string text, int radius, uint16_t text_color,
@@ -252,9 +250,6 @@ void text_field::draw() {
         text);
 }
 
-void text_field::update_text(std::string new_text) {
-  text = new_text;
-}
 
 circle::circle(int x, int y, uint16_t radius, uint16_t color,
     uint16_t border_size) :

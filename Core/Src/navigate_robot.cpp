@@ -397,6 +397,26 @@ void cmd_set_pin::draw(int print_y) {
   BLACK, "SOURCE = " + output_pin_text);
 }
 
+std::string movement::get_speed_text(){
+  switch (speed) {
+  case speed_10:
+    return "10";
+  case speed_50:
+    return "50";
+  case speed_100:
+    return "100";
+  }
+}
+
+std::string movement::get_movement_type_text(){
+  switch (movement_type) {
+  case continous:
+    return "continous";
+  case step_by_step:
+    return "step_by_step";
+  }
+}
+
 void mov_streight::save_to_file(FIL &fil) {
   char buffer[256];
   int len = 0;
@@ -411,17 +431,7 @@ void mov_streight::save_to_file(FIL &fil) {
   len += snprintf(buffer + len, sizeof(buffer) - len, "B%.2f ", target_pos.b);
   len += snprintf(buffer + len, sizeof(buffer) - len, "C%.2f ", target_pos.c);
 
-  switch (speed) {
-  case speed_10:
-    len += snprintf(buffer + len, sizeof(buffer) - len, "S10 ");
-    break;
-  case speed_50:
-    len += snprintf(buffer + len, sizeof(buffer) - len, "S50 ");
-    break;
-  case speed_100:
-    len += snprintf(buffer + len, sizeof(buffer) - len, "S100 ");
-    break;
-  }
+  len += snprintf(buffer + len, sizeof(buffer) - len, "S",get_speed_text().c_str());
 
   switch (movement_type) {
   case continous:
@@ -459,17 +469,7 @@ void mov_circular::save_to_file(FIL &fil) {
   len += snprintf(buffer + len, sizeof(buffer) - len, "L%.2f ", help_pos.b);
   len += snprintf(buffer + len, sizeof(buffer) - len, "O%.2f ", help_pos.c);
 
-  switch (speed) {
-  case speed_10:
-    len += snprintf(buffer + len, sizeof(buffer) - len, "S10 ");
-    break;
-  case speed_50:
-    len += snprintf(buffer + len, sizeof(buffer) - len, "S50 ");
-    break;
-  case speed_100:
-    len += snprintf(buffer + len, sizeof(buffer) - len, "S100 ");
-    break;
-  }
+  len += snprintf(buffer + len, sizeof(buffer) - len, "S",get_speed_text().c_str());
 
   switch (movement_type) {
   case continous:

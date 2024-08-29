@@ -106,7 +106,8 @@ public:
   enum e_movement_type get_movement_type() {
     return movement_type;
   }
-
+  std::string get_speed_text();
+  std::string get_movement_type_text();
   void update_speed(enum e_speed in_speed){speed =in_speed;}
   void update_movement_type(enum e_movement_type in_movement_type){movement_type=in_movement_type;}
   void update_target_pos(struct robot_position in_target_pos){target_pos =in_target_pos;}

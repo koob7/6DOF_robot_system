@@ -55,28 +55,17 @@ void finish_state_machine::change_mode(e_project_mode new_state) {
       project_editor_menu.draw();
       main_project_editor.draw();
       break;
-    case e_project_mode::CREATE_STREIGHT_MOVE:
+    case e_project_mode::STREIGHT_MOVE:
+      straight_mov_menu.update_text(0, o_mov_streight.get_speed_text());
       straight_mov_menu.draw();
       break;
-    case e_project_mode::EDIT_STREIGHT_MOVE:
-      straight_mov_menu.draw();
-      break;
-    case e_project_mode::CREATE_CIRCULAR_MOVE:
+    case e_project_mode::CIRCULAR_MOVE:
       circular_mov_menu.draw();
       break;
-    case e_project_mode::EDIT_CIRCULAR_MOVE:
-      circular_mov_menu.draw();
-      break;
-    case e_project_mode::CREATE_WAIT_COMAND:
+    case e_project_mode::WAIT_COMAND:
       commands_menu.draw();
       break;
-    case e_project_mode::EDIT_WAIT_COMAND:
-      commands_menu.draw();
-      break;
-    case e_project_mode::CREATE_SET_PIN_COMAND:
-      commands_menu.draw();
-      break;
-    case e_project_mode::EDIT_SET_PIN_COMAND:
+    case e_project_mode::SET_PIN_COMAND:
       commands_menu.draw();
       break;
     }
@@ -268,31 +257,35 @@ int finish_state_machine::handle_press_with_current_state(int x, int y) {
       sort_dialog.draw();
       switch (sort_dialog.check_pressed()) {
       case 0: {
-        change_mode(e_project_mode::CREATE_STREIGHT_MOVE);
+        change_mode(e_project_mode::STREIGHT_MOVE);
         target_point_initialized = false;
         target_position = robot_position(0, 0, 0, 0, 0, 0);
         o_mov_streight = mov_streight(target_position, movement::e_speed::speed_100,
               movement::e_movement_type::continous);
+        edit_pin = false;
         break;
       }
       case 1: {
-        change_mode(e_project_mode::CREATE_CIRCULAR_MOVE);
+        change_mode(e_project_mode::CIRCULAR_MOVE);
         target_point_initialized = false;
         target_position = robot_position(0, 0, 0, 0, 0, 0);
         help_point_initialized = false;
         help_position = robot_position(0, 0, 0, 0, 0, 0);
         o_mov_circular = mov_circular(help_position, target_position,
               movement::e_speed::speed_100, movement::e_movement_type::continous);
+        edit_pin = false;
         break;
       }
       case 2: {
-        change_mode(e_project_mode::CREATE_WAIT_COMAND);
+        change_mode(e_project_mode::WAIT_COMAND);
         o_cmd_wait = cmd_wait(cmd_wait::e_wait_time::wait_5s);
+        edit_pin = false;
         break;
       }
       case 3: {
-        change_mode(e_project_mode::CREATE_SET_PIN_COMAND);
+        change_mode(e_project_mode::SET_PIN_COMAND);
         o_cmd_set_pin = cmd_set_pin(cmd_set_pin::e_output_pin::robot_tool, true);
+        edit_pin = false;
         break;
       }
       case -1: {
@@ -310,21 +303,25 @@ int finish_state_machine::handle_press_with_current_state(int x, int y) {
           chosen_command)) {
         o_mov_streight = *p_mov_streight;
         target_point_initialized = true;
-        change_mode(e_project_mode::EDIT_STREIGHT_MOVE);
+        change_mode(e_project_mode::STREIGHT_MOVE);
+        edit_pin = true;
       } else if (auto p_mov_circular = std::static_pointer_cast<mov_circular>(
           chosen_command)) {
         o_mov_circular = *p_mov_circular;
         target_point_initialized = true;
         help_point_initialized = true;
-        change_mode(e_project_mode::EDIT_CIRCULAR_MOVE);
+        change_mode(e_project_mode::CIRCULAR_MOVE);
+        edit_pin = true;
       } else if (auto p_cmd_wait = std::static_pointer_cast<cmd_wait>(
           chosen_command)) {
         o_cmd_wait = *p_cmd_wait;
-        change_mode(e_project_mode::EDIT_WAIT_COMAND);
+        change_mode(e_project_mode::WAIT_COMAND);
+        edit_pin = true;
       } else if (auto p_cmd_set_pin = std::static_pointer_cast<cmd_set_pin>(
           chosen_command)) {
         o_cmd_set_pin = *p_cmd_set_pin;
-        change_mode(e_project_mode::EDIT_SET_PIN_COMAND);
+        change_mode(e_project_mode::SET_PIN_COMAND);
+        edit_pin = true;
       }
 
       break;

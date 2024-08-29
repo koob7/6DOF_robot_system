@@ -429,7 +429,7 @@ void TFT_Draw_Alert(uint16_t length, uint16_t width, char *text, uint16_t *save,
   // LCD_Font(TFT_WIDTH/2-30, TFT_HEIGHT/2-(width/2)+40, "ALERT", p_font, 1,
   // BLACK);
   LCD_centered_Font(TFT_WIDTH / 2 - (length / 2),
-  TFT_HEIGHT / 2 - (width / 2) + 30, length, static_cast<char *>("ALERT"), p_font, 2, BLACK);
+  TFT_HEIGHT / 2 - (width / 2) + 30, length, "ALERT", p_font, 2, BLACK);
   LCD_centered_Font(TFT_WIDTH / 2 - (length / 2),
   TFT_HEIGHT / 2 - (width / 2) + 80, length, text, p_font, 1,
   BLACK);

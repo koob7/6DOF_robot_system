@@ -36,12 +36,28 @@ int menu_segment::check_pressed(int x, int y) {
   return -1;
 }
 
-void menu_segment::update_text(int id, std::string text) {
+void menu_segment::update_text(int id, std::string text, enum e_menu_layer menu_layer) {
+
+  switch (menu_layer){
+  case e_menu_layer::e_buttons:{
   for (auto o_button : buttons) {
     if (o_button.get_id() == id) {
       o_button.update_text(text);
       break;
     }
+  }
+
+  break;}
+  case e_menu_layer::e_top_parts:{
+    if(id >= 0 && id < top_parts.size() && top_parts[id] != nullptr){
+      top_parts[id]->update_text(text);
+    }
+    break;}
+  case e_menu_layer::e_background_parts:{
+    if(id >= 0 && id < background_parts.size() && background_parts[id] != nullptr){
+      background_parts[id]->update_text(text);
+    }
+      break;}
   }
 }
 

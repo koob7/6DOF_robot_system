@@ -30,11 +30,19 @@
 extern  FATFS file_system;
 
 class menu_segment {
+
+
+
   std::vector<std::shared_ptr<menu_part>> top_parts;
   std::vector<std::shared_ptr<menu_part>> background_parts;
   std::vector<button> buttons;
 
 public:
+  enum e_menu_layer{
+    e_top_parts,
+    e_background_parts,
+    e_buttons,
+  };
   void draw();
   void reduce_vector_size();
   void add_background_part(std::shared_ptr<menu_part> part) {
@@ -47,7 +55,7 @@ public:
     buttons.push_back(o_button);
   }
   int check_pressed(int x, int y);
-  void update_text(int id, std::string text);
+  void update_text(int id, std::string text, enum e_menu_layer menu_layer = e_menu_layer::e_buttons);
 };
 
 class projects_explorer {

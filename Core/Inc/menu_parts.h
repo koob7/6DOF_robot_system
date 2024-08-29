@@ -79,6 +79,7 @@ public:
 
   menu_part(int x, int y, int width, int height);
   virtual void draw() = 0;
+  void update_text(std::string new_text) {}
 };
 
 class button : public menu_part {
@@ -106,7 +107,9 @@ public:
   bool check_area_pressed(int x, int y, int area_x, int area_y, int area_width,
                           int area_height);
   void add_part(std::shared_ptr<menu_part> part);
-  void update_text(std::string new_text);
+  void update_text(std::string new_text) {
+    text = new_text;
+  }
   int get_id() { return id; }
 };
 
@@ -189,7 +192,9 @@ public:
              uint16_t text_color = BLACK,
              GFXfont *p_font = const_cast<GFXfont *>(_Open_Sans_Bold_14));
   void draw();
-  void update_text(std::string new_text);
+  void update_text(std::string new_text) {
+    text = new_text;
+  }
 };
 
 class circle : public menu_part {
