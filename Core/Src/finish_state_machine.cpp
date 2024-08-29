@@ -56,17 +56,23 @@ void finish_state_machine::change_mode(e_project_mode new_state) {
       main_project_editor.draw();
       break;
     case e_project_mode::STREIGHT_MOVE:
-      straight_mov_menu.update_text(0, o_mov_streight.get_speed_text());
+      straight_mov_menu.update_text(0, o_mov_streight.get_speed_text()+"%");
+      straight_mov_menu.update_text(1, o_mov_streight.get_movement_type_text());
       straight_mov_menu.draw();
       break;
     case e_project_mode::CIRCULAR_MOVE:
+      circular_mov_menu.update_text(0, o_mov_circular.get_speed_text()+"%");
+      circular_mov_menu.update_text(1, o_mov_circular.get_movement_type_text());
       circular_mov_menu.draw();
       break;
     case e_project_mode::WAIT_COMAND:
-      commands_menu.draw();
+      wait_command_menu.update_text(0, o_cmd_wait.get_time_text());
+      wait_command_menu.draw();
       break;
     case e_project_mode::SET_PIN_COMAND:
-      commands_menu.draw();
+      set_pin_command_menu.update_text(0, o_cmd_set_pin.get_pin_output_text());
+      set_pin_command_menu.update_text(1, o_cmd_set_pin.get_pin_level_text());
+      set_pin_command_menu.draw();
       break;
     }
 
@@ -262,7 +268,7 @@ int finish_state_machine::handle_press_with_current_state(int x, int y) {
         target_position = robot_position(0, 0, 0, 0, 0, 0);
         o_mov_streight = mov_streight(target_position, movement::e_speed::speed_100,
               movement::e_movement_type::continous);
-        edit_pin = false;
+        edit_command = false;
         break;
       }
       case 1: {
@@ -273,19 +279,19 @@ int finish_state_machine::handle_press_with_current_state(int x, int y) {
         help_position = robot_position(0, 0, 0, 0, 0, 0);
         o_mov_circular = mov_circular(help_position, target_position,
               movement::e_speed::speed_100, movement::e_movement_type::continous);
-        edit_pin = false;
+        edit_command = false;
         break;
       }
       case 2: {
         change_mode(e_project_mode::WAIT_COMAND);
         o_cmd_wait = cmd_wait(cmd_wait::e_wait_time::wait_5s);
-        edit_pin = false;
+        edit_command = false;
         break;
       }
       case 3: {
         change_mode(e_project_mode::SET_PIN_COMAND);
         o_cmd_set_pin = cmd_set_pin(cmd_set_pin::e_output_pin::robot_tool, true);
-        edit_pin = false;
+        edit_command = false;
         break;
       }
       case -1: {
@@ -304,24 +310,24 @@ int finish_state_machine::handle_press_with_current_state(int x, int y) {
         o_mov_streight = *p_mov_streight;
         target_point_initialized = true;
         change_mode(e_project_mode::STREIGHT_MOVE);
-        edit_pin = true;
+        edit_command = true;
       } else if (auto p_mov_circular = std::static_pointer_cast<mov_circular>(
           chosen_command)) {
         o_mov_circular = *p_mov_circular;
         target_point_initialized = true;
         help_point_initialized = true;
         change_mode(e_project_mode::CIRCULAR_MOVE);
-        edit_pin = true;
+        edit_command = true;
       } else if (auto p_cmd_wait = std::static_pointer_cast<cmd_wait>(
           chosen_command)) {
         o_cmd_wait = *p_cmd_wait;
         change_mode(e_project_mode::WAIT_COMAND);
-        edit_pin = true;
+        edit_command = true;
       } else if (auto p_cmd_set_pin = std::static_pointer_cast<cmd_set_pin>(
           chosen_command)) {
         o_cmd_set_pin = *p_cmd_set_pin;
         change_mode(e_project_mode::SET_PIN_COMAND);
-        edit_pin = true;
+        edit_command = true;
       }
 
       break;
@@ -337,6 +343,127 @@ int finish_state_machine::handle_press_with_current_state(int x, int y) {
     }
     }
     break;
+    case e_project_mode::STREIGHT_MOVE:{
+      switch (straight_mov_menu.check_pressed(x, y)) {
+      case 0:{
+        break;
+      }
+      case 1:{
+        break;
+      }
+      case 2:{
+        break;
+      }
+      case 3:{allert o_allert(300, 200, 200, 0xD6BA, "UWAGA",
+          "Czy na pewno chcesz zapisac polecenie?", true);
+      o_allert.draw();
+      if (o_allert.check_pressed() == 0) {
+        if(edit_command){
+          std::static_pointer_cast<mov_streight>(main_project_editor.get_choosen_command())->update_command(o_mov_streight);
+          change_mode(e_project_mode::EDIT_PROJECTS);
+        }
+        else if(target_point_initialized){
+          main_project_editor.insert_command(std::make_shared<mov_streight>(o_mov_streight));
+          change_mode(e_project_mode::EDIT_PROJECTS);
+        }
+        else{
+          allert o_allert(300, 200, 200, 0xD6BA, "UWAGA",
+                    "Brak przypisanej lokalizacji punktu?");
+                o_allert.draw();
+                o_allert.check_pressed();
+        }
+      }
+        break;
+      }
+      case 4:{      allert o_allert(300, 200, 200, 0xD6BA, "UWAGA",
+          "Czy na pewno chcesz anulowac operacje?", true);
+      o_allert.draw();
+      if (o_allert.check_pressed() == 0) {
+        change_mode(e_project_mode::EDIT_PROJECTS);
+      }
+        break;
+      }
+
+      }
+      break;
+    }
+    case e_project_mode::CIRCULAR_MOVE:{
+      switch (circular_mov_menu.check_pressed(x, y)) {
+      case 0:{
+        break;
+      }
+      case 1:{
+        break;
+      }
+      case 2:{
+        break;
+      }
+      case 3:{
+        break;
+      }
+      case 4:{
+        break;
+      }
+      case 5:{      allert o_allert(300, 200, 200, 0xD6BA, "UWAGA",
+          "Czy na pewno chcesz anulowac operacje?", true);
+      o_allert.draw();
+      if (o_allert.check_pressed() == 0) {
+        change_mode(e_project_mode::EDIT_PROJECTS);
+      }
+        break;
+      }
+      }
+
+      break;
+    }
+    case e_project_mode::WAIT_COMAND:{
+      switch (wait_command_menu.check_pressed(x, y)) {
+      case 0:{
+        break;
+      }
+      case 1:{
+        break;
+      }
+      case 2:{      allert o_allert(300, 200, 200, 0xD6BA, "UWAGA",
+          "Czy na pewno chcesz anulowac operacje?", true);
+      o_allert.draw();
+      if (o_allert.check_pressed() == 0) {
+        change_mode(e_project_mode::EDIT_PROJECTS);
+      }
+        break;
+      }
+      }
+
+      break;
+    }
+    case e_project_mode::SET_PIN_COMAND:{
+      switch (set_pin_command_menu.check_pressed(x, y)) {
+      case 0:{
+        break;
+      }
+      case 1:{
+        break;
+      }
+      case 2:{
+        break;
+      }
+      case 3:{
+        break;
+      }
+      case 4:{
+      allert o_allert(300, 200, 200, 0xD6BA, "UWAGA",
+          "Czy na pewno chcesz anulowac operacje?", true);
+      o_allert.draw();
+      if (o_allert.check_pressed() == 0) {
+        change_mode(e_project_mode::EDIT_PROJECTS);
+      }
+        break;
+      }
+      }
+
+      break;
+    }
+
   }
 
   switch (step_mode) {

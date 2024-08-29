@@ -6,7 +6,8 @@ menu_segment project_explorer_menu;
 menu_segment project_editor_menu;
 menu_segment straight_mov_menu;
 menu_segment circular_mov_menu;
-menu_segment commands_menu;
+menu_segment wait_command_menu;
+menu_segment set_pin_command_menu;
 menu_segment settings_menu;
 
 void init_objects() {
@@ -19,7 +20,8 @@ void init_objects() {
   init_project_editor_menu();
   init_straight_mov_menu();
   init_circular_mov_menu();
-  init_commands_menu();
+  init_wait_commands_menu();
+  init_set_pin_command_menu();
   init_settings_menu();
 }
 
@@ -218,23 +220,54 @@ void init_circular_mov_menu() {
       top_menu_font));
 
 }
-void init_commands_menu() {
-  commands_menu.add_background_part(
+void init_wait_commands_menu() {
+  wait_command_menu.add_background_part(
       std::make_shared<rectangle>(120, 0, 560, 72, top_menu_background_color));
-  commands_menu.add_part(
-      std::make_shared<text_field>(127, 16, 40, "Command:", top_menu_text_color,
+  wait_command_menu.add_part(
+      std::make_shared<text_field>(127, 16, 40, "Wait:", top_menu_text_color,
       top_menu_font));
   button btn = button(0, 215, 16, 175, 40, top_menu_button_color, 20,
-      " wait for: 5s",
-      top_menu_text_color, top_menu_font, false);
+      "5 seconds",
+      top_menu_text_color, top_menu_font);
   btn.add_part(
       std::make_shared<triangle>(355, 27, 355 + 22, 27, 355 + 11, 27 + 20,
           0x00FD));
-  commands_menu.add_part(btn);
-  commands_menu.add_part(button(1, 422, 16, 100, 40,
+  wait_command_menu.add_part(btn);
+  wait_command_menu.add_part(button(1, 422, 16, 100, 40,
   top_menu_button_color, 20, "Save point",
   top_menu_text_color, top_menu_font));
-  commands_menu.add_part(button(2, 552, 16, 100, 40,
+  wait_command_menu.add_part(button(2, 552, 16, 100, 40,
+  top_menu_button_color, 20, "Cancel",
+  top_menu_text_color, top_menu_font));
+}
+
+void init_set_pin_command_menu(){
+  set_pin_command_menu.add_background_part(
+      std::make_shared<rectangle>(120, 0, 560, 72, top_menu_background_color));
+  set_pin_command_menu.add_part(
+      std::make_shared<text_field>(132, 16, 40, "Pin:", top_menu_text_color,
+      top_menu_font));
+  set_pin_command_menu.add_part(
+        std::make_shared<text_field>(295, 16, 40, "Level:", top_menu_text_color,
+        top_menu_font));
+  button btn = button(0, 172, 16, 175, 40, top_menu_button_color, 20,
+      " robot tool",
+      top_menu_text_color, top_menu_font, false);
+  btn.add_part(
+      std::make_shared<triangle>(260, 27, 260 + 22, 27, 260 + 11, 27 + 20,
+          0x00FD));
+  set_pin_command_menu.add_part(btn);
+  btn = button(1, 350, 16, 175, 40, top_menu_button_color, 20,
+      " high",
+      top_menu_text_color, top_menu_font, false);
+  btn.add_part(
+      std::make_shared<triangle>(403, 27, 403 + 22, 27, 403 + 11, 27 + 20,
+          0x00FD));
+  set_pin_command_menu.add_part(btn);
+  set_pin_command_menu.add_part(button(2, 422, 16, 100, 40,
+  top_menu_button_color, 20, "Save point",
+  top_menu_text_color, top_menu_font));
+  set_pin_command_menu.add_part(button(3, 552, 16, 100, 40,
   top_menu_button_color, 20, "Cancel",
   top_menu_text_color, top_menu_font));
 }

@@ -96,6 +96,7 @@ public:
   movement();
   movement(struct robot_position in_target_pos, enum e_speed  speed,
       enum e_movement_type movement_type);
+  movement(const movement& other);
   struct robot_position get_target_position() {
     return target_pos;
   }
@@ -120,6 +121,7 @@ public:
   mov_streight(struct robot_position in_target_pos, enum e_speed speed,
       enum e_movement_type movement_type);
   mov_streight(std::istringstream& iss);
+  mov_streight(const mov_streight& other);
   bool perform_task(); // tutaj funkcja będzie ustawiała kolejne pozycje
                        // robota, zwraca true jeżeli osiągnięto cel
   void update_command(struct robot_position in_target_pos,
@@ -136,6 +138,7 @@ public:
       struct robot_position in_target_pos, enum e_speed speed,
       enum e_movement_type movement_type);
   mov_circular() = default;
+  mov_circular(const mov_circular& other);
   bool perform_task(); // tutaj funkcja będzie ustawiała kolejne pozycje
                        // robota, zwraca true jeżeli osiągnięto cel
   void update_command(struct robot_position in_help_pos,
@@ -158,13 +161,16 @@ public:
   enum e_wait_time wait_time;
   cmd_wait(std::istringstream& iss);
   cmd_wait(enum e_wait_time wait_time);
+  cmd_wait(const cmd_wait& other);
   bool perform_task(); // tutaj będzie odczekiwany mały odstęp czasu,  zwraca
                        // true jeżeli osiągnięto cel
   void draw(int print_y);
   void update_command(enum e_wait_time wait_time);
   void update_command(cmd_wait in_object);
+
   void update_time(enum e_wait_time in_wait_time){wait_time=in_wait_time;}
   void save_to_file(FIL& fil);
+  std::string get_time_text();
 };
 
 class cmd_set_pin: public command  {
@@ -177,6 +183,7 @@ public:
   bool set_pin_high;
   cmd_set_pin(std::istringstream& iss);
   cmd_set_pin(enum e_output_pin output_pin, bool set_pin_high);
+  cmd_set_pin(const cmd_set_pin& other);
   bool perform_task(); // tutaj będzie ustawiana wartość pinu w zależności od
                        // zmiennej set_pin_high, zwraca true jeżeli poprawnie
                        // ustawiono pin
@@ -186,6 +193,8 @@ public:
   void update_command(enum e_output_pin in_output_pin, bool in_set_pin_high);
   void update_command(cmd_set_pin in_object);
   void save_to_file(FIL& fil);
+  std::string get_pin_output_text();
+  std::string get_pin_level_text();
 };
 
 void kalibracja_robota(int givenSteps[6], int liczba_krokow_osi[5],

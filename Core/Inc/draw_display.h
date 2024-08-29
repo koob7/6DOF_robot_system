@@ -70,7 +70,8 @@ extern menu_segment project_explorer_menu;
 extern menu_segment project_editor_menu;
 extern menu_segment straight_mov_menu;
 extern menu_segment circular_mov_menu;
-extern menu_segment commands_menu;
+extern menu_segment wait_command_menu;
+extern menu_segment set_pin_command_menu;
 extern menu_segment settings_menu;
 
 void init_objects();
@@ -80,7 +81,8 @@ void init_project_explorer_menu();
 void init_project_editor_menu();
 void init_straight_mov_menu();
 void init_circular_mov_menu();
-void init_commands_menu();
+void init_wait_commands_menu();
+void init_set_pin_command_menu();
 void init_settings_menu();
 
 // void draw_file_list(int start, int end, bool ascending,

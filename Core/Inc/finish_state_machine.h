@@ -53,7 +53,7 @@ public:
   int handle_press_with_current_state(int x, int y);
 
 private:
-  bool edit_pin = false;
+  bool edit_command = false;//mówi o tym czy tworzymy nowy punkt czy tylko go edytujemy
   mov_streight o_mov_streight;
   mov_circular o_mov_circular;
   cmd_wait o_cmd_wait;

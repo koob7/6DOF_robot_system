@@ -26,11 +26,31 @@ double a2 = 20;
 double a3 = 20;
 double d6 = 10.5;
 
+movement::movement(const movement& other)
+  : target_pos(other.target_pos),
+    speed(other.speed),
+    movement_type(other.movement_type) {}
+
+mov_streight::mov_streight(const mov_streight& other)
+        : movement(other) {}
+
+mov_circular::mov_circular(const mov_circular& other)
+        : movement(other), help_pos(other.help_pos) {}
+
 void mov_streight::update_command(mov_streight in_object){
   target_pos = in_object.target_pos;
   speed = in_object.speed;
   movement_type = in_object.movement_type;
 }
+
+cmd_wait::cmd_wait(const cmd_wait& other)
+    : command(other),
+      wait_time(other.wait_time) {}
+
+cmd_set_pin::cmd_set_pin(const cmd_set_pin& other)
+    : command(other),
+      output_pin(other.output_pin),
+      set_pin_high(other.set_pin_high) {}
 
 void mov_circular::update_command(mov_circular in_object){
   target_pos = in_object.target_pos;
@@ -411,9 +431,41 @@ std::string movement::get_speed_text(){
 std::string movement::get_movement_type_text(){
   switch (movement_type) {
   case continous:
-    return "continous";
+    return "cont.";
   case step_by_step:
-    return "step_by_step";
+    return "step.";
+  }
+}
+
+std::string cmd_wait::get_time_text(){
+    switch (wait_time) {
+    case wait_1s:
+      return "1 second";
+    case wait_5s:
+          return "5 seconds";
+    case wait_30s:
+          return "30 seconds";
+    case wait_1min:
+          return "1 minut";
+    case wait_5min:
+          return "5 minuts";
+    }
+}
+
+std::string cmd_set_pin::get_pin_output_text(){
+  switch (output_pin) {
+  case robot_tool:
+    return "robot tool";
+  case user_led:
+    return "user led";
+  }
+}
+std::string cmd_set_pin::get_pin_level_text(){
+  if(set_pin_high){
+    return "high";
+  }
+  else{
+    return "low";
   }
 }
 
