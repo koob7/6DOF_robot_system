@@ -895,3 +895,40 @@ void handle_limit_switch_interrupt(uint16_t GPIO_Pin, uint8_t *kalibracja_osi, i
         kalibracja_osi[4] = 1;
     }
 }
+robot_position get_current_position() {
+    return robot_position(
+        givenPosition[0],
+        givenPosition[1],
+        givenPosition[2],
+        givenPosition[3],
+        givenPosition[4],
+        givenPosition[5]
+    );
+}
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+

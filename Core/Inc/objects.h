@@ -119,7 +119,6 @@ public:
   std::string file_name;
   //project_editor();
   void draw();
-  void read_commands();
   void handle_pressed(int x, int y);
   void add_part(std::shared_ptr<command> in_cmd) {
     commands.push_back(in_cmd);

@@ -40,7 +40,7 @@ void menu_segment::update_text(int id, std::string text, enum e_menu_layer menu_
 
   switch (menu_layer){
   case e_menu_layer::e_buttons:{
-  for (auto o_button : buttons) {
+  for (auto& o_button : buttons) {
     if (o_button.get_id() == id) {
       o_button.update_text(text);
       break;
@@ -270,14 +270,14 @@ void project_editor::insert_command(std::shared_ptr<command> in_cmd) {
   } else {
     commands.push_back(in_cmd);
   }
-  draw();
+  //draw(); rysowanie nie jest potrzebne bo rysujemy przy wejściu do menu edycji
 }
 
 bool project_editor::remove_command() {
   if (selected_command >= -1) {
     commands.erase(commands.begin() + selected_command);
     selected_command = -1;
-    draw();
+    //draw(); rysowanie nie jest potrzebne bo rysujemy przy wejściu do menu edycji
     return true;
   } else {
     return false;

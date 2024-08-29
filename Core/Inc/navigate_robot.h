@@ -208,5 +208,5 @@ void setDuration(GPIO_TypeDef *GPIOx, uint16_t GPIO_Pin, int currentSteps,
     int givenSteps, int8_t *factor);
 void handle_move_interrupt(int *givenSteps, int *liczba_krokow_osi, int8_t *factor);
 void handle_limit_switch_interrupt(uint16_t GPIO_Pin, uint8_t *kalibracja_osi, int *givenSteps, int *liczba_krokow_osi);
-
+struct robot_position get_current_position();
 #endif /* INC_NAVIGATE_ROBOT_H_ */

@@ -346,12 +346,54 @@ int finish_state_machine::handle_press_with_current_state(int x, int y) {
     case e_project_mode::STREIGHT_MOVE:{
       switch (straight_mov_menu.check_pressed(x, y)) {
       case 0:{
+        list_dialog choose_dialog(250, 100, 300, 0xD6BA, "Prędkosc:", {
+          "10%", "50%", "100%" }, true);
+        choose_dialog.draw();
+      switch (choose_dialog.check_pressed()) {
+      case 0: {
+        o_mov_streight.update_speed(movement::e_speed::speed_10);
+        straight_mov_menu.update_text(0, o_mov_streight.get_speed_text()+"%");
+        straight_mov_menu.draw();
         break;
       }
-      case 1:{
+      case 1: {o_mov_streight.update_speed(movement::e_speed::speed_50);
+      straight_mov_menu.update_text(0, o_mov_streight.get_speed_text()+"%");
+      straight_mov_menu.draw();
+              break;
+            }
+      case 2: {o_mov_streight.update_speed(movement::e_speed::speed_100);
+      straight_mov_menu.update_text(0, o_mov_streight.get_speed_text()+"%");
+      straight_mov_menu.draw();
+              break;
+            }
+      }
+        break;
+      }
+      case 1:{list_dialog choose_dialog(250, 100, 300, 0xD6BA, "Typ ruchu:", {
+          "ciagly", "krok po kroku" }, true);
+        choose_dialog.draw();
+      switch (choose_dialog.check_pressed()) {
+      case 0: {
+        o_mov_streight.update_movement_type(movement::e_movement_type::continous);
+        straight_mov_menu.update_text(1, o_mov_streight.get_movement_type_text());
+                straight_mov_menu.draw();
+      }
+      case 1: {
+        o_mov_streight.update_movement_type(movement::e_movement_type::step_by_step);
+        straight_mov_menu.update_text(1, o_mov_streight.get_movement_type_text());
+                straight_mov_menu.draw();
+            }
+      }
         break;
       }
       case 2:{
+        allert o_allert(300, 200, 200, 0xD6BA, "UWAGA",
+          "Czy na pewno chcesz zapisac polecenie?", true);
+      o_allert.draw();
+      if (o_allert.check_pressed() == 0) {
+        o_mov_streight.update_target_pos( get_current_position());
+      }
+
         break;
       }
       case 3:{allert o_allert(300, 200, 200, 0xD6BA, "UWAGA",
