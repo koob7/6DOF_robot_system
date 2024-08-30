@@ -55,6 +55,14 @@ private:
   void choose_and_prepare_to_create_command();
   void prepare_to_edit_choosen_command();
   void delete_choosen_command();
+  void save_changed_mov_streight_command();
+  template<typename CommandType>
+  void update_movement_type_helper(CommandType &command,
+      movement::e_movement_type movementType, menu_segment &menu);
+  template<typename CommandType>
+  void update_movement_type(CommandType &command, menu_segment &menu);
+  template<typename CommandType>
+  void update_movement_speed(CommandType &command, menu_segment &menu);
 
 public:
 
@@ -66,10 +74,8 @@ public:
   void change_mode(e_control_mode new_state);
   int handle_press_with_current_state(int x, int y);
 
-
-
 private:
-  bool edit_command = false;//mówi o tym czy tworzymy nowy punkt czy tylko go edytujemy
+  bool edit_command = false; //mówi o tym czy tworzymy nowy punkt czy tylko go edytujemy
   mov_streight o_mov_streight;
   mov_circular o_mov_circular;
   cmd_wait o_cmd_wait;

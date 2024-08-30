@@ -139,63 +139,37 @@ int finish_state_machine::handle_press_with_current_state(int x, int y) {
     // Handle edit projects mode specific logic
     main_project_editor.handle_pressed(x, y);
     switch (project_editor_menu.check_pressed(x, y)) {
-    case 0: {
+    case 0:
       save_changed_file_and_close();
       break;
-    }
-    case 1: {
+
+    case 1:
       save_changed_file();
       break;
-    }
-    case 2: {
+
+    case 2:
       choose_and_prepare_to_create_command();
       break;
-    }
-    case 3: {
-prepare_to_edit_choosen_command();
 
+    case 3:
+      prepare_to_edit_choosen_command();
       break;
-    }
-    case 4: {
+
+    case 4:
       delete_choosen_command();
-
       break;
-    }
+
     }
     break;
   case e_project_mode::STREIGHT_MOVE: {
     switch (straight_mov_menu.check_pressed(x, y)) {
     case 0: {
-      movement::e_speed tmp_speed;
-      choose_speed_dialog(tmp_speed);
-
-      o_mov_streight.update_speed(tmp_speed);
-      straight_mov_menu.update_text(0, o_mov_streight.get_speed_text() + "%");
-      straight_mov_menu.draw();
-
+      update_movement_speed(o_mov_streight, straight_mov_menu);
       break;
     }
     case 1: {
+      update_movement_type(o_mov_streight, straight_mov_menu);
 
-      l_choose_movement_type.draw();
-      switch (l_choose_movement_type.check_pressed()) {
-      case 0: {
-        o_mov_streight.update_movement_type(
-            movement::e_movement_type::continous);
-        straight_mov_menu.update_text(1,
-            o_mov_streight.get_movement_type_text());
-        straight_mov_menu.draw();
-        break;
-      }
-      case 1: {
-        o_mov_streight.update_movement_type(
-            movement::e_movement_type::step_by_step);
-        straight_mov_menu.update_text(1,
-            o_mov_streight.get_movement_type_text());
-        straight_mov_menu.draw();
-        break;
-      }
-      }
       break;
     }
     case 2: {
@@ -208,34 +182,14 @@ prepare_to_edit_choosen_command();
 
       break;
     }
-    case 3: {
+    case 3:
 
-      a_conf_save_command.draw();
-      if (a_conf_save_command.check_pressed() == 0) {
-        if (edit_command) {
-          std::static_pointer_cast<mov_streight>(
-              main_project_editor.get_choosen_command())->update_command(
-              o_mov_streight);
-          change_mode(e_project_mode::EDIT_PROJECTS);
-        } else if (target_point_initialized) {
-          main_project_editor.insert_command(
-              std::make_shared<mov_streight>(o_mov_streight));
-          change_mode(e_project_mode::EDIT_PROJECTS);
-        } else {
-
-          a_no_set_target_pos.draw();
-          a_no_set_target_pos.check_pressed();
-        }
-      }
+      save_changed_mov_streight_command();
       break;
-    }
-    case 4: {
 
+    case 4:
       cancel_creating_command();
-
       break;
-    }
-
     }
     break;
   }
@@ -501,7 +455,7 @@ void finish_state_machine::save_changed_file() {
 
 }
 
-void finish_state_machine::save_changed_file_and_close(){
+void finish_state_machine::save_changed_file_and_close() {
   save_changed_file();
   main_project_editor.close_file();
   change_mode(e_project_mode::BROWSE_PROJECTS);
@@ -515,8 +469,8 @@ void finish_state_machine::choose_and_prepare_to_create_command() {
     change_mode(e_project_mode::STREIGHT_MOVE);
     target_point_initialized = false;
     target_position = robot_position(0, 0, 0, 0, 0, 0);
-    o_mov_streight = mov_streight(target_position,
-        movement::e_speed::speed_100, movement::e_movement_type::continous);
+    o_mov_streight = mov_streight(target_position, movement::e_speed::speed_100,
+        movement::e_movement_type::continous);
     edit_command = false;
     break;
   }
@@ -539,15 +493,14 @@ void finish_state_machine::choose_and_prepare_to_create_command() {
   }
   case 3: {
     change_mode(e_project_mode::SET_PIN_COMAND);
-    o_cmd_set_pin = cmd_set_pin(cmd_set_pin::e_output_pin::robot_tool,
-        true);
+    o_cmd_set_pin = cmd_set_pin(cmd_set_pin::e_output_pin::robot_tool, true);
     edit_command = false;
     break;
   }
   }
 }
 
-void finish_state_machine::prepare_to_edit_choosen_command(){
+void finish_state_machine::prepare_to_edit_choosen_command() {
   std::shared_ptr<command> chosen_command =
       main_project_editor.get_choosen_command();
 
@@ -577,7 +530,7 @@ void finish_state_machine::prepare_to_edit_choosen_command(){
   }
 }
 
-void finish_state_machine::delete_choosen_command(){
+void finish_state_machine::delete_choosen_command() {
   if (main_project_editor.check_if_is_choosen()) {
 
     a_conf_deleting_command.draw();
@@ -592,6 +545,61 @@ void finish_state_machine::delete_choosen_command(){
     a_no_choosen_comand_to_delete.check_pressed();
   }
 }
+
+void finish_state_machine::save_changed_mov_streight_command() {
+  a_conf_save_command.draw();
+  if (a_conf_save_command.check_pressed() == 0) {
+    if (edit_command) {
+      std::static_pointer_cast<mov_streight>(
+          main_project_editor.get_choosen_command())->update_command(
+          o_mov_streight);
+      change_mode(e_project_mode::EDIT_PROJECTS);
+    } else if (target_point_initialized) {
+      main_project_editor.insert_command(
+          std::make_shared<mov_streight>(o_mov_streight));
+      change_mode(e_project_mode::EDIT_PROJECTS);
+    } else {
+
+      a_no_set_target_pos.draw();
+      a_no_set_target_pos.check_pressed();
+    }
+  }
+}
+
+template<typename CommandType>
+void finish_state_machine::update_movement_type_helper(CommandType &command,
+    movement::e_movement_type movementType, menu_segment &menu) {
+  command.update_movement_type(movementType);
+  menu.update_text(1, command.get_movement_type_text());
+  menu.draw();
+}
+template<typename CommandType>
+void finish_state_machine::update_movement_type(CommandType &command,
+    menu_segment &menu) {
+  l_choose_movement_type.draw();
+  switch (l_choose_movement_type.check_pressed()) {
+  case 0:
+    update_movement_type_helper(o_mov_streight,
+        movement::e_movement_type::continous, straight_mov_menu);
+    break;
+  case 1:
+    update_movement_type_helper(o_mov_streight,
+        movement::e_movement_type::step_by_step, straight_mov_menu);
+    break;
+  }
+}
+
+template<typename CommandType>
+void finish_state_machine::update_movement_speed(CommandType &command,
+    menu_segment &menu) {
+  movement::e_speed tmp_speed;
+  choose_speed_dialog(tmp_speed);
+
+  command.update_speed(tmp_speed);
+  menu.update_text(0, o_mov_streight.get_speed_text() + "%");
+  menu.draw();
+}
+
 //
 //
 //
