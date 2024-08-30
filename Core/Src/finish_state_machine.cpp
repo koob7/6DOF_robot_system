@@ -377,11 +377,13 @@ int finish_state_machine::handle_press_with_current_state(int x, int y) {
         o_mov_streight.update_movement_type(movement::e_movement_type::continous);
         straight_mov_menu.update_text(1, o_mov_streight.get_movement_type_text());
                 straight_mov_menu.draw();
+                break;
       }
       case 1: {
         o_mov_streight.update_movement_type(movement::e_movement_type::step_by_step);
         straight_mov_menu.update_text(1, o_mov_streight.get_movement_type_text());
                 straight_mov_menu.draw();
+                break;
             }
       }
         break;

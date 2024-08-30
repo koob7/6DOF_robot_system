@@ -483,7 +483,17 @@ void mov_streight::save_to_file(FIL &fil) {
   len += snprintf(buffer + len, sizeof(buffer) - len, "B%.2f ", target_pos.b);
   len += snprintf(buffer + len, sizeof(buffer) - len, "C%.2f ", target_pos.c);
 
-  len += snprintf(buffer + len, sizeof(buffer) - len, "S",get_speed_text().c_str());
+  switch (speed) {
+    case speed_10:
+      len += snprintf(buffer + len, sizeof(buffer) - len, "S10 ");
+      break;
+    case speed_50:
+      len += snprintf(buffer + len, sizeof(buffer) - len, "S50 ");
+      break;
+    case speed_100:
+      len += snprintf(buffer + len, sizeof(buffer) - len, "S100 ");
+      break;
+    }
 
   switch (movement_type) {
   case continous:
@@ -521,7 +531,17 @@ void mov_circular::save_to_file(FIL &fil) {
   len += snprintf(buffer + len, sizeof(buffer) - len, "L%.2f ", help_pos.b);
   len += snprintf(buffer + len, sizeof(buffer) - len, "O%.2f ", help_pos.c);
 
-  len += snprintf(buffer + len, sizeof(buffer) - len, "S",get_speed_text().c_str());
+  switch (speed) {
+    case speed_10:
+      len += snprintf(buffer + len, sizeof(buffer) - len, "S10 ");
+      break;
+    case speed_50:
+      len += snprintf(buffer + len, sizeof(buffer) - len, "S50 ");
+      break;
+    case speed_100:
+      len += snprintf(buffer + len, sizeof(buffer) - len, "S100 ");
+      break;
+    }
 
   switch (movement_type) {
   case continous:
