@@ -445,7 +445,7 @@ void finish_state_machine::delete_choosen_file() {
 }
 
 void finish_state_machine::go_to_choosen_file() {
-  change_mode(e_project_mode::EDIT_PROJECTS);
+
   if(main_project_explorer.get_choosen_file()=="")
   {
     a_no_choosen_file_to_open.draw();
@@ -453,6 +453,7 @@ void finish_state_machine::go_to_choosen_file() {
   }
   else{
   main_project_editor.open_file(main_project_explorer.get_choosen_file());
+  change_mode(e_project_mode::EDIT_PROJECTS);
   }
 }
 
