@@ -140,108 +140,24 @@ int finish_state_machine::handle_press_with_current_state(int x, int y) {
     main_project_editor.handle_pressed(x, y);
     switch (project_editor_menu.check_pressed(x, y)) {
     case 0: {
-
-      a_confirm_save_changed_file.draw();
-      if (a_confirm_save_changed_file.check_pressed() == 0) {
-        main_project_editor.save_changes_into_file();
-      }
-      main_project_editor.close_file();
-      change_mode(e_project_mode::BROWSE_PROJECTS);
-      main_project_explorer.get_files();
+      save_changed_file_and_close();
       break;
     }
     case 1: {
-      main_project_editor.save_changes_into_file();
+      save_changed_file();
       break;
     }
     case 2: {
-      l_choose_command_type.draw();
-      switch (l_choose_command_type.check_pressed()) {
-      case 0: {
-        change_mode(e_project_mode::STREIGHT_MOVE);
-        target_point_initialized = false;
-        target_position = robot_position(0, 0, 0, 0, 0, 0);
-        o_mov_streight = mov_streight(target_position,
-            movement::e_speed::speed_100, movement::e_movement_type::continous);
-        edit_command = false;
-        break;
-      }
-      case 1: {
-        change_mode(e_project_mode::CIRCULAR_MOVE);
-        target_point_initialized = false;
-        target_position = robot_position(0, 0, 0, 0, 0, 0);
-        help_point_initialized = false;
-        help_position = robot_position(0, 0, 0, 0, 0, 0);
-        o_mov_circular = mov_circular(help_position, target_position,
-            movement::e_speed::speed_100, movement::e_movement_type::continous);
-        edit_command = false;
-        break;
-      }
-      case 2: {
-        change_mode(e_project_mode::WAIT_COMAND);
-        o_cmd_wait = cmd_wait(cmd_wait::e_wait_time::wait_5s);
-        edit_command = false;
-        break;
-      }
-      case 3: {
-        change_mode(e_project_mode::SET_PIN_COMAND);
-        o_cmd_set_pin = cmd_set_pin(cmd_set_pin::e_output_pin::robot_tool,
-            true);
-        edit_command = false;
-        break;
-      }
-      case -1: {
-        //zadna opcja nie zostala wybrana
-        break;
-      }
-      }
+      choose_and_prepare_to_create_command();
       break;
     }
     case 3: {
-      std::shared_ptr<command> chosen_command =
-          main_project_editor.get_choosen_command();
-
-      if (auto p_mov_streight = std::static_pointer_cast<mov_streight>(
-          chosen_command)) {
-        o_mov_streight = *p_mov_streight;
-        target_point_initialized = true;
-        change_mode(e_project_mode::STREIGHT_MOVE);
-        edit_command = true;
-      } else if (auto p_mov_circular = std::static_pointer_cast<mov_circular>(
-          chosen_command)) {
-        o_mov_circular = *p_mov_circular;
-        target_point_initialized = true;
-        help_point_initialized = true;
-        change_mode(e_project_mode::CIRCULAR_MOVE);
-        edit_command = true;
-      } else if (auto p_cmd_wait = std::static_pointer_cast<cmd_wait>(
-          chosen_command)) {
-        o_cmd_wait = *p_cmd_wait;
-        change_mode(e_project_mode::WAIT_COMAND);
-        edit_command = true;
-      } else if (auto p_cmd_set_pin = std::static_pointer_cast<cmd_set_pin>(
-          chosen_command)) {
-        o_cmd_set_pin = *p_cmd_set_pin;
-        change_mode(e_project_mode::SET_PIN_COMAND);
-        edit_command = true;
-      }
+prepare_to_edit_choosen_command();
 
       break;
     }
     case 4: {
-      if (main_project_editor.check_if_is_choosen()) {
-
-        a_conf_deleting_command.draw();
-        if (a_conf_deleting_command.check_pressed() == 0) {
-          main_project_editor.remove_command();
-          cleer_working_screen.draw();
-          main_project_editor.draw();
-        }
-      } else {
-
-        a_no_choosen_comand_to_delete.draw();
-        a_no_choosen_comand_to_delete.check_pressed();
-      }
+      delete_choosen_command();
 
       break;
     }
@@ -572,9 +488,109 @@ void finish_state_machine::delete_choosen_file() {
   }
 }
 
-void finish_state_machine::go_to_choosen_file(){
+void finish_state_machine::go_to_choosen_file() {
   change_mode(e_project_mode::EDIT_PROJECTS);
   main_project_editor.open_file(main_project_explorer.get_choosen_file());
+}
+
+void finish_state_machine::save_changed_file() {
+  a_confirm_save_changed_file.draw();
+  if (a_confirm_save_changed_file.check_pressed() == 0) {
+    main_project_editor.save_changes_into_file();
+  }
+
+}
+
+void finish_state_machine::save_changed_file_and_close(){
+  save_changed_file();
+  main_project_editor.close_file();
+  change_mode(e_project_mode::BROWSE_PROJECTS);
+  main_project_explorer.get_files();
+}
+
+void finish_state_machine::choose_and_prepare_to_create_command() {
+  l_choose_command_type.draw();
+  switch (l_choose_command_type.check_pressed()) {
+  case 0: {
+    change_mode(e_project_mode::STREIGHT_MOVE);
+    target_point_initialized = false;
+    target_position = robot_position(0, 0, 0, 0, 0, 0);
+    o_mov_streight = mov_streight(target_position,
+        movement::e_speed::speed_100, movement::e_movement_type::continous);
+    edit_command = false;
+    break;
+  }
+  case 1: {
+    change_mode(e_project_mode::CIRCULAR_MOVE);
+    target_point_initialized = false;
+    target_position = robot_position(0, 0, 0, 0, 0, 0);
+    help_point_initialized = false;
+    help_position = robot_position(0, 0, 0, 0, 0, 0);
+    o_mov_circular = mov_circular(help_position, target_position,
+        movement::e_speed::speed_100, movement::e_movement_type::continous);
+    edit_command = false;
+    break;
+  }
+  case 2: {
+    change_mode(e_project_mode::WAIT_COMAND);
+    o_cmd_wait = cmd_wait(cmd_wait::e_wait_time::wait_5s);
+    edit_command = false;
+    break;
+  }
+  case 3: {
+    change_mode(e_project_mode::SET_PIN_COMAND);
+    o_cmd_set_pin = cmd_set_pin(cmd_set_pin::e_output_pin::robot_tool,
+        true);
+    edit_command = false;
+    break;
+  }
+  }
+}
+
+void finish_state_machine::prepare_to_edit_choosen_command(){
+  std::shared_ptr<command> chosen_command =
+      main_project_editor.get_choosen_command();
+
+  if (auto p_mov_streight = std::static_pointer_cast<mov_streight>(
+      chosen_command)) {
+    o_mov_streight = *p_mov_streight;
+    target_point_initialized = true;
+    change_mode(e_project_mode::STREIGHT_MOVE);
+    edit_command = true;
+  } else if (auto p_mov_circular = std::static_pointer_cast<mov_circular>(
+      chosen_command)) {
+    o_mov_circular = *p_mov_circular;
+    target_point_initialized = true;
+    help_point_initialized = true;
+    change_mode(e_project_mode::CIRCULAR_MOVE);
+    edit_command = true;
+  } else if (auto p_cmd_wait = std::static_pointer_cast<cmd_wait>(
+      chosen_command)) {
+    o_cmd_wait = *p_cmd_wait;
+    change_mode(e_project_mode::WAIT_COMAND);
+    edit_command = true;
+  } else if (auto p_cmd_set_pin = std::static_pointer_cast<cmd_set_pin>(
+      chosen_command)) {
+    o_cmd_set_pin = *p_cmd_set_pin;
+    change_mode(e_project_mode::SET_PIN_COMAND);
+    edit_command = true;
+  }
+}
+
+void finish_state_machine::delete_choosen_command(){
+  if (main_project_editor.check_if_is_choosen()) {
+
+    a_conf_deleting_command.draw();
+    if (a_conf_deleting_command.check_pressed() == 0) {
+      main_project_editor.remove_command();
+      cleer_working_screen.draw();
+      main_project_editor.draw();
+    }
+  } else {
+
+    a_no_choosen_comand_to_delete.draw();
+    a_no_choosen_comand_to_delete.check_pressed();
+  }
 }
 //
 //

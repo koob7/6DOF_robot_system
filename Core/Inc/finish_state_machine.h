@@ -50,6 +50,11 @@ private:
   void create_new_file();
   void delete_choosen_file();
   void go_to_choosen_file();
+  void save_changed_file();
+  void save_changed_file_and_close();
+  void choose_and_prepare_to_create_command();
+  void prepare_to_edit_choosen_command();
+  void delete_choosen_command();
 
 public:
 
