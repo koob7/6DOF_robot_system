@@ -410,10 +410,11 @@ int finish_state_machine::handle_press_with_current_state(int x, int y) {
     }
     case 2: {
       allert o_allert(300, 200, 200, 0xD6BA, "UWAGA",
-          "Czy na pewno chcesz zapisac polecenie?", true);
+          "Czy na pewno chcesz zaktualizowac pozycje?", true);
       o_allert.draw();
       if (o_allert.check_pressed() == 0) {
         o_mov_streight.update_target_pos(get_current_position());
+        target_point_initialized = true;
       }
 
       break;

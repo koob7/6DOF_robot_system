@@ -274,8 +274,10 @@ bool projects_explorer::delete_file() {
 void project_editor::insert_command(std::shared_ptr<command> in_cmd) {
   if (selected_command > -1) {
     commands.insert(commands.begin() + selected_command + 1, in_cmd);
+    //selected_command = selected_command + 1;przechodzenie między zaznaczonymi okienkami jest niebezpieczne bo punkty mogą być poza obszarem malowania
   } else if (commands.size() > 1) {
     commands.insert(commands.end() - 1, in_cmd);
+    //selected_command = commands.size()-2;
 } else {
     commands.push_back(in_cmd);
 }
