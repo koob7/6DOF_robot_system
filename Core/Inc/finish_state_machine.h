@@ -63,6 +63,8 @@ private:
   void update_movement_type(CommandType &command, menu_segment &menu);
   template<typename CommandType>
   void update_movement_speed(CommandType &command, menu_segment &menu);
+  template<typename CommandType>
+  void save_changed_command(CommandType &command);
 
 public:
 

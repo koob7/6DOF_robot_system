@@ -183,8 +183,8 @@ int finish_state_machine::handle_press_with_current_state(int x, int y) {
       break;
     }
     case 3:
-
-      save_changed_mov_streight_command();
+      save_changed_command(o_mov_streight);
+      //save_changed_mov_streight_command();
       break;
 
     case 4:
@@ -598,6 +598,23 @@ void finish_state_machine::update_movement_speed(CommandType &command,
   command.update_speed(tmp_speed);
   menu.update_text(0, o_mov_streight.get_speed_text() + "%");
   menu.draw();
+}
+
+template<typename CommandType>
+void finish_state_machine::save_changed_command(CommandType &command) {
+  a_conf_save_command.draw();
+  if (a_conf_save_command.check_pressed() == 0) {
+    if (edit_command) {
+      std::static_pointer_cast<CommandType>(main_project_editor.get_choosen_command())->update_command(command);
+      change_mode(e_project_mode::EDIT_PROJECTS);
+    } else if (target_point_initialized) {
+      main_project_editor.insert_command(std::make_shared<CommandType>(command));
+      change_mode(e_project_mode::EDIT_PROJECTS);
+    } else {
+      a_no_set_target_pos.draw();
+      a_no_set_target_pos.check_pressed();
+    }
+  }
 }
 
 //
