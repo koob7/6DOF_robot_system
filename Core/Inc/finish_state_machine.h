@@ -42,6 +42,11 @@ enum class e_control_mode {
 };
 
 class finish_state_machine {
+
+private:
+  void cancel_creating_command();
+  void choose_speed_dialog(movement::e_speed &speed);
+
 public:
 
   finish_state_machine();
@@ -51,6 +56,8 @@ public:
   void change_mode(e_step_mode new_state);
   void change_mode(e_control_mode new_state);
   int handle_press_with_current_state(int x, int y);
+
+
 
 private:
   bool edit_command = false;//mówi o tym czy tworzymy nowy punkt czy tylko go edytujemy
@@ -69,6 +76,23 @@ private:
   e_project_mode previous_project_mode;
   project_editor main_project_editor;
   projects_explorer main_project_explorer;
+
+  allert a_cancel_create_command;
+  list_dialog l_choose_sort_file_order;
+  allert a_already_existing_file;
+  allert a_conf_deleting_file;
+  allert a_no_choosen_file_to_delete;
+  allert a_confirm_save_changed_file;
+  list_dialog l_choose_command_type;
+  allert a_conf_deleting_command;
+  allert a_no_choosen_comand_to_delete;
+  list_dialog l_choose_movement_type;
+  allert a_conf_update_target_pos;
+  allert a_conf_help_target_pos;
+  allert a_no_set_target_pos;
+  allert a_no_set_help_pos;
+  allert a_conf_save_command;
+  list_dialog l_choose_movement_speed;
 
 };
 
