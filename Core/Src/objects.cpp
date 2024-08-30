@@ -49,12 +49,12 @@ void menu_segment::update_text(int id, std::string text, enum e_menu_layer menu_
 
   break;}
   case e_menu_layer::e_top_parts:{
-    if(id >= 0 && id < top_parts.size() && top_parts[id] != nullptr){
+    if(id >= 0 && id < static_cast<int>(top_parts.size()) && top_parts[id] != nullptr){
       top_parts[id]->update_text(text);
     }
     break;}
   case e_menu_layer::e_background_parts:{
-    if(id >= 0 && id < background_parts.size() && background_parts[id] != nullptr){
+    if(id >= 0 && id < static_cast<int>(background_parts.size()) && background_parts[id] != nullptr){
       background_parts[id]->update_text(text);
     }
       break;}
@@ -81,7 +81,7 @@ projects_explorer::projects_explorer() {
 void projects_explorer::update_last_file_to_display() {
   last_file_to_display =
       ((first_file_to_display + project_explorer_num_files_on_page)
-          > sd_files.size()) ?
+          > static_cast<int>(sd_files.size())) ?
           sd_files.size() :
           (first_file_to_display + project_explorer_num_files_on_page);
 }
@@ -143,7 +143,7 @@ void projects_explorer::draw() {
   } else {
     TFT_Draw_Fill_Rectangle(139, 106, 41, 40, clear_screen_color);
   }
-  if (sd_files.size() > last_file_to_display) {
+  if (static_cast<int>(sd_files.size()) > last_file_to_display) {
     page_down_btn.draw();
   } else {
     TFT_Draw_Fill_Rectangle(139, 405, 41, 40, clear_screen_color);
@@ -203,7 +203,7 @@ void projects_explorer::handle_pressed(int x, int y) {
       draw();
     }
   }
-  if (sd_files.size() > last_file_to_display) {
+  if (static_cast<int>(sd_files.size()) > last_file_to_display) {
     if (page_down_btn.check_pressed(x, y) == 1) {
       first_file_to_display++;
       forget_selected_hiden_file();
@@ -265,6 +265,7 @@ bool projects_explorer::delete_file() {
       get_files();
       return true;
     }
+    return false;
   } else {
     return false;
     // TODO tutaj powinien być rzucany wyjątek w przypadku nieudanego usunięcia
@@ -303,7 +304,7 @@ void project_editor::draw() {
   } else {
     TFT_Draw_Fill_Rectangle(139, 106, 41, 40, clear_screen_color);
   }
-  if (commands.size() > last_command_to_display) {
+  if (static_cast<int>(commands.size()) > last_command_to_display) {
     page_down_btn.draw();
   } else {
     TFT_Draw_Fill_Rectangle(139, 405, 41, 40, clear_screen_color);
@@ -371,7 +372,7 @@ void project_editor::forget_selected_hiden_command() {
 void project_editor::update_last_command_to_display() {
   last_command_to_display =
       ((first_command_to_display + command_explorer_num_files_on_page)
-          > commands.size()) ?
+          > static_cast<int>(commands.size())) ?
           commands.size() :
           (first_command_to_display + command_explorer_num_files_on_page);
 }
@@ -384,7 +385,7 @@ void project_editor::handle_pressed(int x, int y) {
       draw();
     }
   }
-  if (commands.size() > last_command_to_display) {
+  if (static_cast<int>(commands.size()) > last_command_to_display) {
     if (page_down_btn.check_pressed(x, y) == 1) {
       first_command_to_display++;
       forget_selected_hiden_command();

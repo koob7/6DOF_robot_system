@@ -55,84 +55,6 @@ finish_state_machine::finish_state_machine() :
 
 }
 
-void finish_state_machine::change_mode(e_operation_mode new_state) {
-  if (operation_mode != new_state) {
-    switch (new_state) {
-    case e_operation_mode::MANUAL:
-      operation_mode = e_operation_mode::MANUAL;
-      break;
-    case e_operation_mode::AUTOMATIC:
-      operation_mode = e_operation_mode::AUTOMATIC;
-      break;
-    }
-
-  }
-}
-
-void finish_state_machine::change_mode(e_project_mode new_state) {
-  if (project_mode != new_state) {
-    previous_project_mode = project_mode;
-    project_mode = new_state;
-    switch (new_state) {
-    case e_project_mode::SETTINGS:
-      settings_menu.draw();
-      break;
-    case e_project_mode::BROWSE_PROJECTS:
-      project_explorer_menu.draw();
-      main_project_explorer.draw();
-      break;
-    case e_project_mode::EDIT_PROJECTS:
-      project_editor_menu.draw();
-      main_project_editor.draw();
-      break;
-    case e_project_mode::STREIGHT_MOVE:
-      straight_mov_menu.update_text(0, o_mov_streight.get_speed_text() + "%");
-      straight_mov_menu.update_text(1, o_mov_streight.get_movement_type_text());
-      straight_mov_menu.draw();
-      break;
-    case e_project_mode::CIRCULAR_MOVE:
-      circular_mov_menu.update_text(0, o_mov_circular.get_speed_text() + "%");
-      circular_mov_menu.update_text(1, o_mov_circular.get_movement_type_text());
-      circular_mov_menu.draw();
-      break;
-    case e_project_mode::WAIT_COMAND:
-      wait_command_menu.update_text(0, o_cmd_wait.get_time_text());
-      wait_command_menu.draw();
-      break;
-    case e_project_mode::SET_PIN_COMAND:
-      set_pin_command_menu.update_text(0, o_cmd_set_pin.get_pin_output_text());
-      set_pin_command_menu.update_text(1, o_cmd_set_pin.get_pin_level_text());
-      set_pin_command_menu.draw();
-      break;
-    }
-
-  }
-}
-
-void finish_state_machine::change_mode(e_step_mode new_state) {
-  if (step_mode != new_state) {
-    step_mode = new_state;
-    switch (new_state) {
-    case e_step_mode::STEP_BY_STEP:
-      break;
-    case e_step_mode::CONTINUOUS:
-      break;
-    }
-  }
-}
-
-void finish_state_machine::change_mode(e_control_mode new_state) {
-  if (control_mode != new_state) {
-    control_mode = new_state;
-    switch (new_state) {
-    case e_control_mode::AUTOMATIC_MODE:
-      break;
-    case e_control_mode::MANUAL_MODE:
-      break;
-    }
-  }
-}
-
 int finish_state_machine::handle_press_with_current_state(int x, int y) {
 
 //  int pressed_button = main_right_menu.check_pressed(x, y);
@@ -192,75 +114,25 @@ int finish_state_machine::handle_press_with_current_state(int x, int y) {
     main_project_explorer.handle_pressed(x, y);
     switch (project_explorer_menu.check_pressed(x, y)) {
     case 0: {
-      if (main_project_explorer.create_file(
-          std::to_string(main_project_explorer.sd_files.size()) + ".txt")
-          == -1) {
+      create_new_file();
+      break;
+    }
+    case 1:
+      go_to_choosen_file();
+      break;
 
-        a_already_existing_file.draw();
-        a_already_existing_file.check_pressed();
-      } else {
-        main_project_explorer.get_files();
-      }
-      break;
-    }
-    case 1: {
-      change_mode(e_project_mode::EDIT_PROJECTS);
-      main_project_editor.open_file(main_project_explorer.get_choosen_file());
-      break;
-    }
-    case 2: {
+    case 2:
       //TODO edycjia nazwy pliku
       break;
-    }
-    case 3: {
-      if (main_project_explorer.check_if_is_choosen()) {
 
-        a_conf_deleting_file.draw();
-        if (a_conf_deleting_file.check_pressed() == 0) {
-          main_project_explorer.delete_file();
-          cleer_working_screen.draw();
-          main_project_explorer.draw();
-        }
-      } else {
+    case 3:
+      delete_choosen_file();
+      break;
 
-        a_no_choosen_file_to_delete.draw();
-        a_no_choosen_file_to_delete.check_pressed();
-      }
+    case 4:
+      choose_file_sorting_option();
       break;
-    }
-    case 4: {
-      l_choose_sort_file_order.draw();
-      switch (l_choose_sort_file_order.check_pressed()) {
-      case 0:
-        main_project_explorer.set_sort_option(
-            projects_explorer::sort_option::by_name, true);
-        break;
-      case 1:
-        main_project_explorer.set_sort_option(
-            projects_explorer::sort_option::by_name, false);
-        break;
-      case 2:
-        main_project_explorer.set_sort_option(
-            projects_explorer::sort_option::by_date, true);
-        break;
-      case 3:
-        main_project_explorer.set_sort_option(
-            projects_explorer::sort_option::by_date, false);
-        break;
-      case 4:
-        main_project_explorer.set_sort_option(
-            projects_explorer::sort_option::by_size, true);
-        break;
-      case 5:
-        main_project_explorer.set_sort_option(
-            projects_explorer::sort_option::by_size, false);
-        break;
-      case -1:
-        //TODO nie wybrano sortowania
-        break;
-      }
-      break;
-    }
+
     }
     break;
   case e_project_mode::EDIT_PROJECTS:
@@ -529,6 +401,95 @@ int finish_state_machine::handle_press_with_current_state(int x, int y) {
   return 0;
 }
 
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+void finish_state_machine::change_mode(e_operation_mode new_state) {
+  if (operation_mode != new_state) {
+    switch (new_state) {
+    case e_operation_mode::MANUAL:
+      operation_mode = e_operation_mode::MANUAL;
+      break;
+    case e_operation_mode::AUTOMATIC:
+      operation_mode = e_operation_mode::AUTOMATIC;
+      break;
+    }
+
+  }
+}
+
+void finish_state_machine::change_mode(e_project_mode new_state) {
+  if (project_mode != new_state) {
+    previous_project_mode = project_mode;
+    project_mode = new_state;
+    switch (new_state) {
+    case e_project_mode::SETTINGS:
+      settings_menu.draw();
+      break;
+    case e_project_mode::BROWSE_PROJECTS:
+      project_explorer_menu.draw();
+      main_project_explorer.draw();
+      break;
+    case e_project_mode::EDIT_PROJECTS:
+      project_editor_menu.draw();
+      main_project_editor.draw();
+      break;
+    case e_project_mode::STREIGHT_MOVE:
+      straight_mov_menu.update_text(0, o_mov_streight.get_speed_text() + "%");
+      straight_mov_menu.update_text(1, o_mov_streight.get_movement_type_text());
+      straight_mov_menu.draw();
+      break;
+    case e_project_mode::CIRCULAR_MOVE:
+      circular_mov_menu.update_text(0, o_mov_circular.get_speed_text() + "%");
+      circular_mov_menu.update_text(1, o_mov_circular.get_movement_type_text());
+      circular_mov_menu.draw();
+      break;
+    case e_project_mode::WAIT_COMAND:
+      wait_command_menu.update_text(0, o_cmd_wait.get_time_text());
+      wait_command_menu.draw();
+      break;
+    case e_project_mode::SET_PIN_COMAND:
+      set_pin_command_menu.update_text(0, o_cmd_set_pin.get_pin_output_text());
+      set_pin_command_menu.update_text(1, o_cmd_set_pin.get_pin_level_text());
+      set_pin_command_menu.draw();
+      break;
+    }
+
+  }
+}
+
+void finish_state_machine::change_mode(e_step_mode new_state) {
+  if (step_mode != new_state) {
+    step_mode = new_state;
+    switch (new_state) {
+    case e_step_mode::STEP_BY_STEP:
+      break;
+    case e_step_mode::CONTINUOUS:
+      break;
+    }
+  }
+}
+
+void finish_state_machine::change_mode(e_control_mode new_state) {
+  if (control_mode != new_state) {
+    control_mode = new_state;
+    switch (new_state) {
+    case e_control_mode::AUTOMATIC_MODE:
+      break;
+    case e_control_mode::MANUAL_MODE:
+      break;
+    }
+  }
+}
+
 void finish_state_machine::cancel_creating_command() {
 
   a_cancel_create_command.draw();
@@ -552,6 +513,69 @@ void finish_state_machine::choose_speed_dialog(movement::e_speed &speed) {
   }
 }
 
+void finish_state_machine::choose_file_sorting_option() {
+  l_choose_sort_file_order.draw();
+  switch (l_choose_sort_file_order.check_pressed()) {
+  case 0:
+    main_project_explorer.set_sort_option(
+        projects_explorer::sort_option::by_name, true);
+    break;
+  case 1:
+    main_project_explorer.set_sort_option(
+        projects_explorer::sort_option::by_name, false);
+    break;
+  case 2:
+    main_project_explorer.set_sort_option(
+        projects_explorer::sort_option::by_date, true);
+    break;
+  case 3:
+    main_project_explorer.set_sort_option(
+        projects_explorer::sort_option::by_date, false);
+    break;
+  case 4:
+    main_project_explorer.set_sort_option(
+        projects_explorer::sort_option::by_size, true);
+    break;
+  case 5:
+    main_project_explorer.set_sort_option(
+        projects_explorer::sort_option::by_size, false);
+    break;
+  case -1:
+    //TODO nie wybrano sortowania
+    break;
+  }
+}
+void finish_state_machine::create_new_file() {
+  if (main_project_explorer.create_file(
+      std::to_string(main_project_explorer.sd_files.size()) + ".txt") == -1) {
+
+    a_already_existing_file.draw();
+    a_already_existing_file.check_pressed();
+  } else {
+    main_project_explorer.get_files();
+  }
+}
+
+void finish_state_machine::delete_choosen_file() {
+  if (main_project_explorer.check_if_is_choosen()) {
+
+    a_conf_deleting_file.draw();
+    if (a_conf_deleting_file.check_pressed() == 0) {
+      main_project_explorer.delete_file();
+      cleer_working_screen.draw();
+      main_project_explorer.draw();
+    }
+  } else {
+
+    a_no_choosen_file_to_delete.draw();
+    a_no_choosen_file_to_delete.check_pressed();
+  }
+}
+
+void finish_state_machine::go_to_choosen_file(){
+  change_mode(e_project_mode::EDIT_PROJECTS);
+  main_project_editor.open_file(main_project_explorer.get_choosen_file());
+}
 //
 //
 //

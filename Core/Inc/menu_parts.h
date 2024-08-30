@@ -65,8 +65,8 @@ static const uint8_t size = 1;
 
 struct dimension {
   int x;
-  int width;
   int y;
+  int width;
   int height;
 
   dimension(int x, int y, int width, int height)

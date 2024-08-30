@@ -46,6 +46,10 @@ class finish_state_machine {
 private:
   void cancel_creating_command();
   void choose_speed_dialog(movement::e_speed &speed);
+  void choose_file_sorting_option();
+  void create_new_file();
+  void delete_choosen_file();
+  void go_to_choosen_file();
 
 public:
 
