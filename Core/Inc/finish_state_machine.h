@@ -110,6 +110,7 @@ private:
   allert a_no_set_help_pos;
   allert a_conf_save_command;
   list_dialog l_choose_movement_speed;
+  allert a_no_choosen_file_to_open;
 
 };
 

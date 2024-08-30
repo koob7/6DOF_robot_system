@@ -37,7 +37,9 @@ finish_state_machine::finish_state_machine() :
         "Brak przypisanej lokalizacji punktu pomocniczego"), a_conf_save_command(
         300, 200, 200, 0xD6BA, "UWAGA",
         "Czy na pewno chcesz zapisac polecenie?", true), l_choose_movement_speed(
-        250, 100, 300, 0xD6BA, "Prędkosc:", { "10%", "50%", "100%" }, true)
+        250, 100, 300, 0xD6BA, "Prędkosc:", { "10%", "50%", "100%" }, true), a_no_choosen_file_to_open(
+            300, 200, 200, 0xD6BA, "UWAGA",
+            "Brak wybranego pliku do otwarcia")
 
 {
   target_position = robot_position(0, 0, 0, 0, 0, 0);
@@ -444,7 +446,14 @@ void finish_state_machine::delete_choosen_file() {
 
 void finish_state_machine::go_to_choosen_file() {
   change_mode(e_project_mode::EDIT_PROJECTS);
+  if(main_project_explorer.get_choosen_file()=="")
+  {
+    a_no_choosen_file_to_open.draw();
+    a_no_choosen_file_to_open.check_pressed();
+  }
+  else{
   main_project_editor.open_file(main_project_explorer.get_choosen_file());
+  }
 }
 
 void finish_state_machine::save_changed_file() {
