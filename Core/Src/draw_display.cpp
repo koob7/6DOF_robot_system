@@ -9,6 +9,7 @@ menu_segment circular_mov_menu;
 menu_segment wait_command_menu;
 menu_segment set_pin_command_menu;
 menu_segment settings_menu;
+menu_segment cleer_working_screen;
 
 void init_objects() {
   TFT_Clear_Screen(clear_screen_color);
@@ -23,6 +24,7 @@ void init_objects() {
   init_wait_commands_menu();
   init_set_pin_command_menu();
   init_settings_menu();
+  init_cleer_working_screen();
 }
 
 void init_main_left_menu() {
@@ -280,6 +282,11 @@ void init_settings_menu() {
   settings_menu.add_part(button(0, 422, 16, 100, 40,
   top_menu_button_color, 20, "BACK",
   top_menu_text_color, top_menu_font));
+}
+
+void init_cleer_working_screen(){
+  cleer_working_screen.add_background_part(
+      std::make_shared<rectangle>(120, 72, 560, 408, clear_screen_color));
 }
 
 //

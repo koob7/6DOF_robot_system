@@ -61,11 +61,18 @@ void menu_segment::update_text(int id, std::string text, enum e_menu_layer menu_
   }
 }
 
+project_editor::project_editor(){
+  page_up_btn.add_part(
+        std::make_shared<triangle>(147, 132, 147 + 24, 132, 147+12, 132-20, 0x00FD));
+    page_down_btn.add_part(
+        std::make_shared<triangle>(147, 417, 147 + 24, 417, 147+12, 417+20, 0x00FD));
+}
+
 projects_explorer::projects_explorer() {
   page_up_btn.add_part(
-      std::make_shared<triangle>(150, 185, 150 + 23, 185, 161, 165, 0x00FD));
-  page_down_btn.add_part(
-      std::make_shared<triangle>(150, 432, 150 + 23, 432, 161, 452, 0x00FD));
+        std::make_shared<triangle>(147, 132, 147 + 24, 132, 147+12, 132-20, 0x00FD));
+    page_down_btn.add_part(
+        std::make_shared<triangle>(147, 417, 147 + 24, 417, 147+12, 417+20, 0x00FD));
 
   get_files();
   initialized = true;
@@ -134,12 +141,12 @@ void projects_explorer::draw() {
   if (first_file_to_display > 0) {
     page_up_btn.draw();
   } else {
-    TFT_Draw_Fill_Rectangle(142, 158, 40, 40, clear_screen_color);
+    TFT_Draw_Fill_Rectangle(139, 106, 41, 40, clear_screen_color);
   }
   if (sd_files.size() > last_file_to_display) {
     page_down_btn.draw();
   } else {
-    TFT_Draw_Fill_Rectangle(142, 425, 40, 40, clear_screen_color);
+    TFT_Draw_Fill_Rectangle(139, 405, 41, 40, clear_screen_color);
   }
   int i = first_file_to_display;
   int pos_counter = 0;
@@ -267,9 +274,11 @@ bool projects_explorer::delete_file() {
 void project_editor::insert_command(std::shared_ptr<command> in_cmd) {
   if (selected_command > -1) {
     commands.insert(commands.begin() + selected_command + 1, in_cmd);
-  } else {
+  } else if (commands.size() > 1) {
+    commands.insert(commands.end() - 1, in_cmd);
+} else {
     commands.push_back(in_cmd);
-  }
+}
   //draw(); rysowanie nie jest potrzebne bo rysujemy przy wejściu do menu edycji
 }
 
@@ -290,12 +299,12 @@ void project_editor::draw() {
   if (first_command_to_display > 0) {
     page_up_btn.draw();
   } else {
-    TFT_Draw_Fill_Rectangle(142, 158, 40, 40, clear_screen_color);
+    TFT_Draw_Fill_Rectangle(139, 106, 41, 40, clear_screen_color);
   }
   if (commands.size() > last_command_to_display) {
     page_down_btn.draw();
   } else {
-    TFT_Draw_Fill_Rectangle(142, 425, 40, 40, clear_screen_color);
+    TFT_Draw_Fill_Rectangle(139, 405, 41, 40, clear_screen_color);
   }
   int i = first_command_to_display;
   int pos_counter = 0;

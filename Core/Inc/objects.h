@@ -76,9 +76,8 @@ private:
   enum sort_option option = by_date;
   bool sort_ascending = false;
   int selected_file = -1; // wartość ujemna oznacza brak wybranego pliku
-  button page_up_btn = button(0, 140, 158, 40, 40, 0xD6BA, 20); // nawigacja
-                                                                // góra
-  button page_down_btn = button(1, 140, 425, 40, 40, 0xD6BA, 20); // nawigacja dół
+  button page_up_btn = button(0, 139, 106, 41, 40, 0xD6BA, 20); // nawigacja góra
+  button page_down_btn = button(1, 139, 405, 41, 40, 0xD6BA, 20); // nawigacja dół
 
   std::string format_date(WORD fdate);
 
@@ -98,6 +97,7 @@ public:
   bool delete_file();
   void handle_pressed(int x, int y);
   void draw();
+  bool check_if_is_choosen(){return selected_file>-1;}
 };
 
 class project_editor {
@@ -113,11 +113,11 @@ public:
   int first_command_to_display = 0;
   int last_command_to_display = 0;
   int selected_command = -1; // wartość ujemna oznacza brak wybranego pliku
-  button page_up_btn = button(0, 140, 158, 40, 40, 0xD6BA, 20); // nawigacja góra
-  button page_down_btn = button(1, 140, 425, 40, 40, 0xD6BA, 20); // nawigacja dół
+  button page_up_btn = button(0, 139, 106, 41, 40, 0xD6BA, 20); // nawigacja góra
+  button page_down_btn = button(1, 139, 405, 41, 40, 0xD6BA, 20); // nawigacja dół
   std::vector<std::shared_ptr<command>> commands;
   std::string file_name;
-  //project_editor();
+  project_editor();
   void draw();
   void handle_pressed(int x, int y);
   void add_part(std::shared_ptr<command> in_cmd) {
@@ -130,6 +130,7 @@ public:
   bool open_file(std::string in_file_name);
   void close_file();
   void save_changes_into_file();
+  bool check_if_is_choosen(){return selected_command>-1;}
 };
 
 //

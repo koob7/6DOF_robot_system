@@ -73,6 +73,7 @@ extern menu_segment circular_mov_menu;
 extern menu_segment wait_command_menu;
 extern menu_segment set_pin_command_menu;
 extern menu_segment settings_menu;
+extern menu_segment cleer_working_screen;
 
 void init_objects();
 void init_main_left_menu();
@@ -84,6 +85,7 @@ void init_circular_mov_menu();
 void init_wait_commands_menu();
 void init_set_pin_command_menu();
 void init_settings_menu();
+void init_cleer_working_screen();
 
 // void draw_file_list(int start, int end, bool ascending,
 //		enum sort_option option);

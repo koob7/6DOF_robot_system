@@ -56,12 +56,12 @@ void finish_state_machine::change_mode(e_project_mode new_state) {
       main_project_editor.draw();
       break;
     case e_project_mode::STREIGHT_MOVE:
-      straight_mov_menu.update_text(0, o_mov_streight.get_speed_text()+"%");
+      straight_mov_menu.update_text(0, o_mov_streight.get_speed_text() + "%");
       straight_mov_menu.update_text(1, o_mov_streight.get_movement_type_text());
       straight_mov_menu.draw();
       break;
     case e_project_mode::CIRCULAR_MOVE:
-      circular_mov_menu.update_text(0, o_mov_circular.get_speed_text()+"%");
+      circular_mov_menu.update_text(0, o_mov_circular.get_speed_text() + "%");
       circular_mov_menu.update_text(1, o_mov_circular.get_movement_type_text());
       circular_mov_menu.draw();
       break;
@@ -184,19 +184,21 @@ int finish_state_machine::handle_press_with_current_state(int x, int y) {
       break;
     }
     case 3: {
-      allert o_allert(300, 200, 200, 0xD6BA, "UWAGA",
-          "Czy na pewno chcesz usunąć plik?", true);
-      o_allert.draw();
-      int check_result = o_allert.check_pressed();
-      if (check_result == 0) {
-        if (!main_project_explorer.delete_file()) {
-          allert failure_allert(300, 200, 200, 0xD6BA, "Blad",
-              "Brak wybranego pliku do skasowania", false);
-          failure_allert.draw();
-          failure_allert.check_pressed();
+      if (main_project_explorer.check_if_is_choosen()) {
+        allert o_allert(300, 200, 200, 0xD6BA, "UWAGA",
+            "Czy na pewno chcesz usunąć plik?", true);
+        o_allert.draw();
+        if (o_allert.check_pressed() == 0) {
+          main_project_explorer.delete_file();
+          cleer_working_screen.draw();
+          main_project_explorer.draw();
         }
-      } else if (check_result == 1) {
-
+      }
+      else{
+        allert failure_allert(300, 200, 200, 0xD6BA, "Blad",
+            "Brak wybranego pliku do skasowania", false);
+        failure_allert.draw();
+        failure_allert.check_pressed();
       }
       break;
     }
@@ -266,8 +268,8 @@ int finish_state_machine::handle_press_with_current_state(int x, int y) {
         change_mode(e_project_mode::STREIGHT_MOVE);
         target_point_initialized = false;
         target_position = robot_position(0, 0, 0, 0, 0, 0);
-        o_mov_streight = mov_streight(target_position, movement::e_speed::speed_100,
-              movement::e_movement_type::continous);
+        o_mov_streight = mov_streight(target_position,
+            movement::e_speed::speed_100, movement::e_movement_type::continous);
         edit_command = false;
         break;
       }
@@ -278,7 +280,7 @@ int finish_state_machine::handle_press_with_current_state(int x, int y) {
         help_point_initialized = false;
         help_position = robot_position(0, 0, 0, 0, 0, 0);
         o_mov_circular = mov_circular(help_position, target_position,
-              movement::e_speed::speed_100, movement::e_movement_type::continous);
+            movement::e_speed::speed_100, movement::e_movement_type::continous);
         edit_command = false;
         break;
       }
@@ -290,7 +292,8 @@ int finish_state_machine::handle_press_with_current_state(int x, int y) {
       }
       case 3: {
         change_mode(e_project_mode::SET_PIN_COMAND);
-        o_cmd_set_pin = cmd_set_pin(cmd_set_pin::e_output_pin::robot_tool, true);
+        o_cmd_set_pin = cmd_set_pin(cmd_set_pin::e_output_pin::robot_tool,
+            true);
         edit_command = false;
         break;
       }
@@ -333,180 +336,202 @@ int finish_state_machine::handle_press_with_current_state(int x, int y) {
       break;
     }
     case 4: {
-      if (!main_project_editor.remove_command()) {
+      if (main_project_editor.check_if_is_choosen()) {
+        allert confirm_allert(300, 200, 200, 0xD6BA, "Uwaga",
+            "Czy na pewno chcesz usunac plik?", true);
+        confirm_allert.draw();
+        if (confirm_allert.check_pressed() == 0) {
+          main_project_editor.remove_command();
+          cleer_working_screen.draw();
+          main_project_editor.draw();
+        }
+      } else {
         allert failure_allert(300, 200, 200, 0xD6BA, "Blad",
             "Brak wybranego krokou do skasowania", false);
         failure_allert.draw();
         failure_allert.check_pressed();
       }
+
       break;
     }
     }
     break;
-    case e_project_mode::STREIGHT_MOVE:{
-      switch (straight_mov_menu.check_pressed(x, y)) {
-      case 0:{
-        list_dialog choose_dialog(250, 100, 300, 0xD6BA, "Prędkosc:", {
-          "10%", "50%", "100%" }, true);
-        choose_dialog.draw();
+  case e_project_mode::STREIGHT_MOVE: {
+    switch (straight_mov_menu.check_pressed(x, y)) {
+    case 0: {
+      list_dialog choose_dialog(250, 100, 300, 0xD6BA, "Prędkosc:", { "10%",
+          "50%", "100%" }, true);
+      choose_dialog.draw();
       switch (choose_dialog.check_pressed()) {
       case 0: {
         o_mov_streight.update_speed(movement::e_speed::speed_10);
-        straight_mov_menu.update_text(0, o_mov_streight.get_speed_text()+"%");
+        straight_mov_menu.update_text(0, o_mov_streight.get_speed_text() + "%");
         straight_mov_menu.draw();
         break;
       }
-      case 1: {o_mov_streight.update_speed(movement::e_speed::speed_50);
-      straight_mov_menu.update_text(0, o_mov_streight.get_speed_text()+"%");
-      straight_mov_menu.draw();
-              break;
-            }
-      case 2: {o_mov_streight.update_speed(movement::e_speed::speed_100);
-      straight_mov_menu.update_text(0, o_mov_streight.get_speed_text()+"%");
-      straight_mov_menu.draw();
-              break;
-            }
-      }
+      case 1: {
+        o_mov_streight.update_speed(movement::e_speed::speed_50);
+        straight_mov_menu.update_text(0, o_mov_streight.get_speed_text() + "%");
+        straight_mov_menu.draw();
         break;
       }
-      case 1:{list_dialog choose_dialog(250, 100, 300, 0xD6BA, "Typ ruchu:", {
-          "ciagly", "krok po kroku" }, true);
-        choose_dialog.draw();
+      case 2: {
+        o_mov_streight.update_speed(movement::e_speed::speed_100);
+        straight_mov_menu.update_text(0, o_mov_streight.get_speed_text() + "%");
+        straight_mov_menu.draw();
+        break;
+      }
+      }
+      break;
+    }
+    case 1: {
+      list_dialog choose_dialog(250, 100, 300, 0xD6BA, "Typ ruchu:", { "ciagly",
+          "krok po kroku" }, true);
+      choose_dialog.draw();
       switch (choose_dialog.check_pressed()) {
       case 0: {
-        o_mov_streight.update_movement_type(movement::e_movement_type::continous);
-        straight_mov_menu.update_text(1, o_mov_streight.get_movement_type_text());
-                straight_mov_menu.draw();
-                break;
+        o_mov_streight.update_movement_type(
+            movement::e_movement_type::continous);
+        straight_mov_menu.update_text(1,
+            o_mov_streight.get_movement_type_text());
+        straight_mov_menu.draw();
+        break;
       }
       case 1: {
-        o_mov_streight.update_movement_type(movement::e_movement_type::step_by_step);
-        straight_mov_menu.update_text(1, o_mov_streight.get_movement_type_text());
-                straight_mov_menu.draw();
-                break;
-            }
-      }
+        o_mov_streight.update_movement_type(
+            movement::e_movement_type::step_by_step);
+        straight_mov_menu.update_text(1,
+            o_mov_streight.get_movement_type_text());
+        straight_mov_menu.draw();
         break;
       }
-      case 2:{
-        allert o_allert(300, 200, 200, 0xD6BA, "UWAGA",
+      }
+      break;
+    }
+    case 2: {
+      allert o_allert(300, 200, 200, 0xD6BA, "UWAGA",
           "Czy na pewno chcesz zapisac polecenie?", true);
       o_allert.draw();
       if (o_allert.check_pressed() == 0) {
-        o_mov_streight.update_target_pos( get_current_position());
+        o_mov_streight.update_target_pos(get_current_position());
       }
 
-        break;
-      }
-      case 3:{allert o_allert(300, 200, 200, 0xD6BA, "UWAGA",
+      break;
+    }
+    case 3: {
+      allert o_allert(300, 200, 200, 0xD6BA, "UWAGA",
           "Czy na pewno chcesz zapisac polecenie?", true);
       o_allert.draw();
       if (o_allert.check_pressed() == 0) {
-        if(edit_command){
-          std::static_pointer_cast<mov_streight>(main_project_editor.get_choosen_command())->update_command(o_mov_streight);
+        if (edit_command) {
+          std::static_pointer_cast<mov_streight>(
+              main_project_editor.get_choosen_command())->update_command(
+              o_mov_streight);
           change_mode(e_project_mode::EDIT_PROJECTS);
-        }
-        else if(target_point_initialized){
-          main_project_editor.insert_command(std::make_shared<mov_streight>(o_mov_streight));
+        } else if (target_point_initialized) {
+          main_project_editor.insert_command(
+              std::make_shared<mov_streight>(o_mov_streight));
           change_mode(e_project_mode::EDIT_PROJECTS);
-        }
-        else{
+        } else {
           allert o_allert(300, 200, 200, 0xD6BA, "UWAGA",
-                    "Brak przypisanej lokalizacji punktu?");
-                o_allert.draw();
-                o_allert.check_pressed();
+              "Brak przypisanej lokalizacji punktu?");
+          o_allert.draw();
+          o_allert.check_pressed();
         }
       }
-        break;
-      }
-      case 4:{      allert o_allert(300, 200, 200, 0xD6BA, "UWAGA",
-          "Czy na pewno chcesz anulowac operacje?", true);
-      o_allert.draw();
-      if (o_allert.check_pressed() == 0) {
-        change_mode(e_project_mode::EDIT_PROJECTS);
-      }
-        break;
-      }
-
-      }
       break;
     }
-    case e_project_mode::CIRCULAR_MOVE:{
-      switch (circular_mov_menu.check_pressed(x, y)) {
-      case 0:{
-        break;
-      }
-      case 1:{
-        break;
-      }
-      case 2:{
-        break;
-      }
-      case 3:{
-        break;
-      }
-      case 4:{
-        break;
-      }
-      case 5:{      allert o_allert(300, 200, 200, 0xD6BA, "UWAGA",
-          "Czy na pewno chcesz anulowac operacje?", true);
-      o_allert.draw();
-      if (o_allert.check_pressed() == 0) {
-        change_mode(e_project_mode::EDIT_PROJECTS);
-      }
-        break;
-      }
-      }
-
-      break;
-    }
-    case e_project_mode::WAIT_COMAND:{
-      switch (wait_command_menu.check_pressed(x, y)) {
-      case 0:{
-        break;
-      }
-      case 1:{
-        break;
-      }
-      case 2:{      allert o_allert(300, 200, 200, 0xD6BA, "UWAGA",
-          "Czy na pewno chcesz anulowac operacje?", true);
-      o_allert.draw();
-      if (o_allert.check_pressed() == 0) {
-        change_mode(e_project_mode::EDIT_PROJECTS);
-      }
-        break;
-      }
-      }
-
-      break;
-    }
-    case e_project_mode::SET_PIN_COMAND:{
-      switch (set_pin_command_menu.check_pressed(x, y)) {
-      case 0:{
-        break;
-      }
-      case 1:{
-        break;
-      }
-      case 2:{
-        break;
-      }
-      case 3:{
-        break;
-      }
-      case 4:{
+    case 4: {
       allert o_allert(300, 200, 200, 0xD6BA, "UWAGA",
           "Czy na pewno chcesz anulowac operacje?", true);
       o_allert.draw();
       if (o_allert.check_pressed() == 0) {
         change_mode(e_project_mode::EDIT_PROJECTS);
       }
-        break;
-      }
-      }
-
       break;
     }
+
+    }
+    break;
+  }
+  case e_project_mode::CIRCULAR_MOVE: {
+    switch (circular_mov_menu.check_pressed(x, y)) {
+    case 0: {
+      break;
+    }
+    case 1: {
+      break;
+    }
+    case 2: {
+      break;
+    }
+    case 3: {
+      break;
+    }
+    case 4: {
+      break;
+    }
+    case 5: {
+      allert o_allert(300, 200, 200, 0xD6BA, "UWAGA",
+          "Czy na pewno chcesz anulowac operacje?", true);
+      o_allert.draw();
+      if (o_allert.check_pressed() == 0) {
+        change_mode(e_project_mode::EDIT_PROJECTS);
+      }
+      break;
+    }
+    }
+
+    break;
+  }
+  case e_project_mode::WAIT_COMAND: {
+    switch (wait_command_menu.check_pressed(x, y)) {
+    case 0: {
+      break;
+    }
+    case 1: {
+      break;
+    }
+    case 2: {
+      allert o_allert(300, 200, 200, 0xD6BA, "UWAGA",
+          "Czy na pewno chcesz anulowac operacje?", true);
+      o_allert.draw();
+      if (o_allert.check_pressed() == 0) {
+        change_mode(e_project_mode::EDIT_PROJECTS);
+      }
+      break;
+    }
+    }
+
+    break;
+  }
+  case e_project_mode::SET_PIN_COMAND: {
+    switch (set_pin_command_menu.check_pressed(x, y)) {
+    case 0: {
+      break;
+    }
+    case 1: {
+      break;
+    }
+    case 2: {
+      break;
+    }
+    case 3: {
+      break;
+    }
+    case 4: {
+      allert o_allert(300, 200, 200, 0xD6BA, "UWAGA",
+          "Czy na pewno chcesz anulowac operacje?", true);
+      o_allert.draw();
+      if (o_allert.check_pressed() == 0) {
+        change_mode(e_project_mode::EDIT_PROJECTS);
+      }
+      break;
+    }
+    }
+
+    break;
+  }
 
   }
 
