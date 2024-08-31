@@ -174,21 +174,20 @@ int finish_state_machine::handle_press_with_current_state(int x, int y) {
 
       break;
     }
-    case 2: {
-
-      a_conf_update_target_pos.draw();
-      if (a_conf_update_target_pos.check_pressed() == 0) {
-        o_mov_streight.update_target_pos(get_current_position());
-        target_point_initialized = true;
+    case 2:
+      update_target_position(o_mov_streight, target_point_initialized);
+      break;
+    case 3:{
+      if (!target_point_initialized) {
+        a_no_set_target_pos.draw();
+        a_no_set_target_pos.check_pressed();
+      }
+      else{
+      save_changed_command(o_mov_streight);
       }
 
       break;
     }
-    case 3:
-      save_changed_command(o_mov_streight);
-      //save_changed_mov_streight_command();
-      break;
-
     case 4:
       cancel_creating_command();
       break;
@@ -556,25 +555,6 @@ void finish_state_machine::delete_choosen_command() {
   }
 }
 
-void finish_state_machine::save_changed_mov_streight_command() {
-  a_conf_save_command.draw();
-  if (a_conf_save_command.check_pressed() == 0) {
-    if (edit_command) {
-      std::static_pointer_cast<mov_streight>(
-          main_project_editor.get_choosen_command())->update_command(
-          o_mov_streight);
-      change_mode(e_project_mode::EDIT_PROJECTS);
-    } else if (target_point_initialized) {
-      main_project_editor.insert_command(
-          std::make_shared<mov_streight>(o_mov_streight));
-      change_mode(e_project_mode::EDIT_PROJECTS);
-    } else {
-
-      a_no_set_target_pos.draw();
-      a_no_set_target_pos.check_pressed();
-    }
-  }
-}
 
 template<typename CommandType>
 void finish_state_machine::update_movement_type_helper(CommandType &command,
@@ -617,14 +597,21 @@ void finish_state_machine::save_changed_command(CommandType &command) {
     if (edit_command) {
       std::static_pointer_cast<CommandType>(main_project_editor.get_choosen_command())->update_command(command);
       change_mode(e_project_mode::EDIT_PROJECTS);
-    } else if (target_point_initialized) {
+    } else {
       main_project_editor.insert_command(std::make_shared<CommandType>(command));
       change_mode(e_project_mode::EDIT_PROJECTS);
-    } else {
-      a_no_set_target_pos.draw();
-      a_no_set_target_pos.check_pressed();
     }
-  }
+
+    }
+}
+
+template<typename CommandType>
+void finish_state_machine::update_target_position(CommandType &command, bool &initialized){
+  a_conf_update_target_pos.draw();
+        if (a_conf_update_target_pos.check_pressed() == 0) {
+          command.update_target_pos(get_current_position());
+          initialized = true;
+        }
 }
 
 //

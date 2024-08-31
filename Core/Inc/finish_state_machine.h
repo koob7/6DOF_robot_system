@@ -55,7 +55,6 @@ private:
   void choose_and_prepare_to_create_command();
   void prepare_to_edit_choosen_command();
   void delete_choosen_command();
-  void save_changed_mov_streight_command();
   template<typename CommandType>
   void update_movement_type_helper(CommandType &command,
       movement::e_movement_type movementType, menu_segment &menu);
