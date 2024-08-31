@@ -38,8 +38,7 @@ finish_state_machine::finish_state_machine() :
         300, 200, 200, 0xD6BA, "UWAGA",
         "Czy na pewno chcesz zapisac polecenie?", true), l_choose_movement_speed(
         250, 100, 300, 0xD6BA, "Prędkosc:", { "10%", "50%", "100%" }, true), a_no_choosen_file_to_open(
-            300, 200, 200, 0xD6BA, "UWAGA",
-            "Brak wybranego pliku do otwarcia")
+        300, 200, 200, 0xD6BA, "UWAGA", "Brak wybranego pliku do otwarcia")
 
 {
   target_position = robot_position(0, 0, 0, 0, 0, 0);
@@ -175,15 +174,15 @@ int finish_state_machine::handle_press_with_current_state(int x, int y) {
       break;
     }
     case 2:
-      update_target_position(o_mov_streight, target_point_initialized);
+      update_target_position(o_mov_streight, target_point_initialized,
+          &movement::update_target_pos);
       break;
-    case 3:{
+    case 3: {
       if (!target_point_initialized) {
         a_no_set_target_pos.draw();
         a_no_set_target_pos.check_pressed();
-      }
-      else{
-      save_changed_command(o_mov_streight);
+      } else {
+        save_changed_command(o_mov_streight);
       }
 
       break;
@@ -445,14 +444,12 @@ void finish_state_machine::delete_choosen_file() {
 
 void finish_state_machine::go_to_choosen_file() {
 
-  if(main_project_explorer.get_choosen_file()=="")
-  {
+  if (main_project_explorer.get_choosen_file() == "") {
     a_no_choosen_file_to_open.draw();
     a_no_choosen_file_to_open.check_pressed();
-  }
-  else{
-  main_project_editor.open_file(main_project_explorer.get_choosen_file());
-  change_mode(e_project_mode::EDIT_PROJECTS);
+  } else {
+    main_project_editor.open_file(main_project_explorer.get_choosen_file());
+    change_mode(e_project_mode::EDIT_PROJECTS);
   }
 }
 
@@ -555,7 +552,6 @@ void finish_state_machine::delete_choosen_command() {
   }
 }
 
-
 template<typename CommandType>
 void finish_state_machine::update_movement_type_helper(CommandType &command,
     movement::e_movement_type movementType, menu_segment &menu) {
@@ -595,23 +591,27 @@ void finish_state_machine::save_changed_command(CommandType &command) {
   a_conf_save_command.draw();
   if (a_conf_save_command.check_pressed() == 0) {
     if (edit_command) {
-      std::static_pointer_cast<CommandType>(main_project_editor.get_choosen_command())->update_command(command);
+      std::static_pointer_cast<CommandType>(
+          main_project_editor.get_choosen_command())->update_command(command);
       change_mode(e_project_mode::EDIT_PROJECTS);
     } else {
-      main_project_editor.insert_command(std::make_shared<CommandType>(command));
+      main_project_editor.insert_command(
+          std::make_shared<CommandType>(command));
       change_mode(e_project_mode::EDIT_PROJECTS);
     }
 
-    }
+  }
 }
 
-template<typename CommandType>
-void finish_state_machine::update_target_position(CommandType &command, bool &initialized){
+template<typename CommandType, typename comandType2>
+void finish_state_machine::update_target_position(CommandType &command,
+    bool &initialized,
+    void (comandType2::*update_function)(struct robot_position)) {
   a_conf_update_target_pos.draw();
-        if (a_conf_update_target_pos.check_pressed() == 0) {
-          command.update_target_pos(get_current_position());
-          initialized = true;
-        }
+  if (a_conf_update_target_pos.check_pressed() == 0) {
+    (command.*update_function)(get_current_position());
+    initialized = true;
+  }
 }
 
 //
