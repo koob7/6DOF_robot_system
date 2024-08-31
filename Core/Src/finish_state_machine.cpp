@@ -143,38 +143,30 @@ int finish_state_machine::handle_press_with_current_state(int x, int y) {
     case 0:
       save_changed_file_and_close();
       break;
-
     case 1:
       save_changed_file();
       break;
-
     case 2:
       choose_and_prepare_to_create_command();
       break;
-
     case 3:
       prepare_to_edit_choosen_command();
       break;
-
     case 4:
       delete_choosen_command();
       break;
-
     }
     break;
   case e_project_mode::STREIGHT_MOVE: {
     switch (straight_mov_menu.check_pressed(x, y)) {
-    case 0: {
+    case 0:
       update_movement_speed(o_mov_streight, straight_mov_menu);
       break;
-    }
-    case 1: {
+    case 1:
       update_movement_type(o_mov_streight, straight_mov_menu);
-
       break;
-    }
     case 2:
-      update_target_position(o_mov_streight, target_point_initialized,
+      update_position(o_mov_streight, target_point_initialized,
           &movement::update_target_pos);
       break;
     case 3: {
@@ -195,25 +187,35 @@ int finish_state_machine::handle_press_with_current_state(int x, int y) {
   }
   case e_project_mode::CIRCULAR_MOVE: {
     switch (circular_mov_menu.check_pressed(x, y)) {
-    case 0: {
+    case 0:
+      update_movement_speed(o_mov_circular, circular_mov_menu);
       break;
-    }
-    case 1: {
+    case 1:
+      update_movement_type(o_mov_circular, circular_mov_menu);
       break;
-    }
-    case 2: {
+    case 2:
+      update_position(o_mov_circular, target_point_initialized,
+          &movement::update_target_pos);
       break;
-    }
-    case 3: {
+    case 3:
+      update_position(o_mov_circular, help_point_initialized,
+          &mov_circular::update_help_pos);
       break;
-    }
     case 4: {
+      if (!target_point_initialized) {
+        a_no_set_target_pos.draw();
+        a_no_set_target_pos.check_pressed();
+      } else if (!help_point_initialized) {
+        a_no_set_help_pos.draw();
+        a_no_set_help_pos.check_pressed();
+      } else {
+        save_changed_command(o_mov_circular);
+      }
       break;
     }
-    case 5: {
+    case 5:
       cancel_creating_command();
       break;
-    }
     }
 
     break;
@@ -281,6 +283,8 @@ int finish_state_machine::handle_press_with_current_state(int x, int y) {
 //
 //
 //
+
+//TODO usunąć te komentarze
 
 void finish_state_machine::change_mode(e_operation_mode new_state) {
   if (operation_mode != new_state) {
@@ -472,16 +476,15 @@ void finish_state_machine::choose_and_prepare_to_create_command() {
   l_choose_command_type.draw();
   switch (l_choose_command_type.check_pressed()) {
   case 0: {
-    change_mode(e_project_mode::STREIGHT_MOVE);
     target_point_initialized = false;
     target_position = robot_position(0, 0, 0, 0, 0, 0);
     o_mov_streight = mov_streight(target_position, movement::e_speed::speed_100,
         movement::e_movement_type::continous);
     edit_command = false;
+    change_mode(e_project_mode::STREIGHT_MOVE);
     break;
   }
   case 1: {
-    change_mode(e_project_mode::CIRCULAR_MOVE);
     target_point_initialized = false;
     target_position = robot_position(0, 0, 0, 0, 0, 0);
     help_point_initialized = false;
@@ -489,18 +492,19 @@ void finish_state_machine::choose_and_prepare_to_create_command() {
     o_mov_circular = mov_circular(help_position, target_position,
         movement::e_speed::speed_100, movement::e_movement_type::continous);
     edit_command = false;
+    change_mode(e_project_mode::CIRCULAR_MOVE);
     break;
   }
   case 2: {
-    change_mode(e_project_mode::WAIT_COMAND);
     o_cmd_wait = cmd_wait(cmd_wait::e_wait_time::wait_5s);
     edit_command = false;
+    change_mode(e_project_mode::WAIT_COMAND);
     break;
   }
   case 3: {
-    change_mode(e_project_mode::SET_PIN_COMAND);
     o_cmd_set_pin = cmd_set_pin(cmd_set_pin::e_output_pin::robot_tool, true);
     edit_command = false;
+    change_mode(e_project_mode::SET_PIN_COMAND);
     break;
   }
   }
@@ -514,25 +518,25 @@ void finish_state_machine::prepare_to_edit_choosen_command() {
       chosen_command)) {
     o_mov_streight = *p_mov_streight;
     target_point_initialized = true;
-    change_mode(e_project_mode::STREIGHT_MOVE);
     edit_command = true;
+    change_mode(e_project_mode::STREIGHT_MOVE);
   } else if (auto p_mov_circular = std::static_pointer_cast<mov_circular>(
       chosen_command)) {
     o_mov_circular = *p_mov_circular;
     target_point_initialized = true;
     help_point_initialized = true;
-    change_mode(e_project_mode::CIRCULAR_MOVE);
     edit_command = true;
+    change_mode(e_project_mode::CIRCULAR_MOVE);
   } else if (auto p_cmd_wait = std::static_pointer_cast<cmd_wait>(
       chosen_command)) {
     o_cmd_wait = *p_cmd_wait;
-    change_mode(e_project_mode::WAIT_COMAND);
     edit_command = true;
+    change_mode(e_project_mode::WAIT_COMAND);
   } else if (auto p_cmd_set_pin = std::static_pointer_cast<cmd_set_pin>(
       chosen_command)) {
     o_cmd_set_pin = *p_cmd_set_pin;
-    change_mode(e_project_mode::SET_PIN_COMAND);
     edit_command = true;
+    change_mode(e_project_mode::SET_PIN_COMAND);
   }
 }
 
@@ -565,12 +569,12 @@ void finish_state_machine::update_movement_type(CommandType &command,
   l_choose_movement_type.draw();
   switch (l_choose_movement_type.check_pressed()) {
   case 0:
-    update_movement_type_helper(o_mov_streight,
-        movement::e_movement_type::continous, straight_mov_menu);
+    update_movement_type_helper(command,
+        movement::e_movement_type::continous, menu);
     break;
   case 1:
-    update_movement_type_helper(o_mov_streight,
-        movement::e_movement_type::step_by_step, straight_mov_menu);
+    update_movement_type_helper(command,
+        movement::e_movement_type::step_by_step, menu);
     break;
   }
 }
@@ -582,7 +586,7 @@ void finish_state_machine::update_movement_speed(CommandType &command,
   choose_speed_dialog(tmp_speed);
 
   command.update_speed(tmp_speed);
-  menu.update_text(0, o_mov_streight.get_speed_text() + "%");
+  menu.update_text(0, command.get_speed_text() + "%");
   menu.draw();
 }
 
@@ -604,7 +608,7 @@ void finish_state_machine::save_changed_command(CommandType &command) {
 }
 
 template<typename CommandType, typename comandType2>
-void finish_state_machine::update_target_position(CommandType &command,
+void finish_state_machine::update_position(CommandType &command,
     bool &initialized,
     void (comandType2::*update_function)(struct robot_position)) {
   a_conf_update_target_pos.draw();

@@ -2,6 +2,9 @@ C:\ST\STM32CubeIDE_1.13.2\STM32CubeIDE\plugins\com.st.stm32cube.ide.mcu.external
 C:\ST\STM32CubeIDE_1.13.2\STM32CubeIDE\plugins\com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.11.3.rel1.win32_1.1.1.202309131626\tools\arm-none-eabi\include\c++\11.3.1\arm-none-eabi\thumb\v7e-m+dp\hard\bits\gthr-default.h:229:1:int __gthread_key_delete(__gthread_key_t)	16	static
 ../Core/Inc/navigate_robot.h:48:3:robot_position::robot_position(double, double, double, double, double, double)	64	static
 ../Core/Inc/navigate_robot.h:52:3:robot_position::robot_position()	16	static
+../Core/Inc/navigate_robot.h:103:8:virtual void movement::draw(int)	16	static
+../Core/Inc/navigate_robot.h:121:8:virtual void mov_streight::draw(int)	16	static
+../Core/Inc/navigate_robot.h:138:8:virtual void mov_circular::draw(int)	16	static
 ../Core/Inc/navigate_robot.h:74:7:constexpr command::command()	16	static
 ../Core/Src/navigate_robot.cpp:29:1:movement::movement(const movement&)	24	static
 ../Core/Src/navigate_robot.cpp:34:1:mov_streight::mov_streight(const mov_streight&)	16	static
@@ -13,7 +16,7 @@ C:\ST\STM32CubeIDE_1.13.2\STM32CubeIDE\plugins\com.st.stm32cube.ide.mcu.external
 ../Core/Src/navigate_robot.cpp:55:6:void mov_circular::update_command(mov_circular)	24	static
 ../Core/Src/navigate_robot.cpp:62:6:void cmd_wait::update_command(cmd_wait)	16	static
 ../Core/Src/navigate_robot.cpp:66:6:void cmd_set_pin::update_command(cmd_set_pin)	16	static
-../Core/Src/navigate_robot.cpp:71:6:virtual void movement::draw(int)	192	static
+../Core/Src/navigate_robot.cpp:71:6:void movement::draw_movement(int, bool)	200	static
 ../Core/Src/navigate_robot.cpp:114:6:virtual void cmd_wait::draw(int)	120	static
 ../Core/Src/navigate_robot.cpp:141:1:movement::movement(robot_position, movement::e_speed, movement::e_movement_type)	24	static
 ../Core/Src/navigate_robot.cpp:145:1:movement::movement()	72	static

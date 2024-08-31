@@ -68,10 +68,10 @@ void cmd_set_pin::update_command(cmd_set_pin in_object){
   set_pin_high =in_object.set_pin_high;
 }
 
-void movement::draw(int print_y) {
+void movement::draw_movement(int print_y, bool ciruclar_movement) {
 
   std::string move_type =
-      (static_cast<mov_circular *>(this) != nullptr) ? "Circ" : "Straight";
+      ciruclar_movement ? "Circ." : "Strai.";
 
   std::string type_string =
       (movement_type == continous) ? "Continous" : "Step_by_step";

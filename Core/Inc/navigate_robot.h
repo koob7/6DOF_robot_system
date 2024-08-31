@@ -100,7 +100,8 @@ public:
   struct robot_position get_target_position() {
     return target_pos;
   }
-  void draw(int print_y);
+  void draw(int print_y){}
+  void draw_movement(int print_y, bool ciruclar_movement);
   enum e_speed get_speed() {
     return speed;
   }
@@ -117,6 +118,7 @@ public:
 
 class mov_streight: public movement {
 public:
+  void draw(int print_y){draw_movement(print_y, false);}
   mov_streight()=default;
   mov_streight(struct robot_position in_target_pos, enum e_speed speed,
       enum e_movement_type movement_type);
@@ -133,6 +135,7 @@ public:
 class mov_circular: public movement {
 public:
   struct robot_position help_pos;
+  void draw(int print_y){draw_movement(print_y, true);}
   mov_circular(std::istringstream& iss);
   mov_circular(struct robot_position in_help_pos,
       struct robot_position in_target_pos, enum e_speed speed,

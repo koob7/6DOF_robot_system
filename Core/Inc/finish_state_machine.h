@@ -65,7 +65,7 @@ private:
   template<typename CommandType>
   void save_changed_command(CommandType &command);
   template<typename CommandType, typename comandType2>
-  void update_target_position(CommandType &command, bool &initialized,
+  void update_position(CommandType &command, bool &initialized,
       void (comandType2::*update_function)(struct robot_position));
 
 public:
