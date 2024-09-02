@@ -55,9 +55,12 @@ private:
   void choose_and_prepare_to_create_command();
   void prepare_to_edit_choosen_command();
   void delete_choosen_command();
-  template<typename CommandType, typename t_update_value>
-  void update_movement_type_helper(CommandType &command,
-      t_update_value update_value, menu_segment &menu);
+  template<typename t_command, typename t_update_value,
+      typename t_update_value_fun, typename t_get_text_fun>
+  void update_command_value_helper(t_command &command,
+      t_update_value update_value,menu_segment &menu, int menu_button,
+      void (t_update_value_fun::*update_value_fun)( t_update_value),
+      std::string (t_get_text_fun::*get_text_fun)());
   template<typename CommandType>
   void update_movement_type(CommandType &command, menu_segment &menu);
   template<typename CommandType>

@@ -564,11 +564,14 @@ void finish_state_machine::delete_choosen_command() {
   }
 }
 
-template<typename CommandType, typename t_update_value>
-void finish_state_machine::update_movement_type_helper(CommandType &command,
-    t_update_value update_value, menu_segment &menu) {
-  command.update_movement_type(update_value);
-  menu.update_text(1, command.get_movement_type_text());
+template<typename t_command, typename t_update_value,
+    typename t_update_value_fun, typename t_get_text_fun>
+void finish_state_machine::update_command_value_helper(t_command &command,
+    t_update_value update_value,menu_segment &menu, int menu_button,
+    void (t_update_value_fun::*update_value_fun)( t_update_value),
+    std::string (t_get_text_fun::*get_text_fun)()) {
+  (command.*update_value_fun)(update_value);
+  menu.update_text(menu_button, (command.*get_text_fun)());
   menu.draw();
 }
 template<typename CommandType>
@@ -577,15 +580,17 @@ void finish_state_machine::update_movement_type(CommandType &command,
   l_choose_movement_type.draw();
   switch (l_choose_movement_type.check_pressed()) {
   case 0:
-    update_movement_type_helper(command, movement::e_movement_type::continous,
-        menu);
+    update_command_value_helper(command, movement::e_movement_type::continous, menu,1,
+        &movement::update_movement_type, &movement::get_movement_type_text);
     break;
   case 1:
-    update_movement_type_helper(command,
-        movement::e_movement_type::step_by_step, menu);
+    update_command_value_helper(command, movement::e_movement_type::step_by_step, menu,1,
+        &movement::update_movement_type, &movement::get_movement_type_text);
     break;
   }
 }
+//update_position(o_mov_streight, target_point_initialized,
+//    &movement::update_target_pos);
 
 template<typename CommandType>
 void finish_state_machine::update_movement_speed(CommandType &command,
