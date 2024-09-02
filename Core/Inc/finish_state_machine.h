@@ -45,7 +45,6 @@ class finish_state_machine {
 
 private:
   void cancel_creating_command();
-  void choose_speed_dialog(movement::e_speed &speed);
   void choose_file_sorting_option();
   void create_new_file();
   void delete_choosen_file();
@@ -60,7 +59,7 @@ private:
   void update_command_value_helper(t_command &command,
       t_update_value update_value,menu_segment &menu, int menu_button,
       void (t_update_value_fun::*update_value_fun)( t_update_value),
-      std::string (t_get_text_fun::*get_text_fun)());
+      std::string (t_get_text_fun::*get_text_fun)(), std::string aditional_text="");
   template<typename CommandType>
   void update_movement_type(CommandType &command, menu_segment &menu);
   template<typename CommandType>
@@ -71,6 +70,8 @@ private:
   void update_position(CommandType &command, bool &initialized,
       void (comandType2::*update_function)(struct robot_position));
   void update_wait_speed();
+  void update_output_pin();
+  void update_pin_level();
 
 public:
 
@@ -119,6 +120,8 @@ private:
   allert a_no_choosen_file_to_open;
   allert a_function_avilable_in_future;
   list_dialog l_choose_wait_time;
+  list_dialog l_choose_output_pin;
+  list_dialog l_choose_pin_level;
 
 };
 

@@ -42,7 +42,10 @@ finish_state_machine::finish_state_machine() :
         300, 200, 200, 0xD6BA, "Przepraszamy",
         "Funkcja bedzie dostępna w przyszlosci, za utrudnienia przepraszamy"), l_choose_wait_time(
         250, 100, 300, 0xD6BA, "Czekaj:", { "1 sekunde", "5 sekund",
-            "30 sekund", "1 minute", "5 minut" }, true)
+            "30 sekund", "1 minute", "5 minut" }, true), l_choose_output_pin(
+        250, 100, 300, 0xD6BA, "Pin wyjsciowy:", { "narzedzie robota",
+            "dioda urzytkownika" }, true), l_choose_pin_level(250, 100, 300,
+        0xD6BA, "Stan pinu:", { "niski", "wysoki" }, true)
 
 {
   target_position = robot_position(0, 0, 0, 0, 0, 0);
@@ -228,40 +231,32 @@ int finish_state_machine::handle_press_with_current_state(int x, int y) {
   }
   case e_project_mode::WAIT_COMAND: {
     switch (wait_command_menu.check_pressed(x, y)) {
-    case 0: {
+    case 0:
       update_wait_speed();
       break;
-    }
-    case 1: {
+    case 1:
       save_changed_command(o_cmd_wait);
       break;
-    }
-    case 2: {
+    case 2:
       cancel_creating_command();
       break;
     }
-    }
-
     break;
   }
   case e_project_mode::SET_PIN_COMAND: {
     switch (set_pin_command_menu.check_pressed(x, y)) {
-    case 0: {
+    case 0:
+      update_pin_level();
       break;
-    }
-    case 1: {
+    case 1:
+      update_output_pin();
       break;
-    }
-    case 2: {
+    case 2:
+      save_changed_command(o_cmd_set_pin);
       break;
-    }
-    case 3: {
-      break;
-    }
-    case 4: {
+    case 3:
       cancel_creating_command();
       break;
-    }
     }
 
     break;
@@ -377,21 +372,6 @@ void finish_state_machine::cancel_creating_command() {
   a_cancel_create_command.draw();
   if (a_cancel_create_command.check_pressed() == 0) {
     change_mode(e_project_mode::EDIT_PROJECTS);
-  }
-}
-
-void finish_state_machine::choose_speed_dialog(movement::e_speed &speed) {
-  l_choose_movement_speed.draw();
-  switch (l_choose_movement_speed.check_pressed()) {
-  case 0:
-    speed = movement::e_speed::speed_10;
-    break;
-  case 1:
-    speed = movement::e_speed::speed_50;
-    break;
-  case 2:
-    speed = movement::e_speed::speed_100;
-    break;
   }
 }
 
@@ -567,40 +547,53 @@ void finish_state_machine::delete_choosen_command() {
 template<typename t_command, typename t_update_value,
     typename t_update_value_fun, typename t_get_text_fun>
 void finish_state_machine::update_command_value_helper(t_command &command,
-    t_update_value update_value,menu_segment &menu, int menu_button,
-    void (t_update_value_fun::*update_value_fun)( t_update_value),
-    std::string (t_get_text_fun::*get_text_fun)()) {
+    t_update_value update_value, menu_segment &menu, int menu_button,
+    void (t_update_value_fun::*update_value_fun)(t_update_value),
+    std::string (t_get_text_fun::*get_text_fun)(), std::string aditional_text) {
   (command.*update_value_fun)(update_value);
-  menu.update_text(menu_button, (command.*get_text_fun)());
+  menu.update_text(menu_button, (command.*get_text_fun)()+aditional_text);
   menu.draw();
 }
+
 template<typename CommandType>
 void finish_state_machine::update_movement_type(CommandType &command,
     menu_segment &menu) {
+  movement::e_movement_type tmp;
   l_choose_movement_type.draw();
   switch (l_choose_movement_type.check_pressed()) {
   case 0:
-    update_command_value_helper(command, movement::e_movement_type::continous, menu,1,
-        &movement::update_movement_type, &movement::get_movement_type_text);
+    tmp = movement::e_movement_type::continous;
     break;
   case 1:
-    update_command_value_helper(command, movement::e_movement_type::step_by_step, menu,1,
-        &movement::update_movement_type, &movement::get_movement_type_text);
+    tmp = movement::e_movement_type::step_by_step;
     break;
+  case -1:
+    return;
   }
+  update_command_value_helper(command, tmp, menu, 1,
+      &movement::update_movement_type, &movement::get_movement_type_text);
 }
-//update_position(o_mov_streight, target_point_initialized,
-//    &movement::update_target_pos);
 
 template<typename CommandType>
 void finish_state_machine::update_movement_speed(CommandType &command,
     menu_segment &menu) {
   movement::e_speed tmp_speed;
-  choose_speed_dialog(tmp_speed);
-
-  command.update_speed(tmp_speed);
-  menu.update_text(0, command.get_speed_text() + "%");
-  menu.draw();
+  l_choose_movement_speed.draw();
+  switch (l_choose_movement_speed.check_pressed()) {
+  case 0:
+    tmp_speed = movement::e_speed::speed_10;
+    break;
+  case 1:
+    tmp_speed = movement::e_speed::speed_50;
+    break;
+  case 2:
+    tmp_speed = movement::e_speed::speed_100;
+    break;
+  case -1:
+    return;
+  }
+  update_command_value_helper(command, tmp_speed, menu, 0,
+      &movement::update_speed, &movement::get_speed_text, "%");
 }
 
 template<typename CommandType>
@@ -632,29 +625,64 @@ void finish_state_machine::update_position(CommandType &command,
 }
 
 void finish_state_machine::update_wait_speed() {
+  cmd_wait::e_wait_time tmp_time;
   l_choose_movement_type.draw();
   switch (l_choose_movement_type.check_pressed()) {
   case 0:
-    o_cmd_wait.update_time(cmd_wait::e_wait_time::wait_1s);
+    tmp_time = cmd_wait::e_wait_time::wait_1s;
     break;
   case 1:
-    o_cmd_wait.update_time(cmd_wait::e_wait_time::wait_5s);
+    tmp_time = cmd_wait::e_wait_time::wait_5s;
     break;
   case 2:
-    o_cmd_wait.update_time(cmd_wait::e_wait_time::wait_30s);
+    tmp_time = cmd_wait::e_wait_time::wait_30s;
     break;
   case 3:
-    o_cmd_wait.update_time(cmd_wait::e_wait_time::wait_1min);
+    tmp_time = cmd_wait::e_wait_time::wait_1min;
     break;
   case 4:
-    o_cmd_wait.update_time(cmd_wait::e_wait_time::wait_5min);
+    tmp_time = cmd_wait::e_wait_time::wait_5min;
     break;
   case -1:
     return;
   }
-  wait_command_menu.update_text(0, o_cmd_wait.get_time_text());
-  wait_command_menu.draw();
+  update_command_value_helper(o_cmd_wait, tmp_time, wait_command_menu, 0,
+      &cmd_wait::update_time, &cmd_wait::get_time_text);
 
+}
+
+void finish_state_machine::update_output_pin() {
+  cmd_set_pin::e_output_pin tmp_pin;
+  l_choose_output_pin.draw();
+  switch (l_choose_output_pin.check_pressed()) {
+  case 0:
+    tmp_pin = cmd_set_pin::e_output_pin::robot_tool;
+    break;
+  case 1:
+    tmp_pin = cmd_set_pin::e_output_pin::user_led;
+    break;
+  case -1:
+    return;
+  }
+  update_command_value_helper(o_cmd_set_pin, tmp_pin, set_pin_command_menu, 1,
+      &cmd_set_pin::update_pin, &cmd_set_pin::get_pin_output_text);
+}
+
+void finish_state_machine::update_pin_level() {
+  bool tmp_level;
+  l_choose_pin_level.draw();
+  switch (l_choose_pin_level.check_pressed()) {
+  case 0:
+    tmp_level = false;
+    break;
+  case 1:
+    tmp_level = true;
+    break;
+  case -1:
+    return;
+  }
+  update_command_value_helper(o_cmd_set_pin, tmp_level, set_pin_command_menu, 0,
+      &cmd_set_pin::update_pin_level, &cmd_set_pin::get_pin_level_text);
 }
 //
 //
