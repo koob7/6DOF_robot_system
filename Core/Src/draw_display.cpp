@@ -75,6 +75,8 @@ void init_main_right_menu() {
         696, pos_y, 88, 47, names[i], right_menu_text_color, right_menu_font));
     pos_y += 56;
   }
+  main_right_menu.add_part(std::make_shared<text_field>(//wskaźnik prędkości manualnej
+      696,392, 88, 20, "100%", BLACK));
   // przycisk z rączką
   main_right_menu.add_part(
       button(12, 696, pos_y, 48, 47, right_menu_button_color, 10, "+", 0x4A69,
@@ -252,24 +254,24 @@ void init_set_pin_command_menu(){
   set_pin_command_menu.add_part(
         std::make_shared<text_field>(295, 16, 40, "Level:", top_menu_text_color,
         top_menu_font));
-  button btn = button(0, 172, 16, 175, 40, top_menu_button_color, 20,
+  button btn = button(0, 172, 16, 110, 40, top_menu_button_color, 20,
       " robot tool",
       top_menu_text_color, top_menu_font, false);
   btn.add_part(
       std::make_shared<triangle>(260, 27, 260 + 22, 27, 260 + 11, 27 + 20,
           0x00FD));
   set_pin_command_menu.add_part(btn);
-  btn = button(1, 350, 16, 175, 40, top_menu_button_color, 20,
+  btn = button(1, 350, 16, 80, 40, top_menu_button_color, 20,
       " high",
       top_menu_text_color, top_menu_font, false);
   btn.add_part(
       std::make_shared<triangle>(403, 27, 403 + 22, 27, 403 + 11, 27 + 20,
           0x00FD));
   set_pin_command_menu.add_part(btn);
-  set_pin_command_menu.add_part(button(2, 422, 16, 100, 40,
+  set_pin_command_menu.add_part(button(2, 432, 16, 100, 40,
   top_menu_button_color, 20, "Save point",
   top_menu_text_color, top_menu_font));
-  set_pin_command_menu.add_part(button(3, 552, 16, 100, 40,
+  set_pin_command_menu.add_part(button(3, 562, 16, 100, 40,
   top_menu_button_color, 20, "Cancel",
   top_menu_text_color, top_menu_font));
 }

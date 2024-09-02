@@ -43,6 +43,7 @@ void menu_segment::update_text(int id, std::string text, enum e_menu_layer menu_
   for (auto& o_button : buttons) {
     if (o_button.get_id() == id) {
       o_button.update_text(text);
+      o_button.draw();
       break;
     }
   }
@@ -51,11 +52,13 @@ void menu_segment::update_text(int id, std::string text, enum e_menu_layer menu_
   case e_menu_layer::e_top_parts:{
     if(id >= 0 && id < static_cast<int>(top_parts.size()) && top_parts[id] != nullptr){
       top_parts[id]->update_text(text);
+      top_parts[id]->draw();
     }
     break;}
   case e_menu_layer::e_background_parts:{
     if(id >= 0 && id < static_cast<int>(background_parts.size()) && background_parts[id] != nullptr){
       background_parts[id]->update_text(text);
+      background_parts[id]->draw();
     }
       break;}
   }

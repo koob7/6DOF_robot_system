@@ -8,7 +8,7 @@
 #include "finish_state_machine.h"
 
 finish_state_machine::finish_state_machine() :
-    operation_mode(e_operation_mode::AUTOMATIC), project_mode(
+    operation_mode(e_operation_mode::MANUAL), project_mode(
         e_project_mode::BROWSE_PROJECTS), step_mode(e_step_mode::CONTINUOUS), control_mode(
         e_control_mode::MANUAL_MODE), a_cancel_create_command(300, 200, 200,
         0xD6BA, "UWAGA",
@@ -65,29 +65,9 @@ finish_state_machine::finish_state_machine() :
 
 int finish_state_machine::handle_press_with_current_state(int x, int y) {
 
-//  int pressed_button = main_right_menu.check_pressed(x, y);
-//
-//  switch (pressed_button){
-//  case 0:
-//    givenPosition[0]+=0.01;
-//    break;
-//  case 1:
-//    givenPosition[0]-=0.01;
-//    break;
-//  case 2:
-//    givenPosition[1]+=0.01;
-//    break;
-//  case 3:
-//    givenPosition[1]-=0.01;
-//    break;
-//  case 4:
-//    break;
-//  case 5:
-//    break;
-//  }
-//  licz_kroki(givenPosition, givenSteps, currentPosition);
-//  if (pressed_button>=0){ return 1;}
-//  else{return 0;}
+  if (handle_movement_menu(x, y)) {
+    return 1;
+  }
 
   switch (control_mode) {
   case e_control_mode::AUTOMATIC_MODE:
@@ -104,6 +84,15 @@ int finish_state_machine::handle_press_with_current_state(int x, int y) {
     break;
   case e_operation_mode::AUTOMATIC:
     // Handle automatic mode specific logic
+    break;
+  }
+
+  switch (step_mode) {
+  case e_step_mode::STEP_BY_STEP:
+    // Handle step by step mode specific logic
+    break;
+  case e_step_mode::CONTINUOUS:
+    // Handle continuous mode specific logic
     break;
   }
 
@@ -246,10 +235,10 @@ int finish_state_machine::handle_press_with_current_state(int x, int y) {
   case e_project_mode::SET_PIN_COMAND: {
     switch (set_pin_command_menu.check_pressed(x, y)) {
     case 0:
-      update_pin_level();
+      update_output_pin();
       break;
     case 1:
-      update_output_pin();
+      update_pin_level();
       break;
     case 2:
       save_changed_command(o_cmd_set_pin);
@@ -261,16 +250,6 @@ int finish_state_machine::handle_press_with_current_state(int x, int y) {
 
     break;
   }
-
-  }
-
-  switch (step_mode) {
-  case e_step_mode::STEP_BY_STEP:
-    // Handle step by step mode specific logic
-    break;
-  case e_step_mode::CONTINUOUS:
-    // Handle continuous mode specific logic
-    break;
   }
 
   return 0;
@@ -551,7 +530,7 @@ void finish_state_machine::update_command_value_helper(t_command &command,
     void (t_update_value_fun::*update_value_fun)(t_update_value),
     std::string (t_get_text_fun::*get_text_fun)(), std::string aditional_text) {
   (command.*update_value_fun)(update_value);
-  menu.update_text(menu_button, (command.*get_text_fun)()+aditional_text);
+  menu.update_text(menu_button, (command.*get_text_fun)() + aditional_text);
   menu.draw();
 }
 
@@ -626,8 +605,8 @@ void finish_state_machine::update_position(CommandType &command,
 
 void finish_state_machine::update_wait_speed() {
   cmd_wait::e_wait_time tmp_time;
-  l_choose_movement_type.draw();
-  switch (l_choose_movement_type.check_pressed()) {
+  l_choose_wait_time.draw();
+  switch (l_choose_wait_time.check_pressed()) {
   case 0:
     tmp_time = cmd_wait::e_wait_time::wait_1s;
     break;
@@ -664,7 +643,7 @@ void finish_state_machine::update_output_pin() {
   case -1:
     return;
   }
-  update_command_value_helper(o_cmd_set_pin, tmp_pin, set_pin_command_menu, 1,
+  update_command_value_helper(o_cmd_set_pin, tmp_pin, set_pin_command_menu, 0,
       &cmd_set_pin::update_pin, &cmd_set_pin::get_pin_output_text);
 }
 
@@ -681,9 +660,107 @@ void finish_state_machine::update_pin_level() {
   case -1:
     return;
   }
-  update_command_value_helper(o_cmd_set_pin, tmp_level, set_pin_command_menu, 0,
+  update_command_value_helper(o_cmd_set_pin, tmp_level, set_pin_command_menu, 1,
       &cmd_set_pin::update_pin_level, &cmd_set_pin::get_pin_level_text);
 }
+
+bool finish_state_machine::handle_movement_menu(int x, int y) {
+  if (operation_mode == e_operation_mode::MANUAL) {
+    int pressed_button = main_right_menu.check_pressed(x, y);
+    if (pressed_button < 0) {
+          return false;
+        }
+    switch (pressed_button) {
+    case 0:
+      givenPosition[0] += manual_speed_movement_factor;
+      break;
+    case 1:
+      givenPosition[0] -= manual_speed_movement_factor;
+      break;
+    case 2:
+      givenPosition[1] += manual_speed_movement_factor;
+      break;
+    case 3:
+      givenPosition[1] -= manual_speed_movement_factor;
+      break;
+    case 4:
+      givenPosition[2] += manual_speed_movement_factor;
+      break;
+    case 5:
+      givenPosition[2] -= manual_speed_movement_factor;
+      break;
+    case 6:
+      givenPosition[3] += manual_speed_movement_factor;
+      break;
+    case 7:
+      givenPosition[3] -= manual_speed_movement_factor;
+      break;
+    case 8:
+      givenPosition[4] += manual_speed_movement_factor;
+      break;
+    case 9:
+      givenPosition[4] -= manual_speed_movement_factor;
+      break;
+    case 10:
+      givenPosition[5] += manual_speed_movement_factor;
+      break;
+    case 11:
+      givenPosition[5] -= manual_speed_movement_factor;
+      break;
+    case 12: {
+      if (manual_movement_speed < num_of_speed_levels - 1) {
+        manual_movement_speed =
+            static_cast<e_manual_speed>(manual_movement_speed + 1);
+        update_manual_speed_factor();
+      }
+      return false;
+      break;
+    }
+    case 13: {
+      if (manual_movement_speed > 0) {
+        manual_movement_speed =
+            static_cast<e_manual_speed>(manual_movement_speed - 1);
+        update_manual_speed_factor();
+      }
+      return false;
+      break;
+    }
+    }
+    licz_kroki(givenPosition, givenSteps, currentPosition);
+    return true;
+
+  }
+  return false;
+}
+
+
+std::string finish_state_machine::get_manual_speed_text() {
+switch (manual_movement_speed) {
+case speed_10:
+  return "10%";
+case speed_50:
+  return "50%";
+case speed_100:
+  return "100%";
+}
+}
+
+void finish_state_machine::update_manual_speed_factor() {
+switch (manual_movement_speed) {
+case speed_10:
+  manual_speed_movement_factor = 0.001;
+  break;
+case speed_50:
+  manual_speed_movement_factor = 0.005;
+  break;
+case speed_100:
+  manual_speed_movement_factor = 0.01;
+  break;
+}
+main_right_menu.update_text(12, get_manual_speed_text(),
+    menu_segment::e_menu_layer::e_top_parts);
+}
+
 //
 //
 //

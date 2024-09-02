@@ -240,6 +240,13 @@ text_field::text_field(int x, int y, int width, int height, std::string text,
         p_font) {
 }
 
+void text_field::update_text(std::string new_text) {
+  if(object_dimension.width!=0){
+    TFT_Draw_Fill_Rectangle(object_dimension.x, object_dimension.y, object_dimension.width, object_dimension.height, 0x8C51);
+  }
+  text = new_text;
+}
+
 void text_field::draw() {
   if (object_dimension.width == 0)
     draw_text(object_dimension.x, object_dimension.y, object_dimension.height,

@@ -42,8 +42,35 @@ enum class e_control_mode {
 };
 
 class finish_state_machine {
-
-private:
+  enum e_manual_speed {
+    //to są wartości procentowe
+    speed_10,
+    speed_50,
+    speed_100,
+    num_of_speed_levels
+  };
+  enum e_manual_speed manual_movement_speed = e_manual_speed::speed_100;
+  volatile double manual_speed_movement_factor=0.01;
+  bool edit_command = false; //mówi o tym czy tworzymy nowy punkt czy tylko go edytujemy
+  mov_streight o_mov_streight;
+  mov_circular o_mov_circular;
+  cmd_wait o_cmd_wait;
+  cmd_set_pin o_cmd_set_pin;
+  robot_position target_position;
+  bool target_point_initialized = false;
+  robot_position help_position;
+  bool help_point_initialized = false;
+  e_operation_mode operation_mode;
+  e_project_mode project_mode;
+  e_step_mode step_mode;
+  e_control_mode control_mode;
+  e_project_mode previous_project_mode;
+  project_editor main_project_editor;
+  projects_explorer main_project_explorer;
+  void change_mode(e_operation_mode new_state);
+  void change_mode(e_project_mode new_state);
+  void change_mode(e_step_mode new_state);
+  void change_mode(e_control_mode new_state);
   void cancel_creating_command();
   void choose_file_sorting_option();
   void create_new_file();
@@ -72,35 +99,18 @@ private:
   void update_wait_speed();
   void update_output_pin();
   void update_pin_level();
+  bool handle_movement_menu(int x, int y);
+  std::string get_manual_speed_text();
+  void update_manual_speed_factor();
 
 public:
 
   finish_state_machine();
 
-  void change_mode(e_operation_mode new_state);
-  void change_mode(e_project_mode new_state);
-  void change_mode(e_step_mode new_state);
-  void change_mode(e_control_mode new_state);
+
   int handle_press_with_current_state(int x, int y);
 
 private:
-  bool edit_command = false; //mówi o tym czy tworzymy nowy punkt czy tylko go edytujemy
-  mov_streight o_mov_streight;
-  mov_circular o_mov_circular;
-  cmd_wait o_cmd_wait;
-  cmd_set_pin o_cmd_set_pin;
-  robot_position target_position;
-  bool target_point_initialized = false;
-  robot_position help_position;
-  bool help_point_initialized = false;
-  e_operation_mode operation_mode;
-  e_project_mode project_mode;
-  e_step_mode step_mode;
-  e_control_mode control_mode;
-  e_project_mode previous_project_mode;
-  project_editor main_project_editor;
-  projects_explorer main_project_explorer;
-
   allert a_cancel_create_command;
   list_dialog l_choose_sort_file_order;
   allert a_already_existing_file;

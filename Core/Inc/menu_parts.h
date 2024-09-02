@@ -79,7 +79,7 @@ public:
 
   menu_part(int x, int y, int width, int height);
   virtual void draw() = 0;
-  void update_text(std::string new_text) {}
+  virtual void update_text(std::string new_text) {}
 };
 
 class button : public menu_part {
@@ -192,9 +192,7 @@ public:
              uint16_t text_color = BLACK,
              GFXfont *p_font = const_cast<GFXfont *>(_Open_Sans_Bold_14));
   void draw();
-  void update_text(std::string new_text) {
-    text = new_text;
-  }
+  void update_text(std::string new_text);
 };
 
 class circle : public menu_part {

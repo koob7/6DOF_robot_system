@@ -114,7 +114,7 @@ void movement::draw_movement(int print_y, bool ciruclar_movement) {
 void cmd_wait::draw(int print_y) {
   draw_text(command_explorer_first_setting_x, print_y,
   command_explorer_line_height, command_explorer_file_menu_font, 1,
-  BLACK, "COMAND = Wait");
+  BLACK, "COM = Wait");
   std::string wait_time_text;
   switch (wait_time) {
     case wait_1s:
@@ -401,7 +401,7 @@ void cmd_set_pin::update_command(enum e_output_pin in_output_pin,
 void cmd_set_pin::draw(int print_y) {
   draw_text(command_explorer_first_setting_x, print_y,
   command_explorer_line_height, command_explorer_file_menu_font, 1,
-  BLACK, "COMAND = Signal");
+  BLACK, "COM. = Signal");
 
   std::string output_pin_text;
   switch (output_pin) {
@@ -414,7 +414,13 @@ void cmd_set_pin::draw(int print_y) {
   }
   draw_text(command_explorer_second_setting_x, print_y,
   command_explorer_line_height, command_explorer_file_menu_font, 1,
-  BLACK, "SOURCE = " + output_pin_text);
+  BLACK, "Source = " + output_pin_text);
+
+  std::string output_pin_level = set_pin_high ? "high" : "low";
+
+  draw_text(command_explorer_third_setting_x, print_y,
+  command_explorer_line_height, command_explorer_file_menu_font, 1,
+  BLACK, "Level = " + output_pin_level);
 }
 
 std::string movement::get_speed_text(){
