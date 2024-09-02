@@ -55,9 +55,9 @@ private:
   void choose_and_prepare_to_create_command();
   void prepare_to_edit_choosen_command();
   void delete_choosen_command();
-  template<typename CommandType>
+  template<typename CommandType, typename t_update_value>
   void update_movement_type_helper(CommandType &command,
-      movement::e_movement_type movementType, menu_segment &menu);
+      t_update_value update_value, menu_segment &menu);
   template<typename CommandType>
   void update_movement_type(CommandType &command, menu_segment &menu);
   template<typename CommandType>
@@ -67,6 +67,7 @@ private:
   template<typename CommandType, typename comandType2>
   void update_position(CommandType &command, bool &initialized,
       void (comandType2::*update_function)(struct robot_position));
+  void update_wait_speed();
 
 public:
 
@@ -113,6 +114,8 @@ private:
   allert a_conf_save_command;
   list_dialog l_choose_movement_speed;
   allert a_no_choosen_file_to_open;
+  allert a_function_avilable_in_future;
+  list_dialog l_choose_wait_time;
 
 };
 

@@ -38,7 +38,11 @@ finish_state_machine::finish_state_machine() :
         300, 200, 200, 0xD6BA, "UWAGA",
         "Czy na pewno chcesz zapisac polecenie?", true), l_choose_movement_speed(
         250, 100, 300, 0xD6BA, "Prędkosc:", { "10%", "50%", "100%" }, true), a_no_choosen_file_to_open(
-        300, 200, 200, 0xD6BA, "UWAGA", "Brak wybranego pliku do otwarcia")
+        300, 200, 200, 0xD6BA, "UWAGA", "Brak wybranego pliku do otwarcia"), a_function_avilable_in_future(
+        300, 200, 200, 0xD6BA, "Przepraszamy",
+        "Funkcja bedzie dostępna w przyszlosci, za utrudnienia przepraszamy"), l_choose_wait_time(
+        250, 100, 300, 0xD6BA, "Czekaj:", { "1 sekunde", "5 sekund",
+            "30 sekund", "1 minute", "5 minut" }, true)
 
 {
   target_position = robot_position(0, 0, 0, 0, 0, 0);
@@ -123,6 +127,8 @@ int finish_state_machine::handle_press_with_current_state(int x, int y) {
       break;
 
     case 2:
+      a_function_avilable_in_future.draw();
+      a_function_avilable_in_future.check_pressed();
       //TODO edycjia nazwy pliku
       break;
 
@@ -223,9 +229,11 @@ int finish_state_machine::handle_press_with_current_state(int x, int y) {
   case e_project_mode::WAIT_COMAND: {
     switch (wait_command_menu.check_pressed(x, y)) {
     case 0: {
+      update_wait_speed();
       break;
     }
     case 1: {
+      save_changed_command(o_cmd_wait);
       break;
     }
     case 2: {
@@ -556,10 +564,10 @@ void finish_state_machine::delete_choosen_command() {
   }
 }
 
-template<typename CommandType>
+template<typename CommandType, typename t_update_value>
 void finish_state_machine::update_movement_type_helper(CommandType &command,
-    movement::e_movement_type movementType, menu_segment &menu) {
-  command.update_movement_type(movementType);
+    t_update_value update_value, menu_segment &menu) {
+  command.update_movement_type(update_value);
   menu.update_text(1, command.get_movement_type_text());
   menu.draw();
 }
@@ -569,8 +577,8 @@ void finish_state_machine::update_movement_type(CommandType &command,
   l_choose_movement_type.draw();
   switch (l_choose_movement_type.check_pressed()) {
   case 0:
-    update_movement_type_helper(command,
-        movement::e_movement_type::continous, menu);
+    update_movement_type_helper(command, movement::e_movement_type::continous,
+        menu);
     break;
   case 1:
     update_movement_type_helper(command,
@@ -618,6 +626,31 @@ void finish_state_machine::update_position(CommandType &command,
   }
 }
 
+void finish_state_machine::update_wait_speed() {
+  l_choose_movement_type.draw();
+  switch (l_choose_movement_type.check_pressed()) {
+  case 0:
+    o_cmd_wait.update_time(cmd_wait::e_wait_time::wait_1s);
+    break;
+  case 1:
+    o_cmd_wait.update_time(cmd_wait::e_wait_time::wait_5s);
+    break;
+  case 2:
+    o_cmd_wait.update_time(cmd_wait::e_wait_time::wait_30s);
+    break;
+  case 3:
+    o_cmd_wait.update_time(cmd_wait::e_wait_time::wait_1min);
+    break;
+  case 4:
+    o_cmd_wait.update_time(cmd_wait::e_wait_time::wait_5min);
+    break;
+  case -1:
+    return;
+  }
+  wait_command_menu.update_text(0, o_cmd_wait.get_time_text());
+  wait_command_menu.draw();
+
+}
 //
 //
 //
