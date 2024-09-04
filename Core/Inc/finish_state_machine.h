@@ -42,15 +42,17 @@ enum class e_control_mode {
 };
 
 class finish_state_machine {
-  enum e_manual_speed {
+  enum e_movement_speed {
     //to są wartości procentowe
     speed_10,
     speed_50,
     speed_100,
     num_of_speed_levels
   };
-  enum e_manual_speed manual_movement_speed = e_manual_speed::speed_100;
+  enum e_movement_speed manual_movement_speed = e_movement_speed::speed_100;
+  enum e_movement_speed automatic_movement_speed = e_movement_speed::speed_100;
   volatile double manual_speed_movement_factor=0.01;
+  volatile double automatic_speed_movement_factor=0.01;
   bool edit_command = false; //mówi o tym czy tworzymy nowy punkt czy tylko go edytujemy
   mov_streight o_mov_streight;
   mov_circular o_mov_circular;
@@ -100,9 +102,9 @@ class finish_state_machine {
   void update_output_pin();
   void update_pin_level();
   bool handle_movement_menu(int x, int y);
-  std::string get_manual_speed_text();
-  void update_manual_speed_factor();
-
+  std::string get_movement_speed_text(const e_movement_speed movement_speed);
+  void update_movement_speed_factor(e_movement_speed &movement_speed,volatile double &speed_movement_factor, int button_index);
+  void adjust_movement_speed(e_movement_speed &movement_speed, volatile double &speed_movement_factor, int button_index, bool increase);
 public:
 
   finish_state_machine();

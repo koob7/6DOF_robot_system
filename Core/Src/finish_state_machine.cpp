@@ -668,8 +668,8 @@ bool finish_state_machine::handle_movement_menu(int x, int y) {
   if (operation_mode == e_operation_mode::MANUAL) {
     int pressed_button = main_right_menu.check_pressed(x, y);
     if (pressed_button < 0) {
-          return false;
-        }
+      return false;
+    }
     switch (pressed_button) {
     case 0:
       givenPosition[0] += manual_speed_movement_factor;
@@ -707,24 +707,22 @@ bool finish_state_machine::handle_movement_menu(int x, int y) {
     case 11:
       givenPosition[5] -= manual_speed_movement_factor;
       break;
-    case 12: {
-      if (manual_movement_speed < num_of_speed_levels - 1) {
-        manual_movement_speed =
-            static_cast<e_manual_speed>(manual_movement_speed + 1);
-        update_manual_speed_factor();
-      }
-      return false;
+    case 12:
+      adjust_movement_speed(manual_movement_speed, manual_speed_movement_factor,
+          12, true);
       break;
-    }
-    case 13: {
-      if (manual_movement_speed > 0) {
-        manual_movement_speed =
-            static_cast<e_manual_speed>(manual_movement_speed - 1);
-        update_manual_speed_factor();
-      }
-      return false;
+    case 13:
+      adjust_movement_speed(manual_movement_speed, manual_speed_movement_factor,
+          12, false);
       break;
-    }
+    case 14:
+      adjust_movement_speed(automatic_movement_speed,
+          automatic_speed_movement_factor, 15, true);
+      break;
+    case 15:
+      adjust_movement_speed(automatic_movement_speed,
+          automatic_speed_movement_factor, 15, false);
+      break;
     }
     licz_kroki(givenPosition, givenSteps, currentPosition);
     return true;
@@ -733,32 +731,47 @@ bool finish_state_machine::handle_movement_menu(int x, int y) {
   return false;
 }
 
+std::string finish_state_machine::get_movement_speed_text(
+    const e_movement_speed movement_speed) {
+  switch (movement_speed) {
+  case speed_10:
+    return "10%";
+  case speed_50:
+    return "50%";
+  case speed_100:
+    return "100%";
+  }
+}
 
-std::string finish_state_machine::get_manual_speed_text() {
-switch (manual_movement_speed) {
-case speed_10:
-  return "10%";
-case speed_50:
-  return "50%";
-case speed_100:
-  return "100%";
-}
+void finish_state_machine::update_movement_speed_factor(
+    e_movement_speed &movement_speed, volatile double &speed_movement_factor,
+    int button_index) {
+  switch (movement_speed) {
+  case speed_10:
+    speed_movement_factor = 0.001;
+    break;
+  case speed_50:
+    speed_movement_factor = 0.005;
+    break;
+  case speed_100:
+    speed_movement_factor = 0.01;
+    break;
+  }
+  main_right_menu.update_text(button_index,
+      get_movement_speed_text(movement_speed),
+      menu_segment::e_menu_layer::e_top_parts);
 }
 
-void finish_state_machine::update_manual_speed_factor() {
-switch (manual_movement_speed) {
-case speed_10:
-  manual_speed_movement_factor = 0.001;
-  break;
-case speed_50:
-  manual_speed_movement_factor = 0.005;
-  break;
-case speed_100:
-  manual_speed_movement_factor = 0.01;
-  break;
-}
-main_right_menu.update_text(12, get_manual_speed_text(),
-    menu_segment::e_menu_layer::e_top_parts);
+void finish_state_machine::adjust_movement_speed(
+    e_movement_speed &movement_speed, volatile double &speed_movement_factor,
+    int button_index, bool increase) {
+  if (increase && movement_speed < num_of_speed_levels - 1) {
+    movement_speed = static_cast<e_movement_speed>(movement_speed + 1);
+  } else if (!increase && movement_speed > 0) {
+    movement_speed = static_cast<e_movement_speed>(movement_speed - 1);
+  }
+  update_movement_speed_factor(movement_speed, speed_movement_factor,
+      button_index);
 }
 
 //
