@@ -8,10 +8,12 @@
 #include "finish_state_machine.h"
 
 finish_state_machine::finish_state_machine() :
-    operation_mode(e_operation_mode::MANUAL), project_mode(
-        e_project_mode::BROWSE_PROJECTS), step_mode(e_step_mode::CONTINUOUS), control_mode(
-        e_control_mode::MANUAL_MODE), a_cancel_create_command(300, 200, 200,
-        0xD6BA, "UWAGA",
+    //operation_mode(e_operation_mode::MANUAL)
+    project_mode(e_project_mode::BROWSE_PROJECTS), step_mode(
+        e_step_mode::CONTINUOUS), control_mode(e_control_mode::MANUAL_MODE), axis_control_mode(
+        e_axis_control_mode::INVERSE_CINEMATIC), movement_length(
+        e_movement_length::MOVEMENT_INFINITE), a_cancel_create_command(300, 200,
+        200, 0xD6BA, "UWAGA",
         "Czy na pewno chcesz anulowac operacje tworzenia punkut?", true), l_choose_sort_file_order(
         300, 100, 200, 0xD6BA, "Sortuj:", { "M, nazwa", "R, nazwa", "M, data",
             "R, data", "M, rozmiar", "R, rozmiar" }, true), a_already_existing_file(
@@ -66,11 +68,11 @@ finish_state_machine::finish_state_machine() :
 int finish_state_machine::handle_press_with_current_state(int x, int y) {
 
   if (handle_run_project_menu(x, y)) {
-    was_touched= 2;
+    was_touched = 2;
   }
 
   if (handle_movement_menu(x, y)) {
-    was_touched= 2;
+    was_touched = 2;
   }
 
   switch (control_mode) {
@@ -82,14 +84,14 @@ int finish_state_machine::handle_press_with_current_state(int x, int y) {
     break;
   }
 
-  switch (operation_mode) {
-  case e_operation_mode::MANUAL:
-    // Handle manual mode specific logic
-    break;
-  case e_operation_mode::AUTOMATIC:
-    // Handle automatic mode specific logic
-    break;
-  }
+//  switch (operation_mode) {
+//  case e_operation_mode::MANUAL:
+//    // Handle manual mode specific logic
+//    break;
+//  case e_operation_mode::AUTOMATIC:
+//    // Handle automatic mode specific logic
+//    break;
+//  }
 
   switch (step_mode) {
   case e_step_mode::STEP_BY_STEP:
@@ -270,19 +272,19 @@ int finish_state_machine::handle_press_with_current_state(int x, int y) {
 
 //TODO usunąć te komentarze
 
-void finish_state_machine::change_mode(e_operation_mode new_state) {
-  if (operation_mode != new_state) {
-    switch (new_state) {
-    case e_operation_mode::MANUAL:
-      operation_mode = e_operation_mode::MANUAL;
-      break;
-    case e_operation_mode::AUTOMATIC:
-      operation_mode = e_operation_mode::AUTOMATIC;
-      break;
-    }
-
-  }
-}
+//void finish_state_machine::change_mode(e_operation_mode new_state) {
+//  if (operation_mode != new_state) {
+//    switch (new_state) {
+//    case e_operation_mode::MANUAL:
+//      operation_mode = e_operation_mode::MANUAL;
+//      break;
+//    case e_operation_mode::AUTOMATIC:
+//      operation_mode = e_operation_mode::AUTOMATIC;
+//      break;
+//    }
+//
+//  }
+//}
 
 void finish_state_machine::change_mode(e_project_mode new_state) {
   if (project_mode != new_state) {
@@ -343,6 +345,35 @@ void finish_state_machine::change_mode(e_control_mode new_state) {
     case e_control_mode::AUTOMATIC_MODE:
       break;
     case e_control_mode::MANUAL_MODE:
+      break;
+    }
+  }
+}
+
+void finish_state_machine::change_mode(
+    e_axis_control_mode new_axis_control_mode) {
+  if (axis_control_mode != new_axis_control_mode) {
+    axis_control_mode = new_axis_control_mode;
+    switch (new_axis_control_mode) {
+    case e_axis_control_mode::AXIS_CONTROL:
+      break;
+    case e_axis_control_mode::INVERSE_CINEMATIC:
+      break;
+    }
+  }
+}
+
+void finish_state_machine::change_mode(e_movement_length new_movement_length) {
+  if (movement_length != new_movement_length) {
+    movement_length = new_movement_length;
+    switch (new_movement_length) {
+    case e_movement_length::MOVEMENT_INFINITE:
+      break;
+    case e_movement_length::MOVEMENT_1MM:
+      break;
+    case e_movement_length::MOVEMENT_1CM:
+      break;
+    case e_movement_length::MOVEMENT_5CM:
       break;
     }
   }
@@ -667,48 +698,57 @@ void finish_state_machine::update_pin_level() {
 }
 
 bool finish_state_machine::handle_movement_menu(int x, int y) {
-  if (operation_mode == e_operation_mode::MANUAL) {
+  if (control_mode == e_control_mode::MANUAL_MODE) {
     int pressed_button = main_right_menu.check_pressed(x, y);
     if (pressed_button < 0) {
       return false;
     }
+    if (axis_control_mode == e_axis_control_mode::INVERSE_CINEMATIC) {
+      switch (pressed_button) {
+      case 0:
+        givenPosition[0] += manual_speed_movement_factor;
+        break;
+      case 1:
+        givenPosition[0] -= manual_speed_movement_factor;
+        break;
+      case 2:
+        givenPosition[1] += manual_speed_movement_factor;
+        break;
+      case 3:
+        givenPosition[1] -= manual_speed_movement_factor;
+        break;
+      case 4:
+        givenPosition[2] += manual_speed_movement_factor;
+        break;
+      case 5:
+        givenPosition[2] -= manual_speed_movement_factor;
+        break;
+      case 6:
+        givenPosition[3] += manual_speed_movement_factor;
+        break;
+      case 7:
+        givenPosition[3] -= manual_speed_movement_factor;
+        break;
+      case 8:
+        givenPosition[4] += manual_speed_movement_factor;
+        break;
+      case 9:
+        givenPosition[4] -= manual_speed_movement_factor;
+        break;
+      case 10:
+        givenPosition[5] += manual_speed_movement_factor;
+        break;
+      case 11:
+        givenPosition[5] -= manual_speed_movement_factor;
+        break;
+      }
+    } else {
+      if (pressed_button > -1 && pressed_button < 12) {
+        a_function_avilable_in_future.draw();
+        a_function_avilable_in_future.check_pressed();
+      }
+    }
     switch (pressed_button) {
-    case 0:
-      givenPosition[0] += manual_speed_movement_factor;
-      break;
-    case 1:
-      givenPosition[0] -= manual_speed_movement_factor;
-      break;
-    case 2:
-      givenPosition[1] += manual_speed_movement_factor;
-      break;
-    case 3:
-      givenPosition[1] -= manual_speed_movement_factor;
-      break;
-    case 4:
-      givenPosition[2] += manual_speed_movement_factor;
-      break;
-    case 5:
-      givenPosition[2] -= manual_speed_movement_factor;
-      break;
-    case 6:
-      givenPosition[3] += manual_speed_movement_factor;
-      break;
-    case 7:
-      givenPosition[3] -= manual_speed_movement_factor;
-      break;
-    case 8:
-      givenPosition[4] += manual_speed_movement_factor;
-      break;
-    case 9:
-      givenPosition[4] -= manual_speed_movement_factor;
-      break;
-    case 10:
-      givenPosition[5] += manual_speed_movement_factor;
-      break;
-    case 11:
-      givenPosition[5] -= manual_speed_movement_factor;
-      break;
     case 12:
       adjust_movement_speed(manual_movement_speed, manual_speed_movement_factor,
           12, true);
@@ -776,10 +816,151 @@ void finish_state_machine::adjust_movement_speed(
       button_index);
 }
 
-bool finish_state_machine::handle_run_project_menu(int x, int y){
+bool finish_state_machine::handle_run_project_menu(int x, int y) {
+  int pressed_button = main_right_menu.check_pressed(x, y);
+  if (pressed_button < 0) {
+    return false;
+  }
+  switch (pressed_button) {
+  case 0:
+    toggle_step_mode();
+    break;
+  case 1:
+    toggle_control_mode();
+    break;
+  case 2:
+    toggle_enable_tool();
+    break;
+  case 3:
+    return handle_run_project();
+    break;
+  case 4:
+    toggle_axis_control_mode();
+    break;
+  case 5:
+    toggle_movement_length();
+    break;
+  case 6:
+    a_function_avilable_in_future.draw();
+    a_function_avilable_in_future.check_pressed();
+    break;
 
+  }
 
   return false;
+}
+
+void finish_state_machine::toggle_enable_tool(){
+  enable_tool = !enable_tool;
+  main_left_menu.update_text(2, get_enable_tool_text());
+}
+
+std::string finish_state_machine::get_control_mode_text() {
+  switch (control_mode) {
+  case e_control_mode::MANUAL_MODE:
+    return "MANUAL";
+  case e_control_mode::AUTOMATIC_MODE:
+    return "AUTO";
+  }
+}
+
+void finish_state_machine::toggle_control_mode() {
+  switch (control_mode) {
+  case e_control_mode::MANUAL_MODE:
+    control_mode = e_control_mode::AUTOMATIC_MODE;
+    break;
+  case e_control_mode::AUTOMATIC_MODE:
+    control_mode = e_control_mode::MANUAL_MODE;
+    break;
+  }
+  main_left_menu.update_text(1, get_control_mode_text());
+}
+
+std::string finish_state_machine::get_step_mode_text() {
+  switch (step_mode) {
+  case e_step_mode::STEP_BY_STEP:
+    return "STEP MOVEMENT";
+  case e_step_mode::CONTINUOUS:
+    return "CONT. MOVEMENT";
+  }
+}
+
+void finish_state_machine::toggle_step_mode() {
+  switch (step_mode) {
+  case e_step_mode::STEP_BY_STEP:
+    step_mode = e_step_mode::CONTINUOUS;
+    break;
+  case e_step_mode::CONTINUOUS:
+    step_mode = e_step_mode::STEP_BY_STEP;
+    break;
+  }
+  main_left_menu.update_text(0, get_step_mode_text());
+}
+
+std::string finish_state_machine::get_axis_control_mode_text() {
+  switch (axis_control_mode) {
+  case e_axis_control_mode::AXIS_CONTROL:
+    return "AXIS CONTORL";
+  case e_axis_control_mode::INVERSE_CINEMATIC:
+    return "INVERS CINEMATIC";
+  }
+}
+
+void finish_state_machine::toggle_axis_control_mode() {
+  switch (axis_control_mode) {
+  case e_axis_control_mode::AXIS_CONTROL:
+    axis_control_mode = e_axis_control_mode::INVERSE_CINEMATIC;
+    break;
+  case e_axis_control_mode::INVERSE_CINEMATIC:
+    axis_control_mode = e_axis_control_mode::AXIS_CONTROL;
+    break;
+  }
+  main_left_menu.update_text(4, get_axis_control_mode_text());
+}
+
+std::string finish_state_machine::get_movement_length_text() {
+  switch (movement_length) {
+  case e_movement_length::MOVEMENT_INFINITE:
+    return "INF MOVEMENT";
+  case e_movement_length::MOVEMENT_1MM:
+    return "1MM MOVEMENT";
+  case e_movement_length::MOVEMENT_1CM:
+    return "1CM MOVEMENT";
+  case e_movement_length::MOVEMENT_5CM:
+    return "5CM MOVEMENT";
+  }
+}
+
+void finish_state_machine::toggle_movement_length() {
+  switch (movement_length) {
+  case e_movement_length::MOVEMENT_INFINITE:
+    movement_length = e_movement_length::MOVEMENT_1MM;
+    break;
+  case e_movement_length::MOVEMENT_1MM:
+    movement_length = e_movement_length::MOVEMENT_1CM;
+    break;
+  case e_movement_length::MOVEMENT_1CM:
+    movement_length = e_movement_length::MOVEMENT_5CM;
+    break;
+  case e_movement_length::MOVEMENT_5CM:
+    movement_length = e_movement_length::MOVEMENT_INFINITE;
+    break;
+  }
+  main_left_menu.update_text(5, get_axis_control_mode_text());
+}
+
+bool finish_state_machine::handle_run_project(){
+  if(control_mode==e_control_mode::MANUAL_MODE){
+    a_function_avilable_in_future.draw();
+    a_function_avilable_in_future.check_pressed();
+    //TODO tutaj będzie zwracane true tak dlugo jak będzie kolejna komenda do obluzenia
+    return true;
+  }
+  else{
+
+    //TODO tutaj będzie zwrócone false po całkowitym wykonaniu programu
+    return false;
+  }
 }
 
 //

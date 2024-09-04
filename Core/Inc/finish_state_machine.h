@@ -18,9 +18,9 @@
 #include <objects.h>
 #include <memory>
 
-enum class e_operation_mode {
-  MANUAL, AUTOMATIC
-};
+//enum class e_operation_mode {
+//  MANUAL, AUTOMATIC
+//};
 
 enum class e_project_mode {
   SETTINGS,
@@ -33,12 +33,24 @@ enum class e_project_mode {
 
 };
 
+enum class e_movement_length {
+  MOVEMENT_INFINITE,
+  MOVEMENT_1MM,
+  MOVEMENT_1CM,
+  MOVEMENT_5CM
+};
+
 enum class e_step_mode {
   STEP_BY_STEP, CONTINUOUS
 };
 
 enum class e_control_mode {
   AUTOMATIC_MODE, MANUAL_MODE
+};
+
+enum class e_axis_control_mode{
+  AXIS_CONTROL,
+  INVERSE_CINEMATIC
 };
 
 class finish_state_machine {
@@ -62,17 +74,22 @@ class finish_state_machine {
   bool target_point_initialized = false;
   robot_position help_position;
   bool help_point_initialized = false;
-  e_operation_mode operation_mode;
+  //e_operation_mode operation_mode;
   e_project_mode project_mode;
   e_step_mode step_mode;
   e_control_mode control_mode;
   e_project_mode previous_project_mode;
+  e_axis_control_mode axis_control_mode;
+  e_movement_length movement_length;
+  bool enable_tool = false;
   project_editor main_project_editor;
   projects_explorer main_project_explorer;
-  void change_mode(e_operation_mode new_state);
+  //void change_mode(e_operation_mode new_state);
   void change_mode(e_project_mode new_state);
   void change_mode(e_step_mode new_state);
   void change_mode(e_control_mode new_state);
+  void change_mode(e_axis_control_mode new_axis_control_mode);
+  void change_mode(e_movement_length new_movement_length);
   void cancel_creating_command();
   void choose_file_sorting_option();
   void create_new_file();
@@ -106,6 +123,17 @@ class finish_state_machine {
   void update_movement_speed_factor(e_movement_speed &movement_speed,volatile double &speed_movement_factor, int button_index);
   void adjust_movement_speed(e_movement_speed &movement_speed, volatile double &speed_movement_factor, int button_index, bool increase);
   bool handle_run_project_menu(int x, int y);
+  std::string get_enable_tool_text(){return enable_tool?"DISABLE TOOl":"ENABLE TOOl";}
+  void toggle_enable_tool();
+  std::string get_control_mode_text();
+  void toggle_control_mode();
+  std::string get_step_mode_text();
+  void toggle_step_mode();
+  std::string get_axis_control_mode_text();
+  void toggle_axis_control_mode();
+  std::string get_movement_length_text();
+  void toggle_movement_length();
+  bool handle_run_project();
 public:
 
   finish_state_machine();
