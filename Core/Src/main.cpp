@@ -227,7 +227,7 @@ int main(void) {
     if (was_touched == 1) {
       was_touched = 0;
       fsm.handle_press_with_current_state(touch_x, touch_y);
-      if(was_touched==0){  HAL_Delay(100);}//jeżeli nie było funkcji która potrzebuje szybkiej obsługi (was_touched==2) to opóźniamy żeby nie było przypadkowych dotknięc
+      if(was_touched==0){  HAL_Delay(500);}//jeżeli nie było funkcji która potrzebuje szybkiej obsługi (was_touched==2) to opóźniamy żeby nie było przypadkowych dotknięc
     }
     if (was_touched == 2) {
       //jeżeli was_touched=2 oznacza że ekran był wczesniej kliknięty i musimy pobrać ponownie lokalizację dotyku

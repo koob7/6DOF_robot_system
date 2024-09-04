@@ -41,7 +41,7 @@ finish_state_machine::finish_state_machine() :
         "Czy na pewno chcesz zapisac polecenie?", true), l_choose_movement_speed(
         250, 100, 300, 0xD6BA, "Prędkosc:", { "10%", "50%", "100%" }, true), a_no_choosen_file_to_open(
         300, 200, 200, 0xD6BA, "UWAGA", "Brak wybranego pliku do otwarcia"), a_function_avilable_in_future(
-        300, 200, 200, 0xD6BA, "Przepraszamy",
+        300, 180, 240, 0xD6BA, "Przepraszamy",
         "Funkcja bedzie dostępna w przyszlosci, za utrudnienia przepraszamy"), l_choose_wait_time(
         250, 100, 300, 0xD6BA, "Czekaj:", { "1 sekunde", "5 sekund",
             "30 sekund", "1 minute", "5 minut" }, true), l_choose_output_pin(
@@ -817,7 +817,7 @@ void finish_state_machine::adjust_movement_speed(
 }
 
 bool finish_state_machine::handle_run_project_menu(int x, int y) {
-  int pressed_button = main_right_menu.check_pressed(x, y);
+  int pressed_button = main_left_menu.check_pressed(x, y);
   if (pressed_button < 0) {
     return false;
   }
@@ -946,7 +946,7 @@ void finish_state_machine::toggle_movement_length() {
     movement_length = e_movement_length::MOVEMENT_INFINITE;
     break;
   }
-  main_left_menu.update_text(5, get_axis_control_mode_text());
+  main_left_menu.update_text(5, get_movement_length_text());
 }
 
 bool finish_state_machine::handle_run_project(){

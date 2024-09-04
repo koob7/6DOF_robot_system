@@ -40,7 +40,7 @@ void init_main_left_menu() {
   std::string names[7] = {  "CONT. JOB", "MANUAL", "ENABLE TOOL",
       "RUN JOB", "AXIS CONTROL", "CONT. MOVEMENT", "SETTINGS" };
   // przyciski po lewej
-  for (uint8_t i = 0; i < 6; i += 1) {
+  for (uint8_t i = 0; i < 7; i += 1) {
     main_left_menu.add_part(
         button(i, 16, pos_y, 88, 47, left_menu_button_color, 10, names[i],
         left_menu_text_color,
