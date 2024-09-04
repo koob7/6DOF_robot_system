@@ -153,25 +153,20 @@ void allert::draw() {
 }
 
 int allert::check_pressed() {
+  NVIC_DisableIRQ(EXTI9_5_IRQn);
+  XPT2046_Init();
+  __HAL_GPIO_EXTI_CLEAR_IT(T_IRQ_Pin);
+  NVIC_EnableIRQ(EXTI9_5_IRQn);
   while (1) {
     if (was_touched == 1) {
-      NVIC_DisableIRQ(EXTI9_5_IRQn);
       was_touched=0;
-      int touchX = getX();
-      int touchY = getY();
       for (auto o_button : buttons) {
-        if (o_button.check_pressed(touchX, touchY) > -1) {
+        if (o_button.check_pressed(touch_x, touch_y) > -1) {
           restore_screen(object_dimension.x, object_dimension.y,
               object_dimension.width, get_total_height());
-          XPT2046_Init();
-          __HAL_GPIO_EXTI_CLEAR_IT(T_IRQ_Pin);
-          NVIC_EnableIRQ(EXTI9_5_IRQn);
-          return o_button.check_pressed(touchX, touchY);
+          return o_button.check_pressed(touch_x, touch_y);
         }
       }
-      XPT2046_Init();
-      __HAL_GPIO_EXTI_CLEAR_IT(T_IRQ_Pin);
-      NVIC_EnableIRQ(EXTI9_5_IRQn);
     }
   }
 }
@@ -350,43 +345,33 @@ int list_dialog::check_pressed() {
   else{
     range = options.size();
   }
+  NVIC_DisableIRQ(EXTI9_5_IRQn);
+  XPT2046_Init();
+  __HAL_GPIO_EXTI_CLEAR_IT(T_IRQ_Pin);
+  NVIC_EnableIRQ(EXTI9_5_IRQn);
   while (1) {
 
     if (was_touched == 1) {
-      NVIC_DisableIRQ(EXTI9_5_IRQn);
       was_touched=0;
-      int touchX = getX();
-      int touchY = getY();
-
-
       for (int i = 0; i < range; i++) {
-        if (check_area_pressed(touchX, touchY, object_dimension.x,
+        if (check_area_pressed(touch_x, touch_y, object_dimension.x,
             object_dimension.y + title_box_height + i * option_height,
             object_dimension.width, option_height)) {
           restore_screen(object_dimension.x, object_dimension.y,
               object_dimension.width, get_total_height());
-          XPT2046_Init();
-          __HAL_GPIO_EXTI_CLEAR_IT(T_IRQ_Pin);
-          NVIC_EnableIRQ(EXTI9_5_IRQn);
           return i;
         }
       }
       if (cancel_option){
-      if (check_area_pressed(touchX, touchY, object_dimension.x,
+      if (check_area_pressed(touch_x, touch_y, object_dimension.x,
           object_dimension.y + title_box_height
               + range* option_height, object_dimension.width,
           option_height)) {
         restore_screen(object_dimension.x, object_dimension.y,
             object_dimension.width, get_total_height());
-        XPT2046_Init();
-        __HAL_GPIO_EXTI_CLEAR_IT(T_IRQ_Pin);
-        NVIC_EnableIRQ(EXTI9_5_IRQn);
         return -1;
       }
       }
-      XPT2046_Init();
-      __HAL_GPIO_EXTI_CLEAR_IT(T_IRQ_Pin);
-      NVIC_EnableIRQ(EXTI9_5_IRQn);
     }
 
   }

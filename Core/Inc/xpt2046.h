@@ -3,6 +3,9 @@
 
 #include "main.h"
 
+extern volatile uint16_t touch_x;
+extern volatile uint16_t touch_y;
+
 #define XPT2046_ACCURACY 1
 #define XPT2046_REVERSED 0
 #define XPT2046_MIRROR_X 0

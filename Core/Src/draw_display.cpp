@@ -90,7 +90,7 @@ void init_main_right_menu() {
       std::make_shared<image>(721, 353, hand_icon_x, hand_icon_y, hand_icon,
           false));
   main_right_menu.add_part(std::make_shared<text_field>(//wskaźnik prędkości manualnej
-        696,392+56, 88, 20, "100%", BLACK));
+        696,460, 88, 20, "100%", BLACK));
   main_right_menu.add_part(
       button(14, 696, 413, 48, 47, right_menu_button_color, 10, "+", 0x4A69,
       right_menu_font));

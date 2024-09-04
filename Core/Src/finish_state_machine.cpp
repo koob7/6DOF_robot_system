@@ -65,8 +65,12 @@ finish_state_machine::finish_state_machine() :
 
 int finish_state_machine::handle_press_with_current_state(int x, int y) {
 
+  if (handle_run_project_menu(x, y)) {
+    was_touched= 2;
+  }
+
   if (handle_movement_menu(x, y)) {
-    return 1;
+    was_touched= 2;
   }
 
   switch (control_mode) {
@@ -251,8 +255,6 @@ int finish_state_machine::handle_press_with_current_state(int x, int y) {
     break;
   }
   }
-
-  return 0;
 }
 
 //
@@ -772,6 +774,12 @@ void finish_state_machine::adjust_movement_speed(
   }
   update_movement_speed_factor(movement_speed, speed_movement_factor,
       button_index);
+}
+
+bool finish_state_machine::handle_run_project_menu(int x, int y){
+
+
+  return false;
 }
 
 //

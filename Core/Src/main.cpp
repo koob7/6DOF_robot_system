@@ -27,7 +27,7 @@
 #include "string.h"
 #include <navigate_robot.h>
 #include "finish_state_machine.h"
-
+#include "xpt2046.h"
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
@@ -140,7 +140,6 @@ void clear_buffer(char buffer[BUFFER_SIZE]) {
 int main(void) {
   /* USER CODE BEGIN 1 */
 
-  uint16_t touchX = 0, touchY = 0;
   int kalibracja = 0;
 
   /* USER CODE END 1 */
@@ -224,16 +223,20 @@ int main(void) {
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
-  while (1)
-  {
+  while (1) {
     if (was_touched == 1) {
+      was_touched = 0;
+      fsm.handle_press_with_current_state(touch_x, touch_y);
+      if(was_touched==0){  HAL_Delay(100);}//jeżeli nie było funkcji która potrzebuje szybkiej obsługi (was_touched==2) to opóźniamy żeby nie było przypadkowych dotknięc
+    }
+    if (was_touched == 2) {
+      //jeżeli was_touched=2 oznacza że ekran był wczesniej kliknięty i musimy pobrać ponownie lokalizację dotyku
       NVIC_DisableIRQ(EXTI9_5_IRQn);
-      touchX = getX();
-      touchY = getY();
+      was_touched = 0;
+      touch_x = getX();
+      touch_y = getY();
 
-      //TODO obsługa dotyku
-      was_touched = fsm.handle_press_with_current_state(touchX, touchY);
-
+      fsm.handle_press_with_current_state(touch_x, touch_y);
 
       XPT2046_Init();
       __HAL_GPIO_EXTI_CLEAR_IT(T_IRQ_Pin);
@@ -325,17 +328,24 @@ void PeriphCommonClock_Config(void) {
 /* USER CODE BEGIN 4 */
 void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin) {
 
-  handle_limit_switch_interrupt(GPIO_Pin, kalibracja_osi, givenSteps, liczba_krokow_osi);
-
   if (GPIO_Pin == T_IRQ_Pin) {
-    was_touched = 1;
+    if (was_touched == 0) {
+      touch_x = getX();
+      touch_y = getY();
+      was_touched = 1;
+      XPT2046_Init();
+    }
+    __HAL_GPIO_EXTI_CLEAR_IT(GPIO_Pin); // czyszczenie zgłoszonego przerwania
   }
-  __HAL_GPIO_EXTI_CLEAR_IT(GPIO_Pin); // czyszczenie zgłoszonego przerwania
+  else {
+    handle_limit_switch_interrupt(GPIO_Pin, kalibracja_osi, givenSteps,
+        liczba_krokow_osi);
+  }
 }
 
 void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim) {
   if (htim->Instance == TIM6) {
-    handle_move_interrupt( givenSteps, liczba_krokow_osi, factor);
+    handle_move_interrupt(givenSteps, liczba_krokow_osi, factor);
   }
 }
 /* USER CODE END 4 */

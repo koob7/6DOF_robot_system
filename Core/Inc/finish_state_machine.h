@@ -105,6 +105,7 @@ class finish_state_machine {
   std::string get_movement_speed_text(const e_movement_speed movement_speed);
   void update_movement_speed_factor(e_movement_speed &movement_speed,volatile double &speed_movement_factor, int button_index);
   void adjust_movement_speed(e_movement_speed &movement_speed, volatile double &speed_movement_factor, int button_index, bool increase);
+  bool handle_run_project_menu(int x, int y);
 public:
 
   finish_state_machine();

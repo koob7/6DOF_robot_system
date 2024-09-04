@@ -2,8 +2,9 @@
 
 #include "xpt2046.h"
 
-extern SPI_HandleTypeDef hspi2;
-
+extern  SPI_HandleTypeDef hspi2;
+volatile uint16_t touch_x=0;
+volatile uint16_t touch_y=0;
 inline static float remap(float x, float in_min, float in_max, float out_min,
                           float out_max) {
 

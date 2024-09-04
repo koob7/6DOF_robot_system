@@ -1,7 +1,7 @@
-../Core/Src/xpt2046.cpp:7:21:float remap(float, float, float, float, float)	32	static
-../Core/Src/xpt2046.cpp:13:6:void XPT2046_Init()	24	static
-../Core/Src/xpt2046.cpp:29:10:uint16_t getRaw(uint8_t)	32	static
-../Core/Src/xpt2046.cpp:50:24:uint16_t X()	16	static
-../Core/Src/xpt2046.cpp:62:24:uint16_t Y()	16	static
-../Core/Src/xpt2046.cpp:74:10:uint16_t getX()	16	static
-../Core/Src/xpt2046.cpp:93:10:uint16_t getY()	16	static
+../Core/Src/xpt2046.cpp:8:21:float remap(float, float, float, float, float)	32	static
+../Core/Src/xpt2046.cpp:14:6:void XPT2046_Init()	24	static
+../Core/Src/xpt2046.cpp:30:10:uint16_t getRaw(uint8_t)	32	static
+../Core/Src/xpt2046.cpp:51:24:uint16_t X()	16	static
+../Core/Src/xpt2046.cpp:63:24:uint16_t Y()	16	static
+../Core/Src/xpt2046.cpp:75:10:uint16_t getX()	16	static
+../Core/Src/xpt2046.cpp:94:10:uint16_t getY()	16	static
