@@ -30,12 +30,6 @@
 #define command_explorer_third_setting_x 540
 
 
-  extern uint16_t max_licz_krokow_osi[6];
-  extern double currentPosition[6];
-  extern double givenPosition[6];
-  extern int liczba_krokow_osi[5];
-  extern uint8_t kalibracja_osi[5];
-  extern int givenSteps[6];
 
 struct robot_position {
   double x;
@@ -71,7 +65,16 @@ extern double a2;
 extern double a3;
 extern double d6;
 
+extern uint16_t max_licz_krokow_osi[6];
+extern double currentPosition[6];
+extern double givenPosition[6];
+extern int liczba_krokow_osi[5];
+extern uint8_t kalibracja_osi[5];
+extern int givenSteps[6];
+
 extern bool robot_was_moved;
+extern volatile bool automatic_movement_ready;
+extern volatile bool manual_movement_ready;
 
 class command {
 

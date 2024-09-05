@@ -545,9 +545,8 @@ void finish_state_machine::delete_choosen_command() {
 
     a_conf_deleting_command.draw();
     if (a_conf_deleting_command.check_pressed() == 0) {
-      main_project_editor.remove_command();
       cleer_working_screen.draw();
-      main_project_editor.draw();
+      main_project_editor.remove_command();
     }
   } else {
 
@@ -615,10 +614,12 @@ void finish_state_machine::save_changed_command(CommandType &command) {
     if (edit_command) {
       std::static_pointer_cast<CommandType>(
           main_project_editor.get_choosen_command())->update_command(command);
+      main_project_editor.prepare_commands();
       change_mode(e_project_mode::EDIT_PROJECTS);
     } else {
       main_project_editor.insert_command(
           std::make_shared<CommandType>(command));
+      //tutaj przygotowanie komend jest wywoływane w środku komendy insrt
       change_mode(e_project_mode::EDIT_PROJECTS);
     }
 
@@ -703,6 +704,13 @@ bool finish_state_machine::handle_movement_menu(int x, int y) {
     if (pressed_button < 0) {
       return false;
     }
+    if(pressed_button>-1&&pressed_button<12){
+      robot_was_moved=true;
+      while (!manual_movement_ready){
+        //TODO czekamy aż będziemy mogli wyslać kolejną komendę
+      }
+    }
+
     if (axis_control_mode == e_axis_control_mode::INVERSE_CINEMATIC) {
       switch (pressed_button) {
       case 0:
@@ -789,6 +797,7 @@ void finish_state_machine::update_movement_speed_factor(
     e_movement_speed &movement_speed, volatile double &speed_movement_factor,
     int button_index) {
   switch (movement_speed) {
+  //tutaj będziemy zmieniali prescaller żeby regulować częstotliowść wywoływania komend
   case speed_10:
     speed_movement_factor = 0.001;
     break;

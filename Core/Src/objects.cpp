@@ -8,57 +8,83 @@
 
 FATFS file_system;
 
-void project_editor::reset_project_progres(){
+void project_editor::reset_project_progres() {
   for (const auto &cmd : commands) {
     cmd->reset_task_progres();
   }
 }
-bool project_editor::execute_project(){
 
+void project_editor::prepare_commands() {
+  int i = 0;
+  for (const auto &cmd : commands) {
+    cmd->prepare_task((i > 0) ? commands[selected_command - 1] : nullptr);
+    i++;
+  }
 }
-bool project_editor::execute_choosen_command(){
 
-}
-//zwraca true jeżeli jest kolejna komenda do wykonania i false jeżeli zakończyliśmy program
-bool project_editor::get_next_command_to_execute(){
-  if(selected_command>-1){
-    if(commands[selected_command]->is_task_completed()){
-      if((++selected_command)<commands.size()){//inkrementacja selected_command występuje w warunku
-              return true;
-            }
-            else{
-              selected_command = -1;
-              return false;
-            }
+//zwraca true program jest w trakcie pracy oraz false gdy zakończyliśmy program
+bool project_editor::execute_project() {
+  bool result;
+  if (selected_command > -1) {
+    if (commands[selected_command]->is_task_completed()) {
+      result = get_next_command_to_execute();
     }
-    else{
+
+  } else {
+    result = get_next_command_to_execute();
+  }
+  if (!result) {
+    return false;
+    //TODO obsługa że już zakończyliśmy wykonywanie programu
+  }
+  if (robot_was_moved) {
+    commands[selected_command]->prepare_task(
+        (selected_command > 0) ? commands[selected_command - 1] : nullptr);
+  }
+  while (!automatic_movement_ready) {
+    //TODO oczekiwanie aż bedziemy mogli wykonać kolejny ruch
+  }
+  automatic_movement_ready = false;
+  commands[selected_command]->perform_task();
+  return false;
+}
+
+//zwraca true jeżeli jest kolejna komenda do wykonania i false jeżeli zakończyliśmy program
+bool project_editor::get_next_command_to_execute() {
+  if (selected_command > -1) {
+    if (commands[selected_command]->is_task_completed()) {
+      if ((selected_command+1) < static_cast<int>(commands.size())) {
+        selected_command++;
+        return true;
+      } else {
+        selected_command = -1;
+        return false;
+      }
+    } else {
       return true;
     }
-  }
-  else if(commands.size()>0)
-  {
+  } else if (commands.size() > 0) {
     robot_was_moved = true;
-    selected_command=0;
+    selected_command = 0;
     return true;
-  }
-  else{
+  } else {
     return false;
   }
 
 }
 
-void project_editor::draw_menu_for_next_command_to_execute(){
-if(selected_command<-1){
+void project_editor::draw_menu_for_next_command_to_execute() {
+  if (selected_command < -1) {
 //  first_command_to_display=0;
 //  update_last_command_to_display();
-  //chyba nie musimy nic robić
-}
-else if(selected_command<first_command_to_display||selected_command>=last_command_to_display){
-  first_command_to_display=selected_command;
-  //update_last_command_to_display();
-  //nie musimy tego robić bo ta funkcja jest wywoływana w funkcji draw();
-}
-draw();
+    //chyba nie musimy nic robić
+  } else if (selected_command < first_command_to_display
+      || selected_command >= last_command_to_display) {
+    first_command_to_display = selected_command;
+    //update_last_command_to_display();
+    //nie musimy tego robić bo ta funkcja jest wywoływana w funkcji draw();
+  }
+  draw();
 }
 
 void menu_segment::draw() {
@@ -89,46 +115,56 @@ int menu_segment::check_pressed(int x, int y) {
   return -1;
 }
 
-void menu_segment::update_text(int id, std::string text, enum e_menu_layer menu_layer) {
+void menu_segment::update_text(int id, std::string text,
+    enum e_menu_layer menu_layer) {
 
-  switch (menu_layer){
-  case e_menu_layer::e_buttons:{
-  for (auto& o_button : buttons) {
-    if (o_button.get_id() == id) {
-      o_button.update_text(text);
-      o_button.draw();
-      break;
+  switch (menu_layer) {
+  case e_menu_layer::e_buttons: {
+    for (auto &o_button : buttons) {
+      if (o_button.get_id() == id) {
+        o_button.update_text(text);
+        o_button.draw();
+        break;
+      }
     }
-  }
 
-  break;}
-  case e_menu_layer::e_top_parts:{
-    if(id >= 0 && id < static_cast<int>(top_parts.size()) && top_parts[id] != nullptr){
+    break;
+  }
+  case e_menu_layer::e_top_parts: {
+    if (id >= 0 && id < static_cast<int>(top_parts.size())
+        && top_parts[id] != nullptr) {
       top_parts[id]->update_text(text);
       top_parts[id]->draw();
     }
-    break;}
-  case e_menu_layer::e_background_parts:{
-    if(id >= 0 && id < static_cast<int>(background_parts.size()) && background_parts[id] != nullptr){
+    break;
+  }
+  case e_menu_layer::e_background_parts: {
+    if (id >= 0 && id < static_cast<int>(background_parts.size())
+        && background_parts[id] != nullptr) {
       background_parts[id]->update_text(text);
       background_parts[id]->draw();
     }
-      break;}
+    break;
+  }
   }
 }
 
-project_editor::project_editor(){
+project_editor::project_editor() {
   page_up_btn.add_part(
-        std::make_shared<triangle>(147, 132, 147 + 24, 132, 147+12, 132-20, 0x00FD));
-    page_down_btn.add_part(
-        std::make_shared<triangle>(147, 417, 147 + 24, 417, 147+12, 417+20, 0x00FD));
+      std::make_shared<triangle>(147, 132, 147 + 24, 132, 147 + 12, 132 - 20,
+          0x00FD));
+  page_down_btn.add_part(
+      std::make_shared<triangle>(147, 417, 147 + 24, 417, 147 + 12, 417 + 20,
+          0x00FD));
 }
 
 projects_explorer::projects_explorer() {
   page_up_btn.add_part(
-        std::make_shared<triangle>(147, 132, 147 + 24, 132, 147+12, 132-20, 0x00FD));
-    page_down_btn.add_part(
-        std::make_shared<triangle>(147, 417, 147 + 24, 417, 147+12, 417+20, 0x00FD));
+      std::make_shared<triangle>(147, 132, 147 + 24, 132, 147 + 12, 132 - 20,
+          0x00FD));
+  page_down_btn.add_part(
+      std::make_shared<triangle>(147, 417, 147 + 24, 417, 147 + 12, 417 + 20,
+          0x00FD));
 
   get_files();
   initialized = true;
@@ -284,9 +320,9 @@ int projects_explorer::create_file(std::string name) {
   FIL file;
   const char *filename = name.c_str();
   FILINFO fno;
-    if (f_stat(filename, &fno) == FR_OK) {
-      return -1;
-    }
+  if (f_stat(filename, &fno) == FR_OK) {
+    return -1;
+  }
   if (f_open(&file, filename, FA_OPEN_ALWAYS | FA_WRITE) == FR_OK) {
     f_close(&file);
     return 0;
@@ -335,22 +371,18 @@ void project_editor::insert_command(std::shared_ptr<command> in_cmd) {
   } else if (commands.size() > 1) {
     commands.insert(commands.end() - 1, in_cmd);
     //selected_command = commands.size()-2;
-} else {
+  } else {
     commands.push_back(in_cmd);
-}
+  }
   //draw(); rysowanie nie jest potrzebne bo rysujemy przy wejściu do menu edycji
+  prepare_commands();
 }
 
-bool project_editor::remove_command() {
-  if (selected_command >= -1) {
-    commands.erase(commands.begin() + selected_command);
-    selected_command = -1;
-    //draw(); rysowanie nie jest potrzebne bo rysujemy przy wejściu do menu edycji
-    return true;
-  } else {
-    return false;
-    // TODO tutaj powinien być rzucany wyjątek w przypadku nieudanego usunięcia
-  }
+void project_editor::remove_command() {
+  commands.erase(commands.begin() + selected_command);
+  selected_command = -1;
+  draw();
+  prepare_commands();
 }
 
 void project_editor::draw() {
@@ -472,11 +504,10 @@ std::shared_ptr<command> project_editor::get_command_to_execute() {
   return commands[selected_command];
 }
 
-std::shared_ptr<command>  project_editor::get_choosen_command(){
+std::shared_ptr<command> project_editor::get_choosen_command() {
   if (selected_command >= 0) {
     return commands[selected_command];
-  }
-  else {
+  } else {
     return nullptr;
   }
 }
@@ -490,11 +521,11 @@ void project_editor::save_changes_into_file() {
   }
   f_close(&fil);
   f_open(&fil, tchar_file_name,
-        FA_OPEN_ALWAYS | FA_READ | FA_WRITE);
+  FA_OPEN_ALWAYS | FA_READ | FA_WRITE);
 
 }
 
-void project_editor::close_file(){
+void project_editor::close_file() {
   f_close(&fil);
 }
 
@@ -504,7 +535,7 @@ bool project_editor::open_file(std::string in_file_name) {
   file_name = in_file_name;
 
   FRESULT result = f_open(&fil, tchar_file_name,
-      FA_OPEN_ALWAYS | FA_READ | FA_WRITE);
+  FA_OPEN_ALWAYS | FA_READ | FA_WRITE);
 
   if (result != FR_OK) {
     // TODO: Rzuć wyjątek, że plik nie może zostać otwarty
@@ -525,7 +556,7 @@ bool project_editor::get_commands() {
 
     std::istringstream line_stream(line);
 
-    line_stream  >> Gcode_command;
+    line_stream >> Gcode_command;
 
     if (Gcode_command == "G1") {
       add_part(std::make_shared<mov_streight>(line_stream));

@@ -7,7 +7,8 @@
 #include <navigate_robot.h>
 
 bool robot_was_moved=true;//jeżeli true - oznacza że robot był ruszony przez użytkownika, zmienna potrzebna przy wykonywaniu całego programu
-
+volatile bool automatic_movement_ready=true;//zzmienna która bedzie regulować prędkością robota - będzie setowana w przerwaniu i resetowaniu przy ruchu robotem
+volatile bool manual_movement_ready=true;
   uint16_t max_licz_krokow_osi[6] =
   { 6400 * 2, 6400 * 2, 8000, 6400 * 2, 6400 * 2, 0 };
   double currentPosition[6];
@@ -30,16 +31,16 @@ double d6 = 10.5;
 
 
 void mov_streight::prepare_task(std::shared_ptr<command> previous_command){
-
+  robot_was_moved = false;
 }
 void mov_circular::prepare_task(std::shared_ptr<command> previous_command){
-
+  robot_was_moved = false;
 }
 void cmd_wait::prepare_task(std::shared_ptr<command> previous_command){
-
+  robot_was_moved = false;
 }
 void cmd_set_pin::prepare_task(std::shared_ptr<command> previous_command){
-
+  robot_was_moved = false;
 }
 
 void mov_streight::perform_task(){
