@@ -6,6 +6,8 @@
  */
 #include <navigate_robot.h>
 
+bool robot_was_moved=true;//jeżeli true - oznacza że robot był ruszony przez użytkownika, zmienna potrzebna przy wykonywaniu całego programu
+
   uint16_t max_licz_krokow_osi[6] =
   { 6400 * 2, 6400 * 2, 8000, 6400 * 2, 6400 * 2, 0 };
   double currentPosition[6];
@@ -25,6 +27,36 @@ double d1 = 0;
 double a2 = 20;
 double a3 = 20;
 double d6 = 10.5;
+
+
+void mov_streight::prepare_task(std::shared_ptr<command> previous_command){
+
+}
+void mov_circular::prepare_task(std::shared_ptr<command> previous_command){
+
+}
+void cmd_wait::prepare_task(std::shared_ptr<command> previous_command){
+
+}
+void cmd_set_pin::prepare_task(std::shared_ptr<command> previous_command){
+
+}
+
+void mov_streight::perform_task(){
+
+}
+
+void mov_circular::perform_task(){
+
+}
+
+void cmd_wait::perform_task(){
+
+}
+
+void cmd_set_pin::perform_task(){
+
+}
 
 movement::movement(const movement& other)
   : target_pos(other.target_pos),

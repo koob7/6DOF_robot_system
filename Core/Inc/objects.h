@@ -108,6 +108,9 @@ class project_editor {
   bool check_area_pressed(int x, int y, int area_x, int area_y, int area_width,
       int area_height);
   FIL fil;
+  bool execute_choosen_command();
+  bool get_next_command_to_execute();
+  void draw_menu_for_next_command_to_execute();
 
 public:
   int first_command_to_display = 0;
@@ -123,6 +126,7 @@ public:
   void add_part(std::shared_ptr<command> in_cmd) {
     commands.push_back(in_cmd);
   }
+
   std::shared_ptr<command> get_command_to_execute();
   std::shared_ptr<command>  get_choosen_command();
   void insert_command(std::shared_ptr<command> in_cmd);
@@ -131,6 +135,8 @@ public:
   void close_file();
   void save_changes_into_file();
   bool check_if_is_choosen(){return selected_command>-1;}
+  bool execute_project();
+  void reset_project_progres();
 };
 
 //

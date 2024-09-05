@@ -8,6 +8,59 @@
 
 FATFS file_system;
 
+void project_editor::reset_project_progres(){
+  for (const auto &cmd : commands) {
+    cmd->reset_task_progres();
+  }
+}
+bool project_editor::execute_project(){
+
+}
+bool project_editor::execute_choosen_command(){
+
+}
+//zwraca true jeżeli jest kolejna komenda do wykonania i false jeżeli zakończyliśmy program
+bool project_editor::get_next_command_to_execute(){
+  if(selected_command>-1){
+    if(commands[selected_command]->is_task_completed()){
+      if((++selected_command)<commands.size()){//inkrementacja selected_command występuje w warunku
+              return true;
+            }
+            else{
+              selected_command = -1;
+              return false;
+            }
+    }
+    else{
+      return true;
+    }
+  }
+  else if(commands.size()>0)
+  {
+    robot_was_moved = true;
+    selected_command=0;
+    return true;
+  }
+  else{
+    return false;
+  }
+
+}
+
+void project_editor::draw_menu_for_next_command_to_execute(){
+if(selected_command<-1){
+//  first_command_to_display=0;
+//  update_last_command_to_display();
+  //chyba nie musimy nic robić
+}
+else if(selected_command<first_command_to_display||selected_command>=last_command_to_display){
+  first_command_to_display=selected_command;
+  //update_last_command_to_display();
+  //nie musimy tego robić bo ta funkcja jest wywoływana w funkcji draw();
+}
+draw();
+}
+
 void menu_segment::draw() {
   for (auto part : background_parts) {
     part->draw();

@@ -6,28 +6,28 @@ C:\ST\STM32CubeIDE_1.13.2\STM32CubeIDE\plugins\com.st.stm32cube.ide.mcu.external
 C:\ST\STM32CubeIDE_1.13.2\STM32CubeIDE\plugins\com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.11.3.rel1.win32_1.1.1.202309131626\tools\arm-none-eabi\include\c++\11.3.1\bits\shared_ptr_base.h:479:5:static const std::type_info& std::_Sp_make_shared_tag::_S_ti()	4	static
 ../Core/Inc/navigate_robot.h:48:3:robot_position::robot_position(double, double, double, double, double, double)	64	static
 ../Core/Inc/navigate_robot.h:52:3:robot_position::robot_position()	16	static
-../Core/Inc/navigate_robot.h:113:8:void movement::update_speed(movement::e_speed)	16	static
-../Core/Inc/navigate_robot.h:114:8:void movement::update_movement_type(movement::e_movement_type)	16	static
-../Core/Inc/navigate_robot.h:115:8:void movement::update_target_pos(robot_position)	24	static
-../Core/Inc/navigate_robot.h:151:8:void mov_circular::update_help_pos(robot_position)	24	static
-../Core/Inc/navigate_robot.h:174:8:void cmd_wait::update_time(cmd_wait::e_wait_time)	16	static
-../Core/Inc/navigate_robot.h:194:8:void cmd_set_pin::update_pin(cmd_set_pin::e_output_pin)	16	static
-../Core/Inc/navigate_robot.h:195:8:void cmd_set_pin::update_pin_level(bool)	16	static
+../Core/Inc/navigate_robot.h:121:8:void movement::update_speed(movement::e_speed)	16	static
+../Core/Inc/navigate_robot.h:122:8:void movement::update_movement_type(movement::e_movement_type)	16	static
+../Core/Inc/navigate_robot.h:123:8:void movement::update_target_pos(robot_position)	24	static
+../Core/Inc/navigate_robot.h:162:8:void mov_circular::update_help_pos(robot_position)	24	static
+../Core/Inc/navigate_robot.h:186:8:void cmd_wait::update_time(cmd_wait::e_wait_time)	16	static
+../Core/Inc/navigate_robot.h:207:8:void cmd_set_pin::update_pin(cmd_set_pin::e_output_pin)	16	static
+../Core/Inc/navigate_robot.h:208:8:void cmd_set_pin::update_pin_level(bool)	16	static
 ../Core/Inc/objects.h:100:8:bool projects_explorer::check_if_is_choosen()	16	static
-../Core/Inc/objects.h:133:8:bool project_editor::check_if_is_choosen()	16	static
+../Core/Inc/objects.h:137:8:bool project_editor::check_if_is_choosen()	16	static
 ../Core/Inc/finish_state_machine.h:126:15:std::string finish_state_machine::get_enable_tool_text()	32	static
-../Core/Inc/navigate_robot.h:122:3:mov_streight::mov_streight()	16	static
-../Core/Inc/navigate_robot.h:143:3:mov_circular::mov_circular()	16	static
-../Core/Inc/navigate_robot.h:74:7:constexpr command::command()	16	static
-../Core/Inc/navigate_robot.h:163:3:cmd_wait::cmd_wait()	16	static
-../Core/Inc/navigate_robot.h:181:3:cmd_set_pin::cmd_set_pin()	16	static
-../Core/Inc/navigate_robot.h:74:7:constexpr command& command::operator=(const command&)	16	static
-../Core/Inc/navigate_robot.h:82:7:constexpr movement& movement::operator=(const movement&)	24	static
-../Core/Inc/navigate_robot.h:119:7:constexpr mov_streight& mov_streight::operator=(const mov_streight&)	16	static
-../Core/Inc/navigate_robot.h:135:7:constexpr mov_circular& mov_circular::operator=(const mov_circular&)	24	static
-../Core/Inc/navigate_robot.h:158:7:constexpr cmd_wait& cmd_wait::operator=(const cmd_wait&)	16	static
-../Core/Inc/navigate_robot.h:179:7:constexpr cmd_set_pin& cmd_set_pin::operator=(const cmd_set_pin&)	16	static
-../Core/Src/finish_state_machine.cpp:10:1:finish_state_machine::finish_state_machine()	2128	static
+../Core/Inc/navigate_robot.h:132:3:mov_streight::mov_streight()	16	static
+../Core/Inc/navigate_robot.h:154:3:mov_circular::mov_circular()	16	static
+../Core/Inc/navigate_robot.h:76:7:constexpr command::command()	16	static
+../Core/Inc/navigate_robot.h:175:3:cmd_wait::cmd_wait()	16	static
+../Core/Inc/navigate_robot.h:194:3:cmd_set_pin::cmd_set_pin()	16	static
+../Core/Inc/navigate_robot.h:76:7:constexpr command& command::operator=(const command&)	16	static
+../Core/Inc/navigate_robot.h:90:7:constexpr movement& movement::operator=(const movement&)	24	static
+../Core/Inc/navigate_robot.h:129:7:constexpr mov_streight& mov_streight::operator=(const mov_streight&)	16	static
+../Core/Inc/navigate_robot.h:146:7:constexpr mov_circular& mov_circular::operator=(const mov_circular&)	24	static
+../Core/Inc/navigate_robot.h:170:7:constexpr cmd_wait& cmd_wait::operator=(const cmd_wait&)	16	static
+../Core/Inc/navigate_robot.h:192:7:constexpr cmd_set_pin& cmd_set_pin::operator=(const cmd_set_pin&)	16	static
+../Core/Src/finish_state_machine.cpp:10:1:finish_state_machine::finish_state_machine()	2160	static
 ../Core/Src/finish_state_machine.cpp:68:5:int finish_state_machine::handle_press_with_current_state(int, int)	56	static
 ../Core/Src/finish_state_machine.cpp:289:6:void finish_state_machine::change_mode(e_project_mode)	232	static
 ../Core/Src/finish_state_machine.cpp:329:6:void finish_state_machine::change_mode(e_step_mode)	16	static
@@ -41,7 +41,7 @@ C:\ST\STM32CubeIDE_1.13.2\STM32CubeIDE\plugins\com.st.stm32cube.ide.mcu.external
 ../Core/Src/finish_state_machine.cpp:449:6:void finish_state_machine::go_to_choosen_file()	72	static
 ../Core/Src/finish_state_machine.cpp:460:6:void finish_state_machine::save_changed_file()	16	static
 ../Core/Src/finish_state_machine.cpp:468:6:void finish_state_machine::save_changed_file_and_close()	16	static
-../Core/Src/finish_state_machine.cpp:475:6:void finish_state_machine::choose_and_prepare_to_create_command()	464	static
+../Core/Src/finish_state_machine.cpp:475:6:void finish_state_machine::choose_and_prepare_to_create_command()	496	static
 C:\ST\STM32CubeIDE_1.13.2\STM32CubeIDE\plugins\com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.11.3.rel1.win32_1.1.1.202309131626\tools\arm-none-eabi\include\c++\11.3.1\bits\shared_ptr_base.h:1154:7:std::__shared_ptr<_Tp, _Lp>::~__shared_ptr() [with _Tp = command; __gnu_cxx::_Lock_policy _Lp = __gnu_cxx::_S_single]	16	static
 C:\ST\STM32CubeIDE_1.13.2\STM32CubeIDE\plugins\com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.11.3.rel1.win32_1.1.1.202309131626\tools\bin/../lib/gcc/arm-none-eabi/11.3.1/../../../../arm-none-eabi/include/c++/11.3.1/bits/shared_ptr.h:122:11:std::shared_ptr<command>::~shared_ptr()	16	static
 C:\ST\STM32CubeIDE_1.13.2\STM32CubeIDE\plugins\com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.11.3.rel1.win32_1.1.1.202309131626\tools\arm-none-eabi\include\c++\11.3.1\bits\shared_ptr_base.h:1154:7:std::__shared_ptr<_Tp, _Lp>::~__shared_ptr() [with _Tp = mov_streight; __gnu_cxx::_Lock_policy _Lp = __gnu_cxx::_S_single]	16	static
@@ -78,14 +78,14 @@ C:\ST\STM32CubeIDE_1.13.2\STM32CubeIDE\plugins\com.st.stm32cube.ide.mcu.external
 ../Core/Src/finish_state_machine.cpp:590:6:void finish_state_machine::update_movement_speed(CommandType&, menu_segment&) [with CommandType = mov_streight]	104	static
 ../Core/Src/finish_state_machine.cpp:571:6:void finish_state_machine::update_movement_type(CommandType&, menu_segment&) [with CommandType = mov_streight]	104	static
 ../Core/Src/finish_state_machine.cpp:629:6:void finish_state_machine::update_position(CommandType&, bool&, void (comandType2::*)(robot_position)) [with CommandType = mov_streight; comandType2 = movement]	128	static
-../Core/Src/finish_state_machine.cpp:612:6:void finish_state_machine::save_changed_command(CommandType&) [with CommandType = mov_streight]	120	static
+../Core/Src/finish_state_machine.cpp:612:6:void finish_state_machine::save_changed_command(CommandType&) [with CommandType = mov_streight]	128	static
 ../Core/Src/finish_state_machine.cpp:590:6:void finish_state_machine::update_movement_speed(CommandType&, menu_segment&) [with CommandType = mov_circular]	104	static
 ../Core/Src/finish_state_machine.cpp:571:6:void finish_state_machine::update_movement_type(CommandType&, menu_segment&) [with CommandType = mov_circular]	104	static
 ../Core/Src/finish_state_machine.cpp:629:6:void finish_state_machine::update_position(CommandType&, bool&, void (comandType2::*)(robot_position)) [with CommandType = mov_circular; comandType2 = movement]	128	static
 ../Core/Src/finish_state_machine.cpp:629:6:void finish_state_machine::update_position(CommandType&, bool&, void (comandType2::*)(robot_position)) [with CommandType = mov_circular; comandType2 = mov_circular]	128	static
-../Core/Src/finish_state_machine.cpp:612:6:void finish_state_machine::save_changed_command(CommandType&) [with CommandType = mov_circular]	168	static
-../Core/Src/finish_state_machine.cpp:612:6:void finish_state_machine::save_changed_command(CommandType&) [with CommandType = cmd_wait]	64	static
-../Core/Src/finish_state_machine.cpp:612:6:void finish_state_machine::save_changed_command(CommandType&) [with CommandType = cmd_set_pin]	64	static
+../Core/Src/finish_state_machine.cpp:612:6:void finish_state_machine::save_changed_command(CommandType&) [with CommandType = mov_circular]	176	static
+../Core/Src/finish_state_machine.cpp:612:6:void finish_state_machine::save_changed_command(CommandType&) [with CommandType = cmd_wait]	72	static
+../Core/Src/finish_state_machine.cpp:612:6:void finish_state_machine::save_changed_command(CommandType&) [with CommandType = cmd_set_pin]	72	static
 C:\ST\STM32CubeIDE_1.13.2\STM32CubeIDE\plugins\com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.11.3.rel1.win32_1.1.1.202309131626\tools\bin/../lib/gcc/arm-none-eabi/11.3.1/../../../../arm-none-eabi/include/c++/11.3.1/bits/basic_string.h:6206:5:std::__cxx11::basic_string<_CharT, _Traits, _Alloc> std::operator+(std::__cxx11::basic_string<_CharT, _Traits, _Alloc>&&, const _CharT*) [with _CharT = char; _Traits = std::char_traits<char>; _Alloc = std::allocator<char>]	24	static
 C:\ST\STM32CubeIDE_1.13.2\STM32CubeIDE\plugins\com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.11.3.rel1.win32_1.1.1.202309131626\tools\bin/../lib/gcc/arm-none-eabi/11.3.1/../../../../arm-none-eabi/include/c++/11.3.1/bits/stl_vector.h:918:7:std::vector<_Tp, _Alloc>::size_type std::vector<_Tp, _Alloc>::size() const [with _Tp = FILINFO; _Alloc = std::allocator<FILINFO>]	16	static
 C:\ST\STM32CubeIDE_1.13.2\STM32CubeIDE\plugins\com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.11.3.rel1.win32_1.1.1.202309131626\tools\bin/../lib/gcc/arm-none-eabi/11.3.1/../../../../arm-none-eabi/include/c++/11.3.1/bits/basic_string.h:6248:5:bool std::operator==(const std::__cxx11::basic_string<_CharT, _Traits, _Alloc>&, const _CharT*) [with _CharT = char; _Traits = std::char_traits<char>; _Alloc = std::allocator<char>]	16	static

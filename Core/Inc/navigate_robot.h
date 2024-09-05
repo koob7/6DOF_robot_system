@@ -71,9 +71,17 @@ extern double a2;
 extern double a3;
 extern double d6;
 
+extern bool robot_was_moved;
+
 class command {
+
 public:
-  //virtual bool perform_task() = 0;
+  int task_progres=0;
+  int task_steps=1;//task steps nigdy nie może być zerem - zadanie zawsze musi mieć choć jeden etap do wykonania
+  virtual void prepare_task(std::shared_ptr<command> previous_command) = 0;//funkcja prepare_task jest wywoływana tylko jeżeli robot_was_moved==true lub gdy pierwszy raz wywołujemy komendę
+  virtual void perform_task() = 0;//zwraca true jak wykona się cała komenda
+  void reset_task_progres(){task_progres=0;}
+  bool is_task_completed(){return task_progres==task_steps;}
   virtual void draw(int print_y) = 0;
   virtual void save_to_file(FIL& fil)=0;
   // std::string getType(){return typeid(*this).name();}
@@ -113,6 +121,8 @@ public:
   void update_speed(enum e_speed in_speed){speed =in_speed;}
   void update_movement_type(enum e_movement_type in_movement_type){movement_type=in_movement_type;}
   void update_target_pos(struct robot_position in_target_pos){target_pos =in_target_pos;}
+  void prepare_task(std::shared_ptr<command> previous_command){}
+  void perform_task(){}
 
 };
 
@@ -124,12 +134,13 @@ public:
       enum e_movement_type movement_type);
   mov_streight(std::istringstream& iss);
   mov_streight(const mov_streight& other);
-  bool perform_task(); // tutaj funkcja będzie ustawiała kolejne pozycje
+  void perform_task(); // tutaj funkcja będzie ustawiała kolejne pozycje
                        // robota, zwraca true jeżeli osiągnięto cel
   void update_command(struct robot_position in_target_pos,
       enum e_speed in_speed, enum e_movement_type in_movement_type);
   void update_command(mov_streight in_object);
   void save_to_file(FIL& fil);
+  void prepare_task(std::shared_ptr<command> previous_command);
 };
 
 class mov_circular: public movement {
@@ -142,7 +153,7 @@ public:
       enum e_movement_type movement_type);
   mov_circular() = default;
   mov_circular(const mov_circular& other);
-  bool perform_task(); // tutaj funkcja będzie ustawiała kolejne pozycje
+  void perform_task(); // tutaj funkcja będzie ustawiała kolejne pozycje
                        // robota, zwraca true jeżeli osiągnięto cel
   void update_command(struct robot_position in_help_pos,
       struct robot_position in_target_pos, enum e_speed in_speed,
@@ -153,6 +164,7 @@ public:
     return help_pos;
   }
   void save_to_file(FIL& fil);
+  void prepare_task(std::shared_ptr<command> previous_command);
 };
 
 class cmd_wait: public command  {
@@ -165,7 +177,7 @@ public:
   cmd_wait(std::istringstream& iss);
   cmd_wait(enum e_wait_time wait_time);
   cmd_wait(const cmd_wait& other);
-  bool perform_task(); // tutaj będzie odczekiwany mały odstęp czasu,  zwraca
+  void perform_task(); // tutaj będzie odczekiwany mały odstęp czasu,  zwraca
                        // true jeżeli osiągnięto cel
   void draw(int print_y);
   void update_command(enum e_wait_time wait_time);
@@ -174,6 +186,7 @@ public:
   void update_time(enum e_wait_time in_wait_time){wait_time=in_wait_time;}
   void save_to_file(FIL& fil);
   std::string get_time_text();
+  void prepare_task(std::shared_ptr<command> previous_command);
 };
 
 class cmd_set_pin: public command  {
@@ -187,7 +200,7 @@ public:
   cmd_set_pin(std::istringstream& iss);
   cmd_set_pin(enum e_output_pin output_pin, bool set_pin_high);
   cmd_set_pin(const cmd_set_pin& other);
-  bool perform_task(); // tutaj będzie ustawiana wartość pinu w zależności od
+  void perform_task(); // tutaj będzie ustawiana wartość pinu w zależności od
                        // zmiennej set_pin_high, zwraca true jeżeli poprawnie
                        // ustawiono pin
   void draw(int print_y);
@@ -198,6 +211,7 @@ public:
   void save_to_file(FIL& fil);
   std::string get_pin_output_text();
   std::string get_pin_level_text();
+  void prepare_task(std::shared_ptr<command> previous_command);
 };
 
 void kalibracja_robota(int givenSteps[6], int liczba_krokow_osi[5],

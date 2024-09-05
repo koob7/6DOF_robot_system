@@ -7,8 +7,8 @@ C:\ST\STM32CubeIDE_1.13.2\STM32CubeIDE\plugins\com.st.stm32cube.ide.mcu.external
 ../Core/Src/main.cpp:257:6:void SystemClock_Config()	4
 ../Core/Src/main.cpp:316:6:void PeriphCommonClock_Config()	2
 ../Core/Src/main.cpp:329:6:void HAL_GPIO_EXTI_Callback(uint16_t)	3
-../Core/Src/main.cpp:346:6:void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef*)	2
-../Core/Src/main.cpp:357:6:void Error_Handler()	1
-../Core/Src/main.cpp:364:1:void __static_initialization_and_destruction_0(int, int)	5
-../Core/Src/main.cpp:364:1:cpp)	1
-../Core/Src/main.cpp:364:1:cpp)	1
+../Core/Src/main.cpp:345:6:void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef*)	2
+../Core/Src/main.cpp:356:6:void Error_Handler()	1
+../Core/Src/main.cpp:363:1:void __static_initialization_and_destruction_0(int, int)	5
+../Core/Src/main.cpp:363:1:cpp)	1
+../Core/Src/main.cpp:363:1:cpp)	1

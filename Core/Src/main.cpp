@@ -335,7 +335,6 @@ void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin) {
       was_touched = 1;
       XPT2046_Init();
     }
-    __HAL_GPIO_EXTI_CLEAR_IT(GPIO_Pin); // czyszczenie zgłoszonego przerwania
   }
   else {
     handle_limit_switch_interrupt(GPIO_Pin, kalibracja_osi, givenSteps,
