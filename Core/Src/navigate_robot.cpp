@@ -30,17 +30,28 @@ double a3 = 20;
 double d6 = 10.5;
 
 
-void mov_streight::prepare_task(std::shared_ptr<command> previous_command){
+void mov_streight::prepare_task(std::vector<std::shared_ptr<command>>::iterator first_command_iteratort, int position_in_vector){
   robot_was_moved = false;
 }
-void mov_circular::prepare_task(std::shared_ptr<command> previous_command){
+void mov_circular::prepare_task(std::vector<std::shared_ptr<command>>::iterator first_command_iteratort, int position_in_vector){
   robot_was_moved = false;
+  struct robot_position previous_robot_position;
+  for (int i = position_in_vector-1; i >-1; i--) {
+          try {
+            previous_robot_position = get_target_position();
+            //tutaj obliczanie ruchu kołowego jeżeli znaleźliśmy poprzednią pozycję
+            return;
+          } catch (const std::exception& e) {
+            //tutaj wpadamy jeżli poprzedni punkt jest innego typu niż movement
+          }
+      }
+  //tutaj zaczyna się obsługa jeżeli nie było wcześniej komendy typu movement
 }
-void cmd_wait::prepare_task(std::shared_ptr<command> previous_command){
-  robot_was_moved = false;
+void cmd_wait::prepare_task(std::vector<std::shared_ptr<command>>::iterator first_command_iteratort, int position_in_vector){
+
 }
-void cmd_set_pin::prepare_task(std::shared_ptr<command> previous_command){
-  robot_was_moved = false;
+void cmd_set_pin::prepare_task(std::vector<std::shared_ptr<command>>::iterator first_command_iteratort, int position_in_vector){
+
 }
 
 void mov_streight::perform_task(){

@@ -17,7 +17,7 @@ void project_editor::reset_project_progres() {
 void project_editor::prepare_commands() {
   int i = 0;
   for (const auto &cmd : commands) {
-    cmd->prepare_task((i > 0) ? commands[selected_command - 1] : nullptr);
+    cmd->prepare_task(commands.begin(), i);
     i++;
   }
 }
@@ -38,8 +38,7 @@ bool project_editor::execute_project() {
     //TODO obsługa że już zakończyliśmy wykonywanie programu
   }
   if (robot_was_moved) {
-    commands[selected_command]->prepare_task(
-        (selected_command > 0) ? commands[selected_command - 1] : nullptr);
+    commands[selected_command]->prepare_task(commands.begin(), selected_command);
   }
   while (!automatic_movement_ready) {
     //TODO oczekiwanie aż bedziemy mogli wykonać kolejny ruch
