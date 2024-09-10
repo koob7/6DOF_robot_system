@@ -34,6 +34,7 @@ bool project_editor::execute_project() {
     result = get_next_command_to_execute();
   }
   if (!result) {
+    //robot_was_moved = false;//ustawiamy że robot się poruszył (przygotowujemy do ponownego uruchomienia programu)
     return false;
     //TODO obsługa że już zakończyliśmy wykonywanie programu
   }

@@ -6,16 +6,16 @@
  */
 #include <navigate_robot.h>
 
-bool robot_was_moved=true;//jeżeli true - oznacza że robot był ruszony przez użytkownika, zmienna potrzebna przy wykonywaniu całego programu
-volatile bool automatic_movement_ready=true;//zzmienna która bedzie regulować prędkością robota - będzie setowana w przerwaniu i resetowaniu przy ruchu robotem
-volatile bool manual_movement_ready=true;
-  uint16_t max_licz_krokow_osi[6] =
-  { 6400 * 2, 6400 * 2, 8000, 6400 * 2, 6400 * 2, 0 };
-  double currentPosition[6];
-  double givenPosition[6];
-  int liczba_krokow_osi[5];
-  uint8_t kalibracja_osi[5] = { 1, 1, 1, 1, 1 };
-  int givenSteps[6] = { 0, 0, 0, 0, 0, 0 };
+bool robot_was_moved = true; //jeżeli true - oznacza że robot był ruszony przez użytkownika, zmienna potrzebna przy wykonywaniu całego programu
+volatile bool automatic_movement_ready = true; //zmienna która bedzie regulować prędkością robota w obsłudze programu- będzie setowana w przerwaniu i resetowaniu przy ruchu robotem
+volatile bool manual_movement_ready = true; //...w ręcznym sterowaniu robotem
+uint16_t max_licz_krokow_osi[6] = { 6400 * 2, 6400 * 2, 8000, 6400 * 2, 6400
+    * 2, 0 };
+double currentPosition[6];
+double givenPosition[6];
+int liczba_krokow_osi[5];
+uint8_t kalibracja_osi[5] = { 1, 1, 1, 1, 1 };
+int givenSteps[6] = { 0, 0, 0, 0, 0, 0 };
 
 struct robot_position robot_home_position = robot_position(20, 0, 20, 0, 0, 0);
 
@@ -29,93 +29,155 @@ double a2 = 20;
 double a3 = 20;
 double d6 = 10.5;
 
+void mov_streight::calculate_move_from_poin_to_target(
+    struct robot_position start_position) {
 
-void mov_streight::prepare_task(std::vector<std::shared_ptr<command>>::iterator first_command_iteratort, int position_in_vector){
-  robot_was_moved = false;
 }
-void mov_circular::prepare_task(std::vector<std::shared_ptr<command>>::iterator first_command_iteratort, int position_in_vector){
-  robot_was_moved = false;
+
+void mov_streight::prepare_task(
+    std::vector<std::shared_ptr<command>>::iterator first_command_iteratort,
+    int position_in_vector) {
   struct robot_position previous_robot_position;
-  for (int i = position_in_vector-1; i >-1; i--) {
-          try {
-            previous_robot_position = get_target_position();
-            //tutaj obliczanie ruchu kołowego jeżeli znaleźliśmy poprzednią pozycję
-            return;
-          } catch (const std::exception& e) {
-            //tutaj wpadamy jeżli poprzedni punkt jest innego typu niż movement
-          }
+  if (robot_was_moved) {
+    //obliczamy ruch z aktualnej pozycji robota
+    previous_robot_position = robot_position(currentPosition[0], currentPosition[1],currentPosition[2],currentPosition[3],currentPosition[4],currentPosition[5]);
+    calculate_move_from_poin_to_target(previous_robot_position);
+  } else {
+    //szukamy poprzedniego punktu - jeżeli nie ma korzystamy z aktualnej pozycji
+
+    for (int i = position_in_vector - 1; i > -1; i--) {
+      try {
+        previous_robot_position = get_target_position();
+        //ta obsługa wykona się jeżeli pobierzemy poprawnie pozycję:
+        calculate_move_from_poin_to_target(previous_robot_position);
+      } catch (const std::exception &e) {
       }
-  //tutaj zaczyna się obsługa jeżeli nie było wcześniej komendy typu movement
+    }
+    //tutaj jest obłsuga jeżeli robot się nie ruszył i nie ma poprzedniego punktu - korzystamy z obecnej pozycji
+    previous_robot_position = robot_position(currentPosition[0], currentPosition[1],currentPosition[2],currentPosition[3],currentPosition[4],currentPosition[5]);
+    calculate_move_from_poin_to_target(previous_robot_position);
+  }
+
+  robot_was_moved = false;
+  task_progres = 0;
 }
-void cmd_wait::prepare_task(std::vector<std::shared_ptr<command>>::iterator first_command_iteratort, int position_in_vector){
+void mov_circular::prepare_task(
+    std::vector<std::shared_ptr<command>>::iterator first_command_iteratort,
+    int position_in_vector) {
+
+  //tymczasowa obsługa - ustawiamy żeby zadanie wykonywało sie tak samo jak ruch prosty
+
+//szkic docelowej obsługi  - do poprawy !!!
+//  struct robot_position previous_robot_position;
+//  for (int i = position_in_vector-1; i >-1; i--) {
+//          try {
+//            previous_robot_position = get_target_position();
+//            //tutaj obliczanie ruchu kołowego jeżeli znaleźliśmy poprzednią pozycję
+//            return;
+//          } catch (const std::exception& e) {
+//            //tutaj wpadamy jeżli poprzedni punkt jest innego typu niż movement
+//            task_progres=0;
+//            task_steps=...
+//            robot_was_moved = false;//ustawiamy że jesteśmy pierwszym punktem tylko gdy faktycznie wykonamy operację
+//          }
+//      }
+//  //tutaj zaczyna się obsługa jeżeli nie było wcześniej komendy typu movement
+}
+void cmd_wait::prepare_task(
+    std::vector<std::shared_ptr<command>>::iterator first_command_iteratort,
+    int position_in_vector) {
+  task_progres = 0;
+  //oczekiwanie będzie wykonywało sie w odstępach zdefiniowanych w #define
+  int dividend;
+  switch (wait_time) {
+  case e_wait_time::wait_1s:
+    dividend = 1000;
+    break;
+  case e_wait_time::wait_5s:
+    dividend = 1000 * 5;
+    break;
+  case e_wait_time::wait_30s:
+    dividend = 1000 * 30;
+    break;
+  case e_wait_time::wait_1min:
+    dividend = 1000 * 60;
+    break;
+  case e_wait_time::wait_5min:
+    dividend = 1000 * 60 * 5;
+    break;
+  }
+  task_steps = dividend / single_wait_time_prescaller;
+}
+void cmd_set_pin::prepare_task(
+    std::vector<std::shared_ptr<command>>::iterator first_command_iteratort,
+    int position_in_vector) {
+  task_progres = 0;
+  //task_steps=1;//w tej komendzie zmiana pinu zawsze będzie operacją atomową
+}
+
+void mov_streight::perform_task() {
 
 }
-void cmd_set_pin::prepare_task(std::vector<std::shared_ptr<command>>::iterator first_command_iteratort, int position_in_vector){
+
+void mov_circular::perform_task() {
 
 }
 
-void mov_streight::perform_task(){
+void cmd_wait::perform_task() {
 
 }
 
-void mov_circular::perform_task(){
+void cmd_set_pin::perform_task() {
 
 }
 
-void cmd_wait::perform_task(){
-
+movement::movement(const movement &other) :
+    target_pos(other.target_pos), speed(other.speed), movement_type(
+        other.movement_type) {
 }
 
-void cmd_set_pin::perform_task(){
-
+mov_streight::mov_streight(const mov_streight &other) :
+    movement(other) {
 }
 
-movement::movement(const movement& other)
-  : target_pos(other.target_pos),
-    speed(other.speed),
-    movement_type(other.movement_type) {}
+mov_circular::mov_circular(const mov_circular &other) :
+    movement(other), help_pos(other.help_pos) {
+}
 
-mov_streight::mov_streight(const mov_streight& other)
-        : movement(other) {}
-
-mov_circular::mov_circular(const mov_circular& other)
-        : movement(other), help_pos(other.help_pos) {}
-
-void mov_streight::update_command(mov_streight in_object){
+void mov_streight::update_command(mov_streight in_object) {
   target_pos = in_object.target_pos;
   speed = in_object.speed;
   movement_type = in_object.movement_type;
 }
 
-cmd_wait::cmd_wait(const cmd_wait& other)
-    : command(other),
-      wait_time(other.wait_time) {}
+cmd_wait::cmd_wait(const cmd_wait &other) :
+    command(other), wait_time(other.wait_time) {
+}
 
-cmd_set_pin::cmd_set_pin(const cmd_set_pin& other)
-    : command(other),
-      output_pin(other.output_pin),
-      set_pin_high(other.set_pin_high) {}
+cmd_set_pin::cmd_set_pin(const cmd_set_pin &other) :
+    command(other), output_pin(other.output_pin), set_pin_high(
+        other.set_pin_high) {
+}
 
-void mov_circular::update_command(mov_circular in_object){
+void mov_circular::update_command(mov_circular in_object) {
   target_pos = in_object.target_pos;
   help_pos = in_object.help_pos;
   speed = in_object.speed;
   movement_type = in_object.movement_type;
 }
 
-void cmd_wait::update_command(cmd_wait in_object){
+void cmd_wait::update_command(cmd_wait in_object) {
   wait_time = in_object.wait_time;
 }
 
-void cmd_set_pin::update_command(cmd_set_pin in_object){
+void cmd_set_pin::update_command(cmd_set_pin in_object) {
   output_pin = in_object.output_pin;
-  set_pin_high =in_object.set_pin_high;
+  set_pin_high = in_object.set_pin_high;
 }
 
 void movement::draw_movement(int print_y, bool ciruclar_movement) {
 
-  std::string move_type =
-      ciruclar_movement ? "Circ." : "Strai.";
+  std::string move_type = ciruclar_movement ? "Circ." : "Strai.";
 
   std::string type_string =
       (movement_type == continous) ? "Continous" : "Step_by_step";
@@ -195,7 +257,7 @@ mov_streight::mov_streight(struct robot_position in_target_pos,
     enum e_speed speed, enum e_movement_type movement_type) :
     movement(in_target_pos, speed, movement_type) {
 }
-mov_streight::mov_streight(std::istringstream& iss) {
+mov_streight::mov_streight(std::istringstream &iss) {
   char prefix;
   double value;
   while (iss >> prefix >> value) {
@@ -254,7 +316,7 @@ mov_streight::mov_streight(std::istringstream& iss) {
   }
 }
 
-mov_circular::mov_circular(std::istringstream& iss) {
+mov_circular::mov_circular(std::istringstream &iss) {
   char prefix;
   double value;
   while (iss >> prefix >> value) {
@@ -331,7 +393,7 @@ mov_circular::mov_circular(std::istringstream& iss) {
   }
 }
 
-cmd_wait::cmd_wait(std::istringstream& iss) {
+cmd_wait::cmd_wait(std::istringstream &iss) {
   char prefix;
   double value;
   while (iss >> prefix >> value) {
@@ -365,7 +427,7 @@ cmd_wait::cmd_wait(std::istringstream& iss) {
   }
 }
 
-cmd_set_pin::cmd_set_pin(std::istringstream& iss) {
+cmd_set_pin::cmd_set_pin(std::istringstream &iss) {
   char prefix;
   double value;
   while (iss >> prefix >> value) {
@@ -467,7 +529,7 @@ void cmd_set_pin::draw(int print_y) {
   BLACK, "Level = " + output_pin_level);
 }
 
-std::string movement::get_speed_text(){
+std::string movement::get_speed_text() {
   switch (speed) {
   case speed_10:
     return "10";
@@ -478,7 +540,7 @@ std::string movement::get_speed_text(){
   }
 }
 
-std::string movement::get_movement_type_text(){
+std::string movement::get_movement_type_text() {
   switch (movement_type) {
   case continous:
     return "cont.";
@@ -487,22 +549,22 @@ std::string movement::get_movement_type_text(){
   }
 }
 
-std::string cmd_wait::get_time_text(){
-    switch (wait_time) {
-    case wait_1s:
-      return "1 second";
-    case wait_5s:
-          return "5 seconds";
-    case wait_30s:
-          return "30 seconds";
-    case wait_1min:
-          return "1 minut";
-    case wait_5min:
-          return "5 minuts";
-    }
+std::string cmd_wait::get_time_text() {
+  switch (wait_time) {
+  case wait_1s:
+    return "1 second";
+  case wait_5s:
+    return "5 seconds";
+  case wait_30s:
+    return "30 seconds";
+  case wait_1min:
+    return "1 minut";
+  case wait_5min:
+    return "5 minuts";
+  }
 }
 
-std::string cmd_set_pin::get_pin_output_text(){
+std::string cmd_set_pin::get_pin_output_text() {
   switch (output_pin) {
   case robot_tool:
     return "robot tool";
@@ -510,11 +572,10 @@ std::string cmd_set_pin::get_pin_output_text(){
     return "user led";
   }
 }
-std::string cmd_set_pin::get_pin_level_text(){
-  if(set_pin_high){
+std::string cmd_set_pin::get_pin_level_text() {
+  if (set_pin_high) {
     return "high";
-  }
-  else{
+  } else {
     return "low";
   }
 }
@@ -533,7 +594,8 @@ void mov_streight::save_to_file(FIL &fil) {
   len += snprintf(buffer + len, sizeof(buffer) - len, "B%.2f ", target_pos.b);
   len += snprintf(buffer + len, sizeof(buffer) - len, "C%.2f ", target_pos.c);
 
-  len += snprintf(buffer + len, sizeof(buffer) - len, ("S"+get_speed_text()+" ").c_str());
+  len += snprintf(buffer + len, sizeof(buffer) - len,
+      ("S" + get_speed_text() + " ").c_str());
 
   switch (movement_type) {
   case continous:
@@ -571,7 +633,8 @@ void mov_circular::save_to_file(FIL &fil) {
   len += snprintf(buffer + len, sizeof(buffer) - len, "L%.2f ", help_pos.b);
   len += snprintf(buffer + len, sizeof(buffer) - len, "O%.2f ", help_pos.c);
 
-  len += snprintf(buffer + len, sizeof(buffer) - len, ("S"+get_speed_text()+" ").c_str());
+  len += snprintf(buffer + len, sizeof(buffer) - len,
+      ("S" + get_speed_text() + " ").c_str());
 
   switch (movement_type) {
   case continous:
@@ -829,11 +892,11 @@ void licz_kroki(double givenPosition[6], int givenSteps[6],
   if (cos_theta2 <= 1 && // pierwiastek nie może mieć wartości ujemnych
       sqrt(s * s + r * r) > min_range && sqrt(s * s + r * r) < max_range && // warunek który musi być spełniony żeby pozycja była
                                                                              // osiągalna ze względu na zasięg ramion robota
-      theta[0] >= 0 && theta[0] <= 12000 &&                  // 0-180 stopni
-      theta[1] >= 0 && theta[1] <= 12000 && // 0-180 stopni
-      theta[2] >= 0 && theta[2] <= 10168 && // 0-143 stopni
-      theta[3] >= 0 && theta[3] <= 21333 && // 0-300 stopni
-      theta[4] >= 0 && theta[4] <= 12000)   // 0-180 stopni
+      theta[0] >= 0 && theta[0] <= 12000 &&                     // 0-180 stopni
+      theta[1] >= 0 && theta[1] <= 12000 &&                     // 0-180 stopni
+      theta[2] >= 0 && theta[2] <= 10168 &&                     // 0-143 stopni
+      theta[3] >= 0 && theta[3] <= 21333 &&                     // 0-300 stopni
+      theta[4] >= 0 && theta[4] <= 12000)                        // 0-180 stopni
 
           {
     for (int i = 0; i < 6; i++) {
@@ -841,7 +904,7 @@ void licz_kroki(double givenPosition[6], int givenSteps[6],
       currentPosition[i] = givenPosition[i];
     }
   } else {
-    theta[5] = theta[5];//czy to jest potrzebne xd?
+    theta[5] = theta[5];   //czy to jest potrzebne xd?
 
     //TODO tutaj będzie zwracana informacja że ruch jest niemożliwy
   }
@@ -872,88 +935,95 @@ void setDuration(GPIO_TypeDef *GPIOx, uint16_t GPIO_Pin, int currentSteps,
   }
 }
 
-void handle_move_interrupt(int *givenSteps, int *liczba_krokow_osi, int8_t *factor) {
-        // Obsługuje ruch silników M1, M2, M3, M4, M5, M6
+void handle_move_interrupt(int *givenSteps, int *liczba_krokow_osi,
+    int8_t *factor) {
+  // Obsługuje ruch silników M1, M2, M3, M4, M5, M6
 
-        // Sprawdza i aktualizuje M1
-        if (givenSteps[0] != liczba_krokow_osi[0]) {
-            setDuration(M1_DIR_GPIO_Port, M1_DIR_Pin, liczba_krokow_osi[0], givenSteps[0], &factor[0]);
-            moveMotorWithPosition(M1_STEP_GPIO_Port, M1_STEP_Pin, &liczba_krokow_osi[0], factor[0]);
-        }
+  // Sprawdza i aktualizuje M1
+  if (givenSteps[0] != liczba_krokow_osi[0]) {
+    setDuration(M1_DIR_GPIO_Port, M1_DIR_Pin, liczba_krokow_osi[0],
+        givenSteps[0], &factor[0]);
+    moveMotorWithPosition(M1_STEP_GPIO_Port, M1_STEP_Pin, &liczba_krokow_osi[0],
+        factor[0]);
+  }
 
-        // Sprawdza i aktualizuje M2
-        if (givenSteps[1] != liczba_krokow_osi[1]) {
-            setDuration(M2_DIR_GPIO_Port, M2_DIR_Pin, liczba_krokow_osi[1], givenSteps[1], &factor[1]);
-            moveMotorWithPosition(M2_STEP_GPIO_Port, M2_STEP_Pin, &liczba_krokow_osi[1], factor[1]);
-        }
+  // Sprawdza i aktualizuje M2
+  if (givenSteps[1] != liczba_krokow_osi[1]) {
+    setDuration(M2_DIR_GPIO_Port, M2_DIR_Pin, liczba_krokow_osi[1],
+        givenSteps[1], &factor[1]);
+    moveMotorWithPosition(M2_STEP_GPIO_Port, M2_STEP_Pin, &liczba_krokow_osi[1],
+        factor[1]);
+  }
 
-        // Sprawdza i aktualizuje M3 i M5
-        if (givenSteps[2] != liczba_krokow_osi[2]) {
-            setDuration(M3_DIR_GPIO_Port, M3_DIR_Pin, liczba_krokow_osi[2], givenSteps[2], &factor[2]);
-            setDuration(M5_DIR_GPIO_Port, M5_DIR_Pin, liczba_krokow_osi[2], givenSteps[2], &factor[2]);
-            moveMotorWithPosition(M3_STEP_GPIO_Port, M3_STEP_Pin, &liczba_krokow_osi[2], factor[2]);
-            // Opcjonalny delay
-            simpleMoveMotor(M5_STEP_GPIO_Port, M5_STEP_Pin);
-            simpleMoveMotor(M3_STEP_GPIO_Port, M3_STEP_Pin);
-        }
+  // Sprawdza i aktualizuje M3 i M5
+  if (givenSteps[2] != liczba_krokow_osi[2]) {
+    setDuration(M3_DIR_GPIO_Port, M3_DIR_Pin, liczba_krokow_osi[2],
+        givenSteps[2], &factor[2]);
+    setDuration(M5_DIR_GPIO_Port, M5_DIR_Pin, liczba_krokow_osi[2],
+        givenSteps[2], &factor[2]);
+    moveMotorWithPosition(M3_STEP_GPIO_Port, M3_STEP_Pin, &liczba_krokow_osi[2],
+        factor[2]);
+    // Opcjonalny delay
+    simpleMoveMotor(M5_STEP_GPIO_Port, M5_STEP_Pin);
+    simpleMoveMotor(M3_STEP_GPIO_Port, M3_STEP_Pin);
+  }
 
-        // Sprawdza i aktualizuje M4
-        if (givenSteps[3] != liczba_krokow_osi[3]) {
-            setDuration(M4_DIR_GPIO_Port, M4_DIR_Pin, liczba_krokow_osi[3], givenSteps[3], &factor[3]);
-            moveMotorWithPosition(M4_STEP_GPIO_Port, M4_STEP_Pin, &liczba_krokow_osi[3], factor[3]);
-        }
+  // Sprawdza i aktualizuje M4
+  if (givenSteps[3] != liczba_krokow_osi[3]) {
+    setDuration(M4_DIR_GPIO_Port, M4_DIR_Pin, liczba_krokow_osi[3],
+        givenSteps[3], &factor[3]);
+    moveMotorWithPosition(M4_STEP_GPIO_Port, M4_STEP_Pin, &liczba_krokow_osi[3],
+        factor[3]);
+  }
 
-        // Sprawdza i aktualizuje M5
-        if (givenSteps[4] != liczba_krokow_osi[4]) {
-            setDuration(M5_DIR_GPIO_Port, M5_DIR_Pin, liczba_krokow_osi[4], givenSteps[4], &factor[4]);
-            moveMotorWithPosition(M5_STEP_GPIO_Port, M5_STEP_Pin, &liczba_krokow_osi[4], factor[4]);
-            // Opcjonalny delay
-            simpleMoveMotor(M5_STEP_GPIO_Port, M5_STEP_Pin);
-        }
+  // Sprawdza i aktualizuje M5
+  if (givenSteps[4] != liczba_krokow_osi[4]) {
+    setDuration(M5_DIR_GPIO_Port, M5_DIR_Pin, liczba_krokow_osi[4],
+        givenSteps[4], &factor[4]);
+    moveMotorWithPosition(M5_STEP_GPIO_Port, M5_STEP_Pin, &liczba_krokow_osi[4],
+        factor[4]);
+    // Opcjonalny delay
+    simpleMoveMotor(M5_STEP_GPIO_Port, M5_STEP_Pin);
+  }
 
-        // Ustawienia dla M6
-        set_ang(givenSteps[5], 0);
-        HAL_GPIO_WritePin(M6_STEP_GPIO_Port, M6_STEP_Pin, GPIO_PIN_SET);
-        HAL_GPIO_WritePin(M6_STEP_GPIO_Port, M6_STEP_Pin, GPIO_PIN_RESET);
+  // Ustawienia dla M6
+  set_ang(givenSteps[5], 0);
+  HAL_GPIO_WritePin(M6_STEP_GPIO_Port, M6_STEP_Pin, GPIO_PIN_SET);
+  HAL_GPIO_WritePin(M6_STEP_GPIO_Port, M6_STEP_Pin, GPIO_PIN_RESET);
 }
 
-void handle_limit_switch_interrupt(uint16_t GPIO_Pin, uint8_t *kalibracja_osi, int *givenSteps, int *liczba_krokow_osi) {
-    // Sprawdzamy, który pin GPIO został aktywowany i czy odpowiednia oś nie jest jeszcze skalibrowana
-    if (GPIO_Pin == M1_S_Pin && kalibracja_osi[0] == 0) {
-        liczba_krokow_osi[0] = 0;
-        givenSteps[0] = 0;
-        kalibracja_osi[0] = 1;
-    }
-    if (GPIO_Pin == M2_S_Pin && kalibracja_osi[1] == 0) {
-        liczba_krokow_osi[1] = 10; // Możesz zmienić na 20, jeśli potrzebujesz
-        givenSteps[1] = 10;        // Możesz zmienić na 20, jeśli potrzebujesz
-        kalibracja_osi[1] = 1;
-    }
-    if (GPIO_Pin == M3_S_Pin && kalibracja_osi[2] == 0) {
-        liczba_krokow_osi[2] = 0;
-        givenSteps[2] = 0;
-        kalibracja_osi[2] = 1;
-    }
-    if (GPIO_Pin == M4_S_Pin && kalibracja_osi[3] == 0) {
-        liczba_krokow_osi[3] = 300;
-        givenSteps[3] = 300;
-        kalibracja_osi[3] = 1;
-    }
-    if (GPIO_Pin == M5_S_Pin && kalibracja_osi[4] == 0) {
-        liczba_krokow_osi[4] = 1600; // Możesz zmienić na 1790, jeśli potrzebujesz
-        givenSteps[4] = 1600;        // Możesz zmienić na 1790, jeśli potrzebujesz
-        kalibracja_osi[4] = 1;
-    }
+void handle_limit_switch_interrupt(uint16_t GPIO_Pin, uint8_t *kalibracja_osi,
+    int *givenSteps, int *liczba_krokow_osi) {
+  // Sprawdzamy, który pin GPIO został aktywowany i czy odpowiednia oś nie jest jeszcze skalibrowana
+  if (GPIO_Pin == M1_S_Pin && kalibracja_osi[0] == 0) {
+    liczba_krokow_osi[0] = 0;
+    givenSteps[0] = 0;
+    kalibracja_osi[0] = 1;
+  }
+  if (GPIO_Pin == M2_S_Pin && kalibracja_osi[1] == 0) {
+    liczba_krokow_osi[1] = 10; // Możesz zmienić na 20, jeśli potrzebujesz
+    givenSteps[1] = 10; // Możesz zmienić na 20, jeśli potrzebujesz
+    kalibracja_osi[1] = 1;
+  }
+  if (GPIO_Pin == M3_S_Pin && kalibracja_osi[2] == 0) {
+    liczba_krokow_osi[2] = 0;
+    givenSteps[2] = 0;
+    kalibracja_osi[2] = 1;
+  }
+  if (GPIO_Pin == M4_S_Pin && kalibracja_osi[3] == 0) {
+    liczba_krokow_osi[3] = 300;
+    givenSteps[3] = 300;
+    kalibracja_osi[3] = 1;
+  }
+  if (GPIO_Pin == M5_S_Pin && kalibracja_osi[4] == 0) {
+    liczba_krokow_osi[4] = 1600; // Możesz zmienić na 1790, jeśli potrzebujesz
+    givenSteps[4] = 1600; // Możesz zmienić na 1790, jeśli potrzebujesz
+    kalibracja_osi[4] = 1;
+  }
 }
 robot_position get_current_position() {
-    return robot_position(
-        givenPosition[0],
-        givenPosition[1],
-        givenPosition[2],
-        givenPosition[3],
-        givenPosition[4],
-        givenPosition[5]
-    );
+  return robot_position(givenPosition[0], givenPosition[1], givenPosition[2],
+      givenPosition[3], givenPosition[4], givenPosition[5]);
 }
 //
 //
@@ -980,5 +1050,4 @@ robot_position get_current_position() {
 //
 //
 //
-
 

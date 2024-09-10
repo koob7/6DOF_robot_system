@@ -31,7 +31,7 @@
 #define command_explorer_second_setting_x 370
 #define command_explorer_third_setting_x 540
 
-
+#define single_wait_time_prescaller 200
 
 struct robot_position {
   double x;
@@ -135,6 +135,7 @@ public:
 };
 
 class mov_streight: public movement {
+  void calculate_move_from_poin_to_target(struct robot_position start_position);
 public:
   void draw(int print_y){draw_movement(print_y, false);}
   mov_streight()=default;
