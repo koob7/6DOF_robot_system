@@ -135,6 +135,16 @@ public:
 };
 
 class mov_streight: public movement {
+  double vect_AB_x=0;
+  double vect_AB_y=0;
+  double vect_AB_z=0;
+  double distance_AB=0;
+  double delta_t=0;
+  double calculate_delta(double distance);
+  struct robot_position calculate_offset_on_line(const struct robot_position& A, double t);
+  void update_vector(const struct robot_position& A, const struct robot_position& B);
+  double  calculate_distance(const struct robot_position& A, const struct robot_position& B);
+  int count_segments(double tmp_distance);
   void calculate_move_from_poin_to_target(struct robot_position start_position);
 public:
   void draw(int print_y){draw_movement(print_y, false);}

@@ -8,68 +8,74 @@ C:\ST\STM32CubeIDE_1.13.2\STM32CubeIDE\plugins\com.st.stm32cube.ide.mcu.external
 ../Core/Inc/navigate_robot.h:119:8:virtual void movement::draw(int)	16	static
 ../Core/Inc/navigate_robot.h:132:8:virtual void movement::prepare_task(std::vector<std::shared_ptr<command> >::iterator, int)	24	static
 ../Core/Inc/navigate_robot.h:133:8:virtual void movement::perform_task()	16	static
-../Core/Inc/navigate_robot.h:140:8:virtual void mov_streight::draw(int)	16	static
-../Core/Inc/navigate_robot.h:158:8:virtual void mov_circular::draw(int)	16	static
-../Core/Src/navigate_robot.cpp:32:6:void mov_streight::calculate_move_from_poin_to_target(robot_position)	16	static
-../Core/Src/navigate_robot.cpp:37:6:virtual void mov_streight::prepare_task(std::vector<std::shared_ptr<command> >::iterator, int)	272	static
-../Core/Src/navigate_robot.cpp:64:6:virtual void mov_circular::prepare_task(std::vector<std::shared_ptr<command> >::iterator, int)	24	static
-../Core/Src/navigate_robot.cpp:86:6:virtual void cmd_wait::prepare_task(std::vector<std::shared_ptr<command> >::iterator, int)	32	static
-../Core/Src/navigate_robot.cpp:111:6:virtual void cmd_set_pin::prepare_task(std::vector<std::shared_ptr<command> >::iterator, int)	24	static
-../Core/Src/navigate_robot.cpp:118:6:virtual void mov_streight::perform_task()	16	static
-../Core/Src/navigate_robot.cpp:122:6:virtual void mov_circular::perform_task()	16	static
-../Core/Src/navigate_robot.cpp:126:6:virtual void cmd_wait::perform_task()	16	static
-../Core/Src/navigate_robot.cpp:130:6:virtual void cmd_set_pin::perform_task()	16	static
+../Core/Inc/navigate_robot.h:150:8:virtual void mov_streight::draw(int)	16	static
+../Core/Inc/navigate_robot.h:168:8:virtual void mov_circular::draw(int)	16	static
+../Core/Src/navigate_robot.cpp:32:6:void mov_streight::update_vector(const robot_position&, const robot_position&)	24	static
+../Core/Src/navigate_robot.cpp:38:23:robot_position mov_streight::calculate_offset_on_line(const robot_position&, double)	32	static
+C:\ST\STM32CubeIDE_1.13.2\STM32CubeIDE\plugins\com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.11.3.rel1.win32_1.1.1.202309131626\tools\bin/../lib/gcc/arm-none-eabi/11.3.1/../../../../arm-none-eabi/include/c++/11.3.1/cmath:415:5:constexpr typename __gnu_cxx::__promote_2<_Tp, _Up>::__type std::pow(_Tp, _Up) [with _Tp = double; _Up = int]	24	static
+../Core/Src/navigate_robot.cpp:49:9:double mov_streight::calculate_distance(const robot_position&, const robot_position&)	32	static
+../Core/Src/navigate_robot.cpp:53:9:double mov_streight::calculate_delta(double)	24	static
+../Core/Src/navigate_robot.cpp:57:5:int mov_streight::count_segments(double)	24	static
+../Core/Src/navigate_robot.cpp:62:6:void mov_streight::calculate_move_from_poin_to_target(robot_position)	16	static
+../Core/Src/navigate_robot.cpp:70:6:virtual void mov_streight::prepare_task(std::vector<std::shared_ptr<command> >::iterator, int)	272	static
+../Core/Src/navigate_robot.cpp:97:6:virtual void mov_circular::prepare_task(std::vector<std::shared_ptr<command> >::iterator, int)	24	static
+../Core/Src/navigate_robot.cpp:119:6:virtual void cmd_wait::prepare_task(std::vector<std::shared_ptr<command> >::iterator, int)	32	static
+../Core/Src/navigate_robot.cpp:144:6:virtual void cmd_set_pin::prepare_task(std::vector<std::shared_ptr<command> >::iterator, int)	24	static
+../Core/Src/navigate_robot.cpp:151:6:virtual void mov_streight::perform_task()	16	static
+../Core/Src/navigate_robot.cpp:155:6:virtual void mov_circular::perform_task()	16	static
+../Core/Src/navigate_robot.cpp:159:6:virtual void cmd_wait::perform_task()	16	static
+../Core/Src/navigate_robot.cpp:164:6:virtual void cmd_set_pin::perform_task()	16	static
 ../Core/Inc/navigate_robot.h:81:7:constexpr command::command()	16	static
-../Core/Src/navigate_robot.cpp:134:1:movement::movement(const movement&)	24	static
-../Core/Src/navigate_robot.cpp:139:1:mov_streight::mov_streight(const mov_streight&)	16	static
-../Core/Src/navigate_robot.cpp:143:1:mov_circular::mov_circular(const mov_circular&)	24	static
-../Core/Src/navigate_robot.cpp:147:6:void mov_streight::update_command(mov_streight)	24	static
+../Core/Src/navigate_robot.cpp:177:1:movement::movement(const movement&)	24	static
+../Core/Src/navigate_robot.cpp:182:1:mov_streight::mov_streight(const mov_streight&)	16	static
+../Core/Src/navigate_robot.cpp:186:1:mov_circular::mov_circular(const mov_circular&)	24	static
+../Core/Src/navigate_robot.cpp:190:6:void mov_streight::update_command(mov_streight)	24	static
 ../Core/Inc/navigate_robot.h:81:7:constexpr command::command(const command&)	16	static
-../Core/Src/navigate_robot.cpp:153:1:cmd_wait::cmd_wait(const cmd_wait&)	16	static
-../Core/Src/navigate_robot.cpp:157:1:cmd_set_pin::cmd_set_pin(const cmd_set_pin&)	16	static
-../Core/Src/navigate_robot.cpp:162:6:void mov_circular::update_command(mov_circular)	24	static
-../Core/Src/navigate_robot.cpp:169:6:void cmd_wait::update_command(cmd_wait)	16	static
-../Core/Src/navigate_robot.cpp:173:6:void cmd_set_pin::update_command(cmd_set_pin)	16	static
-../Core/Src/navigate_robot.cpp:178:6:void movement::draw_movement(int, bool)	200	static
-../Core/Src/navigate_robot.cpp:220:6:virtual void cmd_wait::draw(int)	120	static
-../Core/Src/navigate_robot.cpp:247:1:movement::movement(robot_position, movement::e_speed, movement::e_movement_type)	24	static
-../Core/Src/navigate_robot.cpp:251:1:movement::movement()	72	static
-../Core/Src/navigate_robot.cpp:256:1:mov_streight::mov_streight(robot_position, movement::e_speed, movement::e_movement_type)	80	static
-../Core/Src/navigate_robot.cpp:260:1:mov_streight::mov_streight(std::istringstream&)	32	static
-../Core/Src/navigate_robot.cpp:319:1:mov_circular::mov_circular(std::istringstream&)	32	static
-../Core/Src/navigate_robot.cpp:396:1:cmd_wait::cmd_wait(std::istringstream&)	32	static
-../Core/Src/navigate_robot.cpp:430:1:cmd_set_pin::cmd_set_pin(std::istringstream&)	32	static
-../Core/Src/navigate_robot.cpp:468:1:mov_circular::mov_circular(robot_position, robot_position, movement::e_speed, movement::e_movement_type)	80	static
-../Core/Src/navigate_robot.cpp:474:1:cmd_wait::cmd_wait(cmd_wait::e_wait_time)	16	static
-../Core/Src/navigate_robot.cpp:477:1:cmd_set_pin::cmd_set_pin(cmd_set_pin::e_output_pin, bool)	16	static
-../Core/Src/navigate_robot.cpp:481:6:void mov_streight::update_command(robot_position, movement::e_speed, movement::e_movement_type)	24	static
-../Core/Src/navigate_robot.cpp:488:6:void mov_circular::update_command(robot_position, robot_position, movement::e_speed, movement::e_movement_type)	24	static
-../Core/Src/navigate_robot.cpp:497:6:void cmd_wait::update_command(cmd_wait::e_wait_time)	16	static
-../Core/Src/navigate_robot.cpp:501:6:void cmd_set_pin::update_command(cmd_set_pin::e_output_pin, bool)	16	static
-../Core/Src/navigate_robot.cpp:507:6:virtual void cmd_set_pin::draw(int)	168	static
-../Core/Src/navigate_robot.cpp:532:13:std::string movement::get_speed_text()	32	static
-../Core/Src/navigate_robot.cpp:543:13:std::string movement::get_movement_type_text()	24	static
-../Core/Src/navigate_robot.cpp:552:13:std::string cmd_wait::get_time_text()	40	static
-../Core/Src/navigate_robot.cpp:567:13:std::string cmd_set_pin::get_pin_output_text()	24	static
-../Core/Src/navigate_robot.cpp:575:13:std::string cmd_set_pin::get_pin_level_text()	24	static
-../Core/Src/navigate_robot.cpp:583:6:virtual void mov_streight::save_to_file(FIL&)	368	static
-../Core/Src/navigate_robot.cpp:615:6:virtual void mov_circular::save_to_file(FIL&)	368	static
-../Core/Src/navigate_robot.cpp:653:6:virtual void cmd_wait::save_to_file(FIL&)	88	static
-../Core/Src/navigate_robot.cpp:686:6:virtual void cmd_set_pin::save_to_file(FIL&)	88	static
-../Core/Src/navigate_robot.cpp:724:6:void kalibracja_robota(int*, int*, uint8_t*)	24	static
-../Core/Src/navigate_robot.cpp:807:6:void licz_kroki(double*, int*, double*)	352	static
-../Core/Src/navigate_robot.cpp:913:6:void simpleMoveMotor(GPIO_TypeDef*, uint16_t)	16	static
-../Core/Src/navigate_robot.cpp:918:6:void moveMotorWithPosition(GPIO_TypeDef*, uint16_t, int*, int8_t)	24	static
-../Core/Src/navigate_robot.cpp:925:6:void setDuration(GPIO_TypeDef*, uint16_t, int, int, int8_t*)	24	static
-../Core/Src/navigate_robot.cpp:938:6:void handle_move_interrupt(int*, int*, int8_t*)	32	static
-../Core/Src/navigate_robot.cpp:995:6:void handle_limit_switch_interrupt(uint16_t, uint8_t*, int*, int*)	24	static
-../Core/Src/navigate_robot.cpp:1024:16:robot_position get_current_position()	16	static
+../Core/Src/navigate_robot.cpp:196:1:cmd_wait::cmd_wait(const cmd_wait&)	16	static
+../Core/Src/navigate_robot.cpp:200:1:cmd_set_pin::cmd_set_pin(const cmd_set_pin&)	16	static
+../Core/Src/navigate_robot.cpp:205:6:void mov_circular::update_command(mov_circular)	24	static
+../Core/Src/navigate_robot.cpp:212:6:void cmd_wait::update_command(cmd_wait)	16	static
+../Core/Src/navigate_robot.cpp:216:6:void cmd_set_pin::update_command(cmd_set_pin)	16	static
+../Core/Src/navigate_robot.cpp:221:6:void movement::draw_movement(int, bool)	200	static
+../Core/Src/navigate_robot.cpp:263:6:virtual void cmd_wait::draw(int)	120	static
+../Core/Src/navigate_robot.cpp:290:1:movement::movement(robot_position, movement::e_speed, movement::e_movement_type)	24	static
+../Core/Src/navigate_robot.cpp:294:1:movement::movement()	72	static
+../Core/Src/navigate_robot.cpp:299:1:mov_streight::mov_streight(robot_position, movement::e_speed, movement::e_movement_type)	80	static
+../Core/Src/navigate_robot.cpp:303:1:mov_streight::mov_streight(std::istringstream&)	32	static
+../Core/Src/navigate_robot.cpp:362:1:mov_circular::mov_circular(std::istringstream&)	32	static
+../Core/Src/navigate_robot.cpp:439:1:cmd_wait::cmd_wait(std::istringstream&)	32	static
+../Core/Src/navigate_robot.cpp:473:1:cmd_set_pin::cmd_set_pin(std::istringstream&)	32	static
+../Core/Src/navigate_robot.cpp:511:1:mov_circular::mov_circular(robot_position, robot_position, movement::e_speed, movement::e_movement_type)	80	static
+../Core/Src/navigate_robot.cpp:517:1:cmd_wait::cmd_wait(cmd_wait::e_wait_time)	16	static
+../Core/Src/navigate_robot.cpp:520:1:cmd_set_pin::cmd_set_pin(cmd_set_pin::e_output_pin, bool)	16	static
+../Core/Src/navigate_robot.cpp:524:6:void mov_streight::update_command(robot_position, movement::e_speed, movement::e_movement_type)	24	static
+../Core/Src/navigate_robot.cpp:531:6:void mov_circular::update_command(robot_position, robot_position, movement::e_speed, movement::e_movement_type)	24	static
+../Core/Src/navigate_robot.cpp:540:6:void cmd_wait::update_command(cmd_wait::e_wait_time)	16	static
+../Core/Src/navigate_robot.cpp:544:6:void cmd_set_pin::update_command(cmd_set_pin::e_output_pin, bool)	16	static
+../Core/Src/navigate_robot.cpp:550:6:virtual void cmd_set_pin::draw(int)	168	static
+../Core/Src/navigate_robot.cpp:575:13:std::string movement::get_speed_text()	32	static
+../Core/Src/navigate_robot.cpp:586:13:std::string movement::get_movement_type_text()	24	static
+../Core/Src/navigate_robot.cpp:595:13:std::string cmd_wait::get_time_text()	40	static
+../Core/Src/navigate_robot.cpp:610:13:std::string cmd_set_pin::get_pin_output_text()	24	static
+../Core/Src/navigate_robot.cpp:618:13:std::string cmd_set_pin::get_pin_level_text()	24	static
+../Core/Src/navigate_robot.cpp:626:6:virtual void mov_streight::save_to_file(FIL&)	368	static
+../Core/Src/navigate_robot.cpp:658:6:virtual void mov_circular::save_to_file(FIL&)	368	static
+../Core/Src/navigate_robot.cpp:696:6:virtual void cmd_wait::save_to_file(FIL&)	88	static
+../Core/Src/navigate_robot.cpp:729:6:virtual void cmd_set_pin::save_to_file(FIL&)	88	static
+../Core/Src/navigate_robot.cpp:767:6:void kalibracja_robota(int*, int*, uint8_t*)	24	static
+../Core/Src/navigate_robot.cpp:850:6:void licz_kroki(double*, int*, double*)	352	static
+../Core/Src/navigate_robot.cpp:956:6:void simpleMoveMotor(GPIO_TypeDef*, uint16_t)	16	static
+../Core/Src/navigate_robot.cpp:961:6:void moveMotorWithPosition(GPIO_TypeDef*, uint16_t, int*, int8_t)	24	static
+../Core/Src/navigate_robot.cpp:968:6:void setDuration(GPIO_TypeDef*, uint16_t, int, int, int8_t*)	24	static
+../Core/Src/navigate_robot.cpp:981:6:void handle_move_interrupt(int*, int*, int8_t*)	32	static
+../Core/Src/navigate_robot.cpp:1038:6:void handle_limit_switch_interrupt(uint16_t, uint8_t*, int*, int*)	24	static
+../Core/Src/navigate_robot.cpp:1067:16:robot_position get_current_position()	16	static
 C:\ST\STM32CubeIDE_1.13.2\STM32CubeIDE\plugins\com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.11.3.rel1.win32_1.1.1.202309131626\tools\bin/../lib/gcc/arm-none-eabi/11.3.1/../../../../arm-none-eabi/include/c++/11.3.1/bits/basic_string.h:6194:5:std::__cxx11::basic_string<_CharT, _Traits, _Alloc> std::operator+(const _CharT*, std::__cxx11::basic_string<_CharT, _Traits, _Alloc>&&) [with _CharT = char; _Traits = std::char_traits<char>; _Alloc = std::allocator<char>]	24	static
 C:\ST\STM32CubeIDE_1.13.2\STM32CubeIDE\plugins\com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.11.3.rel1.win32_1.1.1.202309131626\tools\arm-none-eabi\include\c++\11.3.1\bits\basic_string.tcc:1169:5:std::__cxx11::basic_string<_CharT, _Traits, _Alloc> std::operator+(const _CharT*, const std::__cxx11::basic_string<_CharT, _Traits, _Alloc>&) [with _CharT = char; _Traits = std::char_traits<char>; _Alloc = std::allocator<char>]	40	static
 C:\ST\STM32CubeIDE_1.13.2\STM32CubeIDE\plugins\com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.11.3.rel1.win32_1.1.1.202309131626\tools\bin/../lib/gcc/arm-none-eabi/11.3.1/../../../../arm-none-eabi/include/c++/11.3.1/bits/basic_string.h:6206:5:std::__cxx11::basic_string<_CharT, _Traits, _Alloc> std::operator+(std::__cxx11::basic_string<_CharT, _Traits, _Alloc>&&, const _CharT*) [with _CharT = char; _Traits = std::char_traits<char>; _Alloc = std::allocator<char>]	24	static
 C:\ST\STM32CubeIDE_1.13.2\STM32CubeIDE\plugins\com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.11.3.rel1.win32_1.1.1.202309131626\tools\bin/../lib/gcc/arm-none-eabi/11.3.1/../../../../arm-none-eabi/include/c++/11.3.1/bits/move.h:104:5:constexpr typename std::remove_reference<_Tp>::type&& std::move(_Tp&&) [with _Tp = std::__cxx11::basic_string<char>&]	16	static
 C:\ST\STM32CubeIDE_1.13.2\STM32CubeIDE\plugins\com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.11.3.rel1.win32_1.1.1.202309131626\tools\bin/../lib/gcc/arm-none-eabi/11.3.1/../../../../arm-none-eabi/include/c++/11.3.1/ext/alloc_traits.h:97:29:static constexpr _Alloc __gnu_cxx::__alloc_traits<_Alloc, <template-parameter-1-2> >::_S_select_on_copy(const _Alloc&) [with _Alloc = std::allocator<char>; <template-parameter-1-2> = char]	16	static
 C:\ST\STM32CubeIDE_1.13.2\STM32CubeIDE\plugins\com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.11.3.rel1.win32_1.1.1.202309131626\tools\bin/../lib/gcc/arm-none-eabi/11.3.1/../../../../arm-none-eabi/include/c++/11.3.1/bits/alloc_traits.h:562:7:static std::allocator_traits<std::allocator<_CharT> >::allocator_type std::allocator_traits<std::allocator<_CharT> >::select_on_container_copy_construction(const allocator_type&) [with _Tp = char]	16	static
-../Core/Src/navigate_robot.cpp:1027:1:void __static_initialization_and_destruction_0(int, int)	16	static
-../Core/Src/navigate_robot.cpp:1027:1:cpp)	8	static
-../Core/Src/navigate_robot.cpp:1027:1:cpp)	8	static
+../Core/Src/navigate_robot.cpp:1070:1:void __static_initialization_and_destruction_0(int, int)	16	static
+../Core/Src/navigate_robot.cpp:1070:1:cpp)	8	static
+../Core/Src/navigate_robot.cpp:1070:1:cpp)	8	static

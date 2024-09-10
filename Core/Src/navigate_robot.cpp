@@ -29,9 +29,42 @@ double a2 = 20;
 double a3 = 20;
 double d6 = 10.5;
 
+void mov_streight::update_vector(const struct robot_position& A, const struct robot_position& B){
+  vect_AB_x=(B.x - A.x);
+  vect_AB_y=(B.y - A.y);
+  vect_AB_z=(B.z - A.z);
+}
+
+struct robot_position mov_streight::calculate_offset_on_line(const struct robot_position& A, double t) {
+  struct robot_position position;
+  position.x =A.x + t * vect_AB_x;
+  position.y =A.y + t * vect_AB_y;
+  position.z =A.z + t * vect_AB_z;
+  position.a = 0;
+  position.b = 0;
+  position.c = 0;
+    return position;
+}
+
+double  mov_streight::calculate_distance(const struct robot_position& A, const struct robot_position& B) {
+  return   sqrt(pow(B.x - A.x, 2) + pow(B.y - A.y, 2) + pow(B.z - A.z, 2));
+}
+
+double  mov_streight::calculate_delta(double distance){
+  return  1.0 / distance;
+}
+
+int mov_streight::count_segments(double tmp_distance) {
+    // Liczymy liczbę odcinków o długości 1 cm, zaokrąglając w górę
+    return static_cast<int>(ceil(tmp_distance));
+}
+
 void mov_streight::calculate_move_from_poin_to_target(
     struct robot_position start_position) {
-
+  update_vector(start_position, target_pos);
+  distance_AB = calculate_distance(start_position, target_pos);
+  delta_t = calculate_delta(distance_AB);
+  task_steps = count_segments(distance_AB);
 }
 
 void mov_streight::prepare_task(
@@ -116,19 +149,29 @@ void cmd_set_pin::prepare_task(
 }
 
 void mov_streight::perform_task() {
-
+  task_progres++;
 }
 
 void mov_circular::perform_task() {
-
+  task_progres++;
 }
 
 void cmd_wait::perform_task() {
-
+  task_progres++;
+  HAL_Delay(single_wait_time_prescaller);
 }
 
 void cmd_set_pin::perform_task() {
-
+  task_progres=1;
+  switch(output_pin){
+  case e_output_pin::robot_tool:
+    //HAL_GPIO_WritePin(ROBOT_TOOl_GPIO_Port, ROBOT_TOOl_Pin, set_pin_high?GPIO_PIN_SET:GPIO_PIN_RESET);
+    //obecnie nie mamy żadnego nażędzia więc nic się nie dzieje
+    break;
+  case e_output_pin::user_led:
+  HAL_GPIO_WritePin(USER_LED_GPIO_Port, USER_LED_Pin, set_pin_high?GPIO_PIN_SET:GPIO_PIN_RESET);
+  break;
+  }
 }
 
 movement::movement(const movement &other) :
