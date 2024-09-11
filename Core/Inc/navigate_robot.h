@@ -19,6 +19,7 @@
 #include "ff.h"
 #include <vector>
 #include <exception>
+#include <stdexcept>
 
 #define command_explorer_start_pos_x 200
 #define command_explorer_start_pos_y 208

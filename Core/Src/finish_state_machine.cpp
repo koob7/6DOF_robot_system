@@ -851,8 +851,9 @@ bool finish_state_machine::handle_run_project_menu(int x, int y) {
     toggle_movement_length();
     break;
   case 6:
-    a_function_avilable_in_future.draw();
-    a_function_avilable_in_future.check_pressed();
+    //zakomentowałem bo dotyk często tutaj odczytuje pozycje i jest to problematyczne
+    //a_function_avilable_in_future.draw();
+    //a_function_avilable_in_future.check_pressed();
     break;
 
   }

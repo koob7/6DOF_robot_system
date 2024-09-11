@@ -17,7 +17,7 @@ int liczba_krokow_osi[5];
 uint8_t kalibracja_osi[5] = { 1, 1, 1, 1, 1 };
 int givenSteps[6] = { 0, 0, 0, 0, 0, 0 };
 
-struct robot_position robot_home_position = robot_position(20, 0, 20, 0, 0, 0);
+struct robot_position robot_home_position = robot_position(30, 0, 22, 0, 90, 90);
 
 int max_range = 39;
 int min_range = 13;
@@ -102,6 +102,7 @@ void mov_streight::calculate_move_from_poin_to_target(
 void mov_streight::prepare_task(
     std::vector<std::shared_ptr<command>>::iterator first_command_iteratort,
     int position_in_vector) {
+  bool was_previous = false;
   struct robot_position previous_robot_position;
   if (robot_was_moved) {
     //obliczamy ruch z aktualnej pozycji robota
@@ -114,17 +115,22 @@ void mov_streight::prepare_task(
 
     for (int i = position_in_vector - 1; i > -1; i--) {
       try {
-        previous_robot_position = get_target_position();
+        previous_robot_position = (*(first_command_iteratort+i))->get_target_position();
         //ta obsługa wykona się jeżeli pobierzemy poprawnie pozycję:
         calculate_move_from_poin_to_target(previous_robot_position);
+        was_previous = true;
+        break;
       } catch (const std::exception &e) {
       }
     }
     //tutaj jest obłsuga jeżeli robot się nie ruszył i nie ma poprzedniego punktu - korzystamy z obecnej pozycji
-    previous_robot_position = robot_position(currentPosition[0],
+
+    if(!was_previous)
+    {
+       previous_robot_position = robot_position(currentPosition[0],
         currentPosition[1], currentPosition[2], currentPosition[3],
         currentPosition[4], currentPosition[5]);
-    calculate_move_from_poin_to_target(previous_robot_position);
+    calculate_move_from_poin_to_target(previous_robot_position);}
   }
 
   robot_was_moved = false;
@@ -193,8 +199,8 @@ void mov_streight::perform_task() {
   givenPosition[3] = tmp_position.a;
   givenPosition[4] = tmp_position.b;
   givenPosition[5] = tmp_position.c;
-  if(!licz_kroki(givenPosition,givenSteps, currentPosition )){
-    throw std::exception();
+  if(!licz_kroki(givenPosition, givenSteps, currentPosition)){
+    throw std::invalid_argument("Liczba nie może być ujemna!");
   }
   movement_divider+=delta_movement_divider;
   task_progres++;

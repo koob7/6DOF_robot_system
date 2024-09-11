@@ -51,7 +51,7 @@ bool project_editor::execute_project() {
   }catch (const std::exception &e){
     throw;
   }
-  return false;
+  return true;
 }
 
 //zwraca true jeżeli jest kolejna komenda do wykonania i false jeżeli zakończyliśmy program

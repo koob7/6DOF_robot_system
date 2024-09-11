@@ -174,6 +174,7 @@ int main(void) {
   MX_TIM7_Init();
   /* USER CODE BEGIN 2 */
   HAL_TIM_Base_Start_IT(&htim6);
+  HAL_TIM_Base_Start_IT(&htim7);
   HAL_TIM_PWM_Start(&htim1, TIM_CHANNEL_1);
 
   //przywitanie użytkownika
@@ -219,7 +220,9 @@ int main(void) {
 
   //start głównego programu
   finish_state_machine fsm;
-
+  while (!automatic_movement_ready) {
+    //TODO oczekiwanie aż bedziemy mogli wykonać kolejny ruch
+  }
   /* USER CODE END 2 */
 
   /* Infinite loop */
