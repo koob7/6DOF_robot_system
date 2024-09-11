@@ -121,6 +121,7 @@ public:
   std::string file_name;
   project_editor();
   void draw();
+  void draw(int command_to_display);
   void handle_pressed(int x, int y);
   void add_part(std::shared_ptr<command> in_cmd) {
     commands.push_back(in_cmd);

@@ -29,12 +29,13 @@ bool project_editor::execute_project() {
     if (commands[selected_command]->is_task_completed()) {
       result = get_next_command_to_execute();
     }
-
+    else{
+      result = true;//wykonujemy obecną komendę
+    }
   } else {
     result = get_next_command_to_execute();
   }
   if (!result) {
-    //robot_was_moved = false;//ustawiamy że robot się poruszył (przygotowujemy do ponownego uruchomienia programu)
     return false;
     //TODO obsługa że już zakończyliśmy wykonywanie programu
   }
@@ -57,21 +58,23 @@ bool project_editor::execute_project() {
 bool project_editor::get_next_command_to_execute() {
   if (selected_command > -1) {
     if (commands[selected_command]->is_task_completed()) {
-      if ((selected_command+1) < static_cast<int>(commands.size())) {
+      if ((selected_command+1) < static_cast<int>(commands.size())) {//następna komenda to komenda po obecnej
         selected_command++;
+        draw(selected_command);
         return true;
-      } else {
+      } else {//dotarliśmy do końca pliku - nie ma więcej komend
         selected_command = -1;
+        draw(selected_command);
         return false;
       }
-    } else {
+    } else {//następną komendą będzie obecna komenda
       return true;
     }
-  } else if (commands.size() > 0) {
+  } else if (commands.size() > 0) {//następną komendą będzie pierwsza komenda z pliku
     robot_was_moved = true;
     selected_command = 0;
     return true;
-  } else {
+  } else {//nie ma żadnych komend
     return false;
   }
 
@@ -371,12 +374,15 @@ bool projects_explorer::delete_file() {
 void project_editor::insert_command(std::shared_ptr<command> in_cmd) {
   if (selected_command > -1) {
     commands.insert(commands.begin() + selected_command + 1, in_cmd);
+    commands[selected_command + 1]->prepare_task(commands.begin(), selected_command + 1);
     //selected_command = selected_command + 1;przechodzenie między zaznaczonymi okienkami jest niebezpieczne bo punkty mogą być poza obszarem malowania
   } else if (commands.size() > 1) {
     commands.insert(commands.end() - 1, in_cmd);
+    commands[commands.size()-2]->prepare_task(commands.begin(), commands.size()-2);
     //selected_command = commands.size()-2;
   } else {
     commands.push_back(in_cmd);
+    commands[commands.size()-1]->prepare_task(commands.begin(), commands.size()-1);
   }
   //draw(); rysowanie nie jest potrzebne bo rysujemy przy wejściu do menu edycji
   prepare_commands();
@@ -384,9 +390,18 @@ void project_editor::insert_command(std::shared_ptr<command> in_cmd) {
 
 void project_editor::remove_command() {
   commands.erase(commands.begin() + selected_command);
+  commands[selected_command]->prepare_task(commands.begin(),selected_command);//komendy przesuneły sie w lewo więc następna komenda jest na tej samej pozycji
   selected_command = -1;
   draw();
   prepare_commands();
+}
+
+void project_editor::draw(int command_to_display){
+  if(command_to_display>-1){
+  if (command_to_display<first_command_to_display ||command_to_display>=last_command_to_display){
+    first_command_to_display = command_to_display;
+  }}
+  draw();
 }
 
 void project_editor::draw() {
