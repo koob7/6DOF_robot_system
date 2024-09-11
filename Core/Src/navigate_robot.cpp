@@ -94,7 +94,7 @@ void mov_streight::calculate_move_from_poin_to_target(
   update_vector(start_position, target_pos);
   distance_AB = calculate_distance(start_position, target_pos);
   delta_movement_divider = calculate_delta(distance_AB);
-  task_steps = count_segments(distance_AB);
+  task_steps =count_segments(distance_AB);
   movement_divider=delta_movement_divider;
 
 }
@@ -191,6 +191,7 @@ void cmd_set_pin::prepare_task(
 }
 
 void mov_streight::perform_task() {
+  if(task_progres<task_steps){
   if(movement_divider>1)movement_divider=1;
   struct robot_position tmp_position = calculate_offset_on_line();
   givenPosition[0] = tmp_position.x;
@@ -204,6 +205,7 @@ void mov_streight::perform_task() {
   }
   movement_divider+=delta_movement_divider;
   task_progres++;
+  }
 }
 
 void mov_circular::perform_task() {

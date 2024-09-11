@@ -975,6 +975,7 @@ bool finish_state_machine::handle_run_project() {
           "program zakonczony pomyslnie", false);
       tmp2.draw();
       tmp2.check_pressed();
+      main_project_editor.prepare_commands();
     } catch (const std::exception &e) {
       allert tmp(300, 200, 200, 0xD6BA, "blad",
           "nie mozna wykonac polecenia", false);
