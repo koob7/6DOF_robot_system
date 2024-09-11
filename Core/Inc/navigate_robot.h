@@ -138,10 +138,14 @@ class mov_streight: public movement {
   double vect_AB_x=0;
   double vect_AB_y=0;
   double vect_AB_z=0;
+  double angle_AB_a=0;
+  double angle_AB_b=0;
+  double angle_AB_c=0;
   double distance_AB=0;
-  double delta_t=0;
+  double movement_divider=0;
+  double delta_movement_divider=0;
   double calculate_delta(double distance);
-  struct robot_position calculate_offset_on_line(const struct robot_position& A, double t);
+  struct robot_position calculate_offset_on_line();
   void update_vector(const struct robot_position& A, const struct robot_position& B);
   double  calculate_distance(const struct robot_position& A, const struct robot_position& B);
   int count_segments(double tmp_distance);
@@ -235,8 +239,8 @@ public:
 
 void kalibracja_robota(int givenSteps[6], int liczba_krokow_osi[5],
     uint8_t kalibracja_osi[5]);
-void licz_kroki(double givenPosition[6], int givenSteps[6],
-    double currentPosition[6]);
+bool licz_kroki(double givenPosition[6], int givenSteps[6],
+    double currentPosition[6]);//zwraca true jeżeli ruch jest możliwy, w przeciwnym wyapdku false
 void simpleMoveMotor(GPIO_TypeDef *GPIOx, uint16_t GPIO_Pin);
 void moveMotorWithPosition(GPIO_TypeDef *GPIOx, uint16_t GPIO_Pin,
     int *stepCounter, int8_t factor);

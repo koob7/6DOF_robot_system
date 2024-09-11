@@ -704,9 +704,9 @@ bool finish_state_machine::handle_movement_menu(int x, int y) {
     if (pressed_button < 0) {
       return false;
     }
-    if(pressed_button>-1&&pressed_button<12){
-      robot_was_moved=true;
-      while (!manual_movement_ready){
+    if (pressed_button > -1 && pressed_button < 12) {
+      robot_was_moved = true;
+      while (!manual_movement_ready) {
         //TODO czekamy aż będziemy mogli wyslać kolejną komendę
       }
     }
@@ -859,7 +859,7 @@ bool finish_state_machine::handle_run_project_menu(int x, int y) {
   return false;
 }
 
-void finish_state_machine::toggle_enable_tool(){
+void finish_state_machine::toggle_enable_tool() {
   enable_tool = !enable_tool;
   main_left_menu.update_text(2, get_enable_tool_text());
 }
@@ -958,15 +958,27 @@ void finish_state_machine::toggle_movement_length() {
   main_left_menu.update_text(5, get_movement_length_text());
 }
 
-bool finish_state_machine::handle_run_project(){
-  if(control_mode==e_control_mode::MANUAL_MODE){
+bool finish_state_machine::handle_run_project() {
+  if (control_mode == e_control_mode::MANUAL_MODE) {
     a_function_avilable_in_future.draw();
     a_function_avilable_in_future.check_pressed();
     //TODO tutaj będzie zwracane true tak dlugo jak będzie kolejna komenda do obluzenia
     return true;
-  }
-  else{
+  } else {
+    try {
+      while (main_project_editor.execute_project()) {
 
+      }
+      allert tmp2(300, 200, 200, 0xD6BA, "sukces",
+          "program zakonczony pomyslnie", false);
+      tmp2.draw();
+      tmp2.check_pressed();
+    } catch (const std::exception &e) {
+      allert tmp(300, 200, 200, 0xD6BA, "blad",
+          "nie mozna wykonac polecenia", false);
+      tmp.draw();
+      tmp.check_pressed();
+    }
     //TODO tutaj będzie zwrócone false po całkowitym wykonaniu programu
     return false;
   }

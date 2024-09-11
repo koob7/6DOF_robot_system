@@ -45,7 +45,11 @@ bool project_editor::execute_project() {
     //TODO oczekiwanie aż bedziemy mogli wykonać kolejny ruch
   }
   automatic_movement_ready = false;
+  try{
   commands[selected_command]->perform_task();
+  }catch (const std::exception &e){
+    throw;
+  }
   return false;
 }
 

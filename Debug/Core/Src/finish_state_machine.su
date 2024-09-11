@@ -13,20 +13,20 @@ C:\ST\STM32CubeIDE_1.13.2\STM32CubeIDE\plugins\com.st.stm32cube.ide.mcu.external
 ../Core/Inc/navigate_robot.h:129:8:void movement::update_speed(movement::e_speed)	16	static
 ../Core/Inc/navigate_robot.h:130:8:void movement::update_movement_type(movement::e_movement_type)	16	static
 ../Core/Inc/navigate_robot.h:131:8:void movement::update_target_pos(robot_position)	24	static
-../Core/Inc/navigate_robot.h:181:8:void mov_circular::update_help_pos(robot_position)	24	static
-../Core/Inc/navigate_robot.h:205:8:void cmd_wait::update_time(cmd_wait::e_wait_time)	16	static
-../Core/Inc/navigate_robot.h:226:8:void cmd_set_pin::update_pin(cmd_set_pin::e_output_pin)	16	static
-../Core/Inc/navigate_robot.h:227:8:void cmd_set_pin::update_pin_level(bool)	16	static
+../Core/Inc/navigate_robot.h:185:8:void mov_circular::update_help_pos(robot_position)	24	static
+../Core/Inc/navigate_robot.h:209:8:void cmd_wait::update_time(cmd_wait::e_wait_time)	16	static
+../Core/Inc/navigate_robot.h:230:8:void cmd_set_pin::update_pin(cmd_set_pin::e_output_pin)	16	static
+../Core/Inc/navigate_robot.h:231:8:void cmd_set_pin::update_pin_level(bool)	16	static
 ../Core/Inc/menu_parts.h:85:7:button::~button()	16	static
 C:\ST\STM32CubeIDE_1.13.2\STM32CubeIDE\plugins\com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.11.3.rel1.win32_1.1.1.202309131626\tools\bin/../lib/gcc/arm-none-eabi/11.3.1/../../../../arm-none-eabi/include/c++/11.3.1/bits/stl_vector.h:128:14:std::_Vector_base<std::shared_ptr<menu_part>, std::allocator<std::shared_ptr<menu_part> > >::_Vector_impl::~_Vector_impl()	16	static
 ../Core/Inc/objects.h:100:8:bool projects_explorer::check_if_is_choosen()	16	static
 ../Core/Inc/objects.h:136:8:bool project_editor::check_if_is_choosen()	16	static
 ../Core/Inc/finish_state_machine.h:126:15:std::string finish_state_machine::get_enable_tool_text()	32	static
-../Core/Inc/navigate_robot.h:151:3:mov_streight::mov_streight()	16	static
-../Core/Inc/navigate_robot.h:173:3:mov_circular::mov_circular()	16	static
+../Core/Inc/navigate_robot.h:155:3:mov_streight::mov_streight()	16	static
+../Core/Inc/navigate_robot.h:177:3:mov_circular::mov_circular()	16	static
 ../Core/Inc/navigate_robot.h:81:7:constexpr command::command()	16	static
-../Core/Inc/navigate_robot.h:194:3:cmd_wait::cmd_wait()	16	static
-../Core/Inc/navigate_robot.h:213:3:cmd_set_pin::cmd_set_pin()	16	static
+../Core/Inc/navigate_robot.h:198:3:cmd_wait::cmd_wait()	16	static
+../Core/Inc/navigate_robot.h:217:3:cmd_set_pin::cmd_set_pin()	16	static
 ../Core/Inc/objects.h:103:7:project_editor::~project_editor()	16	static
 ../Core/Inc/objects.h:61:7:projects_explorer::~projects_explorer()	16	static
 ../Core/Inc/menu_parts.h:116:7:popup::~popup()	16	static
@@ -35,10 +35,10 @@ C:\ST\STM32CubeIDE_1.13.2\STM32CubeIDE\plugins\com.st.stm32cube.ide.mcu.external
 ../Core/Inc/navigate_robot.h:81:7:constexpr command& command::operator=(const command&)	16	static
 ../Core/Inc/navigate_robot.h:98:7:constexpr movement& movement::operator=(const movement&)	24	static
 ../Core/Inc/navigate_robot.h:137:7:constexpr mov_streight& mov_streight::operator=(const mov_streight&)	16	static
-../Core/Inc/navigate_robot.h:165:7:constexpr mov_circular& mov_circular::operator=(const mov_circular&)	24	static
-../Core/Inc/navigate_robot.h:189:7:constexpr cmd_wait& cmd_wait::operator=(const cmd_wait&)	16	static
-../Core/Inc/navigate_robot.h:211:7:constexpr cmd_set_pin& cmd_set_pin::operator=(const cmd_set_pin&)	16	static
-../Core/Src/finish_state_machine.cpp:10:1:finish_state_machine::finish_state_machine()	2200	static
+../Core/Inc/navigate_robot.h:169:7:constexpr mov_circular& mov_circular::operator=(const mov_circular&)	24	static
+../Core/Inc/navigate_robot.h:193:7:constexpr cmd_wait& cmd_wait::operator=(const cmd_wait&)	16	static
+../Core/Inc/navigate_robot.h:215:7:constexpr cmd_set_pin& cmd_set_pin::operator=(const cmd_set_pin&)	16	static
+../Core/Src/finish_state_machine.cpp:10:1:finish_state_machine::finish_state_machine()	2232	static
 ../Core/Src/finish_state_machine.cpp:68:5:int finish_state_machine::handle_press_with_current_state(int, int)	56	static
 ../Core/Src/finish_state_machine.cpp:289:6:void finish_state_machine::change_mode(e_project_mode)	232	static
 ../Core/Src/finish_state_machine.cpp:329:6:void finish_state_machine::change_mode(e_step_mode)	16	static
@@ -52,7 +52,7 @@ C:\ST\STM32CubeIDE_1.13.2\STM32CubeIDE\plugins\com.st.stm32cube.ide.mcu.external
 ../Core/Src/finish_state_machine.cpp:449:6:void finish_state_machine::go_to_choosen_file()	72	static
 ../Core/Src/finish_state_machine.cpp:460:6:void finish_state_machine::save_changed_file()	16	static
 ../Core/Src/finish_state_machine.cpp:468:6:void finish_state_machine::save_changed_file_and_close()	16	static
-../Core/Src/finish_state_machine.cpp:475:6:void finish_state_machine::choose_and_prepare_to_create_command()	536	static
+../Core/Src/finish_state_machine.cpp:475:6:void finish_state_machine::choose_and_prepare_to_create_command()	568	static
 C:\ST\STM32CubeIDE_1.13.2\STM32CubeIDE\plugins\com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.11.3.rel1.win32_1.1.1.202309131626\tools\arm-none-eabi\include\c++\11.3.1\bits\shared_ptr_base.h:1154:7:std::__shared_ptr<_Tp, _Lp>::~__shared_ptr() [with _Tp = command; __gnu_cxx::_Lock_policy _Lp = __gnu_cxx::_S_single]	16	static
 C:\ST\STM32CubeIDE_1.13.2\STM32CubeIDE\plugins\com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.11.3.rel1.win32_1.1.1.202309131626\tools\bin/../lib/gcc/arm-none-eabi/11.3.1/../../../../arm-none-eabi/include/c++/11.3.1/bits/shared_ptr.h:122:11:std::shared_ptr<command>::~shared_ptr()	16	static
 C:\ST\STM32CubeIDE_1.13.2\STM32CubeIDE\plugins\com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.11.3.rel1.win32_1.1.1.202309131626\tools\arm-none-eabi\include\c++\11.3.1\bits\shared_ptr_base.h:1154:7:std::__shared_ptr<_Tp, _Lp>::~__shared_ptr() [with _Tp = mov_streight; __gnu_cxx::_Lock_policy _Lp = __gnu_cxx::_S_single]	16	static
@@ -82,7 +82,7 @@ C:\ST\STM32CubeIDE_1.13.2\STM32CubeIDE\plugins\com.st.stm32cube.ide.mcu.external
 ../Core/Src/finish_state_machine.cpp:918:6:void finish_state_machine::toggle_axis_control_mode()	40	static
 ../Core/Src/finish_state_machine.cpp:930:13:std::string finish_state_machine::get_movement_length_text()	32	static
 ../Core/Src/finish_state_machine.cpp:943:6:void finish_state_machine::toggle_movement_length()	40	static
-../Core/Src/finish_state_machine.cpp:961:6:bool finish_state_machine::handle_run_project()	16	static
+../Core/Src/finish_state_machine.cpp:961:6:bool finish_state_machine::handle_run_project()	312	static
 C:\ST\STM32CubeIDE_1.13.2\STM32CubeIDE\plugins\com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.11.3.rel1.win32_1.1.1.202309131626\tools\bin/../lib/gcc/arm-none-eabi/11.3.1/../../../../arm-none-eabi/include/c++/11.3.1/bits/charconv.h:47:5:constexpr unsigned int std::__detail::__to_chars_len(_Tp, int) [with _Tp = unsigned int]	32	static
 C:\ST\STM32CubeIDE_1.13.2\STM32CubeIDE\plugins\com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.11.3.rel1.win32_1.1.1.202309131626\tools\bin/../lib/gcc/arm-none-eabi/11.3.1/../../../../arm-none-eabi/include/c++/11.3.1/bits/charconv.h:72:5:void std::__detail::__to_chars_10_impl(char*, unsigned int, _Tp) [with _Tp = unsigned int]	40	static
 C:\ST\STM32CubeIDE_1.13.2\STM32CubeIDE\plugins\com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.11.3.rel1.win32_1.1.1.202309131626\tools\arm-none-eabi\include\c++\11.3.1\bits\shared_ptr_base.h:140:7:void std::_Sp_counted_base<_Lp>::_M_destroy() [with __gnu_cxx::_Lock_policy _Lp = __gnu_cxx::_S_single]	16	static
@@ -97,7 +97,7 @@ C:\ST\STM32CubeIDE_1.13.2\STM32CubeIDE\plugins\com.st.stm32cube.ide.mcu.external
 ../Core/Src/finish_state_machine.cpp:589:6:void finish_state_machine::update_movement_speed(CommandType&, menu_segment&) [with CommandType = mov_streight]	104	static
 ../Core/Src/finish_state_machine.cpp:570:6:void finish_state_machine::update_movement_type(CommandType&, menu_segment&) [with CommandType = mov_streight]	104	static
 ../Core/Src/finish_state_machine.cpp:630:6:void finish_state_machine::update_position(CommandType&, bool&, void (comandType2::*)(robot_position)) [with CommandType = mov_streight; comandType2 = movement]	128	static
-../Core/Src/finish_state_machine.cpp:611:6:void finish_state_machine::save_changed_command(CommandType&) [with CommandType = mov_streight]	168	static
+../Core/Src/finish_state_machine.cpp:611:6:void finish_state_machine::save_changed_command(CommandType&) [with CommandType = mov_streight]	200	static
 ../Core/Src/finish_state_machine.cpp:589:6:void finish_state_machine::update_movement_speed(CommandType&, menu_segment&) [with CommandType = mov_circular]	104	static
 ../Core/Src/finish_state_machine.cpp:570:6:void finish_state_machine::update_movement_type(CommandType&, menu_segment&) [with CommandType = mov_circular]	104	static
 ../Core/Src/finish_state_machine.cpp:630:6:void finish_state_machine::update_position(CommandType&, bool&, void (comandType2::*)(robot_position)) [with CommandType = mov_circular; comandType2 = movement]	128	static
@@ -401,7 +401,7 @@ C:\ST\STM32CubeIDE_1.13.2\STM32CubeIDE\plugins\com.st.stm32cube.ide.mcu.external
 C:\ST\STM32CubeIDE_1.13.2\STM32CubeIDE\plugins\com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.11.3.rel1.win32_1.1.1.202309131626\tools\arm-none-eabi\include\c++\11.3.1\bits\shared_ptr_base.h:385:16:std::_Sp_ebo_helper<_Nm, _Tp, true>::_Sp_ebo_helper(const _Tp&) [with int _Nm = 0; _Tp = std::allocator<cmd_set_pin>]	16	static
 C:\ST\STM32CubeIDE_1.13.2\STM32CubeIDE\plugins\com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.11.3.rel1.win32_1.1.1.202309131626\tools\bin/../lib/gcc/arm-none-eabi/11.3.1/../../../../arm-none-eabi/include/c++/11.3.1/ext/new_allocator.h:160:2:) [with _Up = cmd_set_pin; _Args = {cmd_set_pin&}; _Tp = cmd_set_pin]	40	static
 C:\ST\STM32CubeIDE_1.13.2\STM32CubeIDE\plugins\com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.11.3.rel1.win32_1.1.1.202309131626\tools\arm-none-eabi\include\c++\11.3.1\ext\aligned_buffer.h:102:7:void* __gnu_cxx::__aligned_buffer<_Tp>::_M_addr() [with _Tp = cmd_set_pin]	16	static
-../Core/Src/finish_state_machine.cpp:973:1:void __static_initialization_and_destruction_0(int, int)	16	static
+../Core/Src/finish_state_machine.cpp:985:1:void __static_initialization_and_destruction_0(int, int)	16	static
 C:\ST\STM32CubeIDE_1.13.2\STM32CubeIDE\plugins\com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.11.3.rel1.win32_1.1.1.202309131626\tools\arm-none-eabi\include\c++\11.3.1\bits\shared_ptr_base.h:523:7:std::_Sp_counted_ptr_inplace<_Tp, _Alloc, _Lp>::~_Sp_counted_ptr_inplace() [with _Tp = cmd_set_pin; _Alloc = std::allocator<cmd_set_pin>; __gnu_cxx::_Lock_policy _Lp = __gnu_cxx::_S_single]	16	static
 C:\ST\STM32CubeIDE_1.13.2\STM32CubeIDE\plugins\com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.11.3.rel1.win32_1.1.1.202309131626\tools\arm-none-eabi\include\c++\11.3.1\bits\shared_ptr_base.h:523:7:std::_Sp_counted_ptr_inplace<_Tp, _Alloc, _Lp>::~_Sp_counted_ptr_inplace() [with _Tp = cmd_set_pin; _Alloc = std::allocator<cmd_set_pin>; __gnu_cxx::_Lock_policy _Lp = __gnu_cxx::_S_single]	16	static
 C:\ST\STM32CubeIDE_1.13.2\STM32CubeIDE\plugins\com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.11.3.rel1.win32_1.1.1.202309131626\tools\arm-none-eabi\include\c++\11.3.1\bits\shared_ptr_base.h:526:7:void std::_Sp_counted_ptr_inplace<_Tp, _Alloc, _Lp>::_M_dispose() [with _Tp = cmd_set_pin; _Alloc = std::allocator<cmd_set_pin>; __gnu_cxx::_Lock_policy _Lp = __gnu_cxx::_S_single]	24	static
@@ -438,5 +438,5 @@ C:\ST\STM32CubeIDE_1.13.2\STM32CubeIDE\plugins\com.st.stm32cube.ide.mcu.external
 C:\ST\STM32CubeIDE_1.13.2\STM32CubeIDE\plugins\com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.11.3.rel1.win32_1.1.1.202309131626\tools\bin/../lib/gcc/arm-none-eabi/11.3.1/../../../../arm-none-eabi/include/c++/11.3.1/ext/new_allocator.h:166:2:void __gnu_cxx::new_allocator<_Tp>::destroy(_Up*) [with _Up = mov_circular; _Tp = mov_circular]	16	static
 C:\ST\STM32CubeIDE_1.13.2\STM32CubeIDE\plugins\com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.11.3.rel1.win32_1.1.1.202309131626\tools\arm-none-eabi\include\c++\11.3.1\bits\shared_ptr_base.h:389:7:static _Tp& std::_Sp_ebo_helper<_Nm, _Tp, true>::_S_get(std::_Sp_ebo_helper<_Nm, _Tp, true>&) [with int _Nm = 0; _Tp = std::allocator<mov_streight>]	16	static
 C:\ST\STM32CubeIDE_1.13.2\STM32CubeIDE\plugins\com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.11.3.rel1.win32_1.1.1.202309131626\tools\bin/../lib/gcc/arm-none-eabi/11.3.1/../../../../arm-none-eabi/include/c++/11.3.1/ext/new_allocator.h:166:2:void __gnu_cxx::new_allocator<_Tp>::destroy(_Up*) [with _Up = mov_streight; _Tp = mov_streight]	16	static
-../Core/Src/finish_state_machine.cpp:973:1:cpp)	8	static
-../Core/Src/finish_state_machine.cpp:973:1:cpp)	8	static
+../Core/Src/finish_state_machine.cpp:985:1:cpp)	8	static
+../Core/Src/finish_state_machine.cpp:985:1:cpp)	8	static
