@@ -57,12 +57,36 @@ double mov_streight::calculate_distance(const struct robot_position &A,
 }
 
 double mov_streight::calculate_delta(double distance) {
-  return 1.0 / distance;
+  double speed_divider;
+  switch (speed){
+  case e_speed::speed_10:
+    speed_divider= 0.001;
+    break;
+  case e_speed::speed_50:
+    speed_divider= 0.005;
+      break;
+  case e_speed::speed_100:
+    speed_divider= 0.01;
+      break;
+  }
+  return speed_divider / distance;
 }
 
 int mov_streight::count_segments(double tmp_distance) {
   // Liczymy liczbę odcinków o długości 1 cm, zaokrąglając w górę
-  return static_cast<int>(ceil(tmp_distance));
+  double speed_divider;
+  switch (speed){
+  case e_speed::speed_10:
+    speed_divider= 0.001;
+    break;
+  case e_speed::speed_50:
+    speed_divider= 0.005;
+      break;
+  case e_speed::speed_100:
+    speed_divider= 0.01;
+      break;
+  }
+  return static_cast<int>(ceil(tmp_distance/speed_divider));
 }
 
 void mov_streight::calculate_move_from_poin_to_target(

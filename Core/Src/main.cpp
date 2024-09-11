@@ -171,6 +171,7 @@ int main(void) {
   MX_TIM1_Init();
   MX_TIM6_Init();
   MX_FATFS_Init();
+  MX_TIM7_Init();
   /* USER CODE BEGIN 2 */
   HAL_TIM_Base_Start_IT(&htim6);
   HAL_TIM_PWM_Start(&htim1, TIM_CHANNEL_1);
@@ -199,16 +200,16 @@ int main(void) {
   main_right_menu.draw();
 
   //kalibracja ruchu robota
-//  kalibracja_robota(givenSteps, liczba_krokow_osi, kalibracja_osi);
-//  givenPosition[0] = 30;
-//  givenPosition[1] = 0;
-//  givenPosition[2] = 22;
-//  givenPosition[3] = 0;
-//  givenPosition[4] = 90;
-//  givenPosition[5] = 90;
-//  licz_kroki(givenPosition, givenSteps, currentPosition);
-//  kalibracja = 1;
-//  __HAL_TIM_SET_PRESCALER(&htim6, 9);
+  kalibracja_robota(givenSteps, liczba_krokow_osi, kalibracja_osi);
+  givenPosition[0] = 30;
+  givenPosition[1] = 0;
+  givenPosition[2] = 22;
+  givenPosition[3] = 0;
+  givenPosition[4] = 90;
+  givenPosition[5] = 90;
+  licz_kroki(givenPosition, givenSteps, currentPosition);
+  kalibracja = 1;
+  __HAL_TIM_SET_PRESCALER(&htim6, 9);
 
   // inicjalizacja dotyku
   XPT2046_Init();
@@ -345,6 +346,10 @@ void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin) {
 void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim) {
   if (htim->Instance == TIM6) {
     handle_move_interrupt(givenSteps, liczba_krokow_osi, factor);
+  }
+  if (htim->Instance == TIM7) {
+    automatic_movement_ready = true;
+    manual_movement_ready = true;
   }
 }
 /* USER CODE END 4 */
