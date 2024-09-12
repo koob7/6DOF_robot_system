@@ -161,7 +161,6 @@ void mov_circular::prepare_task(
 void cmd_wait::prepare_task(
     std::vector<std::shared_ptr<command>>::iterator first_command_iteratort,
     int position_in_vector) {
-  task_progres = 0;
   //oczekiwanie będzie wykonywało sie w odstępach zdefiniowanych w #define
   int dividend;
   switch (wait_time) {
@@ -181,6 +180,7 @@ void cmd_wait::prepare_task(
     dividend = 1000 * 60 * 5;
     break;
   }
+  task_progres = 0;
   task_steps = dividend / single_wait_time_prescaller;
 }
 void cmd_set_pin::prepare_task(
@@ -190,7 +190,7 @@ void cmd_set_pin::prepare_task(
   //task_steps=1;//w tej komendzie zmiana pinu zawsze będzie operacją atomową
 }
 
-void mov_streight::perform_task() {
+bool mov_streight::perform_task() {
   if(task_progres<task_steps){
   if(movement_divider>1)movement_divider=1;
   struct robot_position tmp_position = calculate_offset_on_line();
@@ -201,23 +201,26 @@ void mov_streight::perform_task() {
   givenPosition[4] = tmp_position.b;
   givenPosition[5] = tmp_position.c;
   if(!licz_kroki(givenPosition, givenSteps, currentPosition)){
-    throw std::exception();
+    return false;
   }
   movement_divider+=delta_movement_divider;
   task_progres++;
   }
+  return true;
 }
 
-void mov_circular::perform_task() {
+bool mov_circular::perform_task() {
   task_progres++;
+  return true;
 }
 
-void cmd_wait::perform_task() {
+bool cmd_wait::perform_task() {
   task_progres++;
   HAL_Delay(single_wait_time_prescaller);
+  return true;
 }
 
-void cmd_set_pin::perform_task() {
+bool cmd_set_pin::perform_task() {
   task_progres = 1;
   switch (output_pin) {
   case e_output_pin::robot_tool:
@@ -229,6 +232,7 @@ void cmd_set_pin::perform_task() {
         set_pin_high ? GPIO_PIN_SET : GPIO_PIN_RESET);
     break;
   }
+  return true;
 }
 
 movement::movement(const movement &other) :

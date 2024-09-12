@@ -84,7 +84,7 @@ public:
   int task_progres=0;
   int task_steps=1;//task steps nigdy nie może być zerem - zadanie zawsze musi mieć choć jeden etap do wykonania
   virtual void prepare_task(std::vector<std::shared_ptr<command>>::iterator first_command_iteratort, int position_in_vector) = 0;//funkcja prepare_task jest wywoływana tylko jeżeli robot_was_moved==true lub gdy pierwszy raz wywołujemy komendę
-  virtual void perform_task() = 0;//zwraca true jak wykona się cała komenda
+  virtual bool perform_task() = 0;//zwraca true jak wykona się cała komenda
   void reset_task_progres(){task_progres=0;}
   bool is_task_completed(){return task_progres==task_steps;}
   virtual void draw(int print_y) = 0;
@@ -134,7 +134,7 @@ public:
   void update_movement_type(enum e_movement_type in_movement_type){movement_type=in_movement_type;}
   void update_target_pos(struct robot_position in_target_pos){target_pos =in_target_pos;}
   void prepare_task(std::vector<std::shared_ptr<command>>::iterator first_command_iteratort, int position_in_vector){}
-  void perform_task(){}
+  bool perform_task(){}
 
 };
 
@@ -161,7 +161,7 @@ public:
       enum e_movement_type movement_type);
   mov_streight(std::istringstream& iss);
   mov_streight(const mov_streight& other);
-  void perform_task(); // tutaj funkcja będzie ustawiała kolejne pozycje
+  bool perform_task(); // tutaj funkcja będzie ustawiała kolejne pozycje
                        // robota, zwraca true jeżeli osiągnięto cel
   void update_command(struct robot_position in_target_pos,
       enum e_speed in_speed, enum e_movement_type in_movement_type);
@@ -180,7 +180,7 @@ public:
       enum e_movement_type movement_type);
   mov_circular() = default;
   mov_circular(const mov_circular& other);
-  void perform_task(); // tutaj funkcja będzie ustawiała kolejne pozycje
+  bool perform_task(); // tutaj funkcja będzie ustawiała kolejne pozycje
                        // robota, zwraca true jeżeli osiągnięto cel
   void update_command(struct robot_position in_help_pos,
       struct robot_position in_target_pos, enum e_speed in_speed,
@@ -204,7 +204,7 @@ public:
   cmd_wait(std::istringstream& iss);
   cmd_wait(enum e_wait_time wait_time);
   cmd_wait(const cmd_wait& other);
-  void perform_task(); // tutaj będzie odczekiwany mały odstęp czasu,  zwraca
+  bool perform_task(); // tutaj będzie odczekiwany mały odstęp czasu,  zwraca
                        // true jeżeli osiągnięto cel
   void draw(int print_y);
   void update_command(enum e_wait_time wait_time);
@@ -227,7 +227,7 @@ public:
   cmd_set_pin(std::istringstream& iss);
   cmd_set_pin(enum e_output_pin output_pin, bool set_pin_high);
   cmd_set_pin(const cmd_set_pin& other);
-  void perform_task(); // tutaj będzie ustawiana wartość pinu w zależności od
+  bool perform_task(); // tutaj będzie ustawiana wartość pinu w zależności od
                        // zmiennej set_pin_high, zwraca true jeżeli poprawnie
                        // ustawiono pin
   void draw(int print_y);

@@ -163,6 +163,8 @@ private:
   list_dialog l_choose_wait_time;
   list_dialog l_choose_output_pin;
   list_dialog l_choose_pin_level;
+  allert a_finish_running_program;
+  allert a_error_running_program;
 
 };
 

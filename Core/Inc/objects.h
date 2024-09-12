@@ -113,6 +113,9 @@ class project_editor {
   void draw_menu_for_next_command_to_execute();
 
 public:
+  enum e_project_run_progres {
+      pending, end, fault,
+    };
   int first_command_to_display = 0;
   int last_command_to_display = 0;
   int selected_command = -1; // wartość ujemna oznacza brak wybranego pliku
@@ -136,7 +139,7 @@ public:
   void close_file();
   void save_changes_into_file();
   bool check_if_is_choosen(){return selected_command>-1;}
-  bool execute_project();
+  enum e_project_run_progres execute_project();
   void reset_project_progres();
   void prepare_commands();
 };

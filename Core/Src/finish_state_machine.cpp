@@ -42,12 +42,14 @@ finish_state_machine::finish_state_machine() :
         250, 100, 300, 0xD6BA, "Prędkosc:", { "10%", "50%", "100%" }, true), a_no_choosen_file_to_open(
         300, 200, 200, 0xD6BA, "UWAGA", "Brak wybranego pliku do otwarcia"), a_function_avilable_in_future(
         300, 180, 240, 0xD6BA, "Przepraszamy",
-        "Funkcja bedzie dostępna w przyszlosci, za utrudnienia przepraszamy"), l_choose_wait_time(
+        "Funkcja bedzie dostępna w przyszlosci, za utrudnienia przepraszamy", false), l_choose_wait_time(
         250, 100, 300, 0xD6BA, "Czekaj:", { "1 sekunde", "5 sekund",
             "30 sekund", "1 minute", "5 minut" }, true), l_choose_output_pin(
         250, 100, 300, 0xD6BA, "Pin wyjsciowy:", { "narzedzie robota",
             "dioda urzytkownika" }, true), l_choose_pin_level(250, 100, 300,
-        0xD6BA, "Stan pinu:", { "niski", "wysoki" }, true)
+        0xD6BA, "Stan pinu:", { "niski", "wysoki" }, true), a_finish_running_program(300, 200, 200, 0xD6BA, "sukces",
+            "program zakonczony pomyslnie", false),a_error_running_program(300, 200, 200, 0xD6BA, "blad",
+                "nie mozna wykonac polecenia", false)
 
 {
   target_position = robot_position(0, 0, 0, 0, 0, 0);
@@ -966,21 +968,26 @@ bool finish_state_machine::handle_run_project() {
     //TODO tutaj będzie zwracane true tak dlugo jak będzie kolejna komenda do obluzenia
     return true;
   } else {
-    try {
-      while (main_project_editor.execute_project()) {
+
+    enum project_editor::e_project_run_progres status = main_project_editor.execute_project();
+      while (1) {
+        if(status ==project_editor::e_project_run_progres::pending){
+          status = main_project_editor.execute_project();
+        }
+        else if(status == project_editor::e_project_run_progres::end){
+          a_finish_running_program.draw();
+          a_finish_running_program.check_pressed();
+                break;
+        }
+        else if(status == project_editor::e_project_run_progres::fault){
+                a_error_running_program.draw();
+                a_error_running_program.check_pressed();
+                break;
+          }
 
       }
-      allert tmp2(300, 200, 200, 0xD6BA, "sukces",
-          "program zakonczony pomyslnie", false);
-      tmp2.draw();
-      tmp2.check_pressed();
-      main_project_editor.prepare_commands();
-    } catch (const std::exception &e) {
-      allert tmp(300, 200, 200, 0xD6BA, "blad",
-          "nie mozna wykonac polecenia", false);
-      tmp.draw();
-      tmp.check_pressed();
-    }
+
+
     //TODO tutaj będzie zwrócone false po całkowitym wykonaniu programu
     return false;
   }

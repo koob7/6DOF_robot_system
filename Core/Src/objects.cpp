@@ -23,10 +23,11 @@ void project_editor::prepare_commands() {
 }
 
 //zwraca true program jest w trakcie pracy oraz false gdy zakończyliśmy program
-bool project_editor::execute_project() {
+enum project_editor::e_project_run_progres project_editor::execute_project() {
   bool result;
   if (selected_command > -1) {
     if (commands[selected_command]->is_task_completed()) {
+      commands[selected_command]->reset_task_progres();
       result = get_next_command_to_execute();
     }
     else{
@@ -36,7 +37,7 @@ bool project_editor::execute_project() {
     result = get_next_command_to_execute();
   }
   if (!result) {
-    return false;
+    return project_editor::e_project_run_progres::end;
     //TODO obsługa że już zakończyliśmy wykonywanie programu
   }
   if (robot_was_moved) {
@@ -46,12 +47,13 @@ bool project_editor::execute_project() {
     //TODO oczekiwanie aż bedziemy mogli wykonać kolejny ruch
   }
   automatic_movement_ready = false;
-  try{
-  commands[selected_command]->perform_task();
-  }catch (const std::exception &e){
-    throw;
+
+  if(!commands[selected_command]->perform_task()){
+    //funkcja nie może wykonać się poprawnie
+    return project_editor::e_project_run_progres::fault;
   }
-  return true;
+
+  return project_editor::e_project_run_progres::pending;
 }
 
 //zwraca true jeżeli jest kolejna komenda do wykonania i false jeżeli zakończyliśmy program
