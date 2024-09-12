@@ -42,14 +42,14 @@ finish_state_machine::finish_state_machine() :
         250, 100, 300, 0xD6BA, "Prędkosc:", { "10%", "50%", "100%" }, true), a_no_choosen_file_to_open(
         300, 200, 200, 0xD6BA, "UWAGA", "Brak wybranego pliku do otwarcia"), a_function_avilable_in_future(
         300, 180, 240, 0xD6BA, "Przepraszamy",
-        "Funkcja bedzie dostępna w przyszlosci, za utrudnienia przepraszamy", false), l_choose_wait_time(
-        250, 100, 300, 0xD6BA, "Czekaj:", { "1 sekunde", "5 sekund",
-            "30 sekund", "1 minute", "5 minut" }, true), l_choose_output_pin(
+        "Funkcja bedzie dostępna w przyszlosci, za utrudnienia przepraszamy",
+        false), l_choose_wait_time(250, 100, 300, 0xD6BA, "Czekaj:", {
+        "1 sekunde", "5 sekund", "30 sekund", "1 minute", "5 minut" }, true), l_choose_output_pin(
         250, 100, 300, 0xD6BA, "Pin wyjsciowy:", { "narzedzie robota",
             "dioda urzytkownika" }, true), l_choose_pin_level(250, 100, 300,
-        0xD6BA, "Stan pinu:", { "niski", "wysoki" }, true), a_finish_running_program(300, 200, 200, 0xD6BA, "sukces",
-            "program zakonczony pomyslnie", false),a_error_running_program(300, 200, 200, 0xD6BA, "blad",
-                "nie mozna wykonac polecenia", false)
+        0xD6BA, "Stan pinu:", { "niski", "wysoki" }, true), a_finish_running_program(
+        300, 200, 200, 0xD6BA, "sukces", "program zakonczony pomyslnie", false), a_error_running_program(
+        300, 200, 200, 0xD6BA, "blad", "nie mozna wykonac polecenia", false)
 
 {
   target_position = robot_position(0, 0, 0, 0, 0, 0);
@@ -935,45 +935,51 @@ void finish_state_machine::toggle_movement_length() {
 }
 
 bool finish_state_machine::handle_run_project() {
-  if (control_mode == e_control_mode::MANUAL_MODE) {
-    a_function_avilable_in_future.draw();
-    a_function_avilable_in_future.check_pressed();
-    //TODO tutaj będzie zwracane true tak dlugo jak będzie kolejna komenda do obluzenia
-    return true;
-  } else {
-
-    enum project_editor::e_project_run_progres status = main_project_editor.execute_project();
-      while (1) {
-        if(status ==project_editor::e_project_run_progres::pending){
+  enum project_editor::e_project_run_progres status =
+      main_project_editor.execute_project();
+  while (1) {
+    if (status == project_editor::e_project_run_progres::pending) {
+      status = main_project_editor.execute_project();
+      if (control_mode == e_control_mode::MANUAL_MODE) {
+        return true;
+      }
+    } else if (status == project_editor::e_project_run_progres::end_step) {
+      if (step_mode == e_step_mode::STEP_BY_STEP) {
+        if (control_mode == e_control_mode::MANUAL_MODE) {
+          NVIC_DisableIRQ(EXTI9_5_IRQn);
+          while (1) {
+            if (main_left_menu.check_pressed_button(getY(), getY(), 3)) {
+              break;
+            }
+          }
+          XPT2046_Init();
+          __HAL_GPIO_EXTI_CLEAR_IT(T_IRQ_Pin);
+          NVIC_EnableIRQ(EXTI9_5_IRQn);
+        }
+        break;
+      }
+      if (step_mode == e_step_mode::CONTINUOUS) {
+        if (control_mode == e_control_mode::MANUAL_MODE) {
+          return true;
+        } else {
           status = main_project_editor.execute_project();
         }
-        else if(status ==project_editor::e_project_run_progres::end_step){
-          if(step_mode ==e_step_mode::STEP_BY_STEP){
-            break;
-          }
-          if(step_mode ==e_step_mode::CONTINUOUS){
-            status = main_project_editor.execute_project();
-          }
-        }
-        else if(status == project_editor::e_project_run_progres::end_project){
-          a_finish_running_program.draw();
-          a_finish_running_program.check_pressed();
-                break;
-        }
-        else if(status == project_editor::e_project_run_progres::fault){
-                a_error_running_program.draw();
-                a_error_running_program.check_pressed();
-                break;
-          }
-
       }
+    } else if (status == project_editor::e_project_run_progres::end_project) {
+      a_finish_running_program.draw();
+      a_finish_running_program.check_pressed();
+      break;
+    } else if (status == project_editor::e_project_run_progres::fault) {
+      a_error_running_program.draw();
+      a_error_running_program.check_pressed();
+      break;
+    }
 
-
-    //TODO tutaj będzie zwrócone false po całkowitym wykonaniu programu
-    return false;
   }
-}
 
+  //TODO tutaj będzie zwrócone false po całkowitym wykonaniu programu
+  return false;
+}
 //
 //
 //

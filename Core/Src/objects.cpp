@@ -33,6 +33,9 @@ enum project_editor::e_project_run_progres project_editor::execute_project() {
       if (result){
       return project_editor::e_project_run_progres::end_step;
       }
+      else{
+        return project_editor::e_project_run_progres::end_project;
+      }
     }
     else{
       result = true;//wykonujemy obecną komendę
