@@ -950,7 +950,7 @@ bool finish_state_machine::handle_run_project() {
         if (control_mode == e_control_mode::MANUAL_MODE) {
           NVIC_DisableIRQ(EXTI9_5_IRQn);
           while (1) {
-            if (main_left_menu.check_pressed_button(getY(), getY(), 3)) {
+            if (!main_left_menu.check_pressed_button(getX(), getY(), 3)) {
               break;
             }
           }

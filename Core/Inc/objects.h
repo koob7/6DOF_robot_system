@@ -57,7 +57,7 @@ public:
   }
   int check_pressed(int x, int y);
   bool check_pressed_button(int x, int y, int id){
-    return buttons[id].check_pressed(x, y);
+    return buttons[id].check_pressed(x, y)>-1;
   }
   void update_text(int id, std::string text, enum e_menu_layer menu_layer = e_menu_layer::e_buttons);
 };
