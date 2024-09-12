@@ -404,6 +404,7 @@ void project_editor::draw(int command_to_display){
 }
 
 void project_editor::draw() {
+
   update_last_command_to_display();
   if (first_command_to_display > 0) {
     page_up_btn.draw();
@@ -458,6 +459,13 @@ void project_editor::draw() {
     project_explorer_start_pos_y + pos_counter * (project_explorer_line_height +
     project_explorer_line_space));
     pos_counter++;
+  }
+  for (; pos_counter < command_explorer_num_files_on_page; pos_counter++){
+    TFT_Draw_Fill_Rectangle(command_explorer_start_pos_x,
+              command_explorer_start_pos_y
+                  + pos_counter * (command_explorer_line_height +
+                  command_explorer_line_space), 460, command_explorer_line_height+command_explorer_line_space,
+              clear_screen_color);
   }
 }
 

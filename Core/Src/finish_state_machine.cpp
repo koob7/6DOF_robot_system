@@ -546,7 +546,6 @@ void finish_state_machine::delete_choosen_command() {
 
     a_conf_deleting_command.draw();
     if (a_conf_deleting_command.check_pressed() == 0) {
-      cleer_working_screen.draw();
       main_project_editor.remove_command();
     }
   } else {

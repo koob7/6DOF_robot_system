@@ -17,6 +17,7 @@
 #include <sstream>
 #include <fstream>
 
+
 #define forget_when_hiden true
 
 #define project_explorer_start_pos_x 200
