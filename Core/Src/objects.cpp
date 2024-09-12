@@ -513,6 +513,7 @@ void project_editor::handle_pressed(int x, int y) {
     command_explorer_start_pos_y + pos_counter * (command_explorer_line_height +
     command_explorer_line_space), 460, command_explorer_line_height)) {
       selected_command = i;
+      robot_was_moved = true;
       draw();
       break;
     }
