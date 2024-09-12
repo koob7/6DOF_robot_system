@@ -114,7 +114,7 @@ class project_editor {
 
 public:
   enum e_project_run_progres {
-      pending, end, fault,
+      pending, end_project, end_step, fault,
     };
   int first_command_to_display = 0;
   int last_command_to_display = 0;

@@ -30,6 +30,9 @@ enum project_editor::e_project_run_progres project_editor::execute_project() {
       int tmp_previous_command = selected_command;
       result = get_next_command_to_execute();
       commands[tmp_previous_command]->reset_task_progres();
+      if (result){
+      return project_editor::e_project_run_progres::end_step;
+      }
     }
     else{
       result = true;//wykonujemy obecną komendę
@@ -38,7 +41,7 @@ enum project_editor::e_project_run_progres project_editor::execute_project() {
     result = get_next_command_to_execute();
   }
   if (!result) {
-    return project_editor::e_project_run_progres::end;
+    return project_editor::e_project_run_progres::end_project;
     //TODO obsługa że już zakończyliśmy wykonywanie programu
   }
   if (robot_was_moved) {
@@ -54,7 +57,7 @@ enum project_editor::e_project_run_progres project_editor::execute_project() {
     return project_editor::e_project_run_progres::fault;
   }
 
-  return project_editor::e_project_run_progres::pending;
+  return project_editor::e_project_run_progres::pending;;
 }
 
 //zwraca true jeżeli jest kolejna komenda do wykonania i false jeżeli zakończyliśmy program

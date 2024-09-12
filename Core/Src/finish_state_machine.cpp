@@ -77,33 +77,6 @@ int finish_state_machine::handle_press_with_current_state(int x, int y) {
     was_touched = 2;
   }
 
-  switch (control_mode) {
-  case e_control_mode::AUTOMATIC_MODE:
-    // TODO Handle automatic control mode specific logic (wywoływanie metody perform_action
-    break;
-  case e_control_mode::MANUAL_MODE:
-    // Handle manual control mode specific logic
-    break;
-  }
-
-//  switch (operation_mode) {
-//  case e_operation_mode::MANUAL:
-//    // Handle manual mode specific logic
-//    break;
-//  case e_operation_mode::AUTOMATIC:
-//    // Handle automatic mode specific logic
-//    break;
-//  }
-
-  switch (step_mode) {
-  case e_step_mode::STEP_BY_STEP:
-    // Handle step by step mode specific logic
-    break;
-  case e_step_mode::CONTINUOUS:
-    // Handle continuous mode specific logic
-    break;
-  }
-
   switch (project_mode) {
   case e_project_mode::SETTINGS:
     // Handle settings mode specific logic
@@ -974,7 +947,15 @@ bool finish_state_machine::handle_run_project() {
         if(status ==project_editor::e_project_run_progres::pending){
           status = main_project_editor.execute_project();
         }
-        else if(status == project_editor::e_project_run_progres::end){
+        else if(status ==project_editor::e_project_run_progres::end_step){
+          if(step_mode ==e_step_mode::STEP_BY_STEP){
+            break;
+          }
+          if(step_mode ==e_step_mode::CONTINUOUS){
+            status = main_project_editor.execute_project();
+          }
+        }
+        else if(status == project_editor::e_project_run_progres::end_project){
           a_finish_running_program.draw();
           a_finish_running_program.check_pressed();
                 break;
