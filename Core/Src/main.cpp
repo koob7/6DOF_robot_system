@@ -202,12 +202,12 @@ int main(void) {
 
   //kalibracja ruchu robota
   kalibracja_robota(givenSteps, liczba_krokow_osi, kalibracja_osi);
-  givenPosition[0] = 30;
-  givenPosition[1] = 0;
-  givenPosition[2] = 22;
-  givenPosition[3] = 0;
-  givenPosition[4] = 90;
-  givenPosition[5] = 90;
+  givenPosition[0] = robot_home_position.x;
+  givenPosition[1] = robot_home_position.y;
+  givenPosition[2] = robot_home_position.z;
+  givenPosition[3] = robot_home_position.a;
+  givenPosition[4] = robot_home_position.b;
+  givenPosition[5] = robot_home_position.c;
   licz_kroki(givenPosition, givenSteps, currentPosition);
   kalibracja = 1;
   __HAL_TIM_SET_PRESCALER(&htim6, 9);

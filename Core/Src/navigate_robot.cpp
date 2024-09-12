@@ -114,14 +114,14 @@ void mov_streight::prepare_task(
     //szukamy poprzedniego punktu - jeżeli nie ma korzystamy z aktualnej pozycji
 
     for (int i = position_in_vector - 1; i > -1; i--) {
-      try {
-        previous_robot_position = (*(first_command_iteratort+i))->get_target_position();
+
+        if((*(first_command_iteratort+i))->get_target_position(previous_robot_position)){
         //ta obsługa wykona się jeżeli pobierzemy poprawnie pozycję:
         calculate_move_from_poin_to_target(previous_robot_position);
         was_previous = true;
         break;
-      } catch (const std::exception &e) {
-      }
+        }
+
     }
     //tutaj jest obłsuga jeżeli robot się nie ruszył i nie ma poprzedniego punktu - korzystamy z obecnej pozycji
 
@@ -201,7 +201,7 @@ void mov_streight::perform_task() {
   givenPosition[4] = tmp_position.b;
   givenPosition[5] = tmp_position.c;
   if(!licz_kroki(givenPosition, givenSteps, currentPosition)){
-    throw std::invalid_argument("Liczba nie może być ujemna!");
+    throw std::exception();
   }
   movement_divider+=delta_movement_divider;
   task_progres++;

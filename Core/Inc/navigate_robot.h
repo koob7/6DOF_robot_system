@@ -19,7 +19,6 @@
 #include "ff.h"
 #include <vector>
 #include <exception>
-#include <stdexcept>
 
 #define command_explorer_start_pos_x 200
 #define command_explorer_start_pos_y 208
@@ -90,8 +89,8 @@ public:
   bool is_task_completed(){return task_progres==task_steps;}
   virtual void draw(int print_y) = 0;
   virtual void save_to_file(FIL& fil)=0;
-  virtual struct robot_position get_target_position() {
-    throw std::exception();
+  virtual bool get_target_position(struct robot_position &tmp_position) {
+   return false;
   }
   // std::string getType(){return typeid(*this).name();}
 };
@@ -114,6 +113,10 @@ public:
   movement(struct robot_position in_target_pos, enum e_speed  speed,
       enum e_movement_type movement_type);
   movement(const movement& other);
+  bool get_target_position(struct robot_position &tmp_position) {
+    tmp_position =  target_pos;
+    return true;
+  }
   struct robot_position get_target_position() {
     return target_pos;
   }

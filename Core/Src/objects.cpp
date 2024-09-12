@@ -374,17 +374,15 @@ bool projects_explorer::delete_file() {
 void project_editor::insert_command(std::shared_ptr<command> in_cmd) {
   if (selected_command > -1) {
     commands.insert(commands.begin() + selected_command + 1, in_cmd);
-    commands[selected_command + 1]->prepare_task(commands.begin(), selected_command + 1);
     //selected_command = selected_command + 1;przechodzenie między zaznaczonymi okienkami jest niebezpieczne bo punkty mogą być poza obszarem malowania
   } else if (commands.size() > 1) {
     commands.insert(commands.end() - 1, in_cmd);
-    commands[commands.size()-2]->prepare_task(commands.begin(), commands.size()-2);
     //selected_command = commands.size()-2;
   } else {
     commands.push_back(in_cmd);
-    commands[commands.size()-1]->prepare_task(commands.begin(), commands.size()-1);
   }
   //draw(); rysowanie nie jest potrzebne bo rysujemy przy wejściu do menu edycji
+  //TODO zoptymalizować komendy wymagające przygotowania
   prepare_commands();
 }
 
@@ -393,6 +391,7 @@ void project_editor::remove_command() {
   commands[selected_command]->prepare_task(commands.begin(),selected_command);//komendy przesuneły sie w lewo więc następna komenda jest na tej samej pozycji
   selected_command = -1;
   draw();
+  //TODO zoptymalizować komendy wymagające przygotowania
   prepare_commands();
 }
 
