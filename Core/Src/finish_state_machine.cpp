@@ -939,9 +939,11 @@ bool finish_state_machine::handle_run_project() {
       main_project_editor.execute_project();
   while (1) {
     if (status == project_editor::e_project_run_progres::pending) {
-      status = main_project_editor.execute_project();
       if (control_mode == e_control_mode::MANUAL_MODE) {
         return true;
+      }
+      else{
+        status = main_project_editor.execute_project();
       }
     } else if (status == project_editor::e_project_run_progres::end_step) {
       if (step_mode == e_step_mode::STEP_BY_STEP) {
