@@ -27,8 +27,9 @@ enum project_editor::e_project_run_progres project_editor::execute_project() {
   bool result;
   if (selected_command > -1) {
     if (commands[selected_command]->is_task_completed()) {
-      commands[selected_command]->reset_task_progres();
+      int tmp_previous_command = selected_command;
       result = get_next_command_to_execute();
+      commands[tmp_previous_command]->reset_task_progres();
     }
     else{
       result = true;//wykonujemy obecną komendę

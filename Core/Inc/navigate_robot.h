@@ -85,7 +85,7 @@ public:
   int task_steps=1;//task steps nigdy nie może być zerem - zadanie zawsze musi mieć choć jeden etap do wykonania
   virtual void prepare_task(std::vector<std::shared_ptr<command>>::iterator first_command_iteratort, int position_in_vector) = 0;//funkcja prepare_task jest wywoływana tylko jeżeli robot_was_moved==true lub gdy pierwszy raz wywołujemy komendę
   virtual bool perform_task() = 0;//zwraca true jak wykona się cała komenda
-  void reset_task_progres(){task_progres=0;}
+  virtual void reset_task_progres(){task_progres=0;}
   bool is_task_completed(){return task_progres==task_steps;}
   virtual void draw(int print_y) = 0;
   virtual void save_to_file(FIL& fil)=0;
@@ -155,6 +155,7 @@ class mov_streight: public movement {
   int count_segments(double tmp_distance);
   void calculate_move_from_poin_to_target(struct robot_position start_position);
 public:
+  void reset_task_progres(){task_progres=0;movement_divider = delta_movement_divider;}
   void draw(int print_y){draw_movement(print_y, false);}
   mov_streight()=default;
   mov_streight(struct robot_position in_target_pos, enum e_speed speed,

@@ -8,24 +8,25 @@ C:\ST\STM32CubeIDE_1.13.2\STM32CubeIDE\plugins\com.st.stm32cube.ide.mcu.external
 ../Core/Inc/menu_parts.h:110:8:virtual void button::update_text(std::string)	1
 ../Core/Inc/navigate_robot.h:44:3:robot_position::robot_position(double, double, double, double, double, double)	1
 ../Core/Inc/navigate_robot.h:48:3:robot_position::robot_position()	1
+../Core/Inc/navigate_robot.h:88:16:virtual void command::reset_task_progres()	1
 ../Core/Inc/navigate_robot.h:92:16:virtual bool command::get_target_position(robot_position&)	1
 ../Core/Inc/navigate_robot.h:133:8:void movement::update_speed(movement::e_speed)	1
 ../Core/Inc/navigate_robot.h:134:8:void movement::update_movement_type(movement::e_movement_type)	1
 ../Core/Inc/navigate_robot.h:135:8:void movement::update_target_pos(robot_position)	1
-../Core/Inc/navigate_robot.h:189:8:void mov_circular::update_help_pos(robot_position)	1
-../Core/Inc/navigate_robot.h:213:8:void cmd_wait::update_time(cmd_wait::e_wait_time)	1
-../Core/Inc/navigate_robot.h:234:8:void cmd_set_pin::update_pin(cmd_set_pin::e_output_pin)	1
-../Core/Inc/navigate_robot.h:235:8:void cmd_set_pin::update_pin_level(bool)	1
+../Core/Inc/navigate_robot.h:190:8:void mov_circular::update_help_pos(robot_position)	1
+../Core/Inc/navigate_robot.h:214:8:void cmd_wait::update_time(cmd_wait::e_wait_time)	1
+../Core/Inc/navigate_robot.h:235:8:void cmd_set_pin::update_pin(cmd_set_pin::e_output_pin)	1
+../Core/Inc/navigate_robot.h:236:8:void cmd_set_pin::update_pin_level(bool)	1
 ../Core/Inc/menu_parts.h:85:7:button::~button()	1
 C:\ST\STM32CubeIDE_1.13.2\STM32CubeIDE\plugins\com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.11.3.rel1.win32_1.1.1.202309131626\tools\bin/../lib/gcc/arm-none-eabi/11.3.1/../../../../arm-none-eabi/include/c++/11.3.1/bits/stl_vector.h:128:14:std::_Vector_base<std::shared_ptr<menu_part>, std::allocator<std::shared_ptr<menu_part> > >::_Vector_impl::~_Vector_impl()	1
 ../Core/Inc/objects.h:101:8:bool projects_explorer::check_if_is_choosen()	1
 ../Core/Inc/objects.h:141:8:bool project_editor::check_if_is_choosen()	1
 ../Core/Inc/finish_state_machine.h:126:15:std::string finish_state_machine::get_enable_tool_text()	2
-../Core/Inc/navigate_robot.h:159:3:mov_streight::mov_streight()	1
-../Core/Inc/navigate_robot.h:181:3:mov_circular::mov_circular()	1
+../Core/Inc/navigate_robot.h:160:3:mov_streight::mov_streight()	1
+../Core/Inc/navigate_robot.h:182:3:mov_circular::mov_circular()	1
 ../Core/Inc/navigate_robot.h:81:7:constexpr command::command()	1
-../Core/Inc/navigate_robot.h:202:3:cmd_wait::cmd_wait()	1
-../Core/Inc/navigate_robot.h:221:3:cmd_set_pin::cmd_set_pin()	1
+../Core/Inc/navigate_robot.h:203:3:cmd_wait::cmd_wait()	1
+../Core/Inc/navigate_robot.h:222:3:cmd_set_pin::cmd_set_pin()	1
 ../Core/Inc/objects.h:104:7:project_editor::~project_editor()	1
 ../Core/Inc/objects.h:62:7:projects_explorer::~projects_explorer()	1
 ../Core/Inc/menu_parts.h:116:7:popup::~popup()	1
@@ -34,9 +35,9 @@ C:\ST\STM32CubeIDE_1.13.2\STM32CubeIDE\plugins\com.st.stm32cube.ide.mcu.external
 ../Core/Inc/navigate_robot.h:81:7:constexpr command& command::operator=(const command&)	1
 ../Core/Inc/navigate_robot.h:98:7:constexpr movement& movement::operator=(const movement&)	1
 ../Core/Inc/navigate_robot.h:141:7:constexpr mov_streight& mov_streight::operator=(const mov_streight&)	1
-../Core/Inc/navigate_robot.h:173:7:constexpr mov_circular& mov_circular::operator=(const mov_circular&)	1
-../Core/Inc/navigate_robot.h:197:7:constexpr cmd_wait& cmd_wait::operator=(const cmd_wait&)	1
-../Core/Inc/navigate_robot.h:219:7:constexpr cmd_set_pin& cmd_set_pin::operator=(const cmd_set_pin&)	1
+../Core/Inc/navigate_robot.h:174:7:constexpr mov_circular& mov_circular::operator=(const mov_circular&)	1
+../Core/Inc/navigate_robot.h:198:7:constexpr cmd_wait& cmd_wait::operator=(const cmd_wait&)	1
+../Core/Inc/navigate_robot.h:220:7:constexpr cmd_set_pin& cmd_set_pin::operator=(const cmd_set_pin&)	1
 ../Core/Src/finish_state_machine.cpp:10:1:finish_state_machine::finish_state_machine()	107
 ../Core/Src/finish_state_machine.cpp:70:5:int finish_state_machine::handle_press_with_current_state(int, int)	45
 ../Core/Src/finish_state_machine.cpp:291:6:void finish_state_machine::change_mode(e_project_mode)	11
