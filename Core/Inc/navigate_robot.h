@@ -21,10 +21,10 @@
 #include <exception>
 
 #define command_explorer_start_pos_x 200
-#define command_explorer_start_pos_y 208
+#define command_explorer_start_pos_y 138
 #define command_explorer_line_height 28
 #define command_explorer_line_space 16
-#define command_explorer_num_files_on_page 6
+#define command_explorer_num_files_on_page 8
 #define command_explorer_file_menu_font                                        \
   const_cast<GFXfont *>(_Open_Sans_Bold_14)
 #define command_explorer_first_setting_x 260

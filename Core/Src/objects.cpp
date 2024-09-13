@@ -397,7 +397,6 @@ void project_editor::insert_command(std::shared_ptr<command> in_cmd) {
 
 void project_editor::remove_command() {
   commands.erase(commands.begin() + selected_command);
-  commands[selected_command]->prepare_task(commands.begin(),selected_command);//komendy przesuneły sie w lewo więc następna komenda jest na tej samej pozycji
   selected_command = -1;
   draw();
   //TODO zoptymalizować komendy wymagające przygotowania
@@ -435,8 +434,7 @@ void project_editor::draw() {
     command_explorer_line_space / 2 - 1, 460, 2, 0xB5B6);
     if (i == selected_command) {
       TFT_Draw_Fill_Round_Rect(command_explorer_start_pos_x,
-          command_explorer_start_pos_y
-              + pos_counter * (command_explorer_line_height +
+          command_explorer_start_pos_y+ pos_counter * (command_explorer_line_height +
               command_explorer_line_space), 460, command_explorer_line_height,
           10, 0xB6DF);
     } else {

@@ -21,10 +21,10 @@
 #define forget_when_hiden true
 
 #define project_explorer_start_pos_x 200
-#define project_explorer_start_pos_y 208
+#define project_explorer_start_pos_y 138//zamienić na 128
 #define project_explorer_line_height 28
 #define project_explorer_line_space 16
-#define project_explorer_num_files_on_page 6
+#define project_explorer_num_files_on_page 8
 #define project_explorer_file_menu_font                                        \
   const_cast<GFXfont *>(_Open_Sans_Bold_14)
 
