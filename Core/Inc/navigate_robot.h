@@ -91,6 +91,7 @@ public:
     default_command,
   };
   int task_progres=0;
+  bool was_error = false;
   int task_steps=1;//task steps nigdy nie może być zerem - zadanie zawsze musi mieć choć jeden etap do wykonania
   virtual void prepare_task(std::vector<std::shared_ptr<command>>::iterator first_command_iteratort, int position_in_vector) = 0;//funkcja prepare_task jest wywoływana tylko jeżeli robot_was_moved==true lub gdy pierwszy raz wywołujemy komendę
   virtual bool perform_task() = 0;//zwraca true jak wykona się cała komenda
@@ -98,6 +99,9 @@ public:
   bool is_task_completed(){return task_progres==task_steps;}
   virtual void draw(int print_y) = 0;
   virtual void save_to_file(FIL& fil)=0;
+  bool check_was_error(){return was_error;}
+  void clear_error(){was_error=false;}
+  void notice_error_occured(){was_error=true;}
   virtual bool get_target_position(struct robot_position &tmp_position) {
    return false;
   }

@@ -30,15 +30,18 @@ enum project_editor::e_project_run_progres project_editor::execute_project() {
       int tmp_previous_command = selected_command;
       result = get_next_command_to_execute();
       commands[tmp_previous_command]->reset_task_progres();
-      if (result){
-      return project_editor::e_project_run_progres::end_step;
-      }
-      else{
+      if (result) {
+        if (commands[selected_command]->check_was_error()) {
+          commands[selected_command]->prepare_task(commands.begin(),
+              selected_command);
+          commands[selected_command]->clear_error();
+        }
+        return project_editor::e_project_run_progres::end_step;
+      } else {
         return project_editor::e_project_run_progres::end_project;
       }
-    }
-    else{
-      result = true;//wykonujemy obecną komendę
+    } else {
+      result = true; //wykonujemy obecną komendę
     }
   } else {
     result = get_next_command_to_execute();
@@ -47,16 +50,20 @@ enum project_editor::e_project_run_progres project_editor::execute_project() {
     return project_editor::e_project_run_progres::end_project;
     //TODO obsługa że już zakończyliśmy wykonywanie programu
   }
-  if (robot_was_moved&&(commands[selected_command]->get_command_type()<command::e_command_type::mov_com_end)) {
-    commands[selected_command]->prepare_task(commands.begin(), selected_command);
+  if (robot_was_moved
+      && (commands[selected_command]->get_command_type()
+          < command::e_command_type::mov_com_end)) {
+    commands[selected_command]->prepare_task(commands.begin(),
+        selected_command);
   }
   while (!automatic_movement_ready) {
     //TODO oczekiwanie aż bedziemy mogli wykonać kolejny ruch
   }
   automatic_movement_ready = false;
 
-  if(!commands[selected_command]->perform_task()){
+  if (!commands[selected_command]->perform_task()) {
     //funkcja nie może wykonać się poprawnie
+    commands[selected_command]->notice_error_occured();
     return project_editor::e_project_run_progres::fault;
   }
 
@@ -67,23 +74,23 @@ enum project_editor::e_project_run_progres project_editor::execute_project() {
 bool project_editor::get_next_command_to_execute() {
   if (selected_command > -1) {
     if (commands[selected_command]->is_task_completed()) {
-      if ((selected_command+1) < static_cast<int>(commands.size())) {//następna komenda to komenda po obecnej
+      if ((selected_command + 1) < static_cast<int>(commands.size())) { //następna komenda to komenda po obecnej
         selected_command++;
         draw(selected_command);
         return true;
-      } else {//dotarliśmy do końca pliku - nie ma więcej komend
+      } else { //dotarliśmy do końca pliku - nie ma więcej komend
         selected_command = -1;
         draw(selected_command);
         return false;
       }
-    } else {//następną komendą będzie obecna komenda
+    } else { //następną komendą będzie obecna komenda
       return true;
     }
-  } else if (commands.size() > 0) {//następną komendą będzie pierwsza komenda z pliku
+  } else if (commands.size() > 0) { //następną komendą będzie pierwsza komenda z pliku
     robot_was_moved = true;
     selected_command = 0;
     return true;
-  } else {//nie ma żadnych komend
+  } else { //nie ma żadnych komend
     return false;
   }
 
@@ -403,11 +410,13 @@ void project_editor::remove_command() {
   prepare_commands();
 }
 
-void project_editor::draw(int command_to_display){
-  if(command_to_display>-1){
-  if (command_to_display<first_command_to_display ||command_to_display>=last_command_to_display){
-    first_command_to_display = command_to_display;
-  }}
+void project_editor::draw(int command_to_display) {
+  if (command_to_display > -1) {
+    if (command_to_display < first_command_to_display
+        || command_to_display >= last_command_to_display) {
+      first_command_to_display = command_to_display;
+    }
+  }
   draw();
 }
 
@@ -434,7 +443,8 @@ void project_editor::draw() {
     command_explorer_line_space / 2 - 1, 460, 2, 0xB5B6);
     if (i == selected_command) {
       TFT_Draw_Fill_Round_Rect(command_explorer_start_pos_x,
-          command_explorer_start_pos_y+ pos_counter * (command_explorer_line_height +
+          command_explorer_start_pos_y
+              + pos_counter * (command_explorer_line_height +
               command_explorer_line_space), 460, command_explorer_line_height,
           10, 0xB6DF);
     } else {
@@ -467,12 +477,12 @@ void project_editor::draw() {
     project_explorer_line_space));
     pos_counter++;
   }
-  for (; pos_counter < command_explorer_num_files_on_page; pos_counter++){
+  for (; pos_counter < command_explorer_num_files_on_page; pos_counter++) {
     TFT_Draw_Fill_Rectangle(command_explorer_start_pos_x,
-              command_explorer_start_pos_y
-                  + pos_counter * (command_explorer_line_height +
-                  command_explorer_line_space), 460, command_explorer_line_height+command_explorer_line_space,
-              clear_screen_color);
+    command_explorer_start_pos_y + pos_counter * (command_explorer_line_height +
+    command_explorer_line_space), 460,
+        command_explorer_line_height + command_explorer_line_space,
+        clear_screen_color);
   }
 }
 
@@ -519,7 +529,11 @@ void project_editor::handle_pressed(int x, int y) {
     if (check_area_pressed(x, y, project_explorer_start_pos_x,
     command_explorer_start_pos_y + pos_counter * (command_explorer_line_height +
     command_explorer_line_space), 460, command_explorer_line_height)) {
+      if (selected_command > -1) {//jeżeli zadanie było w trakcie wykonywania musimy zresetować jego progres
+        commands[selected_command]->notice_error_occured();
+      }
       selected_command = i;
+
       robot_was_moved = true;
       draw();
       break;
