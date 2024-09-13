@@ -396,7 +396,7 @@ void finish_state_machine::choose_file_sorting_option() {
 }
 void finish_state_machine::create_new_file() {
   if (main_project_explorer.create_file(
-      std::to_string(main_project_explorer.sd_files.size()) + ".txt") == -1) {
+      std::to_string(main_project_explorer.sd_files.size()) + ".gcode") == -1) {
 
     a_already_existing_file.draw();
     a_already_existing_file.check_pressed();
@@ -428,6 +428,8 @@ void finish_state_machine::go_to_choosen_file() {
     a_no_choosen_file_to_open.check_pressed();
   } else {
     main_project_editor.open_file(main_project_explorer.get_choosen_file());
+    main_left_menu.update_text(0, main_project_explorer.get_choosen_file(),
+        menu_segment::e_menu_layer::e_top_parts);
     main_project_editor.prepare_commands();
     change_mode(e_project_mode::EDIT_PROJECTS);
   }
@@ -444,6 +446,7 @@ void finish_state_machine::save_changed_file() {
 void finish_state_machine::save_changed_file_and_close() {
   save_changed_file();
   main_project_editor.close_file();
+  main_left_menu.update_text(0, "", menu_segment::e_menu_layer::e_top_parts);
   change_mode(e_project_mode::BROWSE_PROJECTS);
   main_project_explorer.get_files();
 }
@@ -941,8 +944,7 @@ bool finish_state_machine::handle_run_project() {
     if (status == project_editor::e_project_run_progres::pending) {
       if (control_mode == e_control_mode::MANUAL_MODE) {
         return true;
-      }
-      else{
+      } else {
         status = main_project_editor.execute_project();
       }
     } else if (status == project_editor::e_project_run_progres::end_step) {

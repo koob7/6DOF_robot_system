@@ -36,6 +36,8 @@ void init_main_left_menu() {
   main_left_menu.add_background_part(
       std::make_shared<rectangle>(0, 0, 120, 480, left_menu_background_color,
           20));
+  main_left_menu.add_part(std::make_shared<text_field>(//nazwa otwartego pliku
+      0,0, 120, 89, "", BLACK));
   int pos_y = 89;
   std::string names[7] = {  "CONT. MOVEMENT", "MANUAL", "ENABLE TOOL",
       "RUN JOB", "AXIS CONTROL", "CONT. MOVEMENT", "SETTINGS" };

@@ -200,7 +200,7 @@ void projects_explorer::get_files() {
     for (;;) {
       if (f_readdir(&directory, &fno) != FR_OK || fno.fname[0] == 0)
         break;
-      if (std::string(fno.fname).find(".txt") != std::string::npos) {
+      if (std::string(fno.fname).find(".gcode") != std::string::npos) {
         sd_files.push_back(fno);
       }
     }
