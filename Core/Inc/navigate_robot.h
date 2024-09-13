@@ -81,6 +81,15 @@ extern volatile bool manual_movement_ready;
 class command {
 
 public:
+  enum e_command_type{
+    mov_streight,
+    mov_circular,
+    mov_com_end,
+    cmd_wait,
+    cmd_set_pin,
+    functional_com_end,
+    default_command,
+  };
   int task_progres=0;
   int task_steps=1;//task steps nigdy nie może być zerem - zadanie zawsze musi mieć choć jeden etap do wykonania
   virtual void prepare_task(std::vector<std::shared_ptr<command>>::iterator first_command_iteratort, int position_in_vector) = 0;//funkcja prepare_task jest wywoływana tylko jeżeli robot_was_moved==true lub gdy pierwszy raz wywołujemy komendę
@@ -92,6 +101,7 @@ public:
   virtual bool get_target_position(struct robot_position &tmp_position) {
    return false;
   }
+  virtual enum e_command_type get_command_type() = 0;
   // std::string getType(){return typeid(*this).name();}
 };
 
@@ -155,6 +165,7 @@ class mov_streight: public movement {
   int count_segments(double tmp_distance);
   void calculate_move_from_poin_to_target(struct robot_position start_position);
 public:
+  virtual enum e_command_type get_command_type(){return e_command_type::mov_streight;}
   void reset_task_progres(){task_progres=0;movement_divider = delta_movement_divider;}
   void draw(int print_y){draw_movement(print_y, false);}
   mov_streight()=default;
@@ -173,6 +184,7 @@ public:
 
 class mov_circular: public movement {
 public:
+  virtual enum e_command_type get_command_type(){return e_command_type::mov_circular;}
   struct robot_position help_pos;
   void draw(int print_y){draw_movement(print_y, true);}
   mov_circular(std::istringstream& iss);
@@ -206,7 +218,8 @@ public:
   cmd_wait(enum e_wait_time wait_time);
   cmd_wait(const cmd_wait& other);
   bool perform_task(); // tutaj będzie odczekiwany mały odstęp czasu,  zwraca
-                       // true jeżeli osiągnięto cel
+
+  virtual enum e_command_type get_command_type(){return e_command_type::cmd_wait;}// true jeżeli osiągnięto cel
   void draw(int print_y);
   void update_command(enum e_wait_time wait_time);
   void update_command(cmd_wait in_object);
@@ -231,6 +244,7 @@ public:
   bool perform_task(); // tutaj będzie ustawiana wartość pinu w zależności od
                        // zmiennej set_pin_high, zwraca true jeżeli poprawnie
                        // ustawiono pin
+  virtual enum e_command_type get_command_type(){return e_command_type::cmd_set_pin;}
   void draw(int print_y);
   void update_pin(enum e_output_pin in_output_pin){output_pin=in_output_pin;}
   void update_pin_level(bool in_set_pin_high){set_pin_high=in_set_pin_high;}

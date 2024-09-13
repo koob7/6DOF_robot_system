@@ -47,7 +47,7 @@ enum project_editor::e_project_run_progres project_editor::execute_project() {
     return project_editor::e_project_run_progres::end_project;
     //TODO obsługa że już zakończyliśmy wykonywanie programu
   }
-  if (robot_was_moved) {
+  if (robot_was_moved&&(commands[selected_command]->get_command_type()<command::e_command_type::mov_com_end)) {
     commands[selected_command]->prepare_task(commands.begin(), selected_command);
   }
   while (!automatic_movement_ready) {
