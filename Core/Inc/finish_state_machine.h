@@ -15,13 +15,15 @@
 #include "mov_circular.h"
 #include "mov_streight.h"
 #include "project_editor.h"
+#include "project_explorer.h"
 #include "xpt2046.h"
 #include <display_ssd1963.h>
 #include <iostream>
 #include <memory>
-#include <menu_segments.h>
+#include <menu_segment.h>
+#include <menu_segments_objects.h>
 #include <navigate_robot.h>
-#include <objects.h>
+
 
 // enum class e_operation_mode {
 //   MANUAL, AUTOMATIC

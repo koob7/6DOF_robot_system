@@ -8,11 +8,11 @@ C:\ST\STM32CubeIDE_1.13.2\STM32CubeIDE\plugins\com.st.stm32cube.ide.mcu.external
 ../Core/Src/main.cpp:122:5:int bufsize(char*)	2
 ../Core/Src/main.cpp:129:6:void clear_buffer(char*)	2
 ../Core/Inc/project_editor.h:17:7:project_editor::~project_editor()	1
-../Core/Inc/objects.h:70:7:projects_explorer::~projects_explorer()	1
+../Core/Inc/project_explorer.h:31:7:projects_explorer::~projects_explorer()	1
 ../Core/Inc/menu_popup.h:5:7:popup::~popup()	1
 ../Core/Inc/menu_popup.h:42:7:allert::~allert()	1
 ../Core/Inc/menu_popup.h:20:7:list_dialog::~list_dialog()	1
-../Core/Inc/finish_state_machine.h:54:7:finish_state_machine::~finish_state_machine()	1
+../Core/Inc/finish_state_machine.h:56:7:finish_state_machine::~finish_state_machine()	1
 ../Core/Src/main.cpp:140:5:int main()	10
 ../Core/Src/main.cpp:263:6:void SystemClock_Config()	4
 ../Core/Src/main.cpp:322:6:void PeriphCommonClock_Config()	2

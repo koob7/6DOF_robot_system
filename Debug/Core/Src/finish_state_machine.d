@@ -63,9 +63,9 @@ Core/Src/finish_state_machine.o: ../Core/Src/finish_state_machine.cpp \
  ../FATFS/App/fatfs.h ../Middlewares/Third_Party/FatFs/src/ff_gen_drv.h \
  ../Middlewares/Third_Party/FatFs/src/diskio.h \
  ../Middlewares/Third_Party/FatFs/src/ff.h ../FATFS/Target/user_diskio.h \
- ../Core/Inc/navigate_robot.h ../Core/Inc/menu_segments.h \
- ../Core/Inc/menu_popup.h ../Core/Inc/sd_card_service.h \
- ../Core/Inc/objects.h
+ ../Core/Inc/navigate_robot.h ../Core/Inc/project_explorer.h \
+ ../Core/Inc/menu_popup.h ../Core/Inc/menu_segment.h \
+ ../Core/Inc/menu_segments_objects.h ../Core/Inc/sd_card_service.h
 ../Core/Inc/finish_state_machine.h:
 ../Core/Inc/cmd_set_pin.h:
 ../Core/Inc/commands.h:
@@ -144,7 +144,8 @@ C:/Users/kobie/STM32CubeIDE/workspace_1.13.2/6DOF_robot_system/fonts/inc/128_Ope
 ../Middlewares/Third_Party/FatFs/src/ff.h:
 ../FATFS/Target/user_diskio.h:
 ../Core/Inc/navigate_robot.h:
-../Core/Inc/menu_segments.h:
+../Core/Inc/project_explorer.h:
 ../Core/Inc/menu_popup.h:
+../Core/Inc/menu_segment.h:
+../Core/Inc/menu_segments_objects.h:
 ../Core/Inc/sd_card_service.h:
-../Core/Inc/objects.h:

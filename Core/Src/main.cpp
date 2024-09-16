@@ -26,7 +26,7 @@
 #include "string.h"
 #include "tim.h"
 #include "xpt2046.h"
-#include <menu_segments.h>
+#include <menu_segments_objects.h>
 #include <navigate_robot.h>
 
 /* Private includes ----------------------------------------------------------*/
