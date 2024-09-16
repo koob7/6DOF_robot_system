@@ -64,15 +64,19 @@ class finish_state_machine {
   volatile double automatic_speed_movement_factor = 0.01;
   bool edit_command =
       false; // mówi o tym czy tworzymy nowy punkt czy tylko go edytujemy
+
+  // obiekty pomocnicze komend
   mov_streight o_mov_streight;
   mov_circular o_mov_circular;
   cmd_wait o_cmd_wait;
   cmd_set_pin o_cmd_set_pin;
   robot_position target_position;
+  // zmienne pomocnicze przy edycji pozycji robota
   bool target_point_initialized = false;
   robot_position help_position;
   bool help_point_initialized = false;
-  // e_operation_mode operation_mode;
+
+  // zmienne sterujące robotem i GUI
   e_project_mode project_mode;
   e_step_mode step_mode;
   e_control_mode control_mode;
@@ -80,14 +84,19 @@ class finish_state_machine {
   e_axis_control_mode axis_control_mode;
   e_movement_length movement_length;
   bool enable_tool = false;
+
+  // obiekty reprezentujące przeglądarkę i edytor plików
   project_editor main_project_editor;
   projects_explorer main_project_explorer;
-  // void change_mode(e_operation_mode new_state);
+
+  // metody umożliwiające dodatkową akcję podczas zmiany stanu
   void change_mode(e_project_mode new_state);
   void change_mode(e_step_mode new_state);
   void change_mode(e_control_mode new_state);
   void change_mode(e_axis_control_mode new_axis_control_mode);
   void change_mode(e_movement_length new_movement_length);
+
+  // funkcje pomocnicze
   void cancel_creating_command();
   void choose_file_sorting_option();
   void create_new_file();
@@ -143,11 +152,14 @@ class finish_state_machine {
   bool handle_run_project();
 
 public:
+  // konstruktor maszyny stanów
   finish_state_machine();
 
+  // główna metoda maszyny stanów
   void handle_press_with_current_state(int x, int y);
 
 private:
+  // deklaracja używanych alertów i list wybieranych w maszynie stanów
   allert a_cancel_create_command;
   list_dialog l_choose_sort_file_order;
   allert a_already_existing_file;
