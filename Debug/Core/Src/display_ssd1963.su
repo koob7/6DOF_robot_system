@@ -29,7 +29,7 @@ C:\ST\STM32CubeIDE_1.13.2\STM32CubeIDE\plugins\com.st.stm32cube.ide.mcu.external
 ../Core/Src/display_ssd1963.cpp:328:6:void TFT_Set_Read_Area(uint16_t, uint16_t, uint16_t, uint16_t)	24	static
 ../Core/Src/display_ssd1963.cpp:335:6:void lcd_Read_Area(uint16_t, uint16_t, uint16_t, uint16_t, uint16_t*)	32	static
 ../Core/Src/display_ssd1963.cpp:348:10:uint16_t lcd_Read_bus()	16	static
-../Core/Src/display_ssd1963.cpp:357:6:void TFT_Draw_String(uint16_t, uint16_t, uint16_t, uint16_t, const uint8_t*, char*, uint8_t)	48	static
+../Core/Src/display_ssd1963.cpp:357:6:void TFT_Draw_String(uint16_t, uint16_t, uint16_t, uint16_t, const uint8_t*, char*, uint8_t)	40	static
 ../Core/Src/display_ssd1963.cpp:371:10:uint16_t TFT_Draw_List(uint16_t, uint16_t, uint16_t, char*, char*, uint16_t*, const GFXfont*)	112	dynamic
 ../Core/Src/display_ssd1963.cpp:420:6:void TFT_Draw_Alert(uint16_t, uint16_t, char*, uint16_t*, const GFXfont*)	48	static
 ../Core/Src/display_ssd1963.cpp:438:6:void TFT_Restore_Area(uint16_t, uint16_t, uint16_t, uint16_t, uint16_t*)	32	static

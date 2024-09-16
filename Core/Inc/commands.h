@@ -68,7 +68,6 @@ public:
   void prepare_task(
       std::vector<std::shared_ptr<command>>::iterator first_command_iteratort,
       int position_in_vector) {}
-  bool perform_task() {}
 
   void draw(int print_y) {}
   void draw_movement(int print_y, bool ciruclar_movement);

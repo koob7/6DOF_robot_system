@@ -141,8 +141,6 @@ void clear_buffer(char buffer[BUFFER_SIZE]) {
 int main(void) {
   /* USER CODE BEGIN 1 */
 
-  int kalibracja = 0;
-
   /* USER CODE END 1 */
 
   /* MCU Configuration--------------------------------------------------------*/
@@ -211,7 +209,6 @@ int main(void) {
   givenPosition[4] = robot_home_position.b;
   givenPosition[5] = robot_home_position.c;
   licz_kroki(givenPosition, givenSteps, currentPosition);
-  kalibracja = 1;
   __HAL_TIM_SET_PRESCALER(&htim6, 9);
 
   // inicjalizacja dotyku

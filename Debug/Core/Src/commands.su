@@ -4,9 +4,8 @@ C:\ST\STM32CubeIDE_1.13.2\STM32CubeIDE\plugins\com.st.stm32cube.ide.mcu.external
 ../Core/Inc/commands.h:34:16:virtual void command::reset_task_progres()	16	static
 ../Core/Inc/commands.h:40:16:virtual bool command::get_target_position(robot_position&)	16	static
 ../Core/Inc/commands.h:68:8:virtual void movement::prepare_task(std::vector<std::shared_ptr<command> >::iterator, int)	24	static
-../Core/Inc/commands.h:71:8:virtual bool movement::perform_task()	16	static
-../Core/Inc/commands.h:73:8:virtual void movement::draw(int)	16	static
-../Core/Inc/commands.h:83:8:virtual bool movement::get_target_position(robot_position&)	24	static
+../Core/Inc/commands.h:72:8:virtual void movement::draw(int)	16	static
+../Core/Inc/commands.h:82:8:virtual bool movement::get_target_position(robot_position&)	24	static
 ../Core/Inc/commands.h:6:7:constexpr command::command()	16	static
 ../Core/Src/commands.cpp:3:1:movement::movement()	72	static
 ../Core/Src/commands.cpp:9:1:movement::movement(robot_position, movement::e_speed, movement::e_movement_type)	24	static

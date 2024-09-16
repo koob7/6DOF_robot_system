@@ -95,9 +95,10 @@ public:
   int radius;
   std::string text;
   uint16_t text_color;
+  GFXfont *p_font;
   bool centered_text;
   std::vector<std::shared_ptr<menu_part>> parts;
-  GFXfont *p_font;
+
   button(int id, int x, int y, int width, int height, uint16_t background_color,
          int radius = 0, std::string text = "", uint16_t text_color = BLACK,
          GFXfont *p_font = const_cast<GFXfont *>(_Open_Sans_Bold_14),

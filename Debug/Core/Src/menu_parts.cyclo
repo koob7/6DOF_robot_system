@@ -8,11 +8,11 @@ C:\ST\STM32CubeIDE_1.13.2\STM32CubeIDE\plugins\com.st.stm32cube.ide.mcu.external
 C:\ST\STM32CubeIDE_1.13.2\STM32CubeIDE\plugins\com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.11.3.rel1.win32_1.1.1.202309131626\tools\arm-none-eabi\include\c++\11.3.1\bits\shared_ptr_base.h:279:5:void std::_Sp_counted_base<_Lp>::_M_release() [with __gnu_cxx::_Lock_policy _Lp = __gnu_cxx::_S_single]	3
 ../Core/Inc/menu_parts.h:72:3:dimension::dimension(int, int, int, int)	1
 ../Core/Inc/menu_parts.h:82:16:virtual void menu_part::update_text(std::string)	1
-../Core/Inc/menu_parts.h:110:8:virtual void button::update_text(std::string)	1
-../Core/Inc/menu_parts.h:137:5:allert::line_content::line_content(std::string, int)	1
-../Core/Inc/menu_parts.h:143:7:int allert::get_total_height()	1
-../Core/Inc/menu_parts.h:170:7:int list_dialog::get_total_height()	1
-../Core/Inc/menu_parts.h:174:7:int list_dialog::get_option_height()	1
+../Core/Inc/menu_parts.h:111:8:virtual void button::update_text(std::string)	1
+../Core/Inc/menu_parts.h:138:5:allert::line_content::line_content(std::string, int)	1
+../Core/Inc/menu_parts.h:144:7:int allert::get_total_height()	1
+../Core/Inc/menu_parts.h:171:7:int list_dialog::get_total_height()	1
+../Core/Inc/menu_parts.h:175:7:int list_dialog::get_option_height()	1
 ../Core/Src/menu_parts.cpp:11:1:menu_part::menu_part(int, int, int, int)	1
 C:\ST\STM32CubeIDE_1.13.2\STM32CubeIDE\plugins\com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.11.3.rel1.win32_1.1.1.202309131626\tools\bin/../lib/gcc/arm-none-eabi/11.3.1/../../../../arm-none-eabi/include/c++/11.3.1/bits/stl_vector.h:128:14:std::_Vector_base<std::shared_ptr<menu_part>, std::allocator<std::shared_ptr<menu_part> > >::_Vector_impl::~_Vector_impl()	1
 C:\ST\STM32CubeIDE_1.13.2\STM32CubeIDE\plugins\com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.11.3.rel1.win32_1.1.1.202309131626\tools\bin/../lib/gcc/arm-none-eabi/11.3.1/../../../../arm-none-eabi/include/c++/11.3.1/bits/stl_vector.h:288:7:std::_Vector_base<_Tp, _Alloc>::_Vector_base() [with _Tp = std::shared_ptr<menu_part>; _Alloc = std::allocator<std::shared_ptr<menu_part> >]	1
@@ -30,7 +30,7 @@ C:\ST\STM32CubeIDE_1.13.2\STM32CubeIDE\plugins\com.st.stm32cube.ide.mcu.external
 ../Core/Src/menu_parts.cpp:69:1:popup::popup(int, int, int, uint16_t, std::string, std::string, int, uint16_t, GFXfont*)	1
 ../Core/Src/menu_parts.cpp:79:6:void popup::store_screen(int, int, int, int)	1
 ../Core/Src/menu_parts.cpp:82:6:void popup::restore_screen(int, int, int, int)	1
-../Core/Inc/menu_parts.h:116:7:popup::~popup()	1
+../Core/Inc/menu_parts.h:117:7:popup::~popup()	1
 C:\ST\STM32CubeIDE_1.13.2\STM32CubeIDE\plugins\com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.11.3.rel1.win32_1.1.1.202309131626\tools\bin/../lib/gcc/arm-none-eabi/11.3.1/../../../../arm-none-eabi/include/c++/11.3.1/bits/stl_vector.h:128:14:std::_Vector_base<allert::line_content, std::allocator<allert::line_content> >::_Vector_impl::~_Vector_impl()	1
 C:\ST\STM32CubeIDE_1.13.2\STM32CubeIDE\plugins\com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.11.3.rel1.win32_1.1.1.202309131626\tools\bin/../lib/gcc/arm-none-eabi/11.3.1/../../../../arm-none-eabi/include/c++/11.3.1/bits/stl_vector.h:288:7:std::_Vector_base<_Tp, _Alloc>::_Vector_base() [with _Tp = allert::line_content; _Alloc = std::allocator<allert::line_content>]	1
 C:\ST\STM32CubeIDE_1.13.2\STM32CubeIDE\plugins\com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.11.3.rel1.win32_1.1.1.202309131626\tools\bin/../lib/gcc/arm-none-eabi/11.3.1/../../../../arm-none-eabi/include/c++/11.3.1/bits/stl_vector.h:487:7:std::vector<_Tp, _Alloc>::vector() [with _Tp = allert::line_content; _Alloc = std::allocator<allert::line_content>]	1
@@ -42,8 +42,8 @@ C:\ST\STM32CubeIDE_1.13.2\STM32CubeIDE\plugins\com.st.stm32cube.ide.mcu.external
 ../Core/Inc/menu_parts.h:85:7:button::button(const button&)	1
 ../Core/Src/menu_parts.cpp:116:6:virtual void allert::draw()	5
 ../Core/Src/menu_parts.cpp:155:5:int allert::check_pressed()	5
-../Core/Inc/menu_parts.h:134:10:allert::line_content::line_content(const allert::line_content&)	1
-../Core/Inc/menu_parts.h:134:10:allert::line_content::~line_content()	1
+../Core/Inc/menu_parts.h:135:10:allert::line_content::line_content(const allert::line_content&)	1
+../Core/Inc/menu_parts.h:135:10:allert::line_content::~line_content()	1
 ../Core/Src/menu_parts.cpp:174:6:void allert::draw_text_field(uint16_t, uint16_t, uint16_t, uint16_t)	5
 ../Core/Src/menu_parts.cpp:188:6:void allert::splitText()	22
 ../Core/Src/menu_parts.cpp:226:1:text_field::text_field(int, int, int, std::string, uint16_t, GFXfont*)	1
@@ -259,7 +259,7 @@ C:\ST\STM32CubeIDE_1.13.2\STM32CubeIDE\plugins\com.st.stm32cube.ide.mcu.external
 C:\ST\STM32CubeIDE_1.13.2\STM32CubeIDE\plugins\com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.11.3.rel1.win32_1.1.1.202309131626\tools\bin/../lib/gcc/arm-none-eabi/11.3.1/../../../../arm-none-eabi/include/c++/11.3.1/bits/alloc_traits.h:531:2:static void std::allocator_traits<std::allocator<_CharT> >::destroy(std::allocator_traits<std::allocator<_CharT> >::allocator_type&, _Up*) [with _Up = button; _Tp = button]	1
 C:\ST\STM32CubeIDE_1.13.2\STM32CubeIDE\plugins\com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.11.3.rel1.win32_1.1.1.202309131626\tools\bin/../lib/gcc/arm-none-eabi/11.3.1/../../../../arm-none-eabi/include/c++/11.3.1/ext/new_allocator.h:82:7:__gnu_cxx::new_allocator<_Tp>::new_allocator(const __gnu_cxx::new_allocator<_Tp>&) [with _Tp = std::shared_ptr<menu_part>]	1
 C:\ST\STM32CubeIDE_1.13.2\STM32CubeIDE\plugins\com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.11.3.rel1.win32_1.1.1.202309131626\tools\arm-none-eabi\include\c++\11.3.1\bits\stl_uninitialized.h:85:9:static _ForwardIterator std::__uninitialized_copy<_TrivialValueTypes>::__uninit_copy(_InputIterator, _InputIterator, _ForwardIterator) [with _InputIterator = __gnu_cxx::__normal_iterator<const std::shared_ptr<menu_part>*, std::vector<std::shared_ptr<menu_part> > >; _ForwardIterator = std::shared_ptr<menu_part>*; bool _TrivialValueTypes = false]	2
-../Core/Inc/menu_parts.h:134:10:allert::line_content::line_content(allert::line_content&&)	1
+../Core/Inc/menu_parts.h:135:10:allert::line_content::line_content(allert::line_content&&)	1
 C:\ST\STM32CubeIDE_1.13.2\STM32CubeIDE\plugins\com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.11.3.rel1.win32_1.1.1.202309131626\tools\bin/../lib/gcc/arm-none-eabi/11.3.1/../../../../arm-none-eabi/include/c++/11.3.1/ext/new_allocator.h:160:2:) [with _Up = allert::line_content; _Args = {allert::line_content}; _Tp = allert::line_content]	1
 C:\ST\STM32CubeIDE_1.13.2\STM32CubeIDE\plugins\com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.11.3.rel1.win32_1.1.1.202309131626\tools\bin/../lib/gcc/arm-none-eabi/11.3.1/../../../../arm-none-eabi/include/c++/11.3.1/bits/stl_vector.h:1756:7:std::vector<_Tp, _Alloc>::size_type std::vector<_Tp, _Alloc>::_M_check_len(std::vector<_Tp, _Alloc>::size_type, const char*) const [with _Tp = allert::line_content; _Alloc = std::allocator<allert::line_content>]	3
 C:\ST\STM32CubeIDE_1.13.2\STM32CubeIDE\plugins\com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.11.3.rel1.win32_1.1.1.202309131626\tools\bin/../lib/gcc/arm-none-eabi/11.3.1/../../../../arm-none-eabi/include/c++/11.3.1/bits/stl_iterator.h:1267:5:typename __gnu_cxx::__normal_iterator<_Iterator, _Container>::difference_type __gnu_cxx::operator-(const __gnu_cxx::__normal_iterator<_Iterator, _Container>&, const __gnu_cxx::__normal_iterator<_Iterator, _Container>&) [with _Iterator = allert::line_content*; _Container = std::vector<allert::line_content>]	1

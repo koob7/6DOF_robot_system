@@ -146,7 +146,7 @@ class finish_state_machine {
 public:
   finish_state_machine();
 
-  int handle_press_with_current_state(int x, int y);
+  void handle_press_with_current_state(int x, int y);
 
 private:
   allert a_cancel_create_command;

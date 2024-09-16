@@ -15,7 +15,7 @@ menu_part::menu_part(int x, int y, int width, int height) :
 button::button(int id, int x, int y, int width, int height,
     uint16_t background_color, int radius, std::string text,
     uint16_t text_color, GFXfont *p_font, bool centered_text) :
-    id(id), menu_part(x, y, width, height), background_color(background_color), radius(
+    menu_part(x, y, width, height), id(id),background_color(background_color), radius(
         radius), text(text), text_color(text_color), p_font(p_font), centered_text(
         centered_text) {
   if (radius * 2 > (height > width ? width : height)) {

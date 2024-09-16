@@ -152,4 +152,5 @@ std::string cmd_wait::get_time_text() {
   case wait_5min:
     return "5 minuts";
   }
+  return "fault";
 }

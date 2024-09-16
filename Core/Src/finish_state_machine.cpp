@@ -87,7 +87,7 @@ finish_state_machine::finish_state_machine()
   main_project_explorer.draw();
 }
 
-int finish_state_machine::handle_press_with_current_state(int x, int y) {
+void finish_state_machine::handle_press_with_current_state(int x, int y) {
 
   if (handle_run_project_menu(x, y)) {
     was_touched = 2;
@@ -791,6 +791,7 @@ std::string finish_state_machine::get_movement_speed_text(
   case speed_100:
     return "100%";
   }
+  return "fault";
 }
 
 void finish_state_machine::update_movement_speed_factor(
@@ -872,6 +873,7 @@ std::string finish_state_machine::get_control_mode_text() {
   case e_control_mode::AUTOMATIC_MODE:
     return "AUTO";
   }
+  return "fault";
 }
 
 void finish_state_machine::toggle_control_mode() {
@@ -893,6 +895,7 @@ std::string finish_state_machine::get_step_mode_text() {
   case e_step_mode::CONTINUOUS:
     return "CONT. MOVEMENT";
   }
+  return "fault";
 }
 
 void finish_state_machine::toggle_step_mode() {
@@ -914,6 +917,7 @@ std::string finish_state_machine::get_axis_control_mode_text() {
   case e_axis_control_mode::INVERSE_CINEMATIC:
     return "INVERS CINEMATIC";
   }
+  return "fault";
 }
 
 void finish_state_machine::toggle_axis_control_mode() {
@@ -939,6 +943,7 @@ std::string finish_state_machine::get_movement_length_text() {
   case e_movement_length::MOVEMENT_5CM:
     return "5CM MOVEMENT";
   }
+  return "fault";
 }
 
 void finish_state_machine::toggle_movement_length() {

@@ -358,7 +358,7 @@ void TFT_Draw_String(uint16_t x, uint16_t y, uint16_t color, uint16_t phone,
     const uint8_t *table, char *string, uint8_t size) {
 
   while (*string) {
-    if ((x + 8) > (TFT_WIDTH - 1)) {
+    if ((x + 8) > static_cast<int>(TFT_WIDTH - 1)) {
       x = 1;
       y = y + 8 * size;
     }
