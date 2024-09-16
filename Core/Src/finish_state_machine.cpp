@@ -7,49 +7,69 @@
 
 #include "finish_state_machine.h"
 
-finish_state_machine::finish_state_machine() :
-    //operation_mode(e_operation_mode::MANUAL)
-    project_mode(e_project_mode::BROWSE_PROJECTS), step_mode(
-        e_step_mode::CONTINUOUS), control_mode(e_control_mode::MANUAL_MODE), axis_control_mode(
-        e_axis_control_mode::INVERSE_CINEMATIC), movement_length(
-        e_movement_length::MOVEMENT_INFINITE), a_cancel_create_command(300, 200,
-        200, 0xD6BA, "UWAGA",
-        "Czy na pewno chcesz anulowac operacje tworzenia punkut?", true), l_choose_sort_file_order(
-        300, 100, 200, 0xD6BA, "Sortuj:", { "M, nazwa", "R, nazwa", "M, data",
-            "R, data", "M, rozmiar", "R, rozmiar" }, true), a_already_existing_file(
-        300, 200, 200, 0xD6BA, "Blad", "Plik o podanej nazwie juz istnieje",
-        false), a_conf_deleting_file(300, 200, 200, 0xD6BA, "UWAGA",
-        "Czy na pewno chcesz usunąć plik?", true), a_no_choosen_file_to_delete(
-        300, 200, 200, 0xD6BA, "Blad", "Brak wybranego pliku do skasowania",
-        false), a_confirm_save_changed_file(300, 200, 200, 0xD6BA, "UWAGA",
-        "Czy chcesz zapisać zmiany w pliku?", true), l_choose_command_type(250,
-        100, 300, 0xD6BA, "Typ polecenia:", { "Ruch prosty", "Ruch kolowy",
-            "Pol czekaj", "Pol zmien pin" }, true), a_conf_deleting_command(300,
-        200, 200, 0xD6BA, "Uwaga", "Czy na pewno chcesz usunac komende?", true), a_no_choosen_comand_to_delete(
-        300, 200, 200, 0xD6BA, "Blad", "Brak wybranego komendy do skasowania",
-        false), l_choose_movement_type(250, 100, 300, 0xD6BA, "Typ ruchu:", {
-        "ciagly", "krok po kroku" }, true), a_conf_update_target_pos(300, 200,
-        200, 0xD6BA, "UWAGA",
-        "Czy na pewno chcesz zaktualizowac pozycje doceleowa?", true), a_conf_help_target_pos(
-        300, 200, 200, 0xD6BA, "UWAGA",
-        "Czy na pewno chcesz zaktualizowac pozycje pomocnicza?", true), a_no_set_target_pos(
-        300, 200, 200, 0xD6BA, "UWAGA",
-        "Brak przypisanej lokalizacji punktu docelowego"), a_no_set_help_pos(
-        300, 200, 200, 0xD6BA, "UWAGA",
-        "Brak przypisanej lokalizacji punktu pomocniczego"), a_conf_save_command(
-        300, 200, 200, 0xD6BA, "UWAGA",
-        "Czy na pewno chcesz zapisac polecenie?", true), l_choose_movement_speed(
-        250, 100, 300, 0xD6BA, "Prędkosc:", { "10%", "50%", "100%" }, true), a_no_choosen_file_to_open(
-        300, 200, 200, 0xD6BA, "UWAGA", "Brak wybranego pliku do otwarcia"), a_function_avilable_in_future(
-        300, 180, 240, 0xD6BA, "Przepraszamy",
-        "Funkcja bedzie dostępna w przyszlosci, za utrudnienia przepraszamy",
-        false), l_choose_wait_time(250, 100, 300, 0xD6BA, "Czekaj:", {
-        "1 sekunde", "5 sekund", "30 sekund", "1 minute", "5 minut" }, true), l_choose_output_pin(
-        250, 100, 300, 0xD6BA, "Pin wyjsciowy:", { "narzedzie robota",
-            "dioda urzytkownika" }, true), l_choose_pin_level(250, 100, 300,
-        0xD6BA, "Stan pinu:", { "niski", "wysoki" }, true), a_finish_running_program(
-        300, 200, 200, 0xD6BA, "sukces", "program zakonczony pomyslnie", false), a_error_running_program(
-        300, 200, 200, 0xD6BA, "blad", "nie mozna wykonac polecenia", false)
+finish_state_machine::finish_state_machine()
+    : // operation_mode(e_operation_mode::MANUAL)
+      project_mode(e_project_mode::BROWSE_PROJECTS),
+      step_mode(e_step_mode::CONTINUOUS),
+      control_mode(e_control_mode::MANUAL_MODE),
+      axis_control_mode(e_axis_control_mode::INVERSE_CINEMATIC),
+      movement_length(e_movement_length::MOVEMENT_INFINITE),
+      a_cancel_create_command(
+          300, 200, 200, 0xD6BA, "UWAGA",
+          "Czy na pewno chcesz anulowac operacje tworzenia punkut?", true),
+      l_choose_sort_file_order(300, 100, 200, 0xD6BA, "Sortuj:",
+                               {"M, nazwa", "R, nazwa", "M, data", "R, data",
+                                "M, rozmiar", "R, rozmiar"},
+                               true),
+      a_already_existing_file(300, 200, 200, 0xD6BA, "Blad",
+                              "Plik o podanej nazwie juz istnieje", false),
+      a_conf_deleting_file(300, 200, 200, 0xD6BA, "UWAGA",
+                           "Czy na pewno chcesz usunąć plik?", true),
+      a_no_choosen_file_to_delete(300, 200, 200, 0xD6BA, "Blad",
+                                  "Brak wybranego pliku do skasowania", false),
+      a_confirm_save_changed_file(300, 200, 200, 0xD6BA, "UWAGA",
+                                  "Czy chcesz zapisać zmiany w pliku?", true),
+      l_choose_command_type(
+          250, 100, 300, 0xD6BA, "Typ polecenia:",
+          {"Ruch prosty", "Ruch kolowy", "Pol czekaj", "Pol zmien pin"}, true),
+      a_conf_deleting_command(300, 200, 200, 0xD6BA, "Uwaga",
+                              "Czy na pewno chcesz usunac komende?", true),
+      a_no_choosen_comand_to_delete(300, 200, 200, 0xD6BA, "Blad",
+                                    "Brak wybranego komendy do skasowania",
+                                    false),
+      l_choose_movement_type(250, 100, 300, 0xD6BA,
+                             "Typ ruchu:", {"ciagly", "krok po kroku"}, true),
+      a_conf_update_target_pos(
+          300, 200, 200, 0xD6BA, "UWAGA",
+          "Czy na pewno chcesz zaktualizowac pozycje doceleowa?", true),
+      a_conf_help_target_pos(
+          300, 200, 200, 0xD6BA, "UWAGA",
+          "Czy na pewno chcesz zaktualizowac pozycje pomocnicza?", true),
+      a_no_set_target_pos(300, 200, 200, 0xD6BA, "UWAGA",
+                          "Brak przypisanej lokalizacji punktu docelowego"),
+      a_no_set_help_pos(300, 200, 200, 0xD6BA, "UWAGA",
+                        "Brak przypisanej lokalizacji punktu pomocniczego"),
+      a_conf_save_command(300, 200, 200, 0xD6BA, "UWAGA",
+                          "Czy na pewno chcesz zapisac polecenie?", true),
+      l_choose_movement_speed(250, 100, 300, 0xD6BA,
+                              "Prędkosc:", {"10%", "50%", "100%"}, true),
+      a_no_choosen_file_to_open(300, 200, 200, 0xD6BA, "UWAGA",
+                                "Brak wybranego pliku do otwarcia"),
+      a_function_avilable_in_future(
+          300, 180, 240, 0xD6BA, "Przepraszamy",
+          "Funkcja bedzie dostępna w przyszlosci, za utrudnienia przepraszamy",
+          false),
+      l_choose_wait_time(
+          250, 100, 300, 0xD6BA, "Czekaj:",
+          {"1 sekunde", "5 sekund", "30 sekund", "1 minute", "5 minut"}, true),
+      l_choose_output_pin(250, 100, 300, 0xD6BA, "Pin wyjsciowy:",
+                          {"narzedzie robota", "dioda urzytkownika"}, true),
+      l_choose_pin_level(250, 100, 300, 0xD6BA,
+                         "Stan pinu:", {"niski", "wysoki"}, true),
+      a_finish_running_program(300, 200, 200, 0xD6BA, "sukces",
+                               "program zakonczony pomyslnie", false),
+      a_error_running_program(300, 200, 200, 0xD6BA, "blad",
+                              "nie mozna wykonac polecenia", false)
 
 {
   target_position = robot_position(0, 0, 0, 0, 0, 0);
@@ -57,14 +77,14 @@ finish_state_machine::finish_state_machine() :
   help_position = robot_position(0, 0, 0, 0, 0, 0);
   help_point_initialized = false;
   o_mov_streight = mov_streight(target_position, movement::e_speed::speed_100,
-      movement::e_movement_type::continous);
-  o_mov_circular = mov_circular(help_position, target_position,
-      movement::e_speed::speed_100, movement::e_movement_type::continous);
+                                movement::e_movement_type::continous);
+  o_mov_circular =
+      mov_circular(help_position, target_position, movement::e_speed::speed_100,
+                   movement::e_movement_type::continous);
   o_cmd_wait = cmd_wait(cmd_wait::e_wait_time::wait_5s);
   o_cmd_set_pin = cmd_set_pin(cmd_set_pin::e_output_pin::robot_tool, true);
   project_explorer_menu.draw();
   main_project_explorer.draw();
-
 }
 
 int finish_state_machine::handle_press_with_current_state(int x, int y) {
@@ -102,7 +122,7 @@ int finish_state_machine::handle_press_with_current_state(int x, int y) {
     case 2:
       a_function_avilable_in_future.draw();
       a_function_avilable_in_future.check_pressed();
-      //TODO edycjia nazwy pliku
+      // TODO edycjia nazwy pliku
       break;
 
     case 3:
@@ -112,7 +132,6 @@ int finish_state_machine::handle_press_with_current_state(int x, int y) {
     case 4:
       choose_file_sorting_option();
       break;
-
     }
     break;
   case e_project_mode::EDIT_PROJECTS:
@@ -146,7 +165,7 @@ int finish_state_machine::handle_press_with_current_state(int x, int y) {
       break;
     case 2:
       update_position(o_mov_streight, target_point_initialized,
-          &movement::update_target_pos);
+                      &movement::update_target_pos);
       break;
     case 3: {
       if (!target_point_initialized) {
@@ -174,11 +193,11 @@ int finish_state_machine::handle_press_with_current_state(int x, int y) {
       break;
     case 2:
       update_position(o_mov_circular, target_point_initialized,
-          &movement::update_target_pos);
+                      &movement::update_target_pos);
       break;
     case 3:
       update_position(o_mov_circular, help_point_initialized,
-          &mov_circular::update_help_pos);
+                      &mov_circular::update_help_pos);
       break;
     case 4: {
       if (!target_point_initialized) {
@@ -245,21 +264,21 @@ int finish_state_machine::handle_press_with_current_state(int x, int y) {
 //
 //
 
-//TODO usunąć te komentarze
+// TODO usunąć te komentarze
 
-//void finish_state_machine::change_mode(e_operation_mode new_state) {
-//  if (operation_mode != new_state) {
-//    switch (new_state) {
-//    case e_operation_mode::MANUAL:
-//      operation_mode = e_operation_mode::MANUAL;
-//      break;
-//    case e_operation_mode::AUTOMATIC:
-//      operation_mode = e_operation_mode::AUTOMATIC;
-//      break;
-//    }
+// void finish_state_machine::change_mode(e_operation_mode new_state) {
+//   if (operation_mode != new_state) {
+//     switch (new_state) {
+//     case e_operation_mode::MANUAL:
+//       operation_mode = e_operation_mode::MANUAL;
+//       break;
+//     case e_operation_mode::AUTOMATIC:
+//       operation_mode = e_operation_mode::AUTOMATIC;
+//       break;
+//     }
 //
-//  }
-//}
+//   }
+// }
 
 void finish_state_machine::change_mode(e_project_mode new_state) {
   if (project_mode != new_state) {
@@ -297,7 +316,6 @@ void finish_state_machine::change_mode(e_project_mode new_state) {
       set_pin_command_menu.draw();
       break;
     }
-
   }
 }
 
@@ -390,13 +408,14 @@ void finish_state_machine::choose_file_sorting_option() {
         projects_explorer::sort_option::by_size, false);
     break;
   case -1:
-    //TODO nie wybrano sortowania
+    // TODO nie wybrano sortowania
     break;
   }
 }
 void finish_state_machine::create_new_file() {
   if (main_project_explorer.create_file(
-      std::to_string(main_project_explorer.sd_files.size()) + ".gcode") == -1) {
+          std::to_string(main_project_explorer.sd_files.size()) + ".gcode") ==
+      -1) {
 
     a_already_existing_file.draw();
     a_already_existing_file.check_pressed();
@@ -429,7 +448,7 @@ void finish_state_machine::go_to_choosen_file() {
   } else {
     main_project_editor.open_file(main_project_explorer.get_choosen_file());
     main_left_menu.update_text(0, main_project_explorer.get_choosen_file(),
-        menu_segment::e_menu_layer::e_top_parts);
+                               menu_segment::e_menu_layer::e_top_parts);
     main_project_editor.prepare_commands();
     change_mode(e_project_mode::EDIT_PROJECTS);
   }
@@ -440,7 +459,6 @@ void finish_state_machine::save_changed_file() {
   if (a_confirm_save_changed_file.check_pressed() == 0) {
     main_project_editor.save_changes_into_file();
   }
-
 }
 
 void finish_state_machine::save_changed_file_and_close() {
@@ -458,7 +476,7 @@ void finish_state_machine::choose_and_prepare_to_create_command() {
     target_point_initialized = false;
     target_position = robot_position(0, 0, 0, 0, 0, 0);
     o_mov_streight = mov_streight(target_position, movement::e_speed::speed_100,
-        movement::e_movement_type::continous);
+                                  movement::e_movement_type::continous);
     edit_command = false;
     change_mode(e_project_mode::STREIGHT_MOVE);
     break;
@@ -469,7 +487,8 @@ void finish_state_machine::choose_and_prepare_to_create_command() {
     help_point_initialized = false;
     help_position = robot_position(0, 0, 0, 0, 0, 0);
     o_mov_circular = mov_circular(help_position, target_position,
-        movement::e_speed::speed_100, movement::e_movement_type::continous);
+                                  movement::e_speed::speed_100,
+                                  movement::e_movement_type::continous);
     edit_command = false;
     change_mode(e_project_mode::CIRCULAR_MOVE);
     break;
@@ -493,26 +512,26 @@ void finish_state_machine::prepare_to_edit_choosen_command() {
   std::shared_ptr<command> chosen_command =
       main_project_editor.get_choosen_command();
 
-  if (auto p_mov_streight = std::static_pointer_cast<mov_streight>(
-      chosen_command)) {
+  if (auto p_mov_streight =
+          std::static_pointer_cast<mov_streight>(chosen_command)) {
     o_mov_streight = *p_mov_streight;
     target_point_initialized = true;
     edit_command = true;
     change_mode(e_project_mode::STREIGHT_MOVE);
-  } else if (auto p_mov_circular = std::static_pointer_cast<mov_circular>(
-      chosen_command)) {
+  } else if (auto p_mov_circular =
+                 std::static_pointer_cast<mov_circular>(chosen_command)) {
     o_mov_circular = *p_mov_circular;
     target_point_initialized = true;
     help_point_initialized = true;
     edit_command = true;
     change_mode(e_project_mode::CIRCULAR_MOVE);
-  } else if (auto p_cmd_wait = std::static_pointer_cast<cmd_wait>(
-      chosen_command)) {
+  } else if (auto p_cmd_wait =
+                 std::static_pointer_cast<cmd_wait>(chosen_command)) {
     o_cmd_wait = *p_cmd_wait;
     edit_command = true;
     change_mode(e_project_mode::WAIT_COMAND);
-  } else if (auto p_cmd_set_pin = std::static_pointer_cast<cmd_set_pin>(
-      chosen_command)) {
+  } else if (auto p_cmd_set_pin =
+                 std::static_pointer_cast<cmd_set_pin>(chosen_command)) {
     o_cmd_set_pin = *p_cmd_set_pin;
     edit_command = true;
     change_mode(e_project_mode::SET_PIN_COMAND);
@@ -533,10 +552,11 @@ void finish_state_machine::delete_choosen_command() {
   }
 }
 
-template<typename t_command, typename t_update_value,
-    typename t_update_value_fun, typename t_get_text_fun>
-void finish_state_machine::update_command_value_helper(t_command &command,
-    t_update_value update_value, menu_segment &menu, int menu_button,
+template <typename t_command, typename t_update_value,
+          typename t_update_value_fun, typename t_get_text_fun>
+void finish_state_machine::update_command_value_helper(
+    t_command &command, t_update_value update_value, menu_segment &menu,
+    int menu_button,
     void (t_update_value_fun::*update_value_fun)(t_update_value),
     std::string (t_get_text_fun::*get_text_fun)(), std::string aditional_text) {
   (command.*update_value_fun)(update_value);
@@ -544,9 +564,9 @@ void finish_state_machine::update_command_value_helper(t_command &command,
   menu.draw();
 }
 
-template<typename CommandType>
+template <typename CommandType>
 void finish_state_machine::update_movement_type(CommandType &command,
-    menu_segment &menu) {
+                                                menu_segment &menu) {
   movement::e_movement_type tmp;
   l_choose_movement_type.draw();
   switch (l_choose_movement_type.check_pressed()) {
@@ -560,12 +580,13 @@ void finish_state_machine::update_movement_type(CommandType &command,
     return;
   }
   update_command_value_helper(command, tmp, menu, 1,
-      &movement::update_movement_type, &movement::get_movement_type_text);
+                              &movement::update_movement_type,
+                              &movement::get_movement_type_text);
 }
 
-template<typename CommandType>
+template <typename CommandType>
 void finish_state_machine::update_movement_speed(CommandType &command,
-    menu_segment &menu) {
+                                                 menu_segment &menu) {
   movement::e_speed tmp_speed;
   l_choose_movement_speed.draw();
   switch (l_choose_movement_speed.check_pressed()) {
@@ -582,31 +603,32 @@ void finish_state_machine::update_movement_speed(CommandType &command,
     return;
   }
   update_command_value_helper(command, tmp_speed, menu, 0,
-      &movement::update_speed, &movement::get_speed_text, "%");
+                              &movement::update_speed,
+                              &movement::get_speed_text, "%");
 }
 
-template<typename CommandType>
+template <typename CommandType>
 void finish_state_machine::save_changed_command(CommandType &command) {
   a_conf_save_command.draw();
   if (a_conf_save_command.check_pressed() == 0) {
     if (edit_command) {
       std::static_pointer_cast<CommandType>(
-          main_project_editor.get_choosen_command())->update_command(command);
+          main_project_editor.get_choosen_command())
+          ->update_command(command);
       main_project_editor.prepare_commands();
       change_mode(e_project_mode::EDIT_PROJECTS);
     } else {
       main_project_editor.insert_command(
           std::make_shared<CommandType>(command));
-      //tutaj przygotowanie komend jest wywoływane w środku komendy insrt
+      // tutaj przygotowanie komend jest wywoływane w środku komendy insrt
       change_mode(e_project_mode::EDIT_PROJECTS);
     }
-
   }
 }
 
-template<typename CommandType, typename comandType2>
-void finish_state_machine::update_position(CommandType &command,
-    bool &initialized,
+template <typename CommandType, typename comandType2>
+void finish_state_machine::update_position(
+    CommandType &command, bool &initialized,
     void (comandType2::*update_function)(struct robot_position)) {
   a_conf_update_target_pos.draw();
   if (a_conf_update_target_pos.check_pressed() == 0) {
@@ -638,8 +660,7 @@ void finish_state_machine::update_wait_speed() {
     return;
   }
   update_command_value_helper(o_cmd_wait, tmp_time, wait_command_menu, 0,
-      &cmd_wait::update_time, &cmd_wait::get_time_text);
-
+                              &cmd_wait::update_time, &cmd_wait::get_time_text);
 }
 
 void finish_state_machine::update_output_pin() {
@@ -656,7 +677,8 @@ void finish_state_machine::update_output_pin() {
     return;
   }
   update_command_value_helper(o_cmd_set_pin, tmp_pin, set_pin_command_menu, 0,
-      &cmd_set_pin::update_pin, &cmd_set_pin::get_pin_output_text);
+                              &cmd_set_pin::update_pin,
+                              &cmd_set_pin::get_pin_output_text);
 }
 
 void finish_state_machine::update_pin_level() {
@@ -673,7 +695,8 @@ void finish_state_machine::update_pin_level() {
     return;
   }
   update_command_value_helper(o_cmd_set_pin, tmp_level, set_pin_command_menu, 1,
-      &cmd_set_pin::update_pin_level, &cmd_set_pin::get_pin_level_text);
+                              &cmd_set_pin::update_pin_level,
+                              &cmd_set_pin::get_pin_level_text);
 }
 
 bool finish_state_machine::handle_movement_menu(int x, int y) {
@@ -685,7 +708,7 @@ bool finish_state_machine::handle_movement_menu(int x, int y) {
     if (pressed_button > -1 && pressed_button < 12) {
       robot_was_moved = true;
       while (!manual_movement_ready) {
-        //TODO czekamy aż będziemy mogli wyslać kolejną komendę
+        // TODO czekamy aż będziemy mogli wyslać kolejną komendę
       }
     }
 
@@ -737,24 +760,23 @@ bool finish_state_machine::handle_movement_menu(int x, int y) {
     switch (pressed_button) {
     case 12:
       adjust_movement_speed(manual_movement_speed, manual_speed_movement_factor,
-          12, true);
+                            12, true);
       break;
     case 13:
       adjust_movement_speed(manual_movement_speed, manual_speed_movement_factor,
-          12, false);
+                            12, false);
       break;
     case 14:
       adjust_movement_speed(automatic_movement_speed,
-          automatic_speed_movement_factor, 15, true);
+                            automatic_speed_movement_factor, 15, true);
       break;
     case 15:
       adjust_movement_speed(automatic_movement_speed,
-          automatic_speed_movement_factor, 15, false);
+                            automatic_speed_movement_factor, 15, false);
       break;
     }
     licz_kroki(givenPosition, givenSteps, currentPosition);
     return true;
-
   }
   return false;
 }
@@ -775,7 +797,8 @@ void finish_state_machine::update_movement_speed_factor(
     e_movement_speed &movement_speed, volatile double &speed_movement_factor,
     int button_index) {
   switch (movement_speed) {
-  //tutaj będziemy zmieniali prescaller żeby regulować częstotliowść wywoływania komend
+  // tutaj będziemy zmieniali prescaller żeby regulować częstotliowść
+  // wywoływania komend
   case speed_10:
     speed_movement_factor = 0.001;
     break;
@@ -787,8 +810,8 @@ void finish_state_machine::update_movement_speed_factor(
     break;
   }
   main_right_menu.update_text(button_index,
-      get_movement_speed_text(movement_speed),
-      menu_segment::e_menu_layer::e_top_parts);
+                              get_movement_speed_text(movement_speed),
+                              menu_segment::e_menu_layer::e_top_parts);
 }
 
 void finish_state_machine::adjust_movement_speed(
@@ -800,7 +823,7 @@ void finish_state_machine::adjust_movement_speed(
     movement_speed = static_cast<e_movement_speed>(movement_speed - 1);
   }
   update_movement_speed_factor(movement_speed, speed_movement_factor,
-      button_index);
+                               button_index);
 }
 
 bool finish_state_machine::handle_run_project_menu(int x, int y) {
@@ -828,11 +851,10 @@ bool finish_state_machine::handle_run_project_menu(int x, int y) {
     toggle_movement_length();
     break;
   case 6:
-    //zakomentowałem bo dotyk często tutaj odczytuje pozycje i jest to problematyczne
-    //a_function_avilable_in_future.draw();
-    //a_function_avilable_in_future.check_pressed();
+    // zakomentowałem bo dotyk często tutaj odczytuje pozycje i jest to
+    // problematyczne a_function_avilable_in_future.draw();
+    // a_function_avilable_in_future.check_pressed();
     break;
-
   }
 
   return false;
@@ -978,10 +1000,9 @@ bool finish_state_machine::handle_run_project() {
       a_error_running_program.check_pressed();
       break;
     }
-
   }
 
-  //TODO tutaj będzie zwrócone false po całkowitym wykonaniu programu
+  // TODO tutaj będzie zwrócone false po całkowitym wykonaniu programu
   return false;
 }
 //
@@ -1007,4 +1028,3 @@ bool finish_state_machine::handle_run_project() {
 //
 //
 //
-

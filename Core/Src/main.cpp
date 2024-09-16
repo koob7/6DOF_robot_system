@@ -19,15 +19,16 @@
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
 #include "fatfs.h"
+#include "finish_state_machine.h"
 #include "gpio.h"
 #include "spi.h"
-#include "tim.h"
-#include <draw_display.h>
 #include "stdio.h"
 #include "string.h"
-#include <navigate_robot.h>
-#include "finish_state_machine.h"
+#include "tim.h"
 #include "xpt2046.h"
+#include <menu_segments.h>
+#include <navigate_robot.h>
+
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
@@ -177,30 +178,31 @@ int main(void) {
   HAL_TIM_Base_Start_IT(&htim7);
   HAL_TIM_PWM_Start(&htim1, TIM_CHANNEL_1);
 
-  //przywitanie użytkownika
+  // przywitanie użytkownika
   HAL_GPIO_WritePin(USER_LED_GPIO_Port, USER_LED_Pin, GPIO_PIN_SET);
   HAL_Delay(100);
   HAL_GPIO_WritePin(USER_LED_GPIO_Port, USER_LED_Pin, GPIO_PIN_RESET);
   HAL_Delay(100);
   HAL_GPIO_WritePin(USER_LED_GPIO_Port, USER_LED_Pin, GPIO_PIN_SET);
 
-  //Inicjalizacja karty SD
+  // Inicjalizacja karty SD
   if (f_mount(&file_system, "/", 1) != FR_OK) {
-    //TODO tutaj będzie rzucany wyjątek
+    // TODO tutaj będzie rzucany wyjątek
   }
 
-  //Inicjalizacja ekranu
-  HAL_GPIO_WritePin(F_CS_GPIO_Port, F_CS_Pin, GPIO_PIN_RESET); // Ustawienie F_CS na low
+  // Inicjalizacja ekranu
+  HAL_GPIO_WritePin(F_CS_GPIO_Port, F_CS_Pin,
+                    GPIO_PIN_RESET); // Ustawienie F_CS na low
   Init_SSD1963();
 
-  //Inicjalizacja obiektów interfejsu użytkownika
+  // Inicjalizacja obiektów interfejsu użytkownika
   init_objects();
 
-  //rysowanie stałych elementów menu
+  // rysowanie stałych elementów menu
   main_left_menu.draw();
   main_right_menu.draw();
 
-  //kalibracja ruchu robota
+  // kalibracja ruchu robota
   kalibracja_robota(givenSteps, liczba_krokow_osi, kalibracja_osi);
   givenPosition[0] = robot_home_position.x;
   givenPosition[1] = robot_home_position.y;
@@ -218,10 +220,10 @@ int main(void) {
   NVIC_EnableIRQ(EXTI9_5_IRQn);
   was_touched = 0;
 
-  //start głównego programu
+  // start głównego programu
   finish_state_machine fsm;
   while (!automatic_movement_ready) {
-    //TODO oczekiwanie aż bedziemy mogli wykonać kolejny ruch
+    // TODO oczekiwanie aż bedziemy mogli wykonać kolejny ruch
   }
   /* USER CODE END 2 */
 
@@ -231,10 +233,14 @@ int main(void) {
     if (was_touched == 1) {
       was_touched = 0;
       fsm.handle_press_with_current_state(touch_x, touch_y);
-      if(was_touched==0){  HAL_Delay(500);}//jeżeli nie było funkcji która potrzebuje szybkiej obsługi (was_touched==2) to opóźniamy żeby nie było przypadkowych dotknięc
+      if (was_touched == 0) {
+        HAL_Delay(500);
+      } // jeżeli nie było funkcji która potrzebuje szybkiej obsługi
+        // (was_touched==2) to opóźniamy żeby nie było przypadkowych dotknięc
     }
     if (was_touched == 2) {
-      //jeżeli was_touched=2 oznacza że ekran był wczesniej kliknięty i musimy pobrać ponownie lokalizację dotyku
+      // jeżeli was_touched=2 oznacza że ekran był wczesniej kliknięty i musimy
+      // pobrać ponownie lokalizację dotyku
       NVIC_DisableIRQ(EXTI9_5_IRQn);
       was_touched = 0;
       touch_x = getX();
@@ -259,8 +265,8 @@ int main(void) {
  * @retval None
  */
 void SystemClock_Config(void) {
-  RCC_OscInitTypeDef RCC_OscInitStruct = { 0 };
-  RCC_ClkInitTypeDef RCC_ClkInitStruct = { 0 };
+  RCC_OscInitTypeDef RCC_OscInitStruct = {0};
+  RCC_ClkInitTypeDef RCC_ClkInitStruct = {0};
 
   /** Supply configuration update enable
    */
@@ -277,7 +283,7 @@ void SystemClock_Config(void) {
    * in the RCC_OscInitTypeDef structure.
    */
   RCC_OscInitStruct.OscillatorType =
-  RCC_OSCILLATORTYPE_HSI | RCC_OSCILLATORTYPE_HSE;
+      RCC_OSCILLATORTYPE_HSI | RCC_OSCILLATORTYPE_HSE;
   RCC_OscInitStruct.HSEState = RCC_HSE_ON;
   RCC_OscInitStruct.HSIState = RCC_HSI_DIV1;
   RCC_OscInitStruct.HSICalibrationValue = RCC_HSICALIBRATION_DEFAULT;
@@ -298,8 +304,8 @@ void SystemClock_Config(void) {
   /** Initializes the CPU, AHB and APB buses clocks
    */
   RCC_ClkInitStruct.ClockType = RCC_CLOCKTYPE_HCLK | RCC_CLOCKTYPE_SYSCLK |
-  RCC_CLOCKTYPE_PCLK1 | RCC_CLOCKTYPE_PCLK2 |
-  RCC_CLOCKTYPE_D3PCLK1 | RCC_CLOCKTYPE_D1PCLK1;
+                                RCC_CLOCKTYPE_PCLK1 | RCC_CLOCKTYPE_PCLK2 |
+                                RCC_CLOCKTYPE_D3PCLK1 | RCC_CLOCKTYPE_D1PCLK1;
   RCC_ClkInitStruct.SYSCLKSource = RCC_SYSCLKSOURCE_PLLCLK;
   RCC_ClkInitStruct.SYSCLKDivider = RCC_SYSCLK_DIV1;
   RCC_ClkInitStruct.AHBCLKDivider = RCC_HCLK_DIV2;
@@ -318,7 +324,7 @@ void SystemClock_Config(void) {
  * @retval None
  */
 void PeriphCommonClock_Config(void) {
-  RCC_PeriphCLKInitTypeDef PeriphClkInitStruct = { 0 };
+  RCC_PeriphCLKInitTypeDef PeriphClkInitStruct = {0};
 
   /** Initializes the peripherals clock
    */
@@ -339,10 +345,9 @@ void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin) {
       was_touched = 1;
       XPT2046_Init();
     }
-  }
-  else {
+  } else {
     handle_limit_switch_interrupt(GPIO_Pin, kalibracja_osi, givenSteps,
-        liczba_krokow_osi);
+                                  liczba_krokow_osi);
   }
 }
 

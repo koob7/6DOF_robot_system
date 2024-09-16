@@ -36,11 +36,10 @@ Core/Src/main.o: ../Core/Src/main.cpp ../Core/Inc/main.h \
  ../Middlewares/Third_Party/FatFs/src/ff_gen_drv.h \
  ../Middlewares/Third_Party/FatFs/src/diskio.h \
  ../Middlewares/Third_Party/FatFs/src/ff.h ../FATFS/Target/user_diskio.h \
- ../Core/Inc/gpio.h ../Core/Inc/main.h ../Core/Inc/spi.h \
- ../Core/Inc/tim.h ../Core/Inc/draw_display.h ../Core/Inc/bitmap_arrays.h \
- ../Core/Inc/display_ssd1963.h ../Core/Inc/sd_card_service.h \
- ../Core/Inc/gpio.h ../Core/Inc/objects.h ../Core/Inc/menu_parts.h \
- ../Core/Inc/tim.h ../Core/Inc/xpt2046.h \
+ ../Core/Inc/finish_state_machine.h ../Core/Inc/cmd_set_pin.h \
+ ../Core/Inc/commands.h ../Core/Inc/navigate_robot.h \
+ ../Core/Inc/display_ssd1963.h ../Core/Inc/main.h ../Core/Inc/gpio.h \
+ ../Core/Inc/menu_parts.h ../Core/Inc/tim.h ../Core/Inc/xpt2046.h \
  C:/Users/kobie/STM32CubeIDE/workspace_1.13.2/6DOF_robot_system/fonts/inc/008_Open_Sans_Bold.h \
  ../Core/Inc/display_ssd1963.h \
  C:/Users/kobie/STM32CubeIDE/workspace_1.13.2/6DOF_robot_system/fonts/inc/009_Open_Sans_Bold.h \
@@ -60,12 +59,13 @@ Core/Src/main.o: ../Core/Src/main.cpp ../Core/Inc/main.h \
  C:/Users/kobie/STM32CubeIDE/workspace_1.13.2/6DOF_robot_system/fonts/inc/096_Open_Sans_Bold.h \
  C:/Users/kobie/STM32CubeIDE/workspace_1.13.2/6DOF_robot_system/fonts/inc/112_Open_Sans_Bold.h \
  C:/Users/kobie/STM32CubeIDE/workspace_1.13.2/6DOF_robot_system/fonts/inc/128_Open_Sans_Bold.h \
- ../Core/Inc/servo.h ../Core/Inc/navigate_robot.h ../Core/Inc/commands.h \
- ../Core/Inc/navigate_robot.h ../Core/Inc/mov_streight.h \
+ ../Core/Inc/bitmap_arrays.h ../Core/Inc/servo.h ../Core/Inc/cmd_wait.h \
  ../Core/Inc/commands.h ../Core/Inc/mov_circular.h \
- ../Core/Inc/cmd_set_pin.h ../Core/Inc/cmd_wait.h \
- ../Core/Inc/finish_state_machine.h ../Core/Inc/xpt2046.h \
- ../Core/Inc/bitmap_arrays.h ../Core/Inc/servo.h
+ ../Core/Inc/mov_streight.h ../Core/Inc/menu_segments.h \
+ ../Core/Inc/sd_card_service.h ../Core/Inc/objects.h \
+ ../Core/Inc/navigate_robot.h ../Core/Inc/gpio.h ../Core/Inc/spi.h \
+ ../Core/Inc/tim.h ../Core/Inc/xpt2046.h ../Core/Inc/bitmap_arrays.h \
+ ../Core/Inc/servo.h
 ../Core/Inc/main.h:
 ../Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal.h:
 ../Core/Inc/stm32h7xx_hal_conf.h:
@@ -107,16 +107,13 @@ Core/Src/main.o: ../Core/Src/main.cpp ../Core/Inc/main.h \
 ../Middlewares/Third_Party/FatFs/src/diskio.h:
 ../Middlewares/Third_Party/FatFs/src/ff.h:
 ../FATFS/Target/user_diskio.h:
-../Core/Inc/gpio.h:
-../Core/Inc/main.h:
-../Core/Inc/spi.h:
-../Core/Inc/tim.h:
-../Core/Inc/draw_display.h:
-../Core/Inc/bitmap_arrays.h:
+../Core/Inc/finish_state_machine.h:
+../Core/Inc/cmd_set_pin.h:
+../Core/Inc/commands.h:
+../Core/Inc/navigate_robot.h:
 ../Core/Inc/display_ssd1963.h:
-../Core/Inc/sd_card_service.h:
+../Core/Inc/main.h:
 ../Core/Inc/gpio.h:
-../Core/Inc/objects.h:
 ../Core/Inc/menu_parts.h:
 ../Core/Inc/tim.h:
 ../Core/Inc/xpt2046.h:
@@ -139,16 +136,19 @@ C:/Users/kobie/STM32CubeIDE/workspace_1.13.2/6DOF_robot_system/fonts/inc/072_Ope
 C:/Users/kobie/STM32CubeIDE/workspace_1.13.2/6DOF_robot_system/fonts/inc/096_Open_Sans_Bold.h:
 C:/Users/kobie/STM32CubeIDE/workspace_1.13.2/6DOF_robot_system/fonts/inc/112_Open_Sans_Bold.h:
 C:/Users/kobie/STM32CubeIDE/workspace_1.13.2/6DOF_robot_system/fonts/inc/128_Open_Sans_Bold.h:
+../Core/Inc/bitmap_arrays.h:
 ../Core/Inc/servo.h:
-../Core/Inc/navigate_robot.h:
-../Core/Inc/commands.h:
-../Core/Inc/navigate_robot.h:
-../Core/Inc/mov_streight.h:
+../Core/Inc/cmd_wait.h:
 ../Core/Inc/commands.h:
 ../Core/Inc/mov_circular.h:
-../Core/Inc/cmd_set_pin.h:
-../Core/Inc/cmd_wait.h:
-../Core/Inc/finish_state_machine.h:
+../Core/Inc/mov_streight.h:
+../Core/Inc/menu_segments.h:
+../Core/Inc/sd_card_service.h:
+../Core/Inc/objects.h:
+../Core/Inc/navigate_robot.h:
+../Core/Inc/gpio.h:
+../Core/Inc/spi.h:
+../Core/Inc/tim.h:
 ../Core/Inc/xpt2046.h:
 ../Core/Inc/bitmap_arrays.h:
 ../Core/Inc/servo.h:
