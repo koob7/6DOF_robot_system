@@ -29,7 +29,6 @@
 #include <menu_segments.h>
 #include <navigate_robot.h>
 
-
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 #include "008_Open_Sans_Bold.h"

@@ -11,7 +11,7 @@
 #include "cmd_set_pin.h"
 #include "cmd_wait.h"
 #include "commands.h"
-#include "menu_parts.h"
+#include "menu_block.h"
 #include "mov_circular.h"
 #include "mov_streight.h"
 #include "xpt2046.h"
@@ -21,7 +21,6 @@
 #include <menu_segments.h>
 #include <navigate_robot.h>
 #include <objects.h>
-
 
 // enum class e_operation_mode {
 //   MANUAL, AUTOMATIC

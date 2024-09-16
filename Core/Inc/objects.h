@@ -10,7 +10,8 @@
 
 
 #include "fatfs.h"
-#include "menu_parts.h"
+#include "menu_block.h"
+#include "menu_popup.h"
 #include "navigate_robot.h"
 #include <algorithm>
 #include <iomanip>
@@ -21,7 +22,6 @@
 #include "mov_circular.h"
 #include "cmd_set_pin.h"
 #include "cmd_wait.h"
-
 
 #define forget_when_hiden true
 
@@ -39,8 +39,8 @@ class menu_segment {
 
 
 
-  std::vector<std::shared_ptr<menu_part>> top_parts;
-  std::vector<std::shared_ptr<menu_part>> background_parts;
+  std::vector<std::shared_ptr<menu_block>> top_parts;
+  std::vector<std::shared_ptr<menu_block>> background_parts;
   std::vector<button> buttons;
 
 public:
@@ -51,10 +51,10 @@ public:
   };
   void draw();
   void reduce_vector_size();
-  void add_background_part(std::shared_ptr<menu_part> part) {
+  void add_background_part(std::shared_ptr<menu_block> part) {
     background_parts.push_back(part);
   }
-  void add_part(std::shared_ptr<menu_part> part) {
+  void add_part(std::shared_ptr<menu_block> part) {
     top_parts.push_back(part);
   }
   void add_part(button o_button) {

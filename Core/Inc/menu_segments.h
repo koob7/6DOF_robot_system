@@ -1,5 +1,5 @@
-#ifndef INC_DRAW_DISPLAY_H
-#define INC_DRAW_DISPLAY_H
+#ifndef INC_MENU_SEGMENTS_H
+#define INC_MENU_SEGMENTS_H
 
 #include "bitmap_arrays.h"
 #include "display_ssd1963.h"
@@ -8,7 +8,8 @@
 #include "string.h"
 #include <objects.h>
 #include <stdint.h>
-
+#include "menu_block.h"
+#include "menu_popup.h"
 
 #include "008_Open_Sans_Bold.h"
 #include "009_Open_Sans_Bold.h"

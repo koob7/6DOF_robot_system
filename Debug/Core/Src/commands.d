@@ -34,7 +34,7 @@ Core/Src/commands.o: ../Core/Src/commands.cpp ../Core/Inc/commands.h \
  ../Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal_tim_ex.h \
  ../Middlewares/Third_Party/FatFs/src/ff.h \
  ../Middlewares/Third_Party/FatFs/src/integer.h ../FATFS/Target/ffconf.h \
- ../Core/Inc/main.h ../Core/Inc/gpio.h ../Core/Inc/menu_parts.h \
+ ../Core/Inc/main.h ../Core/Inc/gpio.h ../Core/Inc/menu_block.h \
  ../Core/Inc/tim.h ../Core/Inc/xpt2046.h \
  C:/Users/kobie/STM32CubeIDE/workspace_1.13.2/6DOF_robot_system/fonts/inc/008_Open_Sans_Bold.h \
  ../Core/Inc/display_ssd1963.h \
@@ -97,7 +97,7 @@ Core/Src/commands.o: ../Core/Src/commands.cpp ../Core/Inc/commands.h \
 ../FATFS/Target/ffconf.h:
 ../Core/Inc/main.h:
 ../Core/Inc/gpio.h:
-../Core/Inc/menu_parts.h:
+../Core/Inc/menu_block.h:
 ../Core/Inc/tim.h:
 ../Core/Inc/xpt2046.h:
 C:/Users/kobie/STM32CubeIDE/workspace_1.13.2/6DOF_robot_system/fonts/inc/008_Open_Sans_Bold.h:
