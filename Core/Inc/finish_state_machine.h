@@ -14,6 +14,7 @@
 #include "menu_block.h"
 #include "mov_circular.h"
 #include "mov_streight.h"
+#include "project_editor.h"
 #include "xpt2046.h"
 #include <display_ssd1963.h>
 #include <iostream>

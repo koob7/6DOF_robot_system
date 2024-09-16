@@ -59,13 +59,13 @@ Core/Src/finish_state_machine.o: ../Core/Src/finish_state_machine.cpp \
  C:/Users/kobie/STM32CubeIDE/workspace_1.13.2/6DOF_robot_system/fonts/inc/128_Open_Sans_Bold.h \
  ../Core/Inc/bitmap_arrays.h ../Core/Inc/servo.h ../Core/Inc/cmd_wait.h \
  ../Core/Inc/commands.h ../Core/Inc/mov_circular.h \
- ../Core/Inc/mov_streight.h ../Core/Inc/menu_segments.h \
- ../Core/Inc/sd_card_service.h ../FATFS/App/fatfs.h \
- ../Middlewares/Third_Party/FatFs/src/ff_gen_drv.h \
+ ../Core/Inc/mov_streight.h ../Core/Inc/project_editor.h \
+ ../FATFS/App/fatfs.h ../Middlewares/Third_Party/FatFs/src/ff_gen_drv.h \
  ../Middlewares/Third_Party/FatFs/src/diskio.h \
  ../Middlewares/Third_Party/FatFs/src/ff.h ../FATFS/Target/user_diskio.h \
- ../Core/Inc/objects.h ../Core/Inc/menu_popup.h \
- ../Core/Inc/navigate_robot.h
+ ../Core/Inc/navigate_robot.h ../Core/Inc/menu_segments.h \
+ ../Core/Inc/menu_popup.h ../Core/Inc/sd_card_service.h \
+ ../Core/Inc/objects.h
 ../Core/Inc/finish_state_machine.h:
 ../Core/Inc/cmd_set_pin.h:
 ../Core/Inc/commands.h:
@@ -137,13 +137,14 @@ C:/Users/kobie/STM32CubeIDE/workspace_1.13.2/6DOF_robot_system/fonts/inc/128_Ope
 ../Core/Inc/commands.h:
 ../Core/Inc/mov_circular.h:
 ../Core/Inc/mov_streight.h:
-../Core/Inc/menu_segments.h:
-../Core/Inc/sd_card_service.h:
+../Core/Inc/project_editor.h:
 ../FATFS/App/fatfs.h:
 ../Middlewares/Third_Party/FatFs/src/ff_gen_drv.h:
 ../Middlewares/Third_Party/FatFs/src/diskio.h:
 ../Middlewares/Third_Party/FatFs/src/ff.h:
 ../FATFS/Target/user_diskio.h:
-../Core/Inc/objects.h:
-../Core/Inc/menu_popup.h:
 ../Core/Inc/navigate_robot.h:
+../Core/Inc/menu_segments.h:
+../Core/Inc/menu_popup.h:
+../Core/Inc/sd_card_service.h:
+../Core/Inc/objects.h:

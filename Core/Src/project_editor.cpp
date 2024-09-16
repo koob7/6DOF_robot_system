@@ -1,0 +1,361 @@
+#include "project_editor.h"
+
+project_editor::project_editor() {
+  page_up_btn.add_part(
+      std::make_shared<triangle>(147, 132, 147 + 24, 132, 147 + 12, 132 - 20,
+          0x00FD));
+  page_down_btn.add_part(
+      std::make_shared<triangle>(147, 417, 147 + 24, 417, 147 + 12, 417 + 20,
+          0x00FD));
+}
+
+void project_editor::reset_project_progres() {
+  for (const auto &cmd : commands) {
+    cmd->reset_task_progres();
+  }
+}
+
+void project_editor::prepare_commands() {
+  int i = 0;
+  for (const auto &cmd : commands) {
+    cmd->prepare_task(commands.begin(), i);
+    i++;
+  }
+}
+
+// zwraca true program jest w trakcie pracy oraz false gdy zakończyliśmy program
+enum project_editor::e_project_run_progres project_editor::execute_project() {
+  bool result;
+  if (selected_command > -1) {
+    if (commands[selected_command]->is_task_completed()) {
+      int tmp_previous_command = selected_command;
+      result = get_next_command_to_execute();
+      commands[tmp_previous_command]->reset_task_progres();
+      if (result) {
+        if (commands[selected_command]->check_was_error()) {
+          commands[selected_command]->prepare_task(commands.begin(),
+                                                   selected_command);
+          commands[selected_command]->clear_error();
+        }
+        return project_editor::e_project_run_progres::end_step;
+      } else {
+        return project_editor::e_project_run_progres::end_project;
+      }
+    } else {
+      result = true; // wykonujemy obecną komendę
+    }
+  } else {
+    result = get_next_command_to_execute();
+  }
+  if (!result) {
+    return project_editor::e_project_run_progres::end_project;
+    // TODO obsługa że już zakończyliśmy wykonywanie programu
+  }
+  if (robot_was_moved && (commands[selected_command]->get_command_type() <
+                          command::e_command_type::mov_com_end)) {
+    commands[selected_command]->prepare_task(commands.begin(),
+                                             selected_command);
+  }
+  while (!automatic_movement_ready) {
+    // TODO oczekiwanie aż bedziemy mogli wykonać kolejny ruch
+  }
+  automatic_movement_ready = false;
+
+  if (!commands[selected_command]->perform_task()) {
+    // funkcja nie może wykonać się poprawnie
+    commands[selected_command]->notice_error_occured();
+    return project_editor::e_project_run_progres::fault;
+  }
+
+  return project_editor::e_project_run_progres::pending;
+  ;
+}
+
+// zwraca true jeżeli jest kolejna komenda do wykonania i false jeżeli
+// zakończyliśmy program
+bool project_editor::get_next_command_to_execute() {
+  if (selected_command > -1) {
+    if (commands[selected_command]->is_task_completed()) {
+      if ((selected_command + 1) <
+          static_cast<int>(
+              commands.size())) { // następna komenda to komenda po obecnej
+        selected_command++;
+        draw(selected_command);
+        return true;
+      } else { // dotarliśmy do końca pliku - nie ma więcej komend
+        selected_command = -1;
+        draw(selected_command);
+        return false;
+      }
+    } else { // następną komendą będzie obecna komenda
+      return true;
+    }
+  } else if (commands.size() >
+             0) { // następną komendą będzie pierwsza komenda z pliku
+    robot_was_moved = true;
+    selected_command = 0;
+    return true;
+  } else { // nie ma żadnych komend
+    return false;
+  }
+}
+
+void project_editor::draw_menu_for_next_command_to_execute() {
+  if (selected_command < -1) {
+    //  first_command_to_display=0;
+    //  update_last_command_to_display();
+    // chyba nie musimy nic robić
+  } else if (selected_command < first_command_to_display ||
+             selected_command >= last_command_to_display) {
+    first_command_to_display = selected_command;
+    // update_last_command_to_display();
+    // nie musimy tego robić bo ta funkcja jest wywoływana w funkcji draw();
+  }
+  draw();
+}
+
+void project_editor::insert_command(std::shared_ptr<command> in_cmd) {
+  if (selected_command > -1) {
+    commands.insert(commands.begin() + selected_command + 1, in_cmd);
+    //selected_command = selected_command + 1;przechodzenie między zaznaczonymi okienkami jest niebezpieczne bo punkty mogą być poza obszarem malowania
+  } else if (commands.size() > 1) {
+    commands.insert(commands.end() - 1, in_cmd);
+    //selected_command = commands.size()-2;
+  } else {
+    commands.push_back(in_cmd);
+  }
+  //draw(); rysowanie nie jest potrzebne bo rysujemy przy wejściu do menu edycji
+  //TODO zoptymalizować komendy wymagające przygotowania
+  prepare_commands();
+}
+
+void project_editor::remove_command() {
+  commands.erase(commands.begin() + selected_command);
+  selected_command = -1;
+  draw();
+  //TODO zoptymalizować komendy wymagające przygotowania
+  prepare_commands();
+}
+
+void project_editor::draw(int command_to_display) {
+  if (command_to_display > -1) {
+    if (command_to_display < first_command_to_display
+        || command_to_display >= last_command_to_display) {
+      first_command_to_display = command_to_display;
+    }
+  }
+  draw();
+}
+
+void project_editor::draw() {
+
+  update_last_command_to_display();
+  if (first_command_to_display > 0) {
+    page_up_btn.draw();
+  } else {
+    TFT_Draw_Fill_Rectangle(139, 106, 41, 40, clear_screen_color);
+  }
+  if (static_cast<int>(commands.size()) > last_command_to_display) {
+    page_down_btn.draw();
+  } else {
+    TFT_Draw_Fill_Rectangle(139, 405, 41, 40, clear_screen_color);
+  }
+  int i = first_command_to_display;
+  int pos_counter = 0;
+  for (; i < last_command_to_display; i++) {
+
+    TFT_Draw_Fill_Rectangle(command_explorer_start_pos_x,
+    command_explorer_start_pos_y + pos_counter * (command_explorer_line_height +
+    command_explorer_line_space) -
+    command_explorer_line_space / 2 - 1, 460, 2, 0xB5B6);
+    if (i == selected_command) {
+      TFT_Draw_Fill_Round_Rect(command_explorer_start_pos_x,
+          command_explorer_start_pos_y
+              + pos_counter * (command_explorer_line_height +
+              command_explorer_line_space), 460, command_explorer_line_height,
+          10, 0xB6DF);
+    } else {
+      TFT_Draw_Fill_Rectangle(command_explorer_start_pos_x,
+          command_explorer_start_pos_y
+              + pos_counter * (command_explorer_line_height +
+              command_explorer_line_space), 460, command_explorer_line_height,
+          clear_screen_color);
+    }
+    auto movement_ptr = std::static_pointer_cast<movement>(commands[i]);
+    if (movement_ptr) {
+      if (movement_ptr->get_target_position() == robot_home_position) {
+        draw_text(command_explorer_start_pos_x,
+            command_explorer_start_pos_y
+                + pos_counter * (command_explorer_line_height +
+                command_explorer_line_space),
+            command_explorer_line_height, command_explorer_file_menu_font,
+        1, BLACK, "HOME");
+      }
+    } else {
+      draw_text(command_explorer_start_pos_x,
+      command_explorer_start_pos_y +
+      pos_counter * (command_explorer_line_height +
+          command_explorer_line_space),
+      command_explorer_line_height, command_explorer_file_menu_font,
+      1, BLACK, "P" + std::to_string(i));
+    }
+    commands[i]->draw(
+        command_explorer_start_pos_y + pos_counter * (command_explorer_line_height +
+            command_explorer_line_space));
+    pos_counter++;
+  }
+  for (; pos_counter < command_explorer_num_files_on_page; pos_counter++) {
+    TFT_Draw_Fill_Rectangle(command_explorer_start_pos_x,
+    command_explorer_start_pos_y + pos_counter * (command_explorer_line_height +
+    command_explorer_line_space), 460,
+        command_explorer_line_height + command_explorer_line_space,
+        clear_screen_color);
+  }
+}
+
+bool project_editor::check_area_pressed(int x, int y, int area_x, int area_y,
+    int area_width, int area_height) {
+  return (x >= area_x && x <= area_x + area_width && y >= area_y
+      && y <= area_y + area_height);
+}
+
+void project_editor::forget_selected_hiden_command() {
+  if ((selected_command < first_command_to_display
+      || selected_command > last_command_to_display)) {
+    selected_command = -1;
+  }
+}
+
+void project_editor::update_last_command_to_display() {
+  last_command_to_display =
+      ((first_command_to_display + command_explorer_num_files_on_page)
+          > static_cast<int>(commands.size())) ?
+          commands.size() :
+          (first_command_to_display + command_explorer_num_files_on_page);
+}
+
+void project_editor::handle_pressed(int x, int y) {
+  if (first_command_to_display > 0) {
+    if (page_up_btn.check_pressed(x, y) == 0) {
+      first_command_to_display--;
+      forget_selected_hiden_command();
+      draw();
+    }
+  }
+  if (static_cast<int>(commands.size()) > last_command_to_display) {
+    if (page_down_btn.check_pressed(x, y) == 1) {
+      first_command_to_display++;
+      forget_selected_hiden_command();
+      draw();
+    }
+  }
+  int i = first_command_to_display;
+  int pos_counter = 0;
+  for (; i < last_command_to_display; i++) {
+    if (check_area_pressed(x, y, command_explorer_start_pos_x,
+    command_explorer_start_pos_y + pos_counter * (command_explorer_line_height +
+    command_explorer_line_space), 460, command_explorer_line_height)) {
+      if (selected_command > -1) {//jeżeli zadanie było w trakcie wykonywania musimy zresetować jego progres
+        commands[selected_command]->notice_error_occured();
+      }
+      selected_command = i;
+
+      robot_was_moved = true;
+      draw();
+      break;
+    }
+    pos_counter++;
+  }
+}
+
+std::shared_ptr<command> project_editor::get_command_to_execute() {
+  if (selected_command < 0) {
+    if (commands.size() != 0) {
+      selected_command = first_command_to_display;
+      draw();
+    }
+  }
+  return commands[selected_command];
+}
+
+std::shared_ptr<command> project_editor::get_choosen_command() {
+  if (selected_command >= 0) {
+    return commands[selected_command];
+  } else {
+    return nullptr;
+  }
+}
+
+void project_editor::save_changes_into_file() {
+  const TCHAR *tchar_file_name = file_name.c_str();
+  f_close(&fil);
+  f_open(&fil, tchar_file_name, FA_WRITE | FA_CREATE_ALWAYS);
+  for (auto cmd : commands) {
+    cmd->save_to_file(fil);
+  }
+  f_close(&fil);
+  f_open(&fil, tchar_file_name,
+  FA_OPEN_ALWAYS | FA_READ | FA_WRITE);
+
+}
+
+void project_editor::close_file() {
+  f_close(&fil);
+}
+
+bool project_editor::open_file(std::string in_file_name) {
+  const TCHAR *tchar_file_name = in_file_name.c_str();
+
+  file_name = in_file_name;
+
+  FRESULT result = f_open(&fil, tchar_file_name,
+  FA_OPEN_ALWAYS | FA_READ | FA_WRITE);
+
+  if (result != FR_OK) {
+    // TODO: Rzuć wyjątek, że plik nie może zostać otwarty
+    return result;
+  }
+
+  return get_commands();
+
+}
+
+bool project_editor::get_commands() {
+  commands.clear();
+  selected_command = -1;
+  std::string Gcode_command;
+  char line[256];
+
+  while (f_gets(line, sizeof(line), &fil) != NULL) {
+
+    std::istringstream line_stream(line);
+
+    line_stream >> Gcode_command;
+
+    if (Gcode_command == "G1") {
+      add_part(std::make_shared<mov_streight>(line_stream));
+    } else if (Gcode_command == "G2") {
+      add_part(std::make_shared<mov_circular>(line_stream));
+    } else if (Gcode_command == "G4") {
+      add_part(std::make_shared<cmd_wait>(line_stream));
+    } else if (Gcode_command == "M42") {
+      add_part(std::make_shared<cmd_set_pin>(line_stream));
+    } else {
+      // TODO: Handle unknown commands or throw an exception
+    }
+  }
+
+  if (commands.empty()) {
+    add_part(
+        std::make_shared<mov_streight>(robot_home_position,
+            movement::e_speed::speed_100,
+            movement::e_movement_type::continous));
+    add_part(
+        std::make_shared<mov_streight>(robot_home_position,
+            movement::e_speed::speed_100,
+            movement::e_movement_type::continous));
+  }
+
+  draw();
+  return true;
+}

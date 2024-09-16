@@ -5,7 +5,6 @@
  *      Author: kobie
  */
 
-
 #include "menu_block.h"
 volatile uint8_t was_touched = 0;
 uint16_t *save_screen_buffer = (uint16_t *)malloc(

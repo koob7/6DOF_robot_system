@@ -4,12 +4,14 @@
 #include "bitmap_arrays.h"
 #include "display_ssd1963.h"
 #include "ff.h"
+#include "menu_block.h"
+#include "menu_popup.h"
+#include "project_editor.h"
 #include "sd_card_service.h"
 #include "string.h"
 #include <objects.h>
 #include <stdint.h>
-#include "menu_block.h"
-#include "menu_popup.h"
+
 
 #include "008_Open_Sans_Bold.h"
 #include "009_Open_Sans_Bold.h"
