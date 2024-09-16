@@ -9,20 +9,20 @@ C:\ST\STM32CubeIDE_1.13.2\STM32CubeIDE\plugins\com.st.stm32cube.ide.mcu.external
 C:\ST\STM32CubeIDE_1.13.2\STM32CubeIDE\plugins\com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.11.3.rel1.win32_1.1.1.202309131626\tools\arm-none-eabi\include\c++\11.3.1\bits\shared_ptr_base.h:479:5:static const std::type_info& std::_Sp_make_shared_tag::_S_ti()	1
 ../Core/Inc/menu_parts.h:82:16:virtual void menu_part::update_text(std::string)	1
 ../Core/Inc/menu_parts.h:113:7:int button::get_id()	1
-../Core/Inc/navigate_robot.h:52:8:bool robot_position::operator==(const robot_position&) const	7
-../Core/Inc/navigate_robot.h:99:8:bool command::is_task_completed()	1
-../Core/Inc/navigate_robot.h:102:8:bool command::check_was_error()	1
-../Core/Inc/navigate_robot.h:103:8:void command::clear_error()	1
-../Core/Inc/navigate_robot.h:104:8:void command::notice_error_occured()	1
-../Core/Inc/navigate_robot.h:134:25:robot_position movement::get_target_position()	1
+../Core/Inc/navigate_robot.h:49:8:bool robot_position::operator==(const robot_position&) const	7
 C:\ST\STM32CubeIDE_1.13.2\STM32CubeIDE\plugins\com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.11.3.rel1.win32_1.1.1.202309131626\tools\bin/../lib/gcc/arm-none-eabi/11.3.1/../../../../arm-none-eabi/include/c++/11.3.1/iomanip:225:3:std::_Setw std::setw(int)	1
+../Core/Inc/commands.h:35:8:bool command::is_task_completed()	1
+../Core/Inc/commands.h:36:8:bool command::check_was_error()	1
+../Core/Inc/commands.h:37:8:void command::clear_error()	1
+../Core/Inc/commands.h:38:8:void command::notice_error_occured()	1
+../Core/Inc/commands.h:79:25:robot_position movement::get_target_position()	1
 ../Core/Inc/menu_parts.h:85:7:button::~button()	1
 ../Core/Inc/menu_parts.h:76:7:constexpr menu_part::menu_part(menu_part&&)	1
 C:\ST\STM32CubeIDE_1.13.2\STM32CubeIDE\plugins\com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.11.3.rel1.win32_1.1.1.202309131626\tools\bin/../lib/gcc/arm-none-eabi/11.3.1/../../../../arm-none-eabi/include/c++/11.3.1/bits/stl_vector.h:128:14:std::_Vector_base<std::shared_ptr<menu_part>, std::allocator<std::shared_ptr<menu_part> > >::_Vector_impl::~_Vector_impl()	1
 C:\ST\STM32CubeIDE_1.13.2\STM32CubeIDE\plugins\com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.11.3.rel1.win32_1.1.1.202309131626\tools\bin/../lib/gcc/arm-none-eabi/11.3.1/../../../../arm-none-eabi/include/c++/11.3.1/bits/stl_vector.h:308:7:std::_Vector_base<_Tp, _Alloc>::_Vector_base(std::_Vector_base<_Tp, _Alloc>&&) [with _Tp = std::shared_ptr<menu_part>; _Alloc = std::allocator<std::shared_ptr<menu_part> >]	1
 C:\ST\STM32CubeIDE_1.13.2\STM32CubeIDE\plugins\com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.11.3.rel1.win32_1.1.1.202309131626\tools\bin/../lib/gcc/arm-none-eabi/11.3.1/../../../../arm-none-eabi/include/c++/11.3.1/bits/stl_vector.h:572:7:std::vector<_Tp, _Alloc>::vector(std::vector<_Tp, _Alloc>&&) [with _Tp = std::shared_ptr<menu_part>; _Alloc = std::allocator<std::shared_ptr<menu_part> >]	1
 ../Core/Inc/menu_parts.h:85:7:button::button(button&&)	1
-../Core/Inc/objects.h:133:8:void project_editor::add_part(std::shared_ptr<command>)	1
+../Core/Inc/objects.h:138:8:void project_editor::add_part(std::shared_ptr<command>)	1
 ../Core/Src/objects.cpp:11:6:void project_editor::reset_project_progres()	2
 ../Core/Src/objects.cpp:17:6:void project_editor::prepare_commands()	2
 ../Core/Src/objects.cpp:26:44:project_editor::e_project_run_progres project_editor::execute_project()	11

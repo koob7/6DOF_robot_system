@@ -17,6 +17,12 @@
 #include "menu_parts.h"
 #include <objects.h>
 #include <memory>
+#include "commands.h"
+#include "mov_streight.h"
+#include "mov_circular.h"
+#include "cmd_set_pin.h"
+#include "cmd_wait.h"
+
 
 //enum class e_operation_mode {
 //  MANUAL, AUTOMATIC

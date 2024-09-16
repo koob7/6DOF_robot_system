@@ -16,6 +16,11 @@
 #include <iomanip>
 #include <sstream>
 #include <fstream>
+#include "commands.h"
+#include "mov_streight.h"
+#include "mov_circular.h"
+#include "cmd_set_pin.h"
+#include "cmd_wait.h"
 
 
 #define forget_when_hiden true

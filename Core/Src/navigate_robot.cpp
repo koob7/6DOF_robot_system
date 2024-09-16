@@ -6,827 +6,39 @@
  */
 #include <navigate_robot.h>
 
-bool robot_was_moved = true; //jeżeli true - oznacza że robot był ruszony przez użytkownika, zmienna potrzebna przy wykonywaniu całego programu
-volatile bool automatic_movement_ready = true; //zmienna która bedzie regulować prędkością robota w obsłudze programu- będzie setowana w przerwaniu i resetowaniu przy ruchu robotem
+bool robot_was_moved =
+    true; // jeżeli true - oznacza że robot był ruszony przez użytkownika,
+          // zmienna potrzebna przy wykonywaniu całego programu
+volatile bool automatic_movement_ready =
+    true; // zmienna która bedzie regulować prędkością robota w obsłudze
+          // programu- będzie setowana w przerwaniu i resetowaniu przy ruchu
+          // robotem
 volatile bool manual_movement_ready = true; //...w ręcznym sterowaniu robotem
-uint16_t max_licz_krokow_osi[6] = { 6400 * 2, 6400 * 2, 8000, 6400 * 2, 6400
-    * 2, 0 };
+uint16_t max_licz_krokow_osi[6] = {6400 * 2, 6400 * 2, 8000,
+                                   6400 * 2, 6400 * 2, 0};
 double currentPosition[6];
 double givenPosition[6];
 int liczba_krokow_osi[5];
-uint8_t kalibracja_osi[5] = { 1, 1, 1, 1, 1 };
-int givenSteps[6] = { 0, 0, 0, 0, 0, 0 };
+uint8_t kalibracja_osi[5] = {1, 1, 1, 1, 1};
+int givenSteps[6] = {0, 0, 0, 0, 0, 0};
 
-struct robot_position robot_home_position = robot_position(30, 0, 22, 0, 90, 90);
+struct robot_position robot_home_position =
+    robot_position(30, 0, 22, 0, 90, 90);
 
+// maksymalne wartości pozycji robota
 int max_range = 39;
 int min_range = 13;
 int min_y = (-10);
 int min_x = (0);
 
+// wykorzystywane wymiary konstrukcji robota
 double d1 = 0;
 double a2 = 20;
 double a3 = 20;
 double d6 = 10.5;
 
-void mov_streight::update_vector(const struct robot_position &A,
-    const struct robot_position &B) {
-  vect_AB_x = (B.x - A.x);
-  vect_AB_y = (B.y - A.y);
-  vect_AB_z = (B.z - A.z);
-  angle_AB_a = (B.a - A.a);
-  angle_AB_b = (B.b - A.b);
-  angle_AB_c = (B.c - A.c);
-}
-
-struct robot_position mov_streight::calculate_offset_on_line() {
-  struct robot_position position;
-  double t=(1-movement_divider);
-  position.x = target_pos.x - t * vect_AB_x;
-  position.y = target_pos.y - t * vect_AB_y;
-  position.z = target_pos.z - t * vect_AB_z;
-  position.a = target_pos.a - t * angle_AB_a;
-  position.b = target_pos.b - t * angle_AB_b;
-  position.c = target_pos.c - t * angle_AB_c;
-  return position;
-}
-
-double mov_streight::calculate_distance(const struct robot_position &A,
-    const struct robot_position &B) {
-  return sqrt(pow(B.x - A.x, 2) + pow(B.y - A.y, 2) + pow(B.z - A.z, 2));
-}
-
-double mov_streight::calculate_delta(double distance) {
-  double speed_divider;
-  switch (speed){
-  case e_speed::speed_10:
-    speed_divider= 0.001;
-    break;
-  case e_speed::speed_50:
-    speed_divider= 0.005;
-      break;
-  case e_speed::speed_100:
-    speed_divider= 0.01;
-      break;
-  }
-  return speed_divider / distance;
-}
-
-int mov_streight::count_segments(double tmp_distance) {
-  // Liczymy liczbę odcinków o długości 1 cm, zaokrąglając w górę
-  double speed_divider;
-  switch (speed){
-  case e_speed::speed_10:
-    speed_divider= 0.001;
-    break;
-  case e_speed::speed_50:
-    speed_divider= 0.005;
-      break;
-  case e_speed::speed_100:
-    speed_divider= 0.01;
-      break;
-  }
-  return static_cast<int>(ceil(tmp_distance/speed_divider));
-}
-
-void mov_streight::calculate_move_from_poin_to_target(
-    struct robot_position start_position) {
-  update_vector(start_position, target_pos);
-  distance_AB = calculate_distance(start_position, target_pos);
-  delta_movement_divider = calculate_delta(distance_AB);
-  task_steps =count_segments(distance_AB);
-  movement_divider=delta_movement_divider;
-
-}
-
-void mov_streight::prepare_task(
-    std::vector<std::shared_ptr<command>>::iterator first_command_iteratort,
-    int position_in_vector) {
-  bool was_previous = false;
-  struct robot_position previous_robot_position;
-  if (robot_was_moved) {
-    //obliczamy ruch z aktualnej pozycji robota
-    previous_robot_position = robot_position(currentPosition[0],
-        currentPosition[1], currentPosition[2], currentPosition[3],
-        currentPosition[4], currentPosition[5]);
-    calculate_move_from_poin_to_target(previous_robot_position);
-  } else {
-    //szukamy poprzedniego punktu - jeżeli nie ma korzystamy z aktualnej pozycji
-
-    for (int i = position_in_vector - 1; i > -1; i--) {
-
-        if((*(first_command_iteratort+i))->get_target_position(previous_robot_position)){
-        //ta obsługa wykona się jeżeli pobierzemy poprawnie pozycję:
-        calculate_move_from_poin_to_target(previous_robot_position);
-        was_previous = true;
-        break;
-        }
-
-    }
-    //tutaj jest obłsuga jeżeli robot się nie ruszył i nie ma poprzedniego punktu - korzystamy z obecnej pozycji
-
-    if(!was_previous)
-    {
-       previous_robot_position = robot_position(currentPosition[0],
-        currentPosition[1], currentPosition[2], currentPosition[3],
-        currentPosition[4], currentPosition[5]);
-    calculate_move_from_poin_to_target(previous_robot_position);}
-  }
-
-  robot_was_moved = false;
-  task_progres = 0;
-}
-void mov_circular::prepare_task(
-    std::vector<std::shared_ptr<command>>::iterator first_command_iteratort,
-    int position_in_vector) {
-
-  //tymczasowa obsługa - ustawiamy żeby zadanie wykonywało sie tak samo jak ruch prosty
-
-//szkic docelowej obsługi  - do poprawy !!!
-//  struct robot_position previous_robot_position;
-//  for (int i = position_in_vector-1; i >-1; i--) {
-//          try {
-//            previous_robot_position = get_target_position();
-//            //tutaj obliczanie ruchu kołowego jeżeli znaleźliśmy poprzednią pozycję
-//            return;
-//          } catch (const std::exception& e) {
-//            //tutaj wpadamy jeżli poprzedni punkt jest innego typu niż movement
-//            task_progres=0;
-//            task_steps=...
-//            robot_was_moved = false;//ustawiamy że jesteśmy pierwszym punktem tylko gdy faktycznie wykonamy operację
-//          }
-//      }
-//  //tutaj zaczyna się obsługa jeżeli nie było wcześniej komendy typu movement
-}
-void cmd_wait::prepare_task(
-    std::vector<std::shared_ptr<command>>::iterator first_command_iteratort,
-    int position_in_vector) {
-  //oczekiwanie będzie wykonywało sie w odstępach zdefiniowanych w #define
-  int dividend;
-  switch (wait_time) {
-  case e_wait_time::wait_1s:
-    dividend = 1000;
-    break;
-  case e_wait_time::wait_5s:
-    dividend = 1000 * 5;
-    break;
-  case e_wait_time::wait_30s:
-    dividend = 1000 * 30;
-    break;
-  case e_wait_time::wait_1min:
-    dividend = 1000 * 60;
-    break;
-  case e_wait_time::wait_5min:
-    dividend = 1000 * 60 * 5;
-    break;
-  }
-  task_progres = 0;
-  task_steps = dividend / single_wait_time_prescaller;
-}
-void cmd_set_pin::prepare_task(
-    std::vector<std::shared_ptr<command>>::iterator first_command_iteratort,
-    int position_in_vector) {
-  task_progres = 0;
-  //task_steps=1;//w tej komendzie zmiana pinu zawsze będzie operacją atomową
-}
-
-bool mov_streight::perform_task() {
-  if(task_progres<task_steps){
-  if(movement_divider>1)movement_divider=1;
-  struct robot_position tmp_position = calculate_offset_on_line();
-  givenPosition[0] = tmp_position.x;
-  givenPosition[1] = tmp_position.y;
-  givenPosition[2] = tmp_position.z;
-  givenPosition[3] = tmp_position.a;
-  givenPosition[4] = tmp_position.b;
-  givenPosition[5] = tmp_position.c;
-  if(!licz_kroki(givenPosition, givenSteps, currentPosition)){
-    return false;
-  }
-  movement_divider+=delta_movement_divider;
-  task_progres++;
-  }
-  return true;
-}
-
-bool mov_circular::perform_task() {
-  task_progres++;
-  return true;
-}
-
-bool cmd_wait::perform_task() {
-  task_progres++;
-  HAL_Delay(single_wait_time_prescaller);
-  return true;
-}
-
-bool cmd_set_pin::perform_task() {
-  task_progres = 1;
-  switch (output_pin) {
-  case e_output_pin::robot_tool:
-    //HAL_GPIO_WritePin(ROBOT_TOOl_GPIO_Port, ROBOT_TOOl_Pin, set_pin_high?GPIO_PIN_SET:GPIO_PIN_RESET);
-    //obecnie nie mamy żadnego nażędzia więc nic się nie dzieje
-    break;
-  case e_output_pin::user_led:
-    HAL_GPIO_WritePin(USER_LED_GPIO_Port, USER_LED_Pin,
-        set_pin_high ? GPIO_PIN_SET : GPIO_PIN_RESET);
-    break;
-  }
-  return true;
-}
-
-movement::movement(const movement &other) :
-    target_pos(other.target_pos), speed(other.speed), movement_type(
-        other.movement_type) {
-}
-
-mov_streight::mov_streight(const mov_streight &other) :
-    movement(other) {
-}
-
-mov_circular::mov_circular(const mov_circular &other) :
-    movement(other), help_pos(other.help_pos) {
-}
-
-void mov_streight::update_command(mov_streight in_object) {
-  target_pos = in_object.target_pos;
-  speed = in_object.speed;
-  movement_type = in_object.movement_type;
-}
-
-cmd_wait::cmd_wait(const cmd_wait &other) :
-    command(other), wait_time(other.wait_time) {
-}
-
-cmd_set_pin::cmd_set_pin(const cmd_set_pin &other) :
-    command(other), output_pin(other.output_pin), set_pin_high(
-        other.set_pin_high) {
-}
-
-void mov_circular::update_command(mov_circular in_object) {
-  target_pos = in_object.target_pos;
-  help_pos = in_object.help_pos;
-  speed = in_object.speed;
-  movement_type = in_object.movement_type;
-}
-
-void cmd_wait::update_command(cmd_wait in_object) {
-  wait_time = in_object.wait_time;
-}
-
-void cmd_set_pin::update_command(cmd_set_pin in_object) {
-  output_pin = in_object.output_pin;
-  set_pin_high = in_object.set_pin_high;
-}
-
-void movement::draw_movement(int print_y, bool ciruclar_movement) {
-
-  std::string move_type = ciruclar_movement ? "Circ." : "Strai.";
-
-  std::string type_string =
-      (movement_type == continous) ? "Continous" : "Step_by_step";
-
-  std::string speed_string;
-  switch (speed) {
-  case speed_10:
-    speed_string = "10%";
-    break;
-  case speed_50:
-    speed_string = "50%";
-    break;
-  case speed_100:
-    speed_string = "100%";
-    break;
-  default:
-    //TODO tutaj będzie kiedyś wyjątek
-    break;
-  }
-
-  draw_text(
-  command_explorer_first_setting_x, print_y, command_explorer_line_height,
-  command_explorer_file_menu_font, 1, BLACK,
-  "MOVE = " + move_type
-  );
-
-  draw_text(
-  command_explorer_second_setting_x, print_y, command_explorer_line_height,
-  command_explorer_file_menu_font, 1, BLACK,
-  "TYPE = " + type_string
-  );
-
-  draw_text(
-  command_explorer_third_setting_x, print_y, command_explorer_line_height,
-  command_explorer_file_menu_font, 1, BLACK,
-  "SPEED = " + speed_string
-  );
-}
-
-void cmd_wait::draw(int print_y) {
-  draw_text(command_explorer_first_setting_x, print_y,
-  command_explorer_line_height, command_explorer_file_menu_font, 1,
-  BLACK, "COM = Wait");
-  std::string wait_time_text;
-  switch (wait_time) {
-    case wait_1s:
-    wait_time_text = "1s";
-    break;
-    case wait_5s:
-    wait_time_text = "5s";
-    break;
-    case wait_30s:
-    wait_time_text = "30s";
-    break;
-    case wait_1min:
-    wait_time_text = "1min";
-    break;
-    case wait_5min:
-    wait_time_text = "5min";
-    break;
-  }
-  draw_text(command_explorer_second_setting_x, print_y,
-  command_explorer_line_height, command_explorer_file_menu_font, 1,
-  BLACK, "TIME = " + wait_time_text);
-}
-
-movement::movement(struct robot_position in_target_pos, enum e_speed speed,
-    enum e_movement_type movement_type) :
-    target_pos(in_target_pos), speed(speed), movement_type(movement_type) {
-}
-movement::movement() {
-  target_pos = robot_position();
-  speed = speed_10;
-  movement_type = continous;
-}
-mov_streight::mov_streight(struct robot_position in_target_pos,
-    enum e_speed speed, enum e_movement_type movement_type) :
-    movement(in_target_pos, speed, movement_type) {
-}
-mov_streight::mov_streight(std::istringstream &iss) {
-  char prefix;
-  double value;
-  while (iss >> prefix >> value) {
-    switch (prefix) {
-    case 'X':
-      target_pos.x = value;
-      break;
-    case 'Y':
-      target_pos.y = value;
-      break;
-    case 'Z':
-      target_pos.z = value;
-      break;
-    case 'A':
-      target_pos.a = value;
-      break;
-    case 'B':
-      target_pos.b = value;
-      break;
-    case 'C':
-      target_pos.c = value;
-      break;
-    case 'S':
-      switch (static_cast<int>(value)) {
-      case 10:
-        speed = speed_10;
-        break;
-      case 50:
-        speed = speed_50;
-        break;
-      case 100:
-        speed = speed_100;
-        break;
-      default:
-        //TODO tutaj powinien być wyjątek
-        break;
-      }
-      break;
-    case 'M':
-      switch (static_cast<int>(value)) {
-      case 0:
-        movement_type = continous;
-        break;
-      case 1:
-        movement_type = step_by_step;
-        break;
-      default:
-        //TODO tutaj powinien być wyjątek
-        break;
-      }
-      break;
-    default:
-      //TODO tutaj powinien być wyjątek
-      break;
-    }
-  }
-}
-
-mov_circular::mov_circular(std::istringstream &iss) {
-  char prefix;
-  double value;
-  while (iss >> prefix >> value) {
-    switch (prefix) {
-    case 'X':
-      target_pos.x = value;
-      break;
-    case 'Y':
-      target_pos.y = value;
-      break;
-    case 'Z':
-      target_pos.z = value;
-      break;
-    case 'A':
-      target_pos.a = value;
-      break;
-    case 'B':
-      target_pos.b = value;
-      break;
-    case 'C':
-      target_pos.c = value;
-      break;
-    case 'I':
-      target_pos.x = value;
-      break;
-    case 'J':
-      target_pos.y = value;
-      break;
-    case 'E':
-      target_pos.z = value;
-      break;
-    case 'K':
-      target_pos.a = value;
-      break;
-    case 'L':
-      target_pos.b = value;
-      break;
-    case 'O':
-      target_pos.c = value;
-      break;
-    case 'S':
-      switch (static_cast<int>(value)) {
-      case 10:
-        speed = speed_10;
-        break;
-      case 50:
-        speed = speed_50;
-        break;
-      case 100:
-        speed = speed_100;
-        break;
-      default:
-        //TODO tutaj powinien być wyjątek
-        break;
-      }
-      break;
-    case 'M':
-      switch (static_cast<int>(value)) {
-      case 0:
-        movement_type = continous;
-        break;
-      case 1:
-        movement_type = step_by_step;
-        break;
-      default:
-        //TODO tutaj powinien być wyjątek
-        break;
-      }
-      break;
-    default:
-      //TODO tutaj powinien być wyjątek
-      break;
-    }
-  }
-}
-
-cmd_wait::cmd_wait(std::istringstream &iss) {
-  char prefix;
-  double value;
-  while (iss >> prefix >> value) {
-    switch (prefix) {
-    case 'P':
-      switch (static_cast<int>(value)) {
-      case 1:
-        wait_time = wait_1s;
-        break;
-      case 5:
-        wait_time = wait_5s;
-        break;
-      case 30:
-        wait_time = wait_30s;
-        break;
-      case 60:
-        wait_time = wait_1min;
-        break;
-      case 300:
-        wait_time = wait_5min;
-        break;
-      default:
-        //TODO tutaj powinien być wyjątek
-        break;
-      }
-      break;
-    default:
-      //TODO tutaj powinien być wyjątek
-      break;
-    }
-  }
-}
-
-cmd_set_pin::cmd_set_pin(std::istringstream &iss) {
-  char prefix;
-  double value;
-  while (iss >> prefix >> value) {
-    switch (prefix) {
-    case 'P':
-      switch (static_cast<int>(value)) {
-      case 0:
-        output_pin = robot_tool;
-        break;
-      case 1:
-        output_pin = user_led;
-        break;
-      default:
-        //TODO tutaj powinien być wyjątek
-        break;
-      }
-      break;
-    case 'S':
-      switch (static_cast<int>(value)) {
-      case 0:
-        set_pin_high = false;
-        break;
-      case 1:
-        set_pin_high = true;
-        break;
-      default:
-        //TODO tutaj powinien być wyjątek
-        break;
-      }
-      break;
-    default:
-      //TODO tutaj powinien być wyjątek
-      break;
-    }
-  }
-}
-
-mov_circular::mov_circular(struct robot_position in_help_pos,
-    struct robot_position in_target_pos, enum e_speed speed,
-    enum e_movement_type movement_type) :
-    movement(in_target_pos, speed, movement_type), help_pos(in_help_pos) {
-}
-
-cmd_wait::cmd_wait(enum e_wait_time wait_time) :
-    wait_time(wait_time) {
-}
-cmd_set_pin::cmd_set_pin(enum e_output_pin output_pin, bool set_pin_high) :
-    output_pin(output_pin), set_pin_high(set_pin_high) {
-}
-
-void mov_streight::update_command(struct robot_position in_target_pos,
-    enum e_speed in_speed, enum e_movement_type in_movement_type) {
-  target_pos = in_target_pos;
-  speed = in_speed;
-  movement_type = in_movement_type;
-}
-
-void mov_circular::update_command(struct robot_position in_help_pos,
-    struct robot_position in_target_pos, enum e_speed in_speed,
-    enum e_movement_type in_movement_type) {
-  help_pos = in_help_pos;
-  target_pos = in_target_pos;
-  speed = in_speed;
-  movement_type = in_movement_type;
-}
-
-void cmd_wait::update_command(enum e_wait_time in_wait_time) {
-  wait_time = in_wait_time;
-}
-
-void cmd_set_pin::update_command(enum e_output_pin in_output_pin,
-    bool in_set_pin_high) {
-  output_pin = in_output_pin;
-  set_pin_high = in_set_pin_high;
-}
-
-void cmd_set_pin::draw(int print_y) {
-  draw_text(command_explorer_first_setting_x, print_y,
-  command_explorer_line_height, command_explorer_file_menu_font, 1,
-  BLACK, "COM. = Signal");
-
-  std::string output_pin_text;
-  switch (output_pin) {
-    case robot_tool:
-    output_pin_text = "Robot tool";
-    break;
-    case user_led:
-    output_pin_text = "User led";
-    break;
-  }
-  draw_text(command_explorer_second_setting_x, print_y,
-  command_explorer_line_height, command_explorer_file_menu_font, 1,
-  BLACK, "Source = " + output_pin_text);
-
-  std::string output_pin_level = set_pin_high ? "high" : "low";
-
-  draw_text(command_explorer_third_setting_x, print_y,
-  command_explorer_line_height, command_explorer_file_menu_font, 1,
-  BLACK, "Level = " + output_pin_level);
-}
-
-std::string movement::get_speed_text() {
-  switch (speed) {
-  case speed_10:
-    return "10";
-  case speed_50:
-    return "50";
-  case speed_100:
-    return "100";
-  }
-}
-
-std::string movement::get_movement_type_text() {
-  switch (movement_type) {
-  case continous:
-    return "cont.";
-  case step_by_step:
-    return "step.";
-  }
-}
-
-std::string cmd_wait::get_time_text() {
-  switch (wait_time) {
-  case wait_1s:
-    return "1 second";
-  case wait_5s:
-    return "5 seconds";
-  case wait_30s:
-    return "30 seconds";
-  case wait_1min:
-    return "1 minut";
-  case wait_5min:
-    return "5 minuts";
-  }
-}
-
-std::string cmd_set_pin::get_pin_output_text() {
-  switch (output_pin) {
-  case robot_tool:
-    return "robot tool";
-  case user_led:
-    return "user led";
-  }
-}
-std::string cmd_set_pin::get_pin_level_text() {
-  if (set_pin_high) {
-    return "high";
-  } else {
-    return "low";
-  }
-}
-
-void mov_streight::save_to_file(FIL &fil) {
-  char buffer[256];
-  int len = 0;
-  UINT bytesWritten;
-
-  len += snprintf(buffer + len, sizeof(buffer) - len, "G1 ");
-
-  len += snprintf(buffer + len, sizeof(buffer) - len, "X%.2f ", target_pos.x);
-  len += snprintf(buffer + len, sizeof(buffer) - len, "Y%.2f ", target_pos.y);
-  len += snprintf(buffer + len, sizeof(buffer) - len, "Z%.2f ", target_pos.z);
-  len += snprintf(buffer + len, sizeof(buffer) - len, "A%.2f ", target_pos.a);
-  len += snprintf(buffer + len, sizeof(buffer) - len, "B%.2f ", target_pos.b);
-  len += snprintf(buffer + len, sizeof(buffer) - len, "C%.2f ", target_pos.c);
-
-  len += snprintf(buffer + len, sizeof(buffer) - len,
-      ("S" + get_speed_text() + " ").c_str());
-
-  switch (movement_type) {
-  case continous:
-    len += snprintf(buffer + len, sizeof(buffer) - len, "M0");
-    break;
-  case step_by_step:
-    len += snprintf(buffer + len, sizeof(buffer) - len, "M1");
-    break;
-  }
-
-  len += snprintf(buffer + len, sizeof(buffer) - len, "\r\n");
-
-  f_write(&fil, buffer, len, &bytesWritten);
-
-}
-
-void mov_circular::save_to_file(FIL &fil) {
-  char buffer[256];
-  int len = 0;
-  UINT bytesWritten;
-
-  len += snprintf(buffer + len, sizeof(buffer) - len, "G2 ");
-
-  len += snprintf(buffer + len, sizeof(buffer) - len, "X%.2f ", target_pos.x);
-  len += snprintf(buffer + len, sizeof(buffer) - len, "Y%.2f ", target_pos.y);
-  len += snprintf(buffer + len, sizeof(buffer) - len, "Z%.2f ", target_pos.z);
-  len += snprintf(buffer + len, sizeof(buffer) - len, "A%.2f ", target_pos.a);
-  len += snprintf(buffer + len, sizeof(buffer) - len, "B%.2f ", target_pos.b);
-  len += snprintf(buffer + len, sizeof(buffer) - len, "C%.2f ", target_pos.c);
-
-  len += snprintf(buffer + len, sizeof(buffer) - len, "I%.2f ", help_pos.x);
-  len += snprintf(buffer + len, sizeof(buffer) - len, "J%.2f ", help_pos.y);
-  len += snprintf(buffer + len, sizeof(buffer) - len, "E%.2f ", help_pos.z);
-  len += snprintf(buffer + len, sizeof(buffer) - len, "K%.2f ", help_pos.a);
-  len += snprintf(buffer + len, sizeof(buffer) - len, "L%.2f ", help_pos.b);
-  len += snprintf(buffer + len, sizeof(buffer) - len, "O%.2f ", help_pos.c);
-
-  len += snprintf(buffer + len, sizeof(buffer) - len,
-      ("S" + get_speed_text() + " ").c_str());
-
-  switch (movement_type) {
-  case continous:
-    len += snprintf(buffer + len, sizeof(buffer) - len, "M0");
-    break;
-  case step_by_step:
-    len += snprintf(buffer + len, sizeof(buffer) - len, "M1");
-    break;
-  }
-
-  len += snprintf(buffer + len, sizeof(buffer) - len, "\r\n");
-
-  f_write(&fil, buffer, len, &bytesWritten);
-}
-
-void cmd_wait::save_to_file(FIL &fil) {
-  char buffer[64];
-  int len = 0;
-  UINT bytesWritten;
-
-  len += snprintf(buffer + len, sizeof(buffer) - len, "G4 ");
-
-  switch (wait_time) {
-  case wait_1s:
-    len += snprintf(buffer + len, sizeof(buffer) - len, "P1");
-    break;
-  case wait_5s:
-    len += snprintf(buffer + len, sizeof(buffer) - len, "P5");
-    break;
-  case wait_30s:
-    len += snprintf(buffer + len, sizeof(buffer) - len, "P30");
-    break;
-  case wait_1min:
-    len += snprintf(buffer + len, sizeof(buffer) - len, "P60");
-    break;
-  case wait_5min:
-    len += snprintf(buffer + len, sizeof(buffer) - len, "P300");
-    break;
-  default:
-    //TODO turtaj powinien być zwrócony wyjątek
-    break;
-  }
-
-  len += snprintf(buffer + len, sizeof(buffer) - len, "\r\n");
-
-  f_write(&fil, buffer, len, &bytesWritten);
-}
-
-void cmd_set_pin::save_to_file(FIL &fil) {
-
-  char buffer[64];
-  int len = 0;
-  UINT bytesWritten;
-
-  len += snprintf(buffer + len, sizeof(buffer) - len, "M42 ");
-
-  switch (output_pin) {
-  case robot_tool:
-    len += snprintf(buffer + len, sizeof(buffer) - len, "P0 ");
-    break;
-  case user_led:
-    len += snprintf(buffer + len, sizeof(buffer) - len, "P1 ");
-    break;
-  default:
-    //TODO turtaj powinien być zwrócony wyjątek
-    break;
-  }
-
-  // Append pin state
-  switch (set_pin_high) {
-  case true:
-    len += snprintf(buffer + len, sizeof(buffer) - len, "S1");
-    break;
-  case false:
-    len += snprintf(buffer + len, sizeof(buffer) - len, "S0");
-    break;
-  default:
-    //TODO turtaj powinien być zwrócony wyjątek
-    break;
-  }
-
-  len += snprintf(buffer + len, sizeof(buffer) - len, "\r\n");
-
-  f_write(&fil, buffer, len, &bytesWritten);
-}
-
 void kalibracja_robota(int givenSteps[6], int liczba_krokow_osi[5],
-    uint8_t kalibracja_osi[5]) {
+                       uint8_t kalibracja_osi[5]) {
   // kalibracja osi 2
   if (!HAL_GPIO_ReadPin(M2_S_GPIO_Port, M2_S_Pin))
     givenSteps[1] = 1400;
@@ -902,14 +114,14 @@ void kalibracja_robota(int givenSteps[6], int liczba_krokow_osi[5],
   givenSteps[4] = 6400;
 
   givenSteps[2] = 6400;
-  while (givenSteps[2] != liczba_krokow_osi[2]
-      || givenSteps[3] != liczba_krokow_osi[3]
-      || givenSteps[4] != liczba_krokow_osi[4]) {
+  while (givenSteps[2] != liczba_krokow_osi[2] ||
+         givenSteps[3] != liczba_krokow_osi[3] ||
+         givenSteps[4] != liczba_krokow_osi[4]) {
   }
 }
 
 bool licz_kroki(double givenPosition[6], int givenSteps[6],
-    double currentPosition[6]) {
+                double currentPosition[6]) {
   double x = givenPosition[0];
   double y = givenPosition[1];
   double z = givenPosition[2];
@@ -921,8 +133,8 @@ bool licz_kroki(double givenPosition[6], int givenSteps[6],
   double theta_rotation = given_theta * M_PI / 180;
   double psi = given_psi * M_PI / 180;
 
-  double r11 = cos(phi) * sin(theta_rotation) * cos(psi)
-      + sin(phi) * sin(theta_rotation);
+  double r11 = cos(phi) * sin(theta_rotation) * cos(psi) +
+               sin(phi) * sin(theta_rotation);
   double r21 = sin(phi) * sin(theta_rotation) * cos(psi) - cos(phi) * sin(psi);
   double r31 = cos(theta_rotation) * cos(psi);
 
@@ -931,8 +143,8 @@ bool licz_kroki(double givenPosition[6], int givenSteps[6],
   double r32 = -sin(theta_rotation);
 
   double r13 = cos(phi) * sin(theta_rotation) * sin(psi) - sin(phi) * cos(psi);
-  double r23 = sin(phi) * sin(theta_rotation) * sin(psi)
-      + cos(phi) * cos(theta_rotation);
+  double r23 = sin(phi) * sin(theta_rotation) * sin(psi) +
+               cos(phi) * cos(theta_rotation);
   double r33 = cos(theta_rotation) * sin(psi);
 
   double Wx = x - d6 * r13;
@@ -950,19 +162,19 @@ bool licz_kroki(double givenPosition[6], int givenSteps[6],
 
   theta[2] += M_PI / 2;
 
-  double ax = r13 * cosl(theta[0]) * cosl(theta[1] + theta[2])
-      + r23 * cosl(theta[1] + theta[2]) * sinl(theta[0])
-      + r33 * sinl(theta[1] + theta[2]);
+  double ax = r13 * cosl(theta[0]) * cosl(theta[1] + theta[2]) +
+              r23 * cosl(theta[1] + theta[2]) * sinl(theta[0]) +
+              r33 * sinl(theta[1] + theta[2]);
   double ay = -r23 * cosl(theta[0]) + r13 * sinl(theta[0]);
-  double az = -r33 * cosl(theta[1] + theta[2])
-      + r13 * cosl(theta[0]) * sinl(theta[1] + theta[2])
-      + r23 * sinl(theta[0]) * sinl(theta[1] + theta[2]);
-  double sz = -r32 * cosl(theta[1] + theta[2])
-      + r12 * cosl(theta[0]) * sinl(theta[1] + theta[2])
-      + r22 * sinl(theta[0]) * sinl(theta[1] + theta[2]);
-  double nz = -r31 * cosl(theta[1] + theta[2])
-      + r11 * cosl(theta[0]) * sinl(theta[1] + theta[2])
-      + r21 * sinl(theta[0]) * sinl(theta[1] + theta[2]);
+  double az = -r33 * cosl(theta[1] + theta[2]) +
+              r13 * cosl(theta[0]) * sinl(theta[1] + theta[2]) +
+              r23 * sinl(theta[0]) * sinl(theta[1] + theta[2]);
+  double sz = -r32 * cosl(theta[1] + theta[2]) +
+              r12 * cosl(theta[0]) * sinl(theta[1] + theta[2]) +
+              r22 * sinl(theta[0]) * sinl(theta[1] + theta[2]);
+  double nz = -r31 * cosl(theta[1] + theta[2]) +
+              r11 * cosl(theta[0]) * sinl(theta[1] + theta[2]) +
+              r21 * sinl(theta[0]) * sinl(theta[1] + theta[2]);
 
   double epsilon = 0.5;
 
@@ -994,24 +206,27 @@ bool licz_kroki(double givenPosition[6], int givenSteps[6],
   theta[5] = theta[5] * 180 / M_PI * 10;
 
   if (cos_theta2 <= 1 && // pierwiastek nie może mieć wartości ujemnych
-      sqrt(s * s + r * r) > min_range && sqrt(s * s + r * r) < max_range && // warunek który musi być spełniony żeby pozycja była
-                                                                             // osiągalna ze względu na zasięg ramion robota
-      theta[0] >= 0 && theta[0] <= 12000 &&                     // 0-180 stopni
-      theta[1] >= 0 && theta[1] <= 12000 &&                     // 0-180 stopni
-      theta[2] >= 0 && theta[2] <= 10168 &&                     // 0-143 stopni
-      theta[3] >= 0 && theta[3] <= 21333 &&                     // 0-300 stopni
-      theta[4] >= 0 && theta[4] <= 12000)                        // 0-180 stopni
+      sqrt(s * s + r * r) > min_range &&
+      sqrt(s * s + r * r) <
+          max_range && // warunek który musi być spełniony żeby pozycja była
+                       // osiągalna ze względu na zasięg ramion robota
+      theta[0] >= 0 &&
+      theta[0] <= 12000 &&                  // 0-180 stopni
+      theta[1] >= 0 && theta[1] <= 12000 && // 0-180 stopni
+      theta[2] >= 0 && theta[2] <= 10168 && // 0-143 stopni
+      theta[3] >= 0 && theta[3] <= 21333 && // 0-300 stopni
+      theta[4] >= 0 && theta[4] <= 12000)   // 0-180 stopni
 
-          {
+  {
     for (int i = 0; i < 6; i++) {
       givenSteps[i] = theta[i];
       currentPosition[i] = givenPosition[i];
     }
     return true;
   } else {
-    theta[5] = theta[5];   //czy to jest potrzebne xd?
+    theta[5] = theta[5]; // czy to jest potrzebne xd?
     return false;
-    //TODO tutaj będzie zwracana informacja że ruch jest niemożliwy
+    // TODO tutaj będzie zwracana informacja że ruch jest niemożliwy
   }
 }
 
@@ -1021,53 +236,55 @@ void simpleMoveMotor(GPIO_TypeDef *GPIOx, uint16_t GPIO_Pin) {
 }
 
 void moveMotorWithPosition(GPIO_TypeDef *GPIOx, uint16_t GPIO_Pin,
-    int *stepCounter, int8_t factor) {
+                           int *stepCounter, int8_t factor) {
   HAL_GPIO_WritePin(GPIOx, GPIO_Pin, GPIO_PIN_SET);
   HAL_GPIO_WritePin(GPIOx, GPIO_Pin, GPIO_PIN_RESET);
   (*stepCounter) += factor;
 }
 
 void setDuration(GPIO_TypeDef *GPIOx, uint16_t GPIO_Pin, int currentSteps,
-    int givenSteps, int8_t *factor) {
+                 int givenSteps, int8_t *factor) {
   if (givenSteps > currentSteps) {
-    HAL_GPIO_WritePin(GPIOx, GPIO_Pin, GPIO_PIN_RESET); // jeżeli kierunek ustawiony jest na set
-                                                        // to ramię odjeżdża od krańcówki
+    HAL_GPIO_WritePin(GPIOx, GPIO_Pin,
+                      GPIO_PIN_RESET); // jeżeli kierunek ustawiony jest na set
+                                       // to ramię odjeżdża od krańcówki
     (*factor) = 1;
   } else {
-    HAL_GPIO_WritePin(GPIOx, GPIO_Pin, GPIO_PIN_SET); // jeżeli kierunek ustawiony jest na reset
-                                                      // to ramię jedzie w stronę krańcówki
+    HAL_GPIO_WritePin(GPIOx, GPIO_Pin,
+                      GPIO_PIN_SET); // jeżeli kierunek ustawiony jest na reset
+                                     // to ramię jedzie w stronę krańcówki
     (*factor) = -1;
   }
 }
 
 void handle_move_interrupt(int *givenSteps, int *liczba_krokow_osi,
-    int8_t *factor) {
+                           int8_t *factor) {
   // Obsługuje ruch silników M1, M2, M3, M4, M5, M6
 
   // Sprawdza i aktualizuje M1
   if (givenSteps[0] != liczba_krokow_osi[0]) {
     setDuration(M1_DIR_GPIO_Port, M1_DIR_Pin, liczba_krokow_osi[0],
-        givenSteps[0], &factor[0]);
+                givenSteps[0], &factor[0]);
     moveMotorWithPosition(M1_STEP_GPIO_Port, M1_STEP_Pin, &liczba_krokow_osi[0],
-        factor[0]);
+                          factor[0]);
   }
 
   // Sprawdza i aktualizuje M2
   if (givenSteps[1] != liczba_krokow_osi[1]) {
     setDuration(M2_DIR_GPIO_Port, M2_DIR_Pin, liczba_krokow_osi[1],
-        givenSteps[1], &factor[1]);
+                givenSteps[1], &factor[1]);
     moveMotorWithPosition(M2_STEP_GPIO_Port, M2_STEP_Pin, &liczba_krokow_osi[1],
-        factor[1]);
+                          factor[1]);
   }
 
   // Sprawdza i aktualizuje M3 i M5
   if (givenSteps[2] != liczba_krokow_osi[2]) {
     setDuration(M3_DIR_GPIO_Port, M3_DIR_Pin, liczba_krokow_osi[2],
-        givenSteps[2], &factor[2]);
+                givenSteps[2], &factor[2]);
     setDuration(M5_DIR_GPIO_Port, M5_DIR_Pin, liczba_krokow_osi[2],
-        givenSteps[2], &factor[2]);
+                givenSteps[2], &factor[2]);
     moveMotorWithPosition(M3_STEP_GPIO_Port, M3_STEP_Pin, &liczba_krokow_osi[2],
-        factor[2]);
+                          factor[2]);
     // Opcjonalny delay
     simpleMoveMotor(M5_STEP_GPIO_Port, M5_STEP_Pin);
     simpleMoveMotor(M3_STEP_GPIO_Port, M3_STEP_Pin);
@@ -1076,17 +293,17 @@ void handle_move_interrupt(int *givenSteps, int *liczba_krokow_osi,
   // Sprawdza i aktualizuje M4
   if (givenSteps[3] != liczba_krokow_osi[3]) {
     setDuration(M4_DIR_GPIO_Port, M4_DIR_Pin, liczba_krokow_osi[3],
-        givenSteps[3], &factor[3]);
+                givenSteps[3], &factor[3]);
     moveMotorWithPosition(M4_STEP_GPIO_Port, M4_STEP_Pin, &liczba_krokow_osi[3],
-        factor[3]);
+                          factor[3]);
   }
 
   // Sprawdza i aktualizuje M5
   if (givenSteps[4] != liczba_krokow_osi[4]) {
     setDuration(M5_DIR_GPIO_Port, M5_DIR_Pin, liczba_krokow_osi[4],
-        givenSteps[4], &factor[4]);
+                givenSteps[4], &factor[4]);
     moveMotorWithPosition(M5_STEP_GPIO_Port, M5_STEP_Pin, &liczba_krokow_osi[4],
-        factor[4]);
+                          factor[4]);
     // Opcjonalny delay
     simpleMoveMotor(M5_STEP_GPIO_Port, M5_STEP_Pin);
   }
@@ -1098,8 +315,9 @@ void handle_move_interrupt(int *givenSteps, int *liczba_krokow_osi,
 }
 
 void handle_limit_switch_interrupt(uint16_t GPIO_Pin, uint8_t *kalibracja_osi,
-    int *givenSteps, int *liczba_krokow_osi) {
-  // Sprawdzamy, który pin GPIO został aktywowany i czy odpowiednia oś nie jest jeszcze skalibrowana
+                                   int *givenSteps, int *liczba_krokow_osi) {
+  // Sprawdzamy, który pin GPIO został aktywowany i czy odpowiednia oś nie jest
+  // jeszcze skalibrowana
   if (GPIO_Pin == M1_S_Pin && kalibracja_osi[0] == 0) {
     liczba_krokow_osi[0] = 0;
     givenSteps[0] = 0;
@@ -1107,7 +325,7 @@ void handle_limit_switch_interrupt(uint16_t GPIO_Pin, uint8_t *kalibracja_osi,
   }
   if (GPIO_Pin == M2_S_Pin && kalibracja_osi[1] == 0) {
     liczba_krokow_osi[1] = 10; // Możesz zmienić na 20, jeśli potrzebujesz
-    givenSteps[1] = 10; // Możesz zmienić na 20, jeśli potrzebujesz
+    givenSteps[1] = 10;        // Możesz zmienić na 20, jeśli potrzebujesz
     kalibracja_osi[1] = 1;
   }
   if (GPIO_Pin == M3_S_Pin && kalibracja_osi[2] == 0) {
@@ -1128,7 +346,7 @@ void handle_limit_switch_interrupt(uint16_t GPIO_Pin, uint8_t *kalibracja_osi,
 }
 robot_position get_current_position() {
   return robot_position(givenPosition[0], givenPosition[1], givenPosition[2],
-      givenPosition[3], givenPosition[4], givenPosition[5]);
+                        givenPosition[3], givenPosition[4], givenPosition[5]);
 }
 //
 //
@@ -1155,4 +373,3 @@ robot_position get_current_position() {
 //
 //
 //
-

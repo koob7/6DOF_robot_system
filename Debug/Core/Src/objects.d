@@ -58,7 +58,10 @@ Core/Src/objects.o: ../Core/Src/objects.cpp ../Core/Inc/objects.h \
  C:/Users/kobie/STM32CubeIDE/workspace_1.13.2/6DOF_robot_system/fonts/inc/112_Open_Sans_Bold.h \
  C:/Users/kobie/STM32CubeIDE/workspace_1.13.2/6DOF_robot_system/fonts/inc/128_Open_Sans_Bold.h \
  ../Core/Inc/bitmap_arrays.h ../Core/Inc/servo.h \
- ../Core/Inc/navigate_robot.h ../Core/Inc/gpio.h
+ ../Core/Inc/navigate_robot.h ../Core/Inc/gpio.h ../Core/Inc/commands.h \
+ ../Core/Inc/navigate_robot.h ../Core/Inc/mov_streight.h \
+ ../Core/Inc/commands.h ../Core/Inc/mov_circular.h \
+ ../Core/Inc/cmd_set_pin.h ../Core/Inc/cmd_wait.h
 ../Core/Inc/objects.h:
 ../FATFS/App/fatfs.h:
 ../Middlewares/Third_Party/FatFs/src/ff.h:
@@ -129,3 +132,10 @@ C:/Users/kobie/STM32CubeIDE/workspace_1.13.2/6DOF_robot_system/fonts/inc/128_Ope
 ../Core/Inc/servo.h:
 ../Core/Inc/navigate_robot.h:
 ../Core/Inc/gpio.h:
+../Core/Inc/commands.h:
+../Core/Inc/navigate_robot.h:
+../Core/Inc/mov_streight.h:
+../Core/Inc/commands.h:
+../Core/Inc/mov_circular.h:
+../Core/Inc/cmd_set_pin.h:
+../Core/Inc/cmd_wait.h:
