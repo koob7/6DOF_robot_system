@@ -54,11 +54,13 @@ struct robot_position {
 
 extern struct robot_position robot_home_position;
 
+// maksymalne wartości pozycji robota
 extern int max_range;
 extern int min_range;
 extern int min_y;
 extern int min_x;
 
+// wykorzystywane wymiary konstrukcji robota
 extern double d1;
 extern double a2;
 extern double a3;
@@ -71,9 +73,14 @@ extern int liczba_krokow_osi[5];
 extern uint8_t kalibracja_osi[5];
 extern int givenSteps[6];
 
-extern bool robot_was_moved;
-extern volatile bool automatic_movement_ready;
-extern volatile bool manual_movement_ready;
+extern bool robot_was_moved; // jeżeli true - oznacza że robot był ruszony przez
+                             // użytkownika, zmienna potrzebna przy wykonywaniu
+                             // całego programu
+extern volatile bool
+    automatic_movement_ready; // zmienna która bedzie regulować prędkością
+                              // robota w obsłudze programu- będzie setowana w
+                              // przerwaniu i resetowaniu przy ruchu robotem
+extern volatile bool manual_movement_ready; //...w ręcznym sterowaniu robotem
 
 void kalibracja_robota(int givenSteps[6], int liczba_krokow_osi[5],
                        uint8_t kalibracja_osi[5]);

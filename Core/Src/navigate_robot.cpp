@@ -6,14 +6,9 @@
  */
 #include <navigate_robot.h>
 
-bool robot_was_moved =
-    true; // jeżeli true - oznacza że robot był ruszony przez użytkownika,
-          // zmienna potrzebna przy wykonywaniu całego programu
-volatile bool automatic_movement_ready =
-    true; // zmienna która bedzie regulować prędkością robota w obsłudze
-          // programu- będzie setowana w przerwaniu i resetowaniu przy ruchu
-          // robotem
-volatile bool manual_movement_ready = true; //...w ręcznym sterowaniu robotem
+bool robot_was_moved = true;
+volatile bool automatic_movement_ready = true;
+volatile bool manual_movement_ready = true;
 uint16_t max_licz_krokow_osi[6] = {6400 * 2, 6400 * 2, 8000,
                                    6400 * 2, 6400 * 2, 0};
 double currentPosition[6];
@@ -25,13 +20,11 @@ int givenSteps[6] = {0, 0, 0, 0, 0, 0};
 struct robot_position robot_home_position =
     robot_position(30, 0, 22, 0, 90, 90);
 
-// maksymalne wartości pozycji robota
 int max_range = 39;
 int min_range = 13;
 int min_y = (-10);
 int min_x = (0);
 
-// wykorzystywane wymiary konstrukcji robota
 double d1 = 0;
 double a2 = 20;
 double a3 = 20;
