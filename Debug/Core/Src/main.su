@@ -13,7 +13,7 @@ C:\ST\STM32CubeIDE_1.13.2\STM32CubeIDE\plugins\com.st.stm32cube.ide.mcu.external
 ../Core/Inc/menu_popup.h:42:7:allert::~allert()	16	static
 ../Core/Inc/menu_popup.h:20:7:list_dialog::~list_dialog()	16	static
 ../Core/Inc/finish_state_machine.h:56:7:finish_state_machine::~finish_state_machine()	16	static
-../Core/Src/main.cpp:140:5:int main()	8496	static
+../Core/Src/main.cpp:140:5:int main()	8632	static
 ../Core/Src/main.cpp:263:6:void SystemClock_Config()	120	static
 ../Core/Src/main.cpp:322:6:void PeriphCommonClock_Config()	200	static
 ../Core/Src/main.cpp:335:6:void HAL_GPIO_EXTI_Callback(uint16_t)	16	static

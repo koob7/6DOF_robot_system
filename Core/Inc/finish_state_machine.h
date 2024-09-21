@@ -186,6 +186,7 @@ private:
   list_dialog l_choose_pin_level;
   allert a_finish_running_program;
   allert a_error_running_program;
+  allert a_open_file;
 };
 
 #endif /* INC_FINISH_STATE_MACHINE_H_ */

@@ -69,7 +69,9 @@ finish_state_machine::finish_state_machine()
       a_finish_running_program(300, 200, 200, 0xD6BA, "sukces",
                                "program zakonczony pomyslnie", false),
       a_error_running_program(300, 200, 200, 0xD6BA, "blad",
-                              "nie mozna wykonac polecenia", false)
+                              "nie mozna wykonac polecenia", false),
+                              a_open_file(300, 200, 200, 0xD6BA, "blad",
+                                  "wybierz program do uruchomienia", false)
 
 {
   target_position = robot_position(0, 0, 0, 0, 0, 0);
@@ -843,7 +845,13 @@ bool finish_state_machine::handle_run_project_menu(int x, int y) {
     toggle_enable_tool();
     break;
   case 3:
+    if(project_mode == e_project_mode::EDIT_PROJECTS){
     return handle_run_project();
+    }
+    else{
+      a_open_file.draw();
+      a_open_file.check_pressed();
+    }
     break;
   case 4:
     toggle_axis_control_mode();
